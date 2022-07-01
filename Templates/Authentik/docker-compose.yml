@@ -1,0 +1,101 @@
+---
+version: '3.4'
+services:
+  postgresql:
+    image: postgres:12-bullseye
+    restart: unless-stopped
+    hostname: postgresql
+    container_name: authentik-postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - /mnt/appdata/authentik_postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+    - proxymoxy  
+
+  authentik:
+    image: beryju/authentik:2022.6.3
+    container_name: authentik
+    hostname: authentik
+    restart: unless-stopped
+    command: server
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_REDIS__PASSWORD: ${AUTHENTIK_REDIS__PASSWORD}
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_DB}
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "true"
+      AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
+      AUTHENTIK_AUTHENTIK__GEOIP: "/geoip/GeoLite2-City.mmdb"
+      GEOIPUPDATE_ACCOUNT_ID: "${GEOIPUPDATE_ACCOUNT_ID}"
+      GEOIPUPDATE_LICENSE_KEY: "${GEOIPUPDATE_LICENSE_KEY}"
+      
+      # WORKERS: 2
+    volumes:
+      - /mnt/appdata/authentik/media:/media
+      - /mnt/appdata/authentik/custom-templates:/templates
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/appdata/authentik/geoip:/geoip
+    ports:
+      - "9815:9000"
+      - "9816:9443"
+    networks:
+    - proxymoxy
+
+
+  geoipupdate:
+    image: "maxmindinc/geoipupdate:v4.9"
+    container_name: geoipupdate
+    hostname: geoipupdate
+    volumes:
+      - "/mnt/appdata/geoip:/usr/share/GeoIP"
+    environment:
+      GEOIPUPDATE_ACCOUNT_ID: "735622"
+      GEOIPUPDATE_LICENSE_KEY: "EuViDwA0PcFJa8UM"
+      GEOIPUPDATE_EDITION_IDS: "GeoLite2-City"
+      GEOIPUPDATE_FREQUENCY: "8"
+      GEOIPUPDATE_HOST: "updates.maxmind.com"
+    networks:
+      - proxymoxy
+
+  worker:
+    image: beryju/authentik:2022.6.3
+    container_name: authentik_worker
+    hostname: authentik_worker
+    restart: unless-stopped
+    command: worker
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_REDIS__PASSWORD: ${AUTHENTIK_REDIS__PASSWORD}
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_DB}
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "true"
+      AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
+    # This is optional, and can be removed. If you remove this, the following will happen
+    # - The permissions for the /media folders aren't fixed, so make sure they are 1000:1000
+    # - The docker socket can't be accessed anymore
+    user: root
+    volumes:
+      - /mnt/appdata/authentik/media:/media
+      - /mnt/appdata/authentik/certs:/certs
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/appdata/authentik/custom-templates:/templates
+    networks:
+    - proxymoxy
+
+networks:
+  proxymoxy:
+    driver: bridge
+    external: true
