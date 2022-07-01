@@ -21,7 +21,7 @@ services:
     networks:
     - proxymoxy  
 
-                                                             # -----------
+                                                                          # -----------
 
   authentik:
     image: beryju/authentik:2022.6.3
@@ -47,16 +47,16 @@ services:
       - /mnt/appdata/authentik/media:/media
       - /mnt/appdata/authentik/custom-templates:/templates
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/appdata/authentik/geoip:/geoip
+      - /mnt/appdata/authentik/geoip:/geoip                              # Optional
     ports:
       - "9815:9000"
       - "9816:9443"
     networks:
     - proxymoxy
 
-                                                            # -----------
+                                                                         # -----------
 
-  geoipupdate:                                              # Optional
+  geoipupdate:                                                           # Optional
     image: "maxmindinc/geoipupdate:v4.9"
     container_name: geoipupdate
     hostname: geoipupdate
@@ -70,7 +70,7 @@ services:
       GEOIPUPDATE_HOST: "updates.maxmind.com"
     networks:
       - proxymoxy
-                                                            # -----------
+                                                                          # -----------
   worker:
     image: beryju/authentik:2022.6.3
     container_name: authentik_worker
