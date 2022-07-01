@@ -1,0 +1,1 @@
+# Installation & Configuration of Authentik with Traefik as the Reverse Proxy
