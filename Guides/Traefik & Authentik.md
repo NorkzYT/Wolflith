@@ -1,6 +1,6 @@
 # Installation & Configuration of Authentik with Traefik Reverse Proxy
 
-In the Authentik 
+In `fileConfig.yml` of Traefik, add the following t
 
 
 
