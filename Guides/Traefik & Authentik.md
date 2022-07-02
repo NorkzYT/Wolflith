@@ -156,7 +156,8 @@ Follow the steps in order from the images:
 
 ![step12-17](https://i.imgur.com/qNetEkU.png)
 
+Now scroll down and click on `Create`.
 
-
+We will now go to `Outpost` and in the following image you see that I already have my settings configured, your settings will be different.
 
 
