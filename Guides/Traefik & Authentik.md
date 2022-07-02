@@ -152,7 +152,9 @@ Follow the steps in order from the images:
 
 ![step5-10](https://i.imgur.com/w73cfzx.png)
 
-![step10-]()
+![step10-12](https://i.imgur.com/N25LwUa.png)
+
+![step12-]()
 
 
 
