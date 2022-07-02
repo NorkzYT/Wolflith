@@ -20,11 +20,6 @@ http:
   
     ## SERVICES ##
     services:
-        # Traefik service
-      traefik:
-        loadBalancer:
-          servers:
-            - url: http://traefik:8080      # http://HOSTNAME:INTERNAL-PORT  
   
       # Authentic auth service
       authentik-auth:
@@ -55,6 +50,8 @@ http:
               - X-authentik-meta-version
 
 ```
+
+If for some reason the following doesn't proxy Authentik, then add the `Traefik-Real-IP` (Plugin) under security headers.
 
 
 
