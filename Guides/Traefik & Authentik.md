@@ -154,7 +154,8 @@ Follow the steps in order from the images:
 
 ![step10-12](https://i.imgur.com/N25LwUa.png)
 
-![step12-]()
+![step12-17](https://i.imgur.com/qNetEkU.png)
+
 
 
 
