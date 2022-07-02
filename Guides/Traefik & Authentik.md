@@ -142,6 +142,9 @@ http:
                   excludednets: 1.1.1.1/24
 ```
 
+Now lets go into the Authentik GUI, login and go to `Admin Interface` which is located on the top right of the page.
+
+
 
 
 
