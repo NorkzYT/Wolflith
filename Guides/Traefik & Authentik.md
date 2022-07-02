@@ -190,7 +190,17 @@ Scroll down and click on `Update`.
 
 Now you are done, you just need to add the middleware that you have in Traefik that is of Authentik to the Routers/Proxied services that you want Authentik to protect.
 
+E.g. 
 
- 
-
+```
+      # Traefik Router
+      traefik:
+        entryPoints:
+          - https
+        rule: 'Host(`vpstraefik.DOMAIN.COM`)'
+        service: traefik
+        middlewares:
+          - "securityHeaders"
+          - "authentik-auth"               # Authentik Middleware
+```
 
