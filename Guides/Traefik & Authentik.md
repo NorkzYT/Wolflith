@@ -160,6 +160,27 @@ Now scroll down and click on `Create`.
 
 ![step17-19](https://i.imgur.com/8rVFuZ7.png)
 
+Change the configuration settings in there to the following:
+
+```
+log_level: debug
+docker_labels: null
+authentik_host: https://vpsauth.DOMAIN.COM      # Change.
+docker_network: null
+container_image: null
+docker_map_ports: true
+authentik_host_browser: ""
+object_naming_template: ak-outpost-%(name)s
+authentik_host_insecure: false
+kubernetes_replicas: 1
+kubernetes_namespace: default
+kubernetes_ingress_annotations: {}
+kubernetes_ingress_secret_name: authentik-outpost-tls
+kubernetes_service_type: ClusterIP
+kubernetes_disabled_components: []
+kubernetes_image_pull_secrets: []
+```
+
  
 
 
