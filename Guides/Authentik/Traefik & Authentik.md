@@ -203,4 +203,3 @@ E.g.
           - "securityHeaders"
           - "authentik-auth"               # Authentik Middleware
 ```
-
