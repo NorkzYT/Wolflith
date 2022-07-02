@@ -21,7 +21,21 @@ services:
     networks:
     - proxy
 
-                                                                          # -----------
+                                                                         # -----------
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s                                                              
+    networks:
+    - proxy
+
+                                                                         # -----------
 
   authentik:
     image: beryju/authentik:2022.6.3
@@ -41,8 +55,6 @@ services:
       AUTHENTIK_AUTHENTIK__GEOIP: "/geoip/GeoLite2-City.mmdb"            # Optional
       GEOIPUPDATE_ACCOUNT_ID: "${GEOIPUPDATE_ACCOUNT_ID}"                # Optional
       GEOIPUPDATE_LICENSE_KEY: "${GEOIPUPDATE_LICENSE_KEY}"              # Optional
-      
-      # WORKERS: 2
     volumes:
       - /mnt/appdata/authentik/media:/media
       - /mnt/appdata/authentik/custom-templates:/templates
@@ -70,7 +82,9 @@ services:
       GEOIPUPDATE_HOST: "updates.maxmind.com"
     networks:
       - proxy
+                                                                          
                                                                           # -----------
+
   worker:
     image: beryju/authentik:2022.6.3
     container_name: authentik_worker
