@@ -156,7 +156,7 @@ Follow the steps in order from the images:
 
 ![step12-17](https://i.imgur.com/qNetEkU.png)
 
-Now scroll down and click on `Create`.
+Scroll down and click on `Create`.
 
 ![step17-19](https://i.imgur.com/8rVFuZ7.png)
 
@@ -180,7 +180,11 @@ kubernetes_service_type: ClusterIP
 kubernetes_disabled_components: []
 kubernetes_image_pull_secrets: []
 ```
+Click on the only `Application` in the `Applications` section.
 
+Looks like the following:
+
+![step19-]()
  
 
 
