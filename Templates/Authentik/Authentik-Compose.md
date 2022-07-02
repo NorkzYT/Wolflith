@@ -19,5 +19,4 @@ GEOIPUPDATE_LICENSE_KEY=$SECURE
 
 
 
-Explains the configuration settings of Authentik:
-<https://goauthentik.io/docs/installation/configuration>
+Configuration settings of [Authentik](https://goauthentik.io/docs/installation/configuration).
