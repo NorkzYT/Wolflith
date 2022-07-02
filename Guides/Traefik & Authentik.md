@@ -185,6 +185,12 @@ Click on the only `Application` in the `Applications` section.
 Looks like the following:
 
 ![step19-21](https://i.imgur.com/kNzIBx1.png)
+
+Scroll down and click on `Update`.
+
+Now you are done, you just need to add the middleware that you have in Traefik that is of Authentik to the Routers/Proxied services that you want Authentik to protect.
+
+
  
 
 
