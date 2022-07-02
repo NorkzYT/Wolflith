@@ -144,7 +144,9 @@ http:
 
 Now lets go into the Authentik GUI, login and go to `Admin Interface` which is located on the top right of the page.
 
-We are first going to go in `Providers` that is located under the `Applications` category, once you're in there, click on `Create` & then `Proxy Provider`
+Follow the steps in order from the images:
+
+![step1-3](https://i.imgur.com/iswxgYF.png)
 
 
 
