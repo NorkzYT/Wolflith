@@ -53,9 +53,9 @@ http:
 
 If for some reason the following doesn't proxy Authentik, then add the `Traefik-Real-IP` (Plugin) under security headers.
 
-( External-Port:Internal)
+( External-Port:Internal-Port )
 
-Preview of how the contents inside the file are supposed to look like:
+Preview of how the contents inside the file are supposed to look like with your other proxies:
 
 ```
 http:
