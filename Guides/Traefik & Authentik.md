@@ -184,7 +184,7 @@ Click on the only `Application` in the `Applications` section.
 
 Looks like the following:
 
-![step19-]()
+![step19-21](https://i.imgur.com/kNzIBx1.png)
  
 
 
