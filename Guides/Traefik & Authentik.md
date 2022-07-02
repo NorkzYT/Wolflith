@@ -146,7 +146,7 @@ Now lets go into the Authentik GUI, login and go to `Admin Interface` which is l
 
 Follow the steps in order from the images:
 
-![step1-3](https://i.imgur.com/iswxgYF.png)
+![step1-3](https://i.imgur.com/rBhLLPe.png)
 
 ![step4-5](https://i.imgur.com/MRzW6FI.png)
 
