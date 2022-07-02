@@ -13,8 +13,11 @@ AUTHENTIK_POSTGRESQL__NAME=authentik
 
 AUTHENTIK_SECRET_KEY=$SECURE
 
-GEOIPUPDATE_ACCOUNT_ID=$SECURE  #
+GEOIPUPDATE_ACCOUNT_ID=$SECURE 
 GEOIPUPDATE_LICENSE_KEY=$SECURE
 ```
 
-### How to get the GEO IP
+
+
+Explains the configuration settings of Authentik:
+<https://goauthentik.io/docs/installation/configuration>
