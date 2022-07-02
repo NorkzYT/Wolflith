@@ -148,7 +148,7 @@ Follow the steps in order from the images:
 
 ![step1-3](https://i.imgur.com/rBhLLPe.png)
 
-![step4-5](https://i.imgur.com/MRzW6FI.png)
+![step4-5](https://i.imgur.com/w73cfzx.png)
 
 ![step5-10](https://i.imgur.com/QodMrbU.png)
 
