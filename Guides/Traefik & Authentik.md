@@ -150,7 +150,7 @@ Follow the steps in order from the images:
 
 ![step4-5](https://i.imgur.com/MRzW6FI.png)
 
-![step5-]()
+![step5-10](https://i.imgur.com/QodMrbU.png)
 
 
 
