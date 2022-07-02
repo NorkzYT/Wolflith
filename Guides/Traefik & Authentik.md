@@ -148,9 +148,9 @@ Follow the steps in order from the images:
 
 ![step1-3](https://i.imgur.com/iswxgYF.png)
 
-![step4](https://i.imgur.com/8kNB8sp.png)
+![step4-5](https://i.imgur.com/MRzW6FI.png)
 
-![step]()
+![step5-]()
 
 
 
