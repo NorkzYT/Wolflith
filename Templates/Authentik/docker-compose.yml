@@ -30,7 +30,7 @@ version: '3.4'
     networks:
     - proxy
                                                                           
-                                                                          # -----------
+                                                                
 
   worker:
     image: beryju/authentik:2022.6.3
@@ -58,6 +58,7 @@ version: '3.4'
       - /mnt/appdata/authentik/custom-templates:/templates
     networks:
     - proxy
+
 
   geoipupdate:                                                           # Optional
     image: "maxmindinc/geoipupdate:v4.9"
