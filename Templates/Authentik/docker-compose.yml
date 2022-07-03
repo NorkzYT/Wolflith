@@ -9,10 +9,9 @@ version: '3.4'
     command: server
     environment:
       AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_REDIS__PASSWORD: ${AUTHENTIK_REDIS__PASSWORD}
-      AUTHENTIK_POSTGRESQL__HOST: postgresql
-      AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_DB}
-      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME}
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: postgres
+      AUTHENTIK_POSTGRESQL__NAME: authentik
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
       AUTHENTIK_ERROR_REPORTING__ENABLED: "true"
       AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
@@ -40,10 +39,9 @@ version: '3.4'
     command: worker
     environment:
       AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_REDIS__PASSWORD: ${AUTHENTIK_REDIS__PASSWORD}
-      AUTHENTIK_POSTGRESQL__HOST: postgresql
-      AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_DB}
-      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME}
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: postgres
+      AUTHENTIK_POSTGRESQL__NAME: authentik
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
       AUTHENTIK_ERROR_REPORTING__ENABLED: "true"
       AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
@@ -73,7 +71,7 @@ version: '3.4'
       GEOIPUPDATE_FREQUENCY: "8"
       GEOIPUPDATE_HOST: "updates.maxmind.com"
     networks:
-      - proxy
+      - proxy                                                           # ---------
 
 
 networks:
