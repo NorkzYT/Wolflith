@@ -9,7 +9,7 @@ version: '3.4'
     command: server
     environment:
       AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
       AUTHENTIK_POSTGRESQL__USER: postgres
       AUTHENTIK_POSTGRESQL__NAME: authentik
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
@@ -39,7 +39,7 @@ version: '3.4'
     command: worker
     environment:
       AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
       AUTHENTIK_POSTGRESQL__USER: postgres
       AUTHENTIK_POSTGRESQL__NAME: authentik
       AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
@@ -74,7 +74,7 @@ version: '3.4'
       - proxy                                                           # ---------
 
   postgres:
-    image: postgres:12-bullseye
+    image: postgres:12-bullseye                       # Only this version works with Authentik, if another version then the following will occur: 
     container_name: postgresql-authentik
     hostname: postgresql-authentik
     restart: unless-stopped
@@ -83,7 +83,7 @@ version: '3.4'
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - 5433:8080
+      - 5432:8080
     networks:
       - proxy
 
