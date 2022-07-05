@@ -143,7 +143,7 @@ http:
 ```
 
 Now lets go into the Authentik GUI, by going to the host:
-`vpsauth.DOMAIN.COM`, login and go to `Admin Interface` which is located on the top right of the page.
+`vpsauth.DOMAIN.COM/if/flow/initial-setup/`, make an account and go to `Admin Interface` which is located on the top right of the page.
 
 Follow the steps in order from the images:
 
