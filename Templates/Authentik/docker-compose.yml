@@ -73,6 +73,20 @@ version: '3.4'
     networks:
       - proxy                                                           # ---------
 
+  postgres:
+    image: postgres:12-bullseye
+    container_name: postgresql-authentik
+    hostname: postgresql-authentik
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5433:8080
+    networks:
+      - proxy
+
 
 networks:
   proxy:
