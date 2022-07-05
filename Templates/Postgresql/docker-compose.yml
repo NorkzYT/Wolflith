@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   postgres:
-    image: postgres:12-bullseye
+    image: postgres:14.4
     container_name: postgresql
     hostname: postgres
     restart: unless-stopped
