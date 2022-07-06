@@ -23,9 +23,9 @@ services:
             max-size: "200k"
     restart: unless-stopped
     networks:
-      - proxymoxy
+      - proxy
     
 networks:
-  proxymoxy:
+  proxy:
     driver: bridge
     external: true
