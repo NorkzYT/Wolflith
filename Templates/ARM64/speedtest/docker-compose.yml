@@ -1,0 +1,31 @@
+# ARM64
+
+version: '3.3'
+
+services:
+  speedtest:
+    container_name: speedtest
+    image: henrywhitaker3/speedtest-tracker:dev-arm
+    hostname: speedtest
+    volumes:
+      - /mnt/appdata/speedtest:/config
+    environment:
+      - TZ=America/New_York
+      - PGID=1001
+      - PUID=1001
+      - OOKLA_EULA_GDPR=true
+    ports:
+      - 8765:80
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "10"
+            max-size: "200k"
+    restart: unless-stopped
+    networks:
+      - proxymoxy
+    
+networks:
+  proxymoxy:
+    driver: bridge
+    external: true
