@@ -74,7 +74,7 @@ version: '3.4'
       - proxy                                                           # ---------
 
   postgres:
-    image: postgres:12-bullseye                       # Only this version works with Authentik, if another version then the following will occur: 
+    image: postgres:12-bullseye                       # Only this version works with Authentik, if another version then the following will occur: `Postgres - REQUIRES 10 or up` 
     container_name: postgresql-authentik
     hostname: postgresql-authentik
     restart: unless-stopped
