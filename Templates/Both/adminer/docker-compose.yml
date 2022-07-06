@@ -1,7 +1,6 @@
-# Use root/example as user/password credentials
-
 version: '3.1'
 services:
+
   adminer:
     image: adminer:4.8.1
     hostname: adminer
@@ -10,10 +9,10 @@ services:
     ports:
       - 8686:8080
     networks:
-      - proxymoxy
+      - proxy
 
 networks:
-  proxymoxy:
+  proxy:
     driver: bridge
     external: true
 
