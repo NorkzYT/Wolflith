@@ -14,9 +14,9 @@ services:
     environment:
       - TZ=America/NewYork
     networks:
-      - proxymoxy
+      - proxy
       
 networks:
-  proxymoxy:
+  proxy:
     driver: bridge
     external: true

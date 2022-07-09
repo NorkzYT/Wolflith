@@ -7,10 +7,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - APP_URL=https://docstack.pcscorp.dev
+      - APP_URL=https://bookstack.DOMAIN.COM
       - DB_HOST=mariadb
       - DB_USER=bookstack
-      - DB_PASS=N0OrkzYtYOUTUBE1k2oo5B00kSt@cK
+      - DB_PASS=${DB_PASS}
       - DB_DATABASE=bookstack
       - MAIL_DRIVER=smtp
 
@@ -20,11 +20,11 @@ services:
       - MAIL_ENCRYPTION=tls
 
       # Authentication details for your SMTP service
-      - MAIL_USERNAME=nas.serverx0x@gmail.com
-      - MAIL_PASSWORD=uwurktlfbiydncgf
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
 
       # The "from" email address for outgoing email
-      - MAIL_FROM=support@pcscorp.dev
+      - MAIL_FROM=${MAIL_FROM}
 
       # The "from" name used for outgoing email
       - MAIL_FROM_NAME=BookStack
@@ -36,9 +36,9 @@ services:
     restart: unless-stopped
     
     networks:
-      - proxymoxy
+      - proxy
 
 networks:
-  proxymoxy:
+  proxy:
     driver: bridge
     external: true
