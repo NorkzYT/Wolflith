@@ -16,7 +16,7 @@ services:
     volumes:
       - /mnt/appdata/endlessh:/config #optional
     ports:
-      - 33:2222
+      - 2222:2222
     restart: unless-stopped
     networks:
       - proxy
