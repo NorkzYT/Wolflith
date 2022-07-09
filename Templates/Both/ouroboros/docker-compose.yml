@@ -1,0 +1,25 @@
+---
+version: '3'
+services:
+  ouroboros:
+    container_name: ouroboros
+    hostname: ouroboros
+    image: pyouroboros/ouroboros:1.4.3   # I Recommend using WATCHTOWER instead.
+    environment:
+      - CLEANUP=true
+      - INTERVAL=300
+      - LOG_LEVEL=info
+      - SELF_UPDATE=true
+      - LATEST=true
+      - IGNORE=mongo influxdb postgres mariadb
+      - TZ=America/New_York
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
