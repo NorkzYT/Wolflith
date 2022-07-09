@@ -8,7 +8,8 @@ services:
     environment:
       - WATCHTOWER_SCHEDULE=0 0 23 * * *                       #  [Cron expression](https://pkg.go.dev/github.com/robfig/cron@v1.2.0#hdr-CRON_Expression_Format)
       - WATCHTOWER_ROLLING_RESTART=true
-      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_LABEL_ENABLE=true             #     labels:
+      - com.centurylinklabs.watchtower.enable=true
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_DEBUG=true
       - WATCHTOWER_TIMEOUT=30s
