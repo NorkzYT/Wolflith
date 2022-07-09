@@ -1,0 +1,44 @@
+---
+version: "2"
+services:
+  bookstack:
+    image: linuxserver/bookstack:22.06.2
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=https://docstack.pcscorp.dev
+      - DB_HOST=mariadb
+      - DB_USER=bookstack
+      - DB_PASS=N0OrkzYtYOUTUBE1k2oo5B00kSt@cK
+      - DB_DATABASE=bookstack
+      - MAIL_DRIVER=smtp
+
+      # Host, Port & Encryption mechanism to use
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+
+      # Authentication details for your SMTP service
+      - MAIL_USERNAME=nas.serverx0x@gmail.com
+      - MAIL_PASSWORD=uwurktlfbiydncgf
+
+      # The "from" email address for outgoing email
+      - MAIL_FROM=support@pcscorp.dev
+
+      # The "from" name used for outgoing email
+      - MAIL_FROM_NAME=BookStack
+      - QUEUE_CONNECTION=database
+    volumes:
+      - /mnt/appdata/bookstack:/config
+    ports:
+      - 6875:80
+    restart: unless-stopped
+    
+    networks:
+      - proxymoxy
+
+networks:
+  proxymoxy:
+    driver: bridge
+    external: true

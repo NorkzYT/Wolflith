@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  cloudflared:
+    build: https://github.com/cloudflare/cloudflared.git
+    container_name: cloudflared
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - PUID=1000
+      - PGID=1000
+    command: tunnel --config /home/nonroot/.cloudflared/config.yaml run a158733e-2bf4-4257-be7f-adab3a6615e0  #We are going to replace the placeholder later.
+    volumes:
+      - ./data:/home/nonroot/.cloudflared/
+
+

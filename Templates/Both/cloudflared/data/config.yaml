@@ -1,0 +1,22 @@
+tunnel: a158733e-2bf4-4257-be7f-adab3a6615e0
+credentials-file: /home/nonroot/.cloudflared/a158733e-2bf4-4257-be7f-adab3a6615e0.json
+
+# NOTE: You should only have one ingress tag, so if you uncomment one block comment the others
+
+#forward all traffic to Reverse Proxy w/ SSL
+ingress:
+  - hostname: ssh.pcscorp.dev
+    service: ssh://192.168.1.55:22
+  - service: https://192.168.1.55:44301
+    originRequest:
+      originServerName: traefik.pcscorp.dev
+#forward all traffic to Reverse Proxy w/ SSL and no TLS Verify
+#ingress:
+#  - service: https://192.168.1.33:44301
+#    originRequest:
+#      noTLSVerify: true
+
+# forward all traffic to reverse proxy over http
+#ingress:
+#  - service: http://REVERSEPROXYIP:PORT
+
