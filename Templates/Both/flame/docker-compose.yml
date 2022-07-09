@@ -1,0 +1,20 @@
+version: '2.1'
+services:
+  flame:
+    image: pawelmalak/flame:multiarch2.3.0
+    container_name: flame
+    volumes:
+      - /mnt/appdata/flame:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock # optional but required for Docker integration feature
+    ports:
+      - 5030:5005
+    environment:
+      - PASSWORD=${PASSWORD}
+    restart: unless-stopped
+    networks:
+      - proxymoxy
+    
+networks:
+  proxymoxy:
+    driver: bridge
+    external: true
