@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  cryptgeon:
+    image: cupcakearmy/cryptgeon:1
+    container_name: cryptgeon
+    environment:
+      SIZE_LIMIT: 2000M
+    ports:
+      - 5800:5000
+    networks:
+      - proxy
+    restart: unless-stopped
+    
+networks:
+  proxy:
+    driver: bridge
+    external: true
