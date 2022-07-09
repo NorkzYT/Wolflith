@@ -1,0 +1,29 @@
+---
+version: "2.1"
+services:
+  mariadb:
+    image: linuxserver/mariadb:10.5.16
+    container_name: mariadb
+    hostname: mariadb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=America/NewYork
+      - MYSQL_DATABASE=mysql #optional
+      - MYSQL_USER=mysql #optional
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD} #optional
+     # - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
+    volumes:
+      - /mnt/appdata/mariadb:/config
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
