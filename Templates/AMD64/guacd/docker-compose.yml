@@ -1,0 +1,18 @@
+version: '2.0'
+services:
+  guacd:
+    container_name: guacd
+    hostname: guacd
+    image: guacamole/guacd:1.4.0
+    volumes:
+    - /mnt/appdata/guacd/drive:/drive:rw
+    - /mnt/appdata/guacd/record:/record:rw
+    
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
