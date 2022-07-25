@@ -1,4 +1,8 @@
-# Installation & Configuration of Authentik with Traefik Reverse Proxy
+# Installation & Configuration of Authentik with Traefik Reverse Proxy!
+
+### (Go to [IBRACORP](https://docs.ibracorp.io/authentik/authentik/docker-compose/npm-forward-auth-single-applications) for the Nginx Proxy Manager Configuration)
+You can also watch a video and read the following [`IBRACORP`](https://docs.ibracorp.io/authentik/) documentation of Authentik!
+
 
 In `fileConfig.yml` of Traefik, add the following settings of Authentik.
 
