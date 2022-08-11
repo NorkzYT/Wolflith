@@ -1,18 +1,19 @@
 version: '3.1'
 services:
 
-  adminer:
+  proxy.py:
     image: adminer:4.8.1
-    hostname: adminer
-    container_name: adminer
+    hostname: proxy.py
+    container_name: proxy.py
     restart: unless-stopped
     ports:
-      - 8686:8080
+      - 8899:8899
     networks:
       - proxy
+
+    command: /app/proxy.py
 
 networks:
   proxy:
     driver: bridge
     external: true
-
