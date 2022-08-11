@@ -7,13 +7,11 @@ services:
     container_name: proxy.py
     restart: unless-stopped
     environment:
-      - basic-auth: 
+      - basic-auth: "user:password"
     ports:
       - 8899:8899
     networks:
       - proxy
-
-    #command: --entrypoint /app/proxy.p
 
 networks:
   proxy:
