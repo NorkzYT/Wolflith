@@ -2,7 +2,7 @@ version: '3.1'
 services:
 
   proxy.py:
-    image: adminer:4.8.1
+    image: abhinavsingh/proxy.py:v2.4.4rc3.dev7
     hostname: proxy.py
     container_name: proxy.py
     restart: unless-stopped
@@ -11,7 +11,7 @@ services:
     networks:
       - proxy
 
-    command: /app/proxy.py
+    command: --entrypoint /app/proxy.p
 
 networks:
   proxy:
