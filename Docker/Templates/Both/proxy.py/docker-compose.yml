@@ -7,10 +7,10 @@ services:
     container_name: proxy.py
     restart: unless-stopped
     ports:
-      - 899:8899
-    command: --basic-auth "user:password"
+      - 9899:8899
     networks:
       - proxy
+    command: --basic-auth user:pass --hostname 0.0.0.0
 
 networks:
   proxy:
