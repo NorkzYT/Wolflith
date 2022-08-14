@@ -10,7 +10,7 @@ services:
       - 9899:8899
     networks:
       - proxy
-    command: --basic-auth user:pass --hostname 0.0.0.0
+    command: --basic-auth ${AUTH} --hostname 0.0.0.0
 
 networks:
   proxy:
