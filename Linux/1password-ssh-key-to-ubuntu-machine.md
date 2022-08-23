@@ -14,5 +14,7 @@ mv /home/USER/id_ed25519 /root/.ssh/
 Now use the following command
 
 ```
-ssh-copy-id USER@192.168.1.55
+ssh-copy-id your-user@your-server-dns-name-or-ipv4-here
 ```
+
+Now you are able to use the 
