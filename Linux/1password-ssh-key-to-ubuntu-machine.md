@@ -11,4 +11,8 @@ mv /home/USER/id_ed25519.pub /root/.ssh/
 mv /home/USER/id_ed25519 /root/.ssh/
 ```
 
-Now use the following command 
+Now use the following command
+
+```
+ssh-copy-id USER@192.168.1.55
+```
