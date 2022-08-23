@@ -17,5 +17,10 @@ Now use the following command
 ssh-copy-id your-user@your-server-dns-name-or-ipv4-here
 ```
 
-Now you are able to use 1password SSH key to login into your system, once you ssh with the following command into your system, 1password will prompt you to enter your password
+Now you are able to use 1password SSH key to login into your system, once you ssh with the following command into your system, 1password will prompt you.
 
+```
+ssh your-user@your-server-dns-name-or-ipv4-here
+```
+
+![Imgur](https://i.imgur.com/1XWWzEh.png)
