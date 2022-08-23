@@ -4,4 +4,4 @@ First make your 1password ssh key and then download both the `public` and `priva
 
 ![Imgur](https://i.imgur.com/SWjr1OW.png)
 
-Use WinSCP to copy both the public and private key into any folder on your Linux machine. I put mine in `/home/
+Use WinSCP to copy both the public and private key into any folder on your Linux machine. I put mine in `/home/norkz` and move the files with the following command to the `/root/.ssh` folder.
