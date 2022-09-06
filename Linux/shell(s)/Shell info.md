@@ -15,7 +15,6 @@ chsh -s /bin/bash vivek
 ```
 
 
-
 More info here:
 
 [Change Shell to Bash](https://www.cyberciti.biz/faq/how-to-change-shell-to-bash/)
