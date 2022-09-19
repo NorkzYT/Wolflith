@@ -6,6 +6,8 @@ A selection of fast starts for various technologies, including docker, kubernet
 
 Don't forget to ⭐ this repo and fork it! 👆
 
+Anything you want to add? Make a pull request.
+
 Details are provided in each folder 📁
 
 Note: Adding a bunch of things, repository is still a work in progress!
