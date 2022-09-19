@@ -1,4 +1,4 @@
-# launchpad 📝⚙🚀
+# Launchpad 📝⚙🚀
 
 ## Info
 
