@@ -24,7 +24,7 @@ GitHub: https://github.com/romkatv/powerlevel10k
 
 # **CHANGE WINDOWS TERMINAL SETTINGS TO USE NERD-FONTS**
 
-Because we want Windows Terminal to be able to render the icons in the powerlevel10k theme correctly, we need to change the Windows Terminal configuration to use the Nerd-Font we’ve downloaded before. Click on “Settings” in the Windows Terminal menu and edit the settings.json file with your favorite text editor.
+We must modify the Windows Terminal setup to utilize the Nerd-Font we previously obtained if we want Windows Terminal to appropriately portray the icons in the powerlevel10k theme. Edit the settings by selecting "Settings" from the Windows Terminal menu. Using your preferred text editor, and edit the settings.json file.
 
 Find your wsl or wsl2 profile and add the line “fontFace”: “<name-of-your-font>” according to this example:
 
