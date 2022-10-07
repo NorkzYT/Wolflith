@@ -33,6 +33,10 @@ Find your wsl or wsl2 profile and add the line “fontFace”: “<name-of-your-
     [
         {
             "guid": "{<your-profile-id>}",
+                "font": 
+                {
+                    "face": "DroidSansMono Nerd Font"
+                },
             "hidden": false,
             "name": "Ubuntu-20.04",
             "source": "Windows.Terminal.Wsl",
