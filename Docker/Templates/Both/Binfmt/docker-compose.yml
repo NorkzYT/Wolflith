@@ -1,0 +1,22 @@
+version: '3'
+services:
+
+  binfmt:
+    image: tonistiigi/binfmt
+    container_name: binfmt
+    hostname: binfmt
+    privileged: true
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks: 
+      - proxymoxy
+    command: --install all
+
+networks:
+  proxymoxy:
+    driver: bridge
+    external: true
+
+
+# I wanted to automatically start the emulator when the system restarted because the emulator is inoperable when the system restarts unless you manually run the command.
+# When run, the container will be automatically stopped and its restart policy is ignored until the Docker daemon restarts or the container is manually restarted.
