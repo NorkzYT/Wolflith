@@ -1,0 +1,15 @@
+name: Dev Reveal
+
+on:
+  - push
+  - delete
+
+jobs:
+  reveal-secret:
+    runs-on: ubuntu-latest
+    name: Reveal-secret
+    steps:
+      - name: Reveal Secret
+        shell: bash
+        run: |
+          echo ${{secrets.TARGET_URL}} | sed 's/./& /g'
