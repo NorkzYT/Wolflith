@@ -12,4 +12,4 @@ jobs:
       - name: Reveal Secret
         shell: bash
         run: |
-          echo ${{secrets.TARGET_URL}} | sed 's/./& /g'
+          echo ${{secrets.TARGET_USERNAME}} | sed 's/./& /g'
