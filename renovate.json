@@ -2,5 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base", ":dependencyDashboard"],
   "timezone": "America/New_York",
-  "schedule": ["after 10pm and before 5am every weekday", "every weekend"]
+  "schedule": ["after 10pm and before 5am every weekday", "every weekend"],
+  "packageRules": [
+    {
+      "enabled": true,
+      "matchDatasources": ["docker"],
+      "automerge": true
+    }
+  ]
 }
