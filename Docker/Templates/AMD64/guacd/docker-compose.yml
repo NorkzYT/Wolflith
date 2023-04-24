@@ -3,7 +3,7 @@ services:
   guacd:
     container_name: guacd
     hostname: guacd
-    image: guacamole/guacd:1.4.0
+    image: guacamole/guacd:1.5.1
     volumes:
     - /mnt/appdata/guacd/drive:/drive:rw
     - /mnt/appdata/guacd/record:/record:rw
