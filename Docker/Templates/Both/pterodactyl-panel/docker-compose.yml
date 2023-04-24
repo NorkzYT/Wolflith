@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   pterodactyl-panel:
-    image: ccarney16/pterodactyl-panel:v1.9.2
+    image: ccarney16/pterodactyl-panel:v1.11.3
     container_name: pterodactyl-panel
     hostname: pterodactyl-panel
     ports:
