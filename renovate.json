@@ -20,6 +20,7 @@
         "(^|/|\\.)(Docker|Container)file$",
         "(^|/)(Docker|Container)file[^/]*$"
       ],
+      "matchDatasources": ["docker"],
       "automerge": true
     },
     {
@@ -27,6 +28,7 @@
         "(^|/)requirements\\.ya?ml$",
         "(^|/)galaxy\\.ya?ml$"
       ],
+      "matchDatasources": ["ansible"],
       "automerge": true
     }
   ]
