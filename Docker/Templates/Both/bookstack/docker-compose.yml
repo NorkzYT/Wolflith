@@ -2,7 +2,7 @@
 version: "2"
 services:
   bookstack:
-    image: linuxserver/bookstack:22.06.2
+    image: linuxserver/bookstack:22.11.20221130
     container_name: bookstack
     environment:
       - PUID=1000
