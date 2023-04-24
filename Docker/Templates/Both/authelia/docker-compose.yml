@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   authelia:
-    image: authelia/authelia:4.36
+    image: authelia/authelia:4.37
     container_name: authelia
     hostname: authelia
     volumes:
