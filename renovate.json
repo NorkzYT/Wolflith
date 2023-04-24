@@ -22,14 +22,6 @@
       ],
       "matchDatasources": ["docker"],
       "automerge": true
-    },
-    {
-      "fileMatch": [
-        "(^|/)requirements\\.ya?ml$",
-        "(^|/)galaxy\\.ya?ml$"
-      ],
-      "matchDatasources": ["ansible"],
-      "automerge": true
     }
   ]
 }
