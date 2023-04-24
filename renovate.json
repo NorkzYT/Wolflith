@@ -1,15 +1,35 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", ":dependencyDashboard"],
+  "extends": [
+    "config:base",
+    ":dependencyDashboard"
+  ],
   "timezone": "America/New_York",
-  "schedule": ["after 10pm and before 5am every weekday", "every weekend"],
-  "kubernetes": {
-    "fileMatch": ["k8s/.+\\.yaml$"]
-  },
+  "schedule": [
+    "after 10pm and before 5am every weekday",
+    "every weekend"
+  ],
   "packageRules": [
     {
-      "enabled": true,
-      "matchDatasources": ["docker"],
+      "fileMatch": [
+        "(^|/|\\.)(Docker|Container)file$",
+        "(^|/)(Docker|Container)file[^/]*$"
+      ],
+      "automerge": true
+    },
+    {
+      "fileMatch": [
+        "(^|/)requirements\\.ya?ml$",
+        "(^|/)galaxy\\.ya?ml$"
+      ],
+      "automerge": true
+    },
+    {
+      "kubernetes": {
+        "fileMatch": [
+          "k8s/.+\\.yaml$"
+        ]
+      },
       "automerge": true
     }
   ]
