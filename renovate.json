@@ -9,11 +9,6 @@
     "after 10pm and before 5am every weekday",
     "every weekend"
   ],
-  "ansible": {
-    "fileMatch": [
-      "(^|/)tasks/[^/]+\\.ya?ml$"
-    ]
-  },
   "kubernetes": {
     "fileMatch": [
       "k8s/.+\\.yaml$"
