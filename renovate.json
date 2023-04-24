@@ -22,7 +22,6 @@
   "packageRules": [
     {
       "fileMatch": [
-        "(^|/)(?:docker-)?compose[^/]*\\.ya?ml$",
         "(^|/|\\.)(Docker|Container)file$",
         "(^|/)(Docker|Container)file[^/]*$"
       ],
