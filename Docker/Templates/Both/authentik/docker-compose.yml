@@ -3,7 +3,7 @@ version: '3.4'
 services:                                    
 
   authentik:
-    image: beryju/authentik:2022.7
+    image: beryju/authentik:2022.12
     container_name: authentik
     hostname: authentik
     restart: unless-stopped
@@ -33,7 +33,7 @@ services:
                                                                 
 
   worker:
-    image: beryju/authentik:2022.7
+    image: beryju/authentik:2022.12
     container_name: authentik_worker
     hostname: authentik_worker
     restart: unless-stopped
