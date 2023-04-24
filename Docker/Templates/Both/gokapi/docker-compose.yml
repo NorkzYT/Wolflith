@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   adminer:
-    image: f0rc3/gokapi:v1.5.2
+    image: f0rc3/gokapi:v1.7.1
     container_name: gokapi
     hostname: gokapi
     restart: unless-stopped
