@@ -2,7 +2,7 @@ version: '3'
 services:
   dupeguru:
     container_name: dupeguru
-    image: jlesage/dupeguru:v1.13.0
+    image: jlesage/dupeguru:v23.03.1
     hostname: dupeguru
     environment:
       - TZ=America/NewYork
