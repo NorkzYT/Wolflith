@@ -60,7 +60,7 @@ services:
 
 
   geoipupdate:                                                           # Optional
-    image: "maxmindinc/geoipupdate:v4.11"
+    image: "maxmindinc/geoipupdate:v5.0"
     container_name: geoipupdate
     hostname: geoipupdate
     volumes:
