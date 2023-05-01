@@ -16,6 +16,8 @@ Note: Adding a bunch of things, repository is still a work in progress!
 
 ## Usage
 
+Make sure you have make installed. If you don't, run `sudo apt install make` or `sudo yum install make` depending on your distro.
+
 After pulling the repo to your Linux machine of choice, run `make help`.
 
 This will show you the available commands.
