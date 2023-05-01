@@ -17,8 +17,8 @@ help:
 	@echo "# Will change Ansible playbook hosts to localhost"
 	@echo "make change_hosts_to_localhost"
 	@echo "\n"
-	@echo "# Will change Ansible playbook hosts to wildcard"
-	@echo "make change_hosts_to_wildcard"
+	@echo "# Will change Ansible playbook hosts to all"
+	@echo "make change_hosts_to_all"
 	@echo "\n"
 	@echo "# Will setup machines with the default settings"
 	@echo "make setup-machines"
@@ -113,9 +113,9 @@ change_hosts_to_localhost: change_hosts_to_localhost.sh
 	chmod +x change_hosts_to_localhost.sh
 	./change_hosts_to_localhost.sh
 
-change_hosts_to_wildcard: change_hosts_to_wildcard.sh
-	chmod +x change_hosts_to_wildcard.sh
-	./change_hosts_to_wildcard.sh
+change_hosts_to_all: change_hosts_to_all.sh
+	chmod +x change_hosts_to_all.sh
+	./change_hosts_to_all.sh
 
 # -------------------------------------------------------------------------------------- 
 # --- Ansible Playbooks ---
