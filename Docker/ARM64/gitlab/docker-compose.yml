@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  gitlab:
+    image: yrzr/gitlab-ce-arm64v8:15.9.4-ce.0
+    hostname: gitlab-ce
+    container_name: gitlab-ce
+    privileged: true
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://vpsgitl.domain.com'
+    ports:
+      - '1011:22'
+      - '1012:80'
+      - '1013:443'
+    volumes:
+      - '/mnt/appdata/gitlab/config:/etc/gitlab:z'
+      - '/mnt/appdata/gitlab/logs:/var/log/gitlab:z'
+      - '/mnt/appdata/gitlab/data:/var/opt/gitlab:z'
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

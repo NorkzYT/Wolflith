@@ -1,0 +1,8 @@
+[Machine1]
+150.136.160.244
+
+[Machine1:vars]
+ansible_user=ubuntu
+ansible_connection=ssh
+host_key_checking=False
+ansible_ssh_private_key_file=/directory/location/ssh_keys/prive_Machine1

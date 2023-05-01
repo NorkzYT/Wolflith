@@ -1,0 +1,10 @@
+tunnel: UUID
+credentials-file: /home/nonroot/.cloudflared/UUID.json
+
+# NOTE: You should only have one ingress tag, so if you uncomment one block comment the others
+
+#forward all traffic to Reverse Proxy w/ SSL
+ingress:
+  - service: https://traefik:44301
+    originRequest:
+      originServerName: traefik.DOMAIN.COM

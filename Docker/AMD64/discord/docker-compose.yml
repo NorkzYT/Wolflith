@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  kasmweb-discord:
+    image: kasmweb/discord:1.13.0-rolling
+    hostname: kasmweb-discord
+    container_name: kasmweb-discord
+    restart: unless-stopped
+    shm_size: 1024m
+    environment:
+      - VNC_PW=${VNC_PW_DISCORD}
+    ports:
+      - 1039:6901
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

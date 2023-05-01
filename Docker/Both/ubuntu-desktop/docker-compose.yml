@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  core-ubuntu-bionic:
+    image: kasmweb/core-ubuntu-bionic:1.13.0-rolling
+    hostname: core-ubuntu-bionic
+    container_name: core-ubuntu-bionic
+    restart: unless-stopped
+    shm_size: 2048m
+    environment:
+      - VNC_PW=${VNC_PW_UBUNTU}
+    volumes:
+      - /mnt/appdata/ubuntu-vnc/dev/shm:/dev/shm
+    ports:
+      - 1038:6901
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

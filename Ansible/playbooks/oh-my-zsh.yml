@@ -1,0 +1,10 @@
+---
+- hosts: '*'
+  vars_prompt:
+    - name: 'ohmyzsh_username'
+      prompt: 'Enter the username for installing Oh-My-Zsh:'
+      private: no
+  roles:
+    - role: gantsign.oh-my-zsh
+      users:
+        - username: '{{ ohmyzsh_username }}'

@@ -1,0 +1,8 @@
+---
+- hosts: '*'
+  become: true
+  vars:
+    scripts_path: '{{ directory_location }}/Scripts/Ansible/FirstTimeSetup'
+  tasks:
+    - name: Run DockerContainerSetup script
+      command: '{{ scripts_path }}/DockerContainerSetup.sh {{ directory_location }} {{ scripts_path }}'

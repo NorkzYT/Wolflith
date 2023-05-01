@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install fail2ban
+      apt:
+        name: fail2ban
+        state: present
+
+    - name: Create local copy of fail2ban configuration files
+      command: cp /etc/fail2ban/fail2ban.{conf,local}
+      ignore_errors: true
+
+    - name: Create local copy of jail configuration files
+      command: cp /etc/fail2ban/jail.{conf,local}
+      ignore_errors: true
+
+    - name: Update backend in jail configuration
+      lineinfile:
+        path: /etc/fail2ban/jail.local
+        regexp: '^backend'
+        line: 'backend = systemd'
+        state: present
+
+    - name: Check fail2ban status
+      command: fail2ban-client status
+      register: fail2ban_status
+
+    - name: Check fail2ban status for sshd
+      command: fail2ban-client status sshd
+      register: fail2ban_sshd_status
+
+    - name: Print fail2ban status
+      debug:
+        msg: 'fail2ban status: {{ fail2ban_status.stdout }}'
+
+    - name: Print fail2ban status for sshd
+      debug:
+        msg: 'fail2ban status for sshd: {{ fail2ban_sshd_status.stdout }}'

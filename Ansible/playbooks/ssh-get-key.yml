@@ -1,0 +1,25 @@
+---
+- name: 'Locally run a playbook that retrieves an SSH key from 1password and puts the contents in a designated file.'
+  hosts: localhost
+  connection: local # connection: local is sufficient to make the tasks run in the controller without using SSH.
+  vars_prompt:
+    - name: 'user_folder'
+      prompt: 'Enter the user folder where you want to store the SSH key'
+      private: no
+  tasks:
+    - name: Certain_Machine private key
+      no_log: True
+      copy:
+        dest: '/home/{{ user_folder }}/ssh_keys/prive_Certain_Machine'
+        content: "{{ lookup('community.general.onepassword', '1Password-SSH Key name', field='private key') }}"
+        mode: 0600
+
+    # - debug:
+    #     var: content
+# https://github.com/ansible-collections/community.general/issues/5695#issuecomment-1356315304
+
+# From the above proposed solution mentioned in a GitHub issue, make sure to use RSA, 4096-bit as an SSH Key instead of Ed25519, -
+# if not then this playbook will not work properly, nor with any other Ansible Playbook.
+# You can test with Ed25519 and figure out if the SSH Key works properly now or not.
+
+# https://github.com/ansible-collections/community.general/issues/5197#issuecomment-1241246580

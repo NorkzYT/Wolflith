@@ -1,0 +1,48 @@
+---
+version: '3.9'
+services:
+  tdarr:
+    container_name: tdarr
+    image: haveagitgat/tdarr:2.00.10.1
+    hostname: tdarr
+    restart: unless-stopped
+    network_mode: bridge
+    ports:
+      - 1024:8265 # webUI port
+      - 1025:8266 # server port
+      - 1026:8267 # Internal node port
+    environment:
+      - TZ=America/New_York
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=002
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - webUIPort=8265
+      - internalNode=true
+      - nodeID=MyInternalNode
+      - nodeIP=0.0.0.0
+      - nodePort=8267
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - /path/to/server:/app/server
+      - /path/to/configs:/app/configs
+      - /path/to/logs:/app/logs
+      - /path/to/media/:/media
+      - /path/to/temp/:/temp
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+    networks:
+      - proxy
+
+networks:
+  proxy: # rename this to your custom docker network.
+    driver: bridge
+    external: true

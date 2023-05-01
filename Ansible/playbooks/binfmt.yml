@@ -1,0 +1,24 @@
+---
+- name: Run tonistiigi/binfmt container
+  hosts: all
+  become: true
+
+  vars:
+    docker_container_name: tonistiigi_binfmt
+    docker_image_name: tonistiigi/binfmt
+
+  tasks:
+    - name: Pull Binfmt Docker container
+      community.general.docker_container:
+        name: '{{ docker_container_name }}'
+        image: '{{ docker_image_name }}'
+        state: started
+        privileged: true
+
+    - name: Install Binfmt
+      command: docker run --privileged --rm tonistiigi/binfmt --install all
+      register: command_output
+
+    - name: Binfmt command output
+      debug:
+        var: command_output.stdout_lines

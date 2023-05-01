@@ -1,0 +1,68 @@
+- name: Install Docker engine
+  hosts: '*'
+  become: true
+  vars_prompt:
+    - name: 'user'
+      prompt: 'Enter the name of the user to add to the docker group:'
+      private: no
+  tasks:
+    - name: Uninstall old versions
+      apt:
+        name:
+          - docker
+          - docker-engine
+          - docker.io
+          - containerd
+          - runc
+        state: absent
+        autoremove: true
+        update_cache: true
+
+    - name: Remove docker repository file
+      file:
+        path: /etc/apt/sources.list.d/docker.list
+        state: absent
+
+    - name: install dependencies
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: install docker engine, containerd, and Docker Compose.
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose
+        state: present
+        update_cache: true
+
+    - name: test docker
+      command: docker info
+
+    - name: test docker compose
+      command: docker compose version
+
+    - name: Add remote "{{ user }}" user to "docker" group
+      user:
+        name: '{{ user }}'
+        groups: docker
+        append: yes
+      tags:
+        - docker

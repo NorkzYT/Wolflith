@@ -1,0 +1,20 @@
+---
+version: '3.9'
+
+services:
+  ntp:
+    image: cturra/ntp:latest
+    container_name: ntp
+    hostname: ntp
+    environment:
+      - NTP_SERVERS=time.cloudflare.com # be sure this is external
+    restart: unless-stopped
+    ports:
+      - '1016:123/udp'
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

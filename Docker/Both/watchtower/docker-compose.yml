@@ -1,0 +1,36 @@
+---
+version: '3'
+services:
+  watchtower:
+    image: containrrr/watchtower:1.5.3
+    container_name: watchtower
+    hostname: watchtower
+    environment:
+      - WATCHTOWER_SCHEDULE=0 0 23 * * * #  [Cron expression](https://pkg.go.dev/github.com/robfig/cron@v1.2.0#hdr-CRON_Expression_Format)
+      - WATCHTOWER_ROLLING_RESTART=true
+      - WATCHTOWER_LABEL_ENABLE=true #         labels:
+      - WATCHTOWER_CLEANUP=true #           - com.centurylinklabs.watchtower.enable=true
+      - WATCHTOWER_DEBUG=true
+      - WATCHTOWER_TIMEOUT=30s
+      - TZ=America/New_York
+      - DOCKER_TLS_VERIFY=false
+      - WATCHTOWER_NOTIFICATION_EMAIL_FROM=${WATCHTOWER_NOTIFICATION_EMAIL_FROM}
+      - WATCHTOWER_NOTIFICATION_EMAIL_TO=${WATCHTOWER_NOTIFICATION_EMAIL_TO}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp.gmail.com
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=587
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY=false
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SUBJECTTAG=Container Update(s) -images
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

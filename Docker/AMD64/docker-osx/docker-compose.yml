@@ -1,0 +1,34 @@
+# Use root/example as user/password credentials
+
+version: '3.9'
+services:
+  docker-osx:
+    image: sickcodes/docker-osx:monterey
+    hostname: docker-osx
+    container_name: docker-osx
+    privileged: true
+    cap_add:
+      - ALL
+    restart: unless-stopped
+    environment:
+      - DISPLAY=${DISPLAY:-:0.0}
+      - MASTER_PLIST_URL='https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom.plist'
+      - GENERATE_UNIQUE=true
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+      - /mnt/appdata/docker-osx_data:/home
+    ports:
+      - 1009:10022
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    devices:
+      - /dev/kvm
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Format code with Prettier.
+pnpm make-style:prettier
+
+# Stage the code.
+git add .
+
+# Check if the code was formatted.
+pnpm check-style:prettier
+
+# Generates/updates Markdown trees that act as a table of contents for folder structure.
+pnpm markdown-notes-tree
+
+# Stage the code.
+git add .

@@ -1,0 +1,30 @@
+---
+version: '3.9'
+services:
+  syncthing:
+    image: linuxserver/syncthing:1.23.4
+    container_name: syncthing
+    hostname: syncthing
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /mnt/appdata/syncthing/config:/config
+      - /mnt/appdata/:/machine-appdata
+    ports:
+      - 1020:8384
+      - 1021:22000
+      - 1022:21027/udp
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

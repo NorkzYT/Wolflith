@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  adminer:
+    image: f0rc3/gokapi:v1.7.1
+    container_name: gokapi
+    hostname: gokapi
+    restart: unless-stopped
+    ports:
+      - 53842:53842
+    volumes:
+      - /mnt/appdata/gokapi-data:/app/data
+      - /mnt/appdata/gokapi-config:/app/config
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

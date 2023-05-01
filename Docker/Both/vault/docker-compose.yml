@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  hashicorp-vault-server:
+    container_name: hashicorp-vault-server
+    hostname: hashicorp-vault-server
+    image: vault:1.12.2
+    ports:
+      - 1031:8200
+    volumes:
+      - /mnt/appdata/vault/config:/vault/config # Config
+      - /mnt/appdata/vault/file:/vault/file # Data of file storage with Policies, Data, and Logs.
+    environment:
+      - VAULT_ADDR=http://0.0.0.0:8200
+      - VAULT_API_ADDR=http://0.0.0.0:8200
+      - VAULT_ADDRESS=http://0.0.0.0:8200
+      # - VAULT_DEV_ROOT_TOKEN_ID=${vaultplaintextroottoken}
+    command: vault server -config=/vault/config/config.hcl
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    cap_add:
+      - IPC_LOCK
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
+# “core: seal configuration missing, not initialized” error -
+# Usually this error is shown when the Vault’s storage backend is not initialized. -
+# You can initialize it with `vault operator init`.
+
+# https://www.misterpki.com/vault-docker/
+# https://www.bogotobogo.com/DevOps/Docker/Docker-Vault-Consul-B.php

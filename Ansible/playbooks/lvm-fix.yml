@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: Run lvm command
+      shell: lvm
+      become: true
+
+    - name: Extend logical volume
+      shell: lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+      become: true
+
+    - name: Exit lvm
+      shell: exit
+      become: true
+
+    - name: Resize filesystem
+      shell: resize2fs /dev/ubuntu-vg/ubuntu-lv
+      become: true

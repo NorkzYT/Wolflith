@@ -1,0 +1,22 @@
+---
+version: '3.9'
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner:v15.11.0
+    container_name: gitlab-runner
+    hostname: gitlab-runner
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - ./gitlab-runner:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  ######################################################################################################################################################
+
+  browserless:
+    image: browserless/chrome:1-puppeteer-1.20.0
+    container_name: browserless
+    hostname: browserless
+    environment:
+      - DEBUG=*
+      # - TOKEN=xxx
+      - MAX_CONCURRENT_SESSIONS=15
+      - MAX_QUEUE_LENGTH=0
+      - WORKSPACE_DIR=~/downloads
+      - ENABLE_DEBUGGER=true
+      - ENABLE_CORS=false
+      - EXIT_ON_HEALTH_FAILURE=true
+      - METRICS_JSON_PATH=/root/metrics.json
+      - PREBOOT_CHROME=true
+      - KEEP_ALIVE=true
+      - CHROME_REFRESH_TIME=3600000
+      - DEFAULT_IGNORE_HTTPS_ERRORS=true
+      - DEFAULT_BLOCK_ADS=true
+    ports:
+      - 8354:3000
+    volumes:
+      - /mnt/appdata/browserless/downloads:/downloads
+      - /mnt/appdata/browserless/root:/root/metrics.json
+    restart: unless-stopped
+    networks:
+      - proxy
+
+######################################################################################################################################################
+networks:
+  proxy:
+    driver: bridge
+    external: true

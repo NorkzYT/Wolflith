@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  vars_prompt:
+    - name: directory_location
+      prompt: "Enter the parent directory location for where the 'Launchpad' folder is located: "
+      private: no
+  tasks:
+    - name: Save directory location to file
+      lineinfile:
+        path: '{{ directory_location }}/Launchpad/Scripts/directory_location.txt'
+        create: yes
+        line: '{{ directory_location }}'

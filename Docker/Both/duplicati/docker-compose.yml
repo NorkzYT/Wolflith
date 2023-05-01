@@ -1,0 +1,26 @@
+---
+version: '2.1'
+services:
+  duplicati:
+    container_name: duplicati
+    image: linuxserver/duplicati:2.0.6
+    hostname: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/NewYork
+      - CLI_ARGS= #optional
+    volumes:
+      - /mnt/appdata/duplicati:/config
+      - /mnt/appdata/duplicati/backups:/backups
+      - /mnt/appdata/duplicati/source:/source
+    ports:
+      - 3415:8200
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

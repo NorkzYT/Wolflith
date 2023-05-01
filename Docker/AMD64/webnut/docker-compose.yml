@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  nut:
+    image: teknologist/webnut
+    container_name: webnut
+    hostname: nut
+    environment:
+      - UPS_HOST=ip.address.of.nut.server
+      - UPS_PORT=3493
+      - UPS_USER=admin
+      - UPS_PASSWORD=secret
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - DockerNetwork
+    ports:
+      - 1033:6543
+
+networks:
+  DockerNetwork: # rename this to your custom docker network.
+    driver: bridge
+    external: true

@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  proxy.py:
+    image: abhinavsingh/proxy.py:v2.4.4rc3.dev7
+    hostname: proxy.py
+    container_name: proxy.py
+    restart: unless-stopped
+    ports:
+      - 9899:8899
+    networks:
+      - proxy
+    command: --basic-auth ${AUTH} --hostname 0.0.0.0
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

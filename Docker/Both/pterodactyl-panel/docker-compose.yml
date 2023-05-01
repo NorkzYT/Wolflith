@@ -1,0 +1,66 @@
+version: '3.8'
+services:
+  pterodactyl-panel:
+    image: ccarney16/pterodactyl-panel:v1.11.3
+    container_name: pterodactyl-panel
+    hostname: pterodactyl-panel
+    ports:
+      - '8025:80'
+
+    # chmod -R 600 /mnt/appdata/pterodactyl/panel/game.data/config.yml -- IF Panel changes configuration and breaks the node.
+    volumes:
+      - '/mnt/appdata/pterodactyl-panel/appdata/:/data' #Appdata
+      - '/mnt/appdata/pterodactyl-wings:/etc/pterodactyl' #Where config.yml goes into. #Appdata
+      - '/mnt/appdata/pterodactyl-wings/data:/mnt/appdata/pterodactyl-wings/data' #Shared data between Panel and Wings.
+      - '/mnt/appdata/pterodactyl-panel/nginx/:/etc/nginx/conf.d/' #Nginx Config
+
+    environment:
+      APP_ENV: 'production'
+      APP_ENVIRONMENT_ONLY: 'false'
+      APP_SERVICE_AUTHOR: ${APP_SERVICE_AUTHOR}
+      APP_URL: ${APP_URL}
+      APP_TIMEZONE: 'America/New_York' # A list of valid timezones can be found here: http://php.net/manual/en/timezones.php
+      CACHE_DRIVER: 'redis'
+      SESSION_DRIVER: 'redis'
+      QUEUE_DRIVER: 'redis'
+      REDIS_HOST: 192.168.1.55
+      REDIS_PORT: 6379
+      REDIS_USER: ${REDIS_USER}
+      REDIS_PASSWORD: ${REDIS_PASSWORD} # Only if you specified a password in Redis.
+      MAIL_FROM: ${MAIL_FROM}
+      MAIL_DRIVER: 'smtp'
+      MAIL_HOST: 'smtp.gmail.com'
+      MAIL_PORT: '587'
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_ENCRYPTION: “true”
+      APP_DEBUG: “false”
+      TRUSTED_PROXIES: '*'
+
+      DB_HOST: 192.168.1.55
+      DB_PORT: 3306
+      DB_USER: 'pterodactyl'
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: 'pterodactyl'
+
+    #labels:   # Only for Traefik, unless you use the fileConfig.yml file.
+    #  # HTTP
+    #  - "traefik.http.routers.pterodactyl_panel.entrypoints=web"
+    #  - "traefik.http.routers.pterodactyl_panel.rule=Host(`${PANEL_SUB_DOMAIN}`)"
+    #  - "traefik.http.routers.pterodactyl_panel.middlewares=panel_https"
+    #  - "traefik.http.middlewares.panel_https.redirectscheme.scheme=https"
+    #  # HTTPS
+    #  - "traefik.http.routers.pterodactyl_panel-https.entrypoints=websecure"
+    #  - "traefik.http.routers.pterodactyl_panel-https.rule=Host(`${PANEL_SUB_DOMAIN}`)"
+    #  - "traefik.http.routers.pterodactyl_panel-https.tls=true"
+    #  - "traefik.http.routers.pterodactyl_panel-https.tls.certresolver=letsencrypt"
+    #  - "traefik.http.services.pterodactyl_panel-https.loadbalancer.server.port=80"
+
+    restart: unless-stopped
+
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

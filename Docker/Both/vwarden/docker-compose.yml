@@ -1,0 +1,24 @@
+---
+version: '3.8'
+services:
+  vaultwarden:
+    image: vaultwarden/server:1.28.1
+    hostname: vaultwarden
+    container_name: vaultwarden
+    ports:
+      # Port for WebSocket notifications
+      - 3012:3012
+    environment:
+      # Enable WebSocket notifications.
+      - WEBSOCKET_ENABLED=true
+    volumes:
+      - /mnt/appdata/vaultwarden:/data
+
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

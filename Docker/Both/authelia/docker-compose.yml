@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  authelia:
+    image: authelia/authelia:4.37
+    container_name: authelia
+    hostname: authelia
+    volumes:
+      - /mnt/appdata/authelia:/config
+    ports:
+      - 9091:9091
+    restart: unless-stopped
+    healthcheck:
+      disable: true
+    environment:
+      - TZ=America/NewYork
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

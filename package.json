@@ -1,0 +1,65 @@
+{
+	"name": "launchpad",
+	"description": "Launchpad",
+	"version": "1.0.0",
+	"author": "Norkz",
+	"private": false,
+	"main": "none",
+	"scripts": {
+		"clean:install": "rm -rf node_modules/ && rm -rf pnpm-lock.yml && pnpm i",
+		"check-style:prettier": "prettier --check ./Ansible ./Docker ./K8s ./Scripts",
+		"make-style:prettier": "prettier --write ./Ansible ./Docker ./K8s ./Scripts",
+		"watch-global-sass": "sass --watch styles/style.scss styles/style.css",
+		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md",
+		"preinstall": "husky install"
+	},
+	"husky": {
+		"hooks": {
+			"applypatch-msg": "echo \"[Husky] applypatch-msg\"",
+			"pre-applypatch": "echo \"[Husky] pre-applypatch\"",
+			"post-applypatch": "echo \"[Husky] post-applypatch\"",
+			"pre-commit": "echo \"[Husky] pre-commit\"",
+			"pre-merge-commit": "echo \"[Husky] pre-merge-commit\"",
+			"prepare-commit-msg": "echo \"[Husky] prepare-commit-msg\"",
+			"commit-msg": "echo \"[Husky] commit-msg\"",
+			"post-commit": "echo \"[Husky] post-commit\"",
+			"pre-rebase": "echo \"[Husky] pre-rebase\"",
+			"post-checkout": "echo \"[Husky] post-checkout\"",
+			"post-merge": "echo \"[Husky] post-merge\"",
+			"pre-push": "echo \"[Husky] pre-push\"",
+			"pre-receive": "echo \"[Husky] pre-receive\"",
+			"update": "echo \"[Husky] update\"",
+			"post-receive": "echo \"[Husky] post-receive\"",
+			"post-update": "echo \"[Husky] post-update\"",
+			"push-to-checkout": "echo \"[Husky] push-to-checkout\"",
+			"pre-auto-gc": "echo \"[Husky] pre-auto-gc\"",
+			"post-rewrite": "echo \"[Husky] post-rewrite\"",
+			"sendemail-validate": "echo \"[Husky] sendemail-validate\"",
+			"fsmonitor-watchman": "echo \"[Husky] fsmonitor-watchman\"",
+			"p4-pre-submit": "echo \"[Husky] p4-pre-submit\"",
+			"post-index-change": "echo \"[Husky] post-index-change\"",
+			"p4-changelist": "echo \"[Husky] p4-changelist\"",
+			"p4-post-changelist": "echo \"[Husky] p4-post-changelist\"",
+			"p4-prepare-changelist": "echo \"[Husky] p4-prepare-changelist\"",
+			"reference-transaction": "echo \"[Husky] reference-transaction\""
+		}
+	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
+	},
+	"dependencies": {
+		"prettier-plugin-organize-attributes": "^0.0.5",
+		"prettyjson": "^1.2.5"
+	},
+	"devDependencies": {
+		"alex": "^11.0.0",
+		"husky": "^8.0.3",
+		"markdown-notes-tree": "^1.12.0",
+		"prettier": "2.7.1"
+	},
+	"engines": {
+		"pnpm": ">=7.17.0",
+		"npm": ">=7.10.0",
+		"node": ">=16.0.0"
+	}
+}

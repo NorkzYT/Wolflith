@@ -1,0 +1,22 @@
+version: '3'
+services:
+  portainer:
+    image: portainer/portainer-ce:alpine
+    container_name: portainer
+    hostname: portainer
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/appdata/portainer/portainer-data:/data
+    ports:
+      - 9443:9000
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

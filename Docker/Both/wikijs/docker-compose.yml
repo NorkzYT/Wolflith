@@ -1,0 +1,44 @@
+version: '3'
+services:
+  db-wiki:
+    image: postgres:11-alpine
+    container_name: db-wiki
+    hostname: db-wiki
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: wikijsrocks
+      POSTGRES_USER: wikijs
+    logging:
+      driver: 'none'
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  wiki:
+    image: requarks/wiki:2.5
+    container_name: wiki
+    hostname: wiki
+    depends_on:
+      - db-wiki
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db-wiki
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: wikijsrocks
+      DB_NAME: wiki
+    restart: unless-stopped
+    networks:
+      - proxy
+    ports:
+      - '1036:3000'
+
+volumes:
+  db-data:
+
+networks:
+  proxy: # rename this to your custom docker network.
+    driver: bridge
+    external: true

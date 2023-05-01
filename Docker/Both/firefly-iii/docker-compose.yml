@@ -1,0 +1,37 @@
+services:
+  fireflyiii:
+    container_name: fireflyiii
+    hostname: fireflyiii
+    image: fireflyiii/core:version-5.7.9
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_DATABASE=fireflyiii
+      - DB_HOST=mariadb
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=3306
+      - DB_USERNAME=firefly
+      - FIREFLY_III_LAYOUT=v1
+      - TRUSTED_PROXIES=**
+      - TZ=America/New_York
+      - APP_KEY=${APP_KEY}
+      - APP_URL=${APP_URL}
+      - MAIL_MAILER=log
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_FROM=${MAIL_FROM}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=true
+      - SEND_ERROR_MESSAGE=true
+    ports:
+      - 6353:8080
+    restart: unless-stopped
+    volumes:
+      - /mnt/appdata/firefly-iii/upload:/var/www/html/storage/upload
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

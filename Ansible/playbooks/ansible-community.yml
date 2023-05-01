@@ -1,0 +1,8 @@
+---
+- name: Install community.general collection
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Install community.general collection
+      command: ansible-galaxy collection install community.general

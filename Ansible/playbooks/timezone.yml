@@ -1,0 +1,24 @@
+---
+- name: Set timezone and configure timesyncd
+  hosts: '*'
+  become: true
+  vars_prompt:
+    - name: 'timezone'
+      prompt: 'Enter your timezone (e.g. America/New_York)'
+      private: no
+  tasks:
+    - name: set timezone
+      shell: timedatectl set-timezone {{ timezone }}
+
+    - name: Make sure timesyncd is stopped
+      systemd:
+        name: systemd-timesyncd.service
+        state: stopped
+
+    - name: Copy over the timesyncd config
+      template: src=../templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf
+
+    - name: Make sure timesyncd is started
+      systemd:
+        name: systemd-timesyncd.service
+        state: started

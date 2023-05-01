@@ -1,0 +1,17 @@
+- name: Update Docker and Docker Compose
+  hosts: '*'
+  become: true
+  tasks:
+    - name: Update package manager cache
+      apt:
+        update_cache: yes
+
+    - name: Install latest version of Docker
+      apt:
+        name: docker-ce
+        state: latest
+
+    - name: Install latest version of Docker Compose
+      apt:
+        name: docker-compose
+        state: latest

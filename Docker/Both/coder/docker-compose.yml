@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  coder:
+    image: codercom/coder:1.42.0
+    container_name: coderd
+    hostname: coderd
+    ports:
+      - 7076:7080/tcp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/appdata/coder/.coder:/var/run/coder
+
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
