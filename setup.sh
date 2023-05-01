@@ -17,13 +17,13 @@ if [ ! -d "$directory_location" ]; then
 fi
 
 # Save the directory location
-echo "$directory_location" >$directory_location/Scripts/directory_location.txt
+echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
 
 # Get the saved directory location, if any
-saved_location=$(cat $directory_location/Scripts/directory_location.txt 2>/dev/null)
+saved_location=$(cat $directory_location/Launchpad/Scripts/directory_location.txt 2>/dev/null)
 
 # Save the directory location
-echo "$directory_location" >$directory_location/Scripts/directory_location.txt
+echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
 
 # Update the Makefile with the new directory location
 sed -i "s#/home/user#$directory_location#" Makefile
