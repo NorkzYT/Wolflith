@@ -11,10 +11,7 @@ fi
 
 playbook_dir="$directory_location/Launchpad/Ansible/playbooks"
 
-# Restore the original playbook files
-find "$playbook_dir" -type f -name "*.yml.backup" -exec sh -c 'mv "$1" "${1%.backup}"' _ {} \;
-
-# Remove the backup files
-find "$playbook_dir" -type f -name "*.yml.backup" -exec rm {} \;
+# Replace '- hosts: localhost' with '- hosts: *' in all the playbook files
+find "$playbook_dir" -type f -name "*.yml" -exec sed -i 's/- hosts: localhost/- hosts: */g' {} \;
 
 echo "The playbook hosts have been changed back to wildcard."

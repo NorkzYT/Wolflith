@@ -14,11 +14,7 @@ echo "$directory_location" > "$directory_location/Launchpad/Scripts/directory_lo
 
 playbook_dir="$directory_location/Launchpad/Ansible/playbooks"
 
-# Create a backup directory if it doesn't exist
-backup_dir="$playbook_dir/backup"
-mkdir -p "$backup_dir"
-
 # Replace '- hosts: *' with '- hosts: localhost' in all the playbook files
-find "$playbook_dir" -type f -name "*.yml" -exec sh -c 'cp "$1" "$2/$(basename "$1")_backup"' sh {} "$backup_dir" \; -exec sed -i 's/- hosts: \*/- hosts: localhost/g' {} \;
+find "$playbook_dir" -type f -name "*.yml" -exec sed -i 's/- hosts: \*/- hosts: localhost/g' {} \;
 
 echo "The playbook hosts have been changed to localhost."
