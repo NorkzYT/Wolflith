@@ -10,7 +10,7 @@ GIT_HASH ?= $(shell git log --format="%h" -n 1)
 
 help:
 	@echo "--------------------------------------------------------------------------------------"
-	@echo "Scripts\n"
+	@echo "\nScripts\n"
 	@echo "# Will install required dependencies and setup the repo with your directory location"
 	@echo "make setup"
 	@echo "\n"
@@ -89,6 +89,8 @@ help:
 	@echo "\n"
 	@echo "# Will install zsh"
 	@echo "make ansible-zsh"
+	@echo "\n"
+	@echo "--------------------------------------------------------------------------------------"
 
 # -------------------------------------------------------------------------------------- 
 # --- Bash Scripts ---
