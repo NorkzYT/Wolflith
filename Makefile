@@ -14,6 +14,12 @@ help:
 	@echo "# Will install required dependencies and setup the repo with your directory location"
 	@echo "make setup"
 	@echo "\n"
+	@echo "# Will change Ansible playbook hosts to localhost"
+	@echo "make change_hosts_to_localhost"
+	@echo "\n"
+	@echo "# Will change Ansible playbook hosts to wildcard"
+	@echo "make change_hosts_to_wildcard"
+	@echo "\n"
 	@echo "# Will setup machines with the default settings"
 	@echo "make setup-machines"
 	@echo "--------------------------------------------------------------------------------------"
@@ -103,83 +109,91 @@ setup: setup.sh
 setup-machines:
 	bash ./Scripts/Ansible/FirstTimeSetup/NewMachines.sh
 
+change_hosts_to_localhost: change_hosts_to_localhost.sh
+	chmod +x change_hosts_to_localhost.sh
+	./change_hosts_to_localhost.sh
+
+change_hosts_to_wildcard: change_hosts_to_wildcard.sh
+	chmod +x change_hosts_to_wildcard.sh
+	./change_hosts_to_wildcard.sh
+
 # -------------------------------------------------------------------------------------- 
 # --- Ansible Playbooks ---
 # --------------------------------------------------------------------------------------
 
 ansible-1password:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/1password.yml
+	ansible-playbook "/home/user/Launchpad/Ansible/playbooks/1password.yml" -i "/home/user/Ansible/inventory/hosts"
 
 ansible-add-execute-permission:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/add-execute-permission.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/add-execute-permission.yml -i "/home/user/Ansible/inventory/hosts"
 
 ansible-ansible-community:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ansible-community.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ansible-community.yml -i "/home/user/Ansible/inventory/hosts"
 
 ansible-ansible-upgrade-install:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ansible-upgrade-install.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ansible-upgrade-install.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-apt:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/apt.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/apt.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-bash-script:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/bash-script.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/bash-script.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-binfmt:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/binfmt.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/binfmt.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-docker-network:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker-network.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker-network.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-docker-update:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker-update.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker-update.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-docker:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-fail2ban:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/fail2ban.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/fail2ban.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-first-time-docker-container-setup:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/first-time-docker-container-setup.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/first-time-docker-container-setup.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-iftop:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/iftop.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/iftop.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-lvm-fix:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/lvm-fix.ym
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/lvm-fix.ym -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-oh-my-zsh:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/oh-my-zsh.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/oh-my-zsh.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-password-change:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/password-change.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/password-change.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-pihole-update:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/pihole-update.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/pihole-update.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-qemu-guest-agent:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/qemu-guest-agent.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/qemu-guest-agent.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-reboot-required:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/reboot-required.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/reboot-required.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-reboot:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/reboot.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/reboot.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-resize-lvm:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/resize-lvm.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/resize-lvm.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-ssh-get-key:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ssh-get-key.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ssh-get-key.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-timezone:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/timezone.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/timezone.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-user-dir:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/user-dir.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/user-dir.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 ansible-zsh:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/zsh.yml
+	ansible-playbook /home/user/Launchpad/Ansible/playbooks/zsh.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
 
 # --------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: '*'
   become: true
   tasks:
     - name: Install fail2ban

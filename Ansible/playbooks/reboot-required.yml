@@ -1,6 +1,6 @@
 ---
 - name: Check if restart is required
-  hosts: all
+  hosts: '*'
   tasks:
     - name: Check that the reboot-required exists
       stat:

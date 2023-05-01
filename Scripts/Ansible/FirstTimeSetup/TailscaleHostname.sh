@@ -11,7 +11,7 @@ fi
 hostname=$(hostname)
 
 # Change directory to the Tailscale folder
-cd "$directory_location"/Docker/Containers/Tailscale
+cd "$directory_location"/Launchpad/Docker/Containers/Tailscale
 
 # Replace the "hostname: VPS" line in docker-compose.yml with the actual hostname
 sed -i "s/hostname: VPS/hostname: $hostname/" docker-compose.yml

@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Install Ansible if not already installed
-if ! command -v ansible &> /dev/null; then
-    echo "Ansible is not installed. Installing Ansible..."
-    sudo apt-get update
-    sudo apt-get install -y ansible
-fi
-
 # Prompt user for the directory location of the Launchpad GitHub repository
 read -p "Enter the directory location of the Launchpad repository: " directory_location
 
@@ -19,7 +12,12 @@ fi
 # Save the directory location
 echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
 
-# Update the Makefile with the new directory location
-sed -i "s#/home/user#$directory_location#" Makefile
+playbook_dir="$directory_location/Launchpad/Ansible/playbooks"
 
-echo "Makefile updated with the new directory location."
+# Backup the original files
+find "$playbook_dir" -type f -name "*.yml" -exec cp {} {}.backup \;
+
+# Replace '- hosts: *' with '- hosts: localhost' in all the playbook files
+find "$playbook_dir" -type f -name "*.yml" -exec sed -i 's/- hosts: \*/- hosts: localhost/g' {} \;
+
+echo "The playbook hosts have been changed to localhost."

@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: '*'
   tasks:
     - name: Run lvm command
       shell: lvm
