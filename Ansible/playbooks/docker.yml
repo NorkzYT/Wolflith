@@ -1,5 +1,5 @@
 - name: Install Docker engine
-  hosts: '*'
+  hosts: all
   become: true
   vars_prompt:
     - name: 'user'

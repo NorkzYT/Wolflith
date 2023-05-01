@@ -1,5 +1,5 @@
 ---
-- hosts: '*'
+- hosts: all
   vars_prompt:
     - name: 'DockerNetworkName'
       prompt: 'Enter the name of the docker network.'

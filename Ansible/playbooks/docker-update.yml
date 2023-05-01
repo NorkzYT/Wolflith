@@ -1,5 +1,5 @@
 - name: Update Docker and Docker Compose
-  hosts: '*'
+  hosts: all
   become: true
   tasks:
     - name: Update package manager cache

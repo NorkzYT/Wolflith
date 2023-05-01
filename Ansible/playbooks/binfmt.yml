@@ -1,6 +1,6 @@
 ---
 - name: Run tonistiigi/binfmt container
-  hosts: '*'
+  hosts: all
   become: true
 
   vars:

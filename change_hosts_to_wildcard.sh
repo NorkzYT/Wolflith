@@ -12,6 +12,6 @@ fi
 playbook_dir="$directory_location/Launchpad/Ansible/playbooks"
 
 # Replace 'hosts: localhost' with 'hosts: *' in all the playbook files
-find "$playbook_dir" -type f -name "*.yml" -exec sed -i 's/hosts: localhost/hosts: \*/g' {} \;
+find "$playbook_dir" -type f -name "*.yml" -exec sed -i 's/hosts: localhost/hosts: \all/g' {} \;
 
 echo "The playbook hosts have been changed back to wildcard."

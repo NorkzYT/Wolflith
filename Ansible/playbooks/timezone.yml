@@ -1,6 +1,6 @@
 ---
 - name: Set timezone and configure timesyncd
-  hosts: '*'
+  hosts: all
   become: true
   vars_prompt:
     - name: 'timezone'

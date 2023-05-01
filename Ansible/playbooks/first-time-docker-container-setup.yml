@@ -1,5 +1,5 @@
 ---
-- hosts: '*'
+- hosts: all
   become: true
   vars:
     scripts_path: '{{ directory_location }}/Scripts/Ansible/FirstTimeSetup'

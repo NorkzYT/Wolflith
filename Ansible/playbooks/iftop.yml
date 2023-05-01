@@ -1,5 +1,5 @@
 - name: install latest iftop on all hosts
-  hosts: '*'
+  hosts: all
   tasks:
     - name: install iftop
       apt:

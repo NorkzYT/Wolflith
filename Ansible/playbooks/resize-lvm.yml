@@ -1,5 +1,5 @@
 ---
-- hosts: '*'
+- hosts: all
   become: true
   tasks:
     - name: Extend the logical volume to take all remaining space of the PVs and resize the underlying filesystem

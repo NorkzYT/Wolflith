@@ -1,6 +1,6 @@
 ---
 - name: install latest zsh on all hosts
-  hosts: '*'
+  hosts: all
   tasks:
     - name: install zsh
       apt:
