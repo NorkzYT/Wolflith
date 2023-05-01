@@ -9,9 +9,6 @@ if [ ! -d "$directory_location" ]; then
     exit 1
 fi
 
-# Save the directory location
-echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
-
 playbook_dir="$directory_location/Launchpad/Ansible/playbooks"
 
 # Restore the original playbook files
