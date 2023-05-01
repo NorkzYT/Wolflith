@@ -10,7 +10,7 @@ GIT_HASH ?= $(shell git log --format="%h" -n 1)
 
 help:
 	@echo "\Bash Scripts\n"
-	@echo "make setup  										# Will        "
+	@echo "make setup  										# Will install required dependencies and setup the repo with your directory location"
 	@echo "make setup-machines  							# Will setup machines with the default settings"
 	@echo "\n\Ansible\n"
 	@echo "make ansible-1password  							# Will install 1password"
