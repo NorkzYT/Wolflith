@@ -14,7 +14,7 @@ help:
 	@echo "# Will install required dependencies and setup the repo with your directory location"
 	@echo "make setup"
 	@echo "\n"
-	@echo "# Will change Ansible playbook hosts to localhost"
+	@echo "# Will change Ansible playbook hosts to localhost with connection as local"
 	@echo "make change_hosts_to_localhost"
 	@echo "\n"
 	@echo "# Will change Ansible playbook hosts to all"
