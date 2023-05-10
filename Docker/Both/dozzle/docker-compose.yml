@@ -2,7 +2,7 @@ version: '3'
 services:
   dozzle:
     container_name: dozzle
-    image: amir20/dozzle:v4.10.4
+    image: amir20/dozzle:v4.10.6
     hostname: dozzle
     environment:
       - DOZZLE_USERNAME=admin
