@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   wings:
-    image: ccarney16/pterodactyl-daemon:v1.11.5
+    image: ccarney16/pterodactyl-daemon:v1.11.6
     container_name: pterodactyl-wings
     hostname: pterodactyl-wings
     privileged: true
