@@ -56,7 +56,7 @@ function docker_memory_check() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
         # Run the DockerContainerMem.sh script
-        bash /home/user/github/Launchpad/Scripts/Menu/Auto/DockerContainerMem.sh
+        bash /home/user/Launchpad/Scripts/Menu/Auto/DockerContainerMem.sh
     else
         printf "\n--------------------------------------------------------------------------------\n"
         printf "\nThe command was not run.\n"
@@ -107,7 +107,7 @@ function docker_install() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
         # Run the DockerInstaller.sh script
-        bash /home/user/github/Launchpad/Scripts/Menu/Auto/DockerInstaller.sh
+        bash /home/user/Launchpad/Scripts/Menu/Auto/DockerInstaller.sh
     else
         printf "\n--------------------------------------------------------------------------------\n"
         printf "\nThe command was not run.\n"
@@ -160,7 +160,7 @@ function run_docker_command() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
         # Run the DockerManualCommand.sh script
-        bash /home/user/github/Launchpad/Scripts/Menu/Auto/DockerManualCommand.sh
+        bash /home/user/Launchpad/Scripts/Menu/Auto/DockerManualCommand.sh
     else
         printf "\n--------------------------------------------------------------------------------\n"
         printf "\nThe command was not run.\n"

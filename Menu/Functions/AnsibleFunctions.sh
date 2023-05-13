@@ -67,7 +67,7 @@ function new_machine_setup() {
     if [ "$run_command" == "yes" ]; then
 
         # Run the NewMachines.sh script
-        bash /home/Menu/Scripts/Ansible/FirstTimeSetup/NewMachines.sh
+        bash /home/user/Launchpad/Menu/Scripts/Ansible/FirstTimeSetup/NewMachines.sh
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
@@ -121,7 +121,7 @@ function first_docker_setup() {
     if [ "$run_command" == "yes" ]; then
 
         # Installs all docker containers for new machines
-        ansible-playbook /home/user/github/Launchpad/Ansible/playbooks/first-time-docker-container-setup.yml
+        ansible-playbook /home/user/Launchpad/Ansible/playbooks/first-time-docker-container-setup.yml
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
@@ -168,9 +168,9 @@ function first_docker_setup() {
 
 # Define the function
 function kubernetes_setup() {
-    printf "This command is running an Ansible playbook, which is a script written in the Ansible automation language that defines a set of tasks to be executed, to install the k3s software on a server. The playbook is located at /home/user/github/Launchpad/Ansible/k3s/site.yml, and the command specifies a host inventory file, /home/user/github/Launchpad/Ansible/k3s/inventory/sample/hosts.ini, which contains a list of servers that the playbook will be run on.\n"
+    printf "This command is running an Ansible playbook, which is a script written in the Ansible automation language that defines a set of tasks to be executed, to install the k3s software on a server. The playbook is located at /home/user/Launchpad/Ansible/k3s/site.yml, and the command specifies a host inventory file, /home/user/Launchpad/Ansible/k3s/inventory/sample/hosts.ini, which contains a list of servers that the playbook will be run on.\n"
     echo ""
-    printf "Make sure to have /home/user/github/Launchpad/Ansible/k3s/inventory/sample/hosts.ini configured before running this command.\n"
+    printf "Make sure to have /home/user/Launchpad/Ansible/k3s/inventory/sample/hosts.ini configured before running this command.\n"
     echo ""
     read -p "Do you still want to run this command? (yes/no) " run_command
     echo ""
@@ -179,7 +179,7 @@ function kubernetes_setup() {
     if [ "$run_command" == "yes" ]; then
 
         # Run Ansible playbook to install k3s
-        ansible-playbook /home/user/github/Launchpad/Ansible/k3s/site.yml -i /home/user/github/Launchpad/Ansible/k3s/inventory/sample/hosts.ini
+        ansible-playbook /home/user/Launchpad/Ansible/k3s/site.yml -i /home/user/Launchpad/Ansible/k3s/inventory/sample/hosts.ini
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
@@ -232,7 +232,7 @@ function kubernetes_cluster_access() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
 
-        bash /home/user/github/Launchpad/Scripts/Ansible/FirstTimeSetup/K3sExtract-ip-addresses-and-scp.sh
+        bash /home/user/Launchpad/Scripts/Ansible/FirstTimeSetup/K3sExtract-ip-addresses-and-scp.sh
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
@@ -280,7 +280,7 @@ function kubernetes_cluster_access() {
 function kubernetes_cluster_test() {
     printf "This is a bash script that extracts the VIP address from the apiserver_endpoint line in a all.yml file, pings the VIP address, and gets the nodes in a Kubernetes cluster. The script is intended for troubleshooting purposes, and the commands it runs are described in the comments above the commands in the file.\n"
     echo ""
-    printf "CONFIGURE "/home/user/github/Launchpad/Ansible/k3s/inventory/sample/group_vars/all.yml" before running this command!\n"
+    printf "CONFIGURE "/home/user/Launchpad/Ansible/k3s/inventory/sample/group_vars/all.yml" before running this command!\n"
     echo ""
     printf "Follow the video tutorial at https://youtu.be/CbkEWcUZ7zM?t=393 to configure the file.\n"
     echo ""
@@ -290,7 +290,7 @@ function kubernetes_cluster_test() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
 
-        bash /home/user/github/Launchpad/Scripts/Ansible/FirstTimeSetup/K3sTest.sh
+        bash /home/user/Launchpad/Scripts/Ansible/FirstTimeSetup/K3sTest.sh
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
