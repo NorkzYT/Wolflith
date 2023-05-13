@@ -72,3 +72,5 @@ echo "Makefile updated with the new directory location."
 
 # Replace /home/user with the user-provided directory location in all files in the Menu folder
 find $directory_location/Launchpad/Menu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
+
+echo "Menu files updated with the new directory location."
