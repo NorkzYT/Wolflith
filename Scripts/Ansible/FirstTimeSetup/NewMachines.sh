@@ -42,7 +42,7 @@ ansible-playbook $directory_location/Launchpad/Ansible/playbooks/ansible-upgrade
 # and "kubernetes.core") that are required for a certain task or project, and the "requirements.yml" file is used to specify these collections so that they can be installed and made available for use in the project.
 ansible-galaxy install -r $directory_location/Launchpad/Ansible/collections/requirements.yml -i $directory_location/Launchpad/Ansible/inventory/hosts
 
-# This ansible playbook installs Oh-My-Zsh, a framework for managing the Z shell (zsh) configuration, on all hosts specified in the hosts field for the user norkz.
+# This ansible playbook installs Oh-My-Zsh, a framework for managing the Z shell (zsh) configuration, on all hosts specified in the hosts field for the user.
 # It includes a pre-defined role called gantsign.oh-my-zsh that sets up Oh-My-Zsh as the default shell for the specified user and is assumed to have already been installed on the controller using the ansible-galaxy command.
 ansible-playbook $directory_location/Launchpad/Ansible/playbooks/oh-my-zsh.yml -i $directory_location/Launchpad/Ansible/inventory/hosts
 

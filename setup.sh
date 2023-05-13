@@ -54,7 +54,7 @@ else
 fi
 
 # Prompt user for the directory location of the Launchpad GitHub repository
-read -p "Enter the directory location of the Launchpad repository: " directory_location
+read -p "Enter the directory location of the Launchpad repository: (e.g. /home)" directory_location
 
 # Validate the directory location
 if [ ! -d "$directory_location" ]; then
@@ -69,3 +69,6 @@ echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_loca
 sed -i "s#/home/user#$directory_location#" Makefile
 
 echo "Makefile updated with the new directory location."
+
+# Replace /home/user with the user-provided directory location in all files in the Menu folder
+find $directory_location/Menu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
