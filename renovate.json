@@ -19,7 +19,8 @@
       "matchDatasources": [
         "docker"
       ],
-      "automerge": true
+      "automerge": true,
+      "autoApprove": true
     }
   ]
 }

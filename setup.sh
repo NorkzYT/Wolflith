@@ -5,6 +5,8 @@ if ! command -v ansible &> /dev/null; then
     echo "Ansible is not installed. Installing Ansible..."
     sudo apt-get update
     sudo apt-get install -y ansible
+else
+    echo "Ansible is already installed."
 fi
 
 # Ask if the user has a Hashicorp Vault docker container setup
@@ -31,6 +33,19 @@ if [[ $vault_setup = "Y" ]] || [[ $vault_setup = "y" ]]; then
 
     # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in auto-pull-env.sh
     sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" auto-pull-env.sh
+
+    # Replace NAME with the user-provided secret name in auto-pull-env.sh
+    sed -i "s/NAME/$secret_name/g" auto-pull-env.sh
+
+    # Replace HASHICORP-VAULT-HOSTNAME with the user-provided hostname in auto-push-env.sh
+    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" auto-push-env.sh
+
+    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in auto-push-env.sh
+    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" auto-push-env.sh
+
+    # Replace NAME with the user-provided secret name in auto-push-env.sh
+    sed -i "s/NAME/$secret_name/g" auto-push-env.sh
+
 
     echo "auto-pull-env.sh updated with the new Vault server address and hostname."
 
