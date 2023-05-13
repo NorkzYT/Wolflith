@@ -7,6 +7,37 @@ if ! command -v ansible &> /dev/null; then
     sudo apt-get install -y ansible
 fi
 
+# Ask if the user has a Hashicorp Vault docker container setup
+read -p "Do you have a Hashicorp Vault docker container setup? (y/n): " vault_setup
+if [[ $vault_setup = "Y" ]] || [[ $vault_setup = "y" ]]; then
+    # Ask for the Vault server address
+    while true; do
+        read -p "What is the address of the Vault server? (Starts with https://): " vault_address
+        if [[ $vault_address = https://* ]]; then
+            break
+        else
+            echo "The address must start with https://. Please try again."
+        fi
+    done
+
+    # Ask for the hostname of the docker container for the Vault
+    read -p "What is the hostname of the docker container for the Vault?: " vault_hostname
+
+    # Ask for the secret name in the secret engine
+    read -p "What is the secret name that is in the secret engine?: " secret_name
+
+    # Replace HASHICORP-VAULT-HOSTNAME with the user-provided hostname in auto-pull-env.sh
+    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" auto-pull-env.sh
+
+    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in auto-pull-env.sh
+    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" auto-pull-env.sh
+
+    echo "auto-pull-env.sh updated with the new Vault server address and hostname."
+
+else
+    echo "Skipping Vault setup."
+fi
+
 # Prompt user for the directory location of the Launchpad GitHub repository
 read -p "Enter the directory location of the Launchpad repository: " directory_location
 
