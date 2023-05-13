@@ -71,4 +71,4 @@ sed -i "s#/home/user#$directory_location#" Makefile
 echo "Makefile updated with the new directory location."
 
 # Replace /home/user with the user-provided directory location in all files in the Menu folder
-find $directory_location/Menu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
+find $directory_location/Launchpad/Menu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
