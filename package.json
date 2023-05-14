@@ -10,7 +10,7 @@
 		"check-style:prettier": "prettier --check ./Ansible ./Docker ./K8s ./Scripts",
 		"make-style:prettier": "prettier --write ./Ansible ./Docker ./K8s ./Scripts",
 		"watch-global-sass": "sass --watch styles/style.scss styles/style.css",
-		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md",
+		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore CONTRIBUTING.md",
 		"preinstall": "husky install"
 	},
 	"husky": {
