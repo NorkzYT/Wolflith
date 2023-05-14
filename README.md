@@ -10,6 +10,8 @@ Anything you want to add? Make a pull request.
 
 Details are provided in each folder 📁
 
+Check out the new implementation of [PCSMenu](/PCSMenu) - a remarkable Bash-based Application Deployment tool, redefining simplicity and efficiency in deploying your favorite self-hosted applications. With an interactive menu system, versatile command execution, and unmatched customization capabilities, PCSMenu transforms complex deployment tasks into a breeze. Dive into the future of hassle-free application deployment with PCSMenu today!
+
 Note: Adding a bunch of things, repository is still a work in progress!
 
 ## Documentation and guides here 👉 [The documentation site](https://docs.pcscorp.dev/)
@@ -23,6 +25,35 @@ After pulling the repo to your Linux machine of choice, run `make help`.
 This will show you the available commands.
 
 Afterwards run `make setup` to install the required dependencies.
+
+## Contributing
+I value all kinds of contributions from the community, be it bug fixes, improvements, or new features. If you're interested in contributing, here are some guidelines to follow:
+
+Fork the Repository: Start by forking this repository to your own GitHub account.
+
+Clone the Repository: After forking, clone the repository to your local machine to work on it.
+```bash
+git clone https://github.com/NorkzYT/Launchpad.git
+```
+
+Create a New Branch: Always create a new branch for your changes. This keeps the work isolated and makes it easy to later merge your changes back into the main repository.
+```bash
+git checkout -b [branch-name]
+```
+
+Make Your Changes: Implement your changes in the new branch. Be sure to commit in logical chunks and provide clear and descriptive commit messages.
+
+Push Your Changes: After making your changes, push them to your forked repository on GitHub.
+```bash
+git push origin [branch-name]
+```
+Create a Pull Request: Go to your forked repository on GitHub and click the "New Pull Request" button. Ensure you're comparing the branch on your fork to the master branch on the original repository.
+
+Describe Your Changes: In the pull request description, explain your changes, why you made them, and any testing you did. The more information the better!
+
+Wait for Review: Now your changes are ready for review! I will review your changes as soon as I can. If I have any questions or request changes, I will communicate through the pull request.
+
+Remember, contributions are not just about code - any resources, documentation, or tools that help the community are valuable. Thank you for your contribution!
 
 ## Credits
 
@@ -156,9 +187,9 @@ Created by Norkz with 💛
         - [**config-ingress-route**](K8s/traefik2-k3s-rancher/config-ingress-route)
             - [**kubernetes**](K8s/traefik2-k3s-rancher/config-ingress-route/kubernetes)
     - [**Uptime Kuma**](K8s/uptime-kuma)
-- [**Menu**](Menu)
-    - [**Auto**](Menu/Auto)
-    - [**Functions**](Menu/Functions)
+- [**PCSMenu**](PCSMenu)
+    - [**Auto**](PCSMenu/Auto)
+    - [**Functions**](PCSMenu/Functions)
 - [**Scripts**](Scripts)
     - [**Ansible**](Scripts/Ansible)
         - [**AlreadySetup**](Scripts/Ansible/AlreadySetup)
