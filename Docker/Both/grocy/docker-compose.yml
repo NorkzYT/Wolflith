@@ -1,0 +1,28 @@
+#
+# https://github.com/linuxserver/docker-grocy
+# https://github.com/grocy/grocy-docker/blob/main/docker-compose.yml
+#
+
+version: '3.9'
+services:
+  grocy:
+    image: lscr.io/linuxserver/grocy:latest
+    container_name: grocy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /mnt/appdata/grocy/data:/config
+    ports:
+      - 9283:80
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+    
+networks:
+  proxy:
+    driver: bridge
+    external: true

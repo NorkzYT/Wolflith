@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  floatplane-downloader:
+    image: inrix/floatplane-downloader
+    container_name: floatplane-downloader
+    hostname: floatplane-downloader
+    volumes:
+      - /mnt/appdata/floatplanedownloader/db:/fp/db
+      - /mnt/appdata/media:/fp/videos
+    tty: true           # To be able to reply to interactive prompts.
+    stdin_open: true    # For interactive flag.
+    restart: unless-stopped
+    environment:
+      - headless="true"
+      - PUID=1000
+      - PGID=1000
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+      
+networks:
+  proxy:
+    driver: bridge
+    external: true

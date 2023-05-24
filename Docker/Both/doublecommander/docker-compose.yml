@@ -1,0 +1,28 @@
+---
+version: "3.9"
+services:
+  doublecommander:
+    image: linuxserver/doublecommander
+    container_name: doublecommander
+    hostname: doublecommander
+    privileged: true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /:/media                                      
+      - /mnt/appdata/doublecommander/config:/config
+      - /mnt/appdata/doublecommander/data:/data
+    ports:
+      - 5900:3000
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    restart: unless-stopped
+    networks:
+      - proxy
+      
+networks:
+  proxy:
+    driver: bridge
+    external: true

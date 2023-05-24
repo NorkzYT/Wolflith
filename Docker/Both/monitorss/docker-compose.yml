@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+
+  mrss-bot:
+    container_name: mrss-bot
+    restart: unless-stopped
+    image: synzen/monitorss:latest
+    environment:
+      - DRSS_START=bot
+      - DRSS_BOT_TOKEN=${DRSS_BOT_TOKEN}
+      - DRSS_DATABASE_URI=${DRSS_DATABASE_URI}
+      - DRSS_FEEDS_TIMEZONE=America/New_York
+      - TZ=America/New_York
+      - HOST_HOSTNAME=${HOST_HOSTNAME}
+      - HOST_CONTAINERNAME=mrss-bot
+      - DRSS_FEEDS_REFRESHRATEMINUTES=2
+     # - DRSS_BOT_PREFIX=rss
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+
+  mrss-web:
+    container_name: mrss-web
+    hostname: mrss-web
+    image: synzen/monitorss
+    restart: unless-stopped
+    ports:
+      - "8519:8081"
+    environment:
+      - DRSS_START=web
+      - DRSSWEB_DATABASE_REDIS=${DRSSWEB_DATABASE_REDIS}
+      - DRSSWEB_DATABASE_URI=${DRSSWEB_DATABASE_URI}
+      - DRSSWEB_BOT_REDIRECTURI=${DRSSWEB_BOT_REDIRECTURI}
+      - DRSSWEB_BOT_CLIENTID=${DRSSWEB_BOT_CLIENTID}
+      - DRSSWEB_BOT_CLIENTSECRET=${DRSSWEB_BOT_CLIENTSECRET}
+      - DRSSWEB_BOT_TOKEN=${DRSSWEB_BOT_TOKEN}
+      - TZ=America/New_York
+      - HOST_CONTAINERNAME=mrss-web
+      - DRSS_BOT_TOKEN=drss_docker_token
+      - HOST_HOSTNAME=${HOST_HOSTNAME}
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
