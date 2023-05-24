@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  nginx-proxy-manager:
+    container_name: nginx-proxy-manager
+    hostname: nginx-proxy-manager
+    image: jc21/nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      # Public HTTP Port:
+      - 80:80
+      # Public HTTPS Port:
+      - 443:443
+      # Admin Web Port:
+      - 81:81
+    environment:
+      # Uncomment this if IPv6 is not enabled on your host
+      DISABLE_IPV6: 'true'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      # Make sure this config.json file exists as per instructions above:
+      - /mnt/appdata/nginx-proxy-manager/config.json:/app/config/production.json
+      - /mnt/appdata/nginx-proxy-manager/data:/data
+      - /mnt/appdata/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    healthcheck:
+      test: ["CMD", "/bin/check-health"]
+      interval: 10s
+      timeout: 3s
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+      
+networks:
+  proxy:
+    driver: bridge
+    external: true
