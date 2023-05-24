@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+
+  op-connect-api:
+    image: 1password/connect-api:1.6
+    hostname: op-connect-api
+    container_name: op-connect-api
+    restart: unless-stopped
+    ports:
+      - "6151:8080"
+    volumes:
+      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
+      - "data:/home/opuser/.op/data"
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
+  op-connect-sync:
+    image: 1password/connect-sync:1.6
+    hostname: op-connect-sync
+    container_name: op-connect-sync
+    ports:
+      - "6152:8080"
+    volumes:
+      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
+      - "data:/home/opuser/.op/data"
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
+volumes:
+  data:
