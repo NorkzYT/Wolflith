@@ -25,7 +25,7 @@ echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_loca
 # It also adds the ubuntu user to the docker group to allow the user to run Docker commands without using sudo.
 ansible-playbook "$directory_location/Launchpad/Ansible/playbooks/docker.yml" -i "$directory_location/Launchpad/Ansible/inventory/hosts"
 
-#The playbook creates a Docker network named proxymoxy on all hosts in the inventory using the docker_network module, -
+#The playbook creates a Docker network on all hosts in the inventory using the docker_network module, -
 # with sudo privileges and a present state to ensure the network is created if it does not exist.
 ansible-playbook "$directory_location/Launchpad/Ansible/playbooks/docker-network.yml" -i "$directory_location/Launchpad/Ansible/inventory/hosts"
 

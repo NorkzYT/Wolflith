@@ -1,0 +1,80 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+serversTransport:
+  insecureSkipVerify: true
+
+entryPoints:
+  # Not used in apps, but redirect everything from HTTP to HTTPS
+  http:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+
+  # HTTPS endpoint, with domain wildcard
+  https:
+    address: :443
+    http:
+      tls:
+        # Generate a wildcard domain certificate
+        certResolver: letsencrypt
+        domains:
+          - main: domain.com
+            sans:
+              - '*.domain.com'
+      middlewares:
+        - securityHeaders@file
+        - traefik-real-ip@file
+        - corsAll@file
+#        - my-fail2ban@file
+#        - my-souin@file
+
+
+providers:
+  providersThrottleDuration: 2s
+
+  # File provider for connecting things that are outside of docker / defining middleware
+  file:
+    filename: /etc/traefik/fileConfig.yml
+    watch: true
+
+  # Docker provider for connecting all apps that are inside of the docker network
+  docker:
+    watch: true
+    network: docker_network
+    # Default host rule to containername.domain.example
+    defaultRule: "Host(`{{ lower (trimPrefix `/` .Name )}}.domain.com`)"
+    swarmModeRefreshSeconds: 15s
+    exposedByDefault: false
+
+# Enable traefik ui
+api:
+  dashboard: true
+  insecure: true
+
+# Log level INFO|DEBUG|ERROR
+log:
+  level: INFO
+
+# Use letsencrypt to generate ssl serficiates
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: something@email.com
+      storage: /etc/traefik/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        # Used to make sure the dns challenge is propagated to the rights dns servers
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
+
+experimental:
+  plugins:
+    traefik-real-ip:
+        moduleName: "github.com/soulbalz/traefik-real-ip"
+        version: "v1.0.3"
