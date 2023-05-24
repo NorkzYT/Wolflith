@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+
+  db-backup:
+    image: tiredofit/db-backup:3.3.8
+    container_name: db-backup
+    hostname: db-backup
+
+    volumes:
+      - /mnt/backups/databases/db-backup:/backup
+      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
+    environment:                                                  # https://github.com/tiredofit/docker-db-backup#environment-variables
+      - MODE=AUTO
+      - BACKUP_LOCATION=FILESYSTEM
+      - SPLIT_DB=TRUE
+      - COMPRESSION=ZSTD
+      - ENABLE_CHECKSUM=TRUE
+      - CHECKSUM=SHA1
+      - TIMEZONE=America/New_York
+      - DB_DUMP_BEGIN=2100                                       # HHMM
+      - DB_CLEANUP_TIME=FALSE
+      - DB_TYPE=pgsql
+      - DB_HOST=postgresql-authentik
+      - DB_NAME=authentik
+      - DB_USER=postgres
+      - DB_PASS=${POSTGRES_PASSWORD}
+
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

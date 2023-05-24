@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+
+  squid:
+    image: robhaswell/squid-authenticated
+    container_name: squid-auth
+    hostname: squid-auth
+    environment:
+      - SQUID_USERNAME=${SQUID_USERNAME}
+      - SQUID_PASSWORD=${SQUID_PASSWORD}
+    ports:
+      - 3588:3128
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    restart: unless-stopped
+    networks:
+      - proxy
+      
+networks:
+  proxy:
+    driver: bridge
+    external: true

@@ -1,0 +1,26 @@
+#
+# https://github.com/Tyrrrz/DiscordChatExporter/blob/master/.docs/Getting-started.md#exportguild
+#
+
+version: '3.9'
+services:
+
+  discordchatexporter:
+    image: tyrrrz/discordchatexporter:stable
+    container_name: discordchatexporter
+    restart: unless-stopped
+    volumes:
+      - /mnt/appdata/discord/chat-exporter:/out
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_TOKEN_BOT: true
+    command: exportguild -g 948403351203250238 --dateformat "dd/MM/yyyy HH:mm"
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+    
+networks:
+  proxy:
+    driver: bridge
+    external: true
