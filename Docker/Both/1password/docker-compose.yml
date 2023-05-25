@@ -15,7 +15,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
 
   op-connect-sync:
-    image: 1password/connect-sync:1.6
+    image: 1password/connect-sync:1.7
     hostname: op-connect-sync
     container_name: op-connect-sync
     ports:
