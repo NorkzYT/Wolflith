@@ -74,3 +74,7 @@ echo "Makefile updated with the new directory location."
 find $directory_location/Launchpad/PCSMenu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
 
 echo "PCSMenu files updated with the new directory location."
+
+chmod +x $directory_location/Launchpad/Auto/update_env_vars.sh
+
+$directory_location/Launchpad/Auto/update_env_vars.sh
