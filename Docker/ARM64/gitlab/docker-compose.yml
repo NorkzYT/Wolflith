@@ -6,8 +6,7 @@ services:
     container_name: gitlab-ce
     privileged: true
     environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://vpsgitl.domain.com'
+      - GITLAB_OMNIBUS_CONFIG=${GITLAB_OMNIBUS_CONFIG}
     ports:
       - '1011:22'
       - '1012:80'
