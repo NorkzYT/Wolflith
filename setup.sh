@@ -62,6 +62,8 @@ if [ ! -d "$directory_location" ]; then
     exit 1
 fi
 
+echo "Updating PCSMenu files with the new directory location."
+
 # Save the directory location
 echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
 
@@ -75,6 +77,6 @@ find $directory_location/Launchpad/PCSMenu -type f -exec sed -i "s#/home/user#$d
 
 echo "PCSMenu files updated with the new directory location."
 
-chmod +x $directory_location/Launchpad/Auto/update_env_vars.sh
+echo ""
 
-$directory_location/Launchpad/Auto/update_env_vars.sh
+"$directory_location/Launchpad/Auto/update_env_vars.sh" "$directory_location"

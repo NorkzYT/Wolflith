@@ -1,8 +1,9 @@
 import os
+import sys
 from ruamel.yaml import YAML
 
-# Ask for Launchpad repository location
-repo_path = input("Enter Launchpad repository location: (e.g. /home/ubuntu/github)")
+# Get the Launchpad repository location from command-line argument
+repo_path = sys.argv[1]
 
 # Check if the location exists
 if not os.path.isdir(repo_path):
