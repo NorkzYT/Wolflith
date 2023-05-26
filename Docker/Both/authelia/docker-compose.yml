@@ -12,7 +12,7 @@ services:
     healthcheck:
       disable: true
     environment:
-      - TZ=America/NewYork
+      - TZ=${AUTHELIA_TZ}
     networks:
       - proxy
 

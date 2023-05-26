@@ -1,4 +1,3 @@
----
 version: '3.9'
 services:
   wireguard:
@@ -9,15 +8,15 @@ services:
       - NET_ADMIN
       - SYS_MODULE
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - SERVERURL=wireguard.domain.com #optional
-      - SERVERPORT=51820 #optional
-      - PEERS=1 #optional
-      - PEERDNS=auto #optional
-      - INTERNAL_SUBNET=10.13.13.0 #optional
-      - ALLOWEDIPS=0.0.0.0/0 #optional
+      - PUID=${WIREGUARD_PUID}
+      - PGID=${WIREGUARD_PGID}
+      - TZ=${WIREGUARD_TZ}
+      - SERVERURL=${WIREGUARD_SERVERURL}
+      - SERVERPORT=${WIREGUARD_SERVERPORT}
+      - PEERS=${WIREGUARD_PEERS}
+      - PEERDNS=${WIREGUARD_PEERDNS}
+      - INTERNAL_SUBNET=${WIREGUARD_INTERNAL_SUBNET}
+      - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS}
     volumes:
       - /mnt/appdata/wireguard/config:/config
       - /mnt/appdata/wireguard/lib/modules:/lib/modules

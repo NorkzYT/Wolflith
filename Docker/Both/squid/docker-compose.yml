@@ -6,7 +6,7 @@ services:
     container_name: squid
     hostname: squid
     environment:
-      - TZ=America/New_York
+      - TZ=${SQUID_TZ}
     volumes:
       - /mnt/appdata/squid/logs:/var/log/squid # Volume to store squid logs.
       - /mnt/appdata/squid/data:/var/spool/squid # Volume to store the squid cache.

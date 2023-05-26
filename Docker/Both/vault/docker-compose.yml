@@ -10,10 +10,9 @@ services:
       - /mnt/appdata/vault/config:/vault/config # Config
       - /mnt/appdata/vault/file:/vault/file # Data of file storage with Policies, Data, and Logs.
     environment:
-      - VAULT_ADDR=http://0.0.0.0:8200
-      - VAULT_API_ADDR=http://0.0.0.0:8200
-      - VAULT_ADDRESS=http://0.0.0.0:8200
-      # - VAULT_DEV_ROOT_TOKEN_ID=${vaultplaintextroottoken}
+      - VAULT_ADDR=${HASHICORP_VAULT_SERVER_VAULT_ADDR}
+      - VAULT_API_ADDR=${HASHICORP_VAULT_SERVER_VAULT_API_ADDR}
+      - VAULT_ADDRESS=${HASHICORP_VAULT_SERVER_VAULT_ADDRESS}
     command: vault server -config=/vault/config/config.hcl
     labels:
       - com.centurylinklabs.watchtower.enable=true

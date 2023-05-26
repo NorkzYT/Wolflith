@@ -1,4 +1,3 @@
----
 version: '2.1'
 services:
   webtop:
@@ -7,17 +6,17 @@ services:
     container_name: webtop
     #privileged: true #optional but not needed unless you are running kde or i3 or other tools.
     environment:
-      - PUID=1000 # based on id
-      - PGID=1000 # based on group
-      - TZ=America/Chicago # your timezone
-      - FILE__PASSWORD=${PASSWORD} #This is used if you use the .env file and want a permanent password change.
+      - PUID=${WEBTOP_PUID}
+      - PGID=${WEBTOP_PGID}
+      - TZ=${WEBTOP_TZ}
+      - FILE__PASSWORD=${WEBTOP_FILE__PASSWORD}
     volumes:
       - ./../../:/mnt/share #This will mount the relative path to the path in the container.
       - /mnt/appdata/webtop:/config #All Container Directory directory.
       - /var/run/docker.sock:/var/run/docker.sock #optional only if you need access to docker within this container.
     ports:
       - 3050:3000
-    shm_size: '8gb' #optional but set to 1GB or higher to prevent browser crashes
+    shm_size: 8gb   #optional but set to 1GB or higher to prevent browser crashes
 
     restart: unless-stopped
     networks:

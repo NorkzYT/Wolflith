@@ -1,4 +1,3 @@
----
 version: '2.1'
 services:
   organizr:
@@ -6,10 +5,9 @@ services:
     container_name: organizr
     hostname: organizr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/NewYork
-
+      - PUID=${ORGANIZR_PUID}
+      - PGID=${ORGANIZR_PGID}
+      - TZ=${ORGANIZR_TZ}
     volumes:
       - /mnt/appdata/organizrv2:/config
 

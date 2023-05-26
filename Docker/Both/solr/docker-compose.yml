@@ -6,7 +6,7 @@ services:
     container_name: solr
     hostname: solr
     ports:
-     - "8626:8983"
+      - 8626:8983
     volumes:
       - /mnt/appdata/solr:/var/solr
     command:
@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-    
+
 networks:
   proxy:
     driver: bridge

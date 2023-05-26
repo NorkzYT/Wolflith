@@ -8,8 +8,8 @@ services:
     volumes:
       - /mnt/appdata/searxng:/etc/searxng
     environment:
-      - "BASE_URL=http://searchx.domain.com"
-      - "INSTANCE_NAME=xxx"
+      - BASE_URL=${SEARXNG_BASE_URL}
+      - INSTANCE_NAME=${SEARXNG_INSTANCE_NAME}
     ports:
       - 9651:8080
     labels:
@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-    
+
 networks:
   proxy:
     driver: bridge

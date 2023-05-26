@@ -1,4 +1,3 @@
----
 version: '3.9'
 services:
   openvscode-server:
@@ -6,15 +5,15 @@ services:
     container_name: vscode-server
     hostname: vscode
     environment:
-      - PUID=0
-      - PGID=0
-      - UMASK=022
-      - TZ=America/NewYork
-      - CONNECTION_TOKEN= #optional
-      - CONNECTION_SECRET= #optional
-      - SUDO_PASSWORD=${SUDO_PASSWORD}
-      - SUDO_PASSWORD_HASH= #optional
-      - DEFAULT_WORKSPACE=/data-compose/docker_compose/github/Vscode-Workspaces/Example.code-workspace
+      - PUID=${OPENVSCODE_SERVER_PUID}
+      - PGID=${OPENVSCODE_SERVER_PGID}
+      - UMASK=${OPENVSCODE_SERVER_UMASK}
+      - TZ=${OPENVSCODE_SERVER_TZ}
+      - CONNECTION_TOKEN=${OPENVSCODE_SERVER_CONNECTION_TOKEN}
+      - CONNECTION_SECRET=${OPENVSCODE_SERVER_CONNECTION_SECRET}
+      - SUDO_PASSWORD=${OPENVSCODE_SERVER_SUDO_PASSWORD}
+      - SUDO_PASSWORD_HASH=${OPENVSCODE_SERVER_SUDO_PASSWORD_HASH}
+      - DEFAULT_WORKSPACE=${OPENVSCODE_SERVER_DEFAULT_WORKSPACE}
     volumes:
       - /mnt/appdata/vscode/config:/config
       - /mnt:/data-compose/appdata_of_containers

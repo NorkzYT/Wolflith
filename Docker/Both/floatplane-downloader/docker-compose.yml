@@ -11,14 +11,14 @@ services:
     stdin_open: true    # For interactive flag.
     restart: unless-stopped
     environment:
-      - headless="true"
-      - PUID=1000
-      - PGID=1000
+      - headless=${FLOATPLANE_DOWNLOADER_headless}
+      - PUID=${FLOATPLANE_DOWNLOADER_PUID}
+      - PGID=${FLOATPLANE_DOWNLOADER_PGID}
     labels:
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
-      
+
 networks:
   proxy:
     driver: bridge

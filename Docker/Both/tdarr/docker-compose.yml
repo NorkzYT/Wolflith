@@ -1,4 +1,3 @@
----
 version: '3.9'
 services:
   tdarr:
@@ -12,19 +11,19 @@ services:
       - 1025:8266 # server port
       - 1026:8267 # Internal node port
     environment:
-      - TZ=America/New_York
-      - PUID=1000
-      - PGID=1000
-      - UMASK_SET=002
-      - serverIP=0.0.0.0
-      - serverPort=8266
-      - webUIPort=8265
-      - internalNode=true
-      - nodeID=MyInternalNode
-      - nodeIP=0.0.0.0
-      - nodePort=8267
-      - NVIDIA_DRIVER_CAPABILITIES=all
-      - NVIDIA_VISIBLE_DEVICES=all
+      - TZ=${TDARR_TZ}
+      - PUID=${TDARR_PUID}
+      - PGID=${TDARR_PGID}
+      - UMASK_SET=${TDARR_UMASK_SET}
+      - serverIP=${TDARR_serverIP}
+      - serverPort=${TDARR_serverPort}
+      - webUIPort=${TDARR_webUIPort}
+      - internalNode=${TDARR_internalNode}
+      - nodeID=${TDARR_nodeID}
+      - nodeIP=${TDARR_nodeIP}
+      - nodePort=${TDARR_nodePort}
+      - NVIDIA_DRIVER_CAPABILITIES=${TDARR_NVIDIA_DRIVER_CAPABILITIES}
+      - NVIDIA_VISIBLE_DEVICES=${TDARR_NVIDIA_VISIBLE_DEVICES}
     volumes:
       - /path/to/server:/app/server
       - /path/to/configs:/app/configs

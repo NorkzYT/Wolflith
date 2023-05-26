@@ -5,13 +5,13 @@ services:
     container_name: appflowy_client
     hostname: appflowy_client
     environment:
-      - 'DISPLAY=${DISPLAY}'
+      - DISPLAY=${APPFLOWY_CLIENT_DISPLAY}
     volumes:
-      - '$HOME/.Xauthority:/root/.Xauthority:rw'
-      - '/tmp/.X11-unix:/tmp/.X11-unix'
-      - '/dev/dri:/dev/dri'
-      - '/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket'
-      - '/mnt/appdata/appflowy_client:/home/appflowy'
+      - $HOME/.Xauthority:/root/.Xauthority:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/dri:/dev/dri
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /mnt/appdata/appflowy_client:/home/appflowy
     labels:
       - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped

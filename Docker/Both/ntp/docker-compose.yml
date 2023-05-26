@@ -1,4 +1,3 @@
----
 version: '3.9'
 
 services:
@@ -7,10 +6,10 @@ services:
     container_name: ntp
     hostname: ntp
     environment:
-      - NTP_SERVERS=time.cloudflare.com # be sure this is external
+      - NTP_SERVERS=${NTP_SERVERS}
     restart: unless-stopped
     ports:
-      - '1016:123/udp'
+      - 1016:123/udp
     networks:
       - proxy
 

@@ -5,10 +5,10 @@ services:
     container_name: webnut
     hostname: nut
     environment:
-      - UPS_HOST=ip.address.of.nut.server
-      - UPS_PORT=3493
-      - UPS_USER=admin
-      - UPS_PASSWORD=secret
+      - UPS_HOST=${NUT_UPS_HOST}
+      - UPS_PORT=${NUT_UPS_PORT}
+      - UPS_USER=${NUT_UPS_USER}
+      - UPS_PASSWORD=${NUT_UPS_PASSWORD}
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true

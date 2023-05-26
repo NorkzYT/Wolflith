@@ -1,4 +1,3 @@
----
 version: '3'
 services:
   ouroboros:
@@ -6,13 +5,13 @@ services:
     hostname: ouroboros
     image: pyouroboros/ouroboros:1.4.3 # I Recommend using WATCHTOWER instead.
     environment:
-      - CLEANUP=true
-      - INTERVAL=300
-      - LOG_LEVEL=info
-      - SELF_UPDATE=true
-      - LATEST=true
-      - IGNORE=mongo influxdb postgres mariadb
-      - TZ=America/New_York
+      - CLEANUP=${OUROBOROS_CLEANUP}
+      - INTERVAL=${OUROBOROS_INTERVAL}
+      - LOG_LEVEL=${OUROBOROS_LOG_LEVEL}
+      - SELF_UPDATE=${OUROBOROS_SELF_UPDATE}
+      - LATEST=${OUROBOROS_LATEST}
+      - IGNORE=${OUROBOROS_IGNORE}
+      - TZ=${OUROBOROS_TZ}
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

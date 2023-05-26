@@ -6,19 +6,19 @@ services:
     hostname: krusader
     privileged: true
     ports:
-      - '5900:5900'
-      - '6070:6080'
+      - 5900:5900
+      - 6070:6080
     volumes:
       - /mnt/appdata/krusader:/config
       - /mnt/appdata/krusader/user:/media
       - /mnt/appdata/krusader/etc/localtime:/etc/localtime:ro
       - /:/mnt/appdata:ro
     environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK=002
-      - TEMP_FOLDER=/mnt/appdata/krusader/config/temp
-      - WEBPAGE_TITLE=Krusades
+      - PUID=${KRUSADER_PUID}
+      - PGID=${KRUSADER_PGID}
+      - UMASK=${KRUSADER_UMASK}
+      - TEMP_FOLDER=${KRUSADER_TEMP_FOLDER}
+      - WEBPAGE_TITLE=${KRUSADER_WEBPAGE_TITLE}
     restart: unless-stopped
     networks:
       - proxy

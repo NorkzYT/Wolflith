@@ -1,15 +1,15 @@
-version: "3.9"
+version: '3.9'
 services:
-  memcached:  
+  memcached:
     image: bitnami/memcached:1.6.20
     container_name: memcached
     hostname: memcached
     environment:
-      - MEMCACHED_CACHE_SIZE=256
+      - MEMCACHED_CACHE_SIZE=${MEMCACHED_CACHE_SIZE}
       - MEMCACHED_USERNAME=${MEMCACHED_USERNAME}
       - MEMCACHED_PASSWORD=${MEMCACHED_PASSWORD}
-    ports:  
-      - "11211:11211"
+    ports:
+      - 11211:11211
     restart: unless-stopped
     networks:
       - proxy

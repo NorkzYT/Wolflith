@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     shm_size: 2048m
     environment:
-      - VNC_PW=${VNC_PW_UBUNTU}
+      - VNC_PW=${CORE_UBUNTU_BIONIC_VNC_PW}
     volumes:
       - /mnt/appdata/ubuntu-vnc/dev/shm:/dev/shm
     ports:

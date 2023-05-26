@@ -1,4 +1,3 @@
----
 version: '3.8'
 services:
   dashy:
@@ -14,18 +13,14 @@ services:
 
     # Set any environmental variables
     environment:
-      - NODE_ENV=production
-
-      # Specify your user ID and group ID. You can find this by running `id -u` and `id -g`
-      - UID=1000
-      - GID=1000
-
-    # Specify restart policy
+      - NODE_ENV=${DASHY_NODE_ENV}
+      - UID=${DASHY_UID}
+      - GID=${DASHY_GID}
     restart: unless-stopped
 
     # Configure healthchecks
     healthcheck:
-      test: ['CMD', 'node', '/app/services/healthcheck']
+      test: [CMD, node, /app/services/healthcheck]
       interval: 1m30s
       timeout: 10s
       retries: 3

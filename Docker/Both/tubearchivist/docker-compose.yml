@@ -11,15 +11,15 @@ services:
       - /mnt/appdata/tubearchivist/media:/youtube
       - /mnt/appdata/tubearchivist/cache:/cache
     environment:
-      - ES_URL=http://archivist-es:9200     # needs protocol e.g. http and port
-      - REDIS_HOST=archivist-redis          # don't add protocol
-      - HOST_UID=1000
-      - HOST_GID=1000
-      - TA_HOST=IPv4 tubearchivist.domain.com                # set your host name
-      - TA_USERNAME=${TA_USERNAME}                                      # your initial TA credentials
-      - TA_PASSWORD=${TA_PASSWORD}                                      # your initial TA credentials
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}                            # set password for Elasticsearch
-      - TZ=America/New_York                                             # set your time zone
+      - ES_URL=${TUBEARCHIVIST_ES_URL}
+      - REDIS_HOST=${TUBEARCHIVIST_REDIS_HOST}
+      - HOST_UID=${TUBEARCHIVIST_HOST_UID}
+      - HOST_GID=${TUBEARCHIVIST_HOST_GID}
+      - TA_HOST=${TUBEARCHIVIST_TA_HOST}
+      - TA_USERNAME=${TUBEARCHIVIST_TA_USERNAME}
+      - TA_PASSWORD=${TUBEARCHIVIST_TA_PASSWORD}
+      - ELASTIC_PASSWORD=${TUBEARCHIVIST_ELASTIC_PASSWORD}
+      - TZ=${TUBEARCHIVIST_TZ}
     depends_on:
       - archivist-es
       - archivist-redis
@@ -36,34 +36,34 @@ services:
     ports:
       - 8952:6379
     volumes:
-      -  /mnt/appdata/tubearchivist-redis:/data
+      - /mnt/appdata/tubearchivist-redis:/data
     depends_on:
       - archivist-es
     labels:
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
-      
+
   archivist-es:
     image: bbilly1/tubearchivist-es                         # only for amd64, or use official es 8.7.0
     container_name: archivist-es
     restart: unless-stopped
     environment:
-      - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"              # matching Elasticsearch password
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "xpack.security.enabled=true"
-      - "discovery.type=single-node"
-      - "bootstrap.memory_lock=true"
-      - "path.repo=/usr/share/elasticsearch/data/snapshot"
+      - ELASTIC_PASSWORD=${ARCHIVIST_ES_ELASTIC_PASSWORD}
+      - ES_JAVA_OPTS=${ARCHIVIST_ES_ES_JAVA_OPTS}
+      - xpack.security.enabled=${ARCHIVIST_ES_xpack.security.enabled}
+      - discovery.type=${ARCHIVIST_ES_discovery.type}
+      - bootstrap.memory_lock=${ARCHIVIST_ES_bootstrap.memory_lock}
+      - path.repo=${ARCHIVIST_ES_path.repo}
     volumes:
       - /mnt/appdata/tubearchivist-es:/usr/share/elasticsearch/data    # check for permission error when using bind mount, see readme
     expose:
-      - "9200"
+      - '9200'
     labels:
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
-    
+
 networks:
   proxy:
     driver: bridge

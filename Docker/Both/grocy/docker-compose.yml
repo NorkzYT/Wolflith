@@ -9,9 +9,9 @@ services:
     image: lscr.io/linuxserver/grocy:latest
     container_name: grocy
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${GROCY_PUID}
+      - PGID=${GROCY_PGID}
+      - TZ=${GROCY_TZ}
     volumes:
       - /mnt/appdata/grocy/data:/config
     ports:
@@ -21,7 +21,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
-    
+
 networks:
   proxy:
     driver: bridge

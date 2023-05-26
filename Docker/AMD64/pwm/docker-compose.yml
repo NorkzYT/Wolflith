@@ -3,12 +3,10 @@ services:
   pwm:
     image: fjudith/pwm:1.9.1
     container_name: pwm
-    environment:
-      - NoFileLock
     volumes:
       - /mnt/appdata/pwm:/usr/share/pwm
     ports:
-      - '9468:8080'
+      - 9468:8080
     restart: unless-stopped
     networks:
       - proxy

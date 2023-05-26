@@ -5,9 +5,9 @@ services:
     image: pglombardo/pwpush-postgres:1.28.9
     hostname: pwdpush
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=${PWDPUSH_DATABASE_URL}
     ports:
-      - '5100:5100'
+      - 5100:5100
     restart: unless-stopped
     networks:
       - proxy

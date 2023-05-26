@@ -8,17 +8,17 @@ services:
     volumes:
       - /mnt/appdata/speedtest:/config
     environment:
-      - TZ=America/New_York
-      - PGID=1001
-      - PUID=1001
-      - OOKLA_EULA_GDPR=true
+      - TZ=${SPEEDTEST_TZ}
+      - PGID=${SPEEDTEST_PGID}
+      - PUID=${SPEEDTEST_PUID}
+      - OOKLA_EULA_GDPR=${SPEEDTEST_OOKLA_EULA_GDPR}
     ports:
       - 8765:80
     logging:
-      driver: 'json-file'
+      driver: json-file
       options:
         max-file: '10'
-        max-size: '200k'
+        max-size: 200k
     restart: unless-stopped
     networks:
       - proxy

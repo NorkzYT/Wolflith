@@ -1,5 +1,4 @@
----
-version: "3.9"
+version: '3.9'
 services:
   doublecommander:
     image: linuxserver/doublecommander
@@ -7,11 +6,11 @@ services:
     hostname: doublecommander
     privileged: true
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${DOUBLECOMMANDER_PUID}
+      - PGID=${DOUBLECOMMANDER_PGID}
+      - TZ=${DOUBLECOMMANDER_TZ}
     volumes:
-      - /:/media                                      
+      - /:/media
       - /mnt/appdata/doublecommander/config:/config
       - /mnt/appdata/doublecommander/data:/data
     ports:
@@ -21,7 +20,7 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-      
+
 networks:
   proxy:
     driver: bridge

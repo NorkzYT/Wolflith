@@ -1,4 +1,3 @@
----
 version: '3.8'
 services:
   vaultwarden:
@@ -10,7 +9,7 @@ services:
       - 3012:3012
     environment:
       # Enable WebSocket notifications.
-      - WEBSOCKET_ENABLED=true
+      - WEBSOCKET_ENABLED=${VAULTWARDEN_WEBSOCKET_ENABLED}
     volumes:
       - /mnt/appdata/vaultwarden:/data
 

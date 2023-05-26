@@ -5,18 +5,18 @@ services:
     image: jlesage/dupeguru:v23.04.1
     hostname: dupeguru
     environment:
-      - TZ=America/NewYork
-      - DISPLAY_WIDTH= 1920
-      - DISPLAY_HEIGHT=1080
-      - SECURE_CONNECTION=1
-      - ENABLE_CJK_FONT=1
-      - UMASK=000 # Mask that controls how file permissions are set for newly created files. The value of the mask is in octal notation.
+      - TZ=${DUPEGURU_TZ}
+      - DISPLAY_WIDTH=${DUPEGURU_DISPLAY_WIDTH}
+      - DISPLAY_HEIGHT=${DUPEGURU_DISPLAY_HEIGHT}
+      - SECURE_CONNECTION=${DUPEGURU_SECURE_CONNECTION}
+      - ENABLE_CJK_FONT=${DUPEGURU_ENABLE_CJK_FONT}
+      - UMASK=${DUPEGURU_UMASK}
     ports:
-      - '57801:5800'
-      - '7901:5900'
+      - 57801:5800
+      - 7901:5900
     volumes:
-      - '/mnt/appdata/dupeguru:/config:rw'
-      - '/mnt/appdata/dupeguru/storage:/storage:rw'
+      - /mnt/appdata/dupeguru:/config:rw
+      - /mnt/appdata/dupeguru/storage:/storage:rw
     restart: unless-stopped
     networks:
       - proxy

@@ -1,5 +1,6 @@
-version: '3'
+version: '3.9'
 services:
+
   traefik:
     container_name: traefik
     hostname: traefik
@@ -11,8 +12,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/appdata/traefik/:/etc/traefik/
-    networks:
-      - proxy # rename this to your custom docker network
     #    labels:
     #      traefik.http.routers.api.rule: Host(`traefik.domain.com`)    # Define the subdomain for the traefik dashboard.
     #      traefik.http.routers.api.entryPoints: https    # Set the Traefik entry point.
@@ -20,10 +19,12 @@ services:
     #      traefik.http.routers.api.middlewares: auth@file    # If your are using Authelia, then this label will secure the traefik dashboard.
     #      traefik.enable: true   # Enable Traefik reverse proxy for the Traefik dashboard.
     environment:
-      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+      - CF_DNS_API_TOKEN=${TRAEFIK_CF_DNS_API_TOKEN}
     restart: unless-stopped
     depends_on:
       - dockersocket
+    networks:
+      - proxy # rename this to your custom docker network
 
   dockersocket:
     container_name: dockersocket
@@ -33,8 +34,8 @@ services:
     networks:
       - proxy
     environment:
-      CONTAINERS: 1
-      POST: 0
+      - CONTAINERS=${DOCKERSOCKET_CONTAINERS}
+      - POST=${DOCKERSOCKET_POST}
     privileged: true
     restart: unless-stopped
 

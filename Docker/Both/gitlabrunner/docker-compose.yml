@@ -1,4 +1,3 @@
----
 version: '3.9'
 services:
   gitlab-runner:
@@ -6,7 +5,7 @@ services:
     container_name: gitlab-runner
     hostname: gitlab-runner
     environment:
-      - TZ=America/New_York
+      - TZ=${GITLAB_RUNNER_TZ}
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock

@@ -6,17 +6,16 @@ services:
     container_name: gitlab-ce
     privileged: true
     environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://vpsgitl.domain.com'
+      - GITLAB_OMNIBUS_CONFIG=${GITLAB_OMNIBUS_CONFIG}
     ports:
-      - '1011:22'
-      - '1012:80'
-      - '1013:443'
+      - 1011:22
+      - 1012:80
+      - 1013:443
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
-    shm_size: '256m'
+      - $GITLAB_HOME/config:/etc/gitlab
+      - $GITLAB_HOME/logs:/var/log/gitlab
+      - $GITLAB_HOME/data:/var/opt/gitlab
+    shm_size: 256m
     labels:
       - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped

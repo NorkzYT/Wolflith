@@ -6,7 +6,7 @@ services:
     hostname: influxdb
     image: influxdb:2.7.1
     ports:
-      - '8086:8086'
+      - 8086:8086
     volumes:
       - /mnt/appdata/influxdb-data:/var/lib/influxdb2
       - /mnt/appdata/etc/influxdb2:/etc/influxdb2

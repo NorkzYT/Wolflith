@@ -11,9 +11,9 @@ services:
       - ALL
     restart: unless-stopped
     environment:
-      - DISPLAY=${DISPLAY:-:0.0}
-      - MASTER_PLIST_URL='https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom.plist'
-      - GENERATE_UNIQUE=true
+      - DISPLAY=${DOCKER_OSX_DISPLAY}
+      - MASTER_PLIST_URL=${DOCKER_OSX_MASTER_PLIST_URL}
+      - GENERATE_UNIQUE=${DOCKER_OSX_GENERATE_UNIQUE}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev:/dev

@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 services:
   nginx-proxy-manager:
     container_name: nginx-proxy-manager
@@ -14,25 +14,25 @@ services:
       - 81:81
     environment:
       # Uncomment this if IPv6 is not enabled on your host
-      DISABLE_IPV6: 'true'
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      - DISABLE_IPV6=${NGINX_PROXY_MANAGER_DISABLE_IPV6}
+      - MYSQL_ROOT_PASSWORD=${NGINX_PROXY_MANAGER_MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${NGINX_PROXY_MANAGER_MYSQL_DATABASE}
+      - MYSQL_USER=${NGINX_PROXY_MANAGER_MYSQL_USER}
+      - MYSQL_PASSWORD=${NGINX_PROXY_MANAGER_MYSQL_PASSWORD}
     volumes:
       # Make sure this config.json file exists as per instructions above:
       - /mnt/appdata/nginx-proxy-manager/config.json:/app/config/production.json
       - /mnt/appdata/nginx-proxy-manager/data:/data
       - /mnt/appdata/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
     healthcheck:
-      test: ["CMD", "/bin/check-health"]
+      test: [CMD, /bin/check-health]
       interval: 10s
       timeout: 3s
     labels:
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
-      
+
 networks:
   proxy:
     driver: bridge

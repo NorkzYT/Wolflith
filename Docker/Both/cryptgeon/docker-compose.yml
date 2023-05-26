@@ -5,7 +5,7 @@ services:
     image: cupcakearmy/cryptgeon:2
     container_name: cryptgeon
     environment:
-      SIZE_LIMIT: 2000M
+      - SIZE_LIMIT=${CRYPTGEON_SIZE_LIMIT}
     ports:
       - 5800:5000
     networks:

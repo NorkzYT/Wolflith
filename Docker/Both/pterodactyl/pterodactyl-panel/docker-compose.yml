@@ -1,61 +1,47 @@
-version: '3.8'
+version: '3.9'
 services:
+
   pterodactyl-panel:
     image: ccarney16/pterodactyl-panel:v1.11.3
     container_name: pterodactyl-panel
     hostname: pterodactyl-panel
     ports:
-      - '8025:80'
+      - 8025:80
 
     # chmod -R 600 /mnt/appdata/pterodactyl/panel/game.data/config.yml -- IF Panel changes configuration and breaks the node.
     volumes:
-      - '/mnt/appdata/pterodactyl-panel/appdata/:/data' #Appdata
-      - '/mnt/appdata/pterodactyl-wings:/etc/pterodactyl' #Where config.yml goes into. #Appdata
-      - '/mnt/appdata/pterodactyl-wings/data:/mnt/appdata/pterodactyl-wings/data' #Shared data between Panel and Wings.
-      - '/mnt/appdata/pterodactyl-panel/nginx/:/etc/nginx/conf.d/' #Nginx Config
+      - /mnt/appdata/pterodactyl-panel/appdata/:/data   #Appdata
+      - /mnt/appdata/pterodactyl-wings:/etc/pterodactyl   #Where config.yml goes into. #Appdata
+      - /mnt/appdata/pterodactyl-wings/data:/mnt/appdata/pterodactyl-wings/data   #Shared data between Panel and Wings.
+      - /mnt/appdata/pterodactyl-panel/nginx/:/etc/nginx/conf.d/   #Nginx Config
 
     environment:
-      APP_ENV: 'production'
-      APP_ENVIRONMENT_ONLY: 'false'
-      APP_SERVICE_AUTHOR: ${APP_SERVICE_AUTHOR}
-      APP_URL: ${APP_URL}
-      APP_TIMEZONE: 'America/New_York' # A list of valid timezones can be found here: http://php.net/manual/en/timezones.php
-      CACHE_DRIVER: 'redis'
-      SESSION_DRIVER: 'redis'
-      QUEUE_DRIVER: 'redis'
-      REDIS_HOST: IPv4
-      REDIS_PORT: 6379
-      REDIS_USER: ${REDIS_USER}
-      REDIS_PASSWORD: ${REDIS_PASSWORD} # Only if you specified a password in Redis.
-      MAIL_FROM: ${MAIL_FROM}
-      MAIL_DRIVER: 'smtp'
-      MAIL_HOST: 'smtp.gmail.com'
-      MAIL_PORT: '587'
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
-      MAIL_ENCRYPTION: “true”
-      APP_DEBUG: “false”
-      TRUSTED_PROXIES: '*'
-
-      DB_HOST: IPv4
-      DB_PORT: 3306
-      DB_USER: 'pterodactyl'
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_DATABASE: 'pterodactyl'
-
-    #labels:   # Only for Traefik, unless you use the fileConfig.yml file.
-    #  # HTTP
-    #  - "traefik.http.routers.pterodactyl_panel.entrypoints=web"
-    #  - "traefik.http.routers.pterodactyl_panel.rule=Host(`${PANEL_SUB_DOMAIN}`)"
-    #  - "traefik.http.routers.pterodactyl_panel.middlewares=panel_https"
-    #  - "traefik.http.middlewares.panel_https.redirectscheme.scheme=https"
-    #  # HTTPS
-    #  - "traefik.http.routers.pterodactyl_panel-https.entrypoints=websecure"
-    #  - "traefik.http.routers.pterodactyl_panel-https.rule=Host(`${PANEL_SUB_DOMAIN}`)"
-    #  - "traefik.http.routers.pterodactyl_panel-https.tls=true"
-    #  - "traefik.http.routers.pterodactyl_panel-https.tls.certresolver=letsencrypt"
-    #  - "traefik.http.services.pterodactyl_panel-https.loadbalancer.server.port=80"
-
+      - APP_ENV=${PTERODACTYL_PANEL_APP_ENV}
+      - APP_ENVIRONMENT_ONLY=${PTERODACTYL_PANEL_APP_ENVIRONMENT_ONLY}
+      - APP_SERVICE_AUTHOR=${PTERODACTYL_PANEL_APP_SERVICE_AUTHOR}
+      - APP_URL=${PTERODACTYL_PANEL_APP_URL}
+      - APP_TIMEZONE=${PTERODACTYL_PANEL_APP_TIMEZONE}
+      - CACHE_DRIVER=${PTERODACTYL_PANEL_CACHE_DRIVER}
+      - SESSION_DRIVER=${PTERODACTYL_PANEL_SESSION_DRIVER}
+      - QUEUE_DRIVER=${PTERODACTYL_PANEL_QUEUE_DRIVER}
+      - REDIS_HOST=${PTERODACTYL_PANEL_REDIS_HOST}
+      - REDIS_PORT=${PTERODACTYL_PANEL_REDIS_PORT}
+      - REDIS_USER=${PTERODACTYL_PANEL_REDIS_USER}
+      - REDIS_PASSWORD=${PTERODACTYL_PANEL_REDIS_PASSWORD}
+      - MAIL_FROM=${PTERODACTYL_PANEL_MAIL_FROM}
+      - MAIL_DRIVER=${PTERODACTYL_PANEL_MAIL_DRIVER}
+      - MAIL_HOST=${PTERODACTYL_PANEL_MAIL_HOST}
+      - MAIL_PORT=${PTERODACTYL_PANEL_MAIL_PORT}
+      - MAIL_USERNAME=${PTERODACTYL_PANEL_MAIL_USERNAME}
+      - MAIL_PASSWORD=${PTERODACTYL_PANEL_MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=${PTERODACTYL_PANEL_MAIL_ENCRYPTION}
+      - APP_DEBUG=${PTERODACTYL_PANEL_APP_DEBUG}
+      - TRUSTED_PROXIES=${PTERODACTYL_PANEL_TRUSTED_PROXIES}
+      - DB_HOST=${PTERODACTYL_PANEL_DB_HOST}
+      - DB_PORT=${PTERODACTYL_PANEL_DB_PORT}
+      - DB_USER=${PTERODACTYL_PANEL_DB_USER}
+      - DB_PASSWORD=${PTERODACTYL_PANEL_DB_PASSWORD}
+      - DB_DATABASE=${PTERODACTYL_PANEL_DB_DATABASE}
     restart: unless-stopped
 
     networks:

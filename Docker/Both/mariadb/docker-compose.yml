@@ -1,4 +1,3 @@
----
 version: '2.1'
 services:
   mariadb:
@@ -6,14 +5,13 @@ services:
     container_name: mariadb
     hostname: mariadb
     environment:
-      - PUID=1000
-      - PGID=1000
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - TZ=America/NewYork
-      - MYSQL_DATABASE=mysql #optional
-      - MYSQL_USER=mysql #optional
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD} #optional
-      # - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
+      - PUID=${MARIADB_PUID}
+      - PGID=${MARIADB_PGID}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_MYSQL_ROOT_PASSWORD}
+      - TZ=${MARIADB_TZ}
+      - MYSQL_DATABASE=${MARIADB_MYSQL_DATABASE}
+      - MYSQL_USER=${MARIADB_MYSQL_USER}
+      - MYSQL_PASSWORD=${MARIADB_MYSQL_PASSWORD}
     volumes:
       - /mnt/appdata/mariadb:/config
     ports:

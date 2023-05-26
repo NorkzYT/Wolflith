@@ -5,24 +5,24 @@ services:
     image: etechonomy/joplin-server:2.11.1
     hostname: joplin
     environment:
-      - APP_PORT=22300
-      - APP_BASE_URL=https://joplin.domain.com
-      - DB_CLIENT=pg
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PORT=5432
-      - POSTGRES_HOST=joplin-postgres
-      - MAILER_ENABLED=1
-      - MAILER_HOST=smtp.gmail.com
-      - MAILER_PORT=465
-      - MAILER_SECURE=1
-      - MAILER_AUTH_USER=something@email.com
-      - MAILER_AUTH_PASSWORD=xxx
-      - MAILER_NOREPLY_NAME=JoplinServer
-      - MAILER_NOREPLY_EMAIL=noreply@domain.com
+      - APP_PORT=${JOPLIN_APP_PORT}
+      - APP_BASE_URL=${JOPLIN_APP_BASE_URL}
+      - DB_CLIENT=${JOPLIN_DB_CLIENT}
+      - POSTGRES_PASSWORD=${JOPLIN_POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${JOPLIN_POSTGRES_DATABASE}
+      - POSTGRES_USER=${JOPLIN_POSTGRES_USER}
+      - POSTGRES_PORT=${JOPLIN_POSTGRES_PORT}
+      - POSTGRES_HOST=${JOPLIN_POSTGRES_HOST}
+      - MAILER_ENABLED=${JOPLIN_MAILER_ENABLED}
+      - MAILER_HOST=${JOPLIN_MAILER_HOST}
+      - MAILER_PORT=${JOPLIN_MAILER_PORT}
+      - MAILER_SECURE=${JOPLIN_MAILER_SECURE}
+      - MAILER_AUTH_USER=${JOPLIN_MAILER_AUTH_USER}
+      - MAILER_AUTH_PASSWORD=${JOPLIN_MAILER_AUTH_PASSWORD}
+      - MAILER_NOREPLY_NAME=${JOPLIN_MAILER_NOREPLY_NAME}
+      - MAILER_NOREPLY_EMAIL=${JOPLIN_MAILER_NOREPLY_EMAIL}
     ports:
-      - "22300:22300"
+      - 22300:22300
     restart: unless-stopped
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -30,23 +30,23 @@ services:
       - proxy
 
   joplin-postgres:
-      image: postgres:15.3
-      container_name: joplin-postgres
-      hostname: joplin-postgres
-      volumes:
-          - /mnt/appdata/joplin-postgres:/var/lib/postgresql/data
-      ports:
-          - "5255:5432"
-      restart: unless-stopped
-      environment:
-          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          - POSTGRES_USER=${POSTGRES_USER}
-          - POSTGRES_DB=${POSTGRES_DATABASE}
-      labels:
-        - com.centurylinklabs.watchtower.enable=true
-      networks:
-        - proxy
-      
+    image: postgres:15.3
+    container_name: joplin-postgres
+    hostname: joplin-postgres
+    volumes:
+      - /mnt/appdata/joplin-postgres:/var/lib/postgresql/data
+    ports:
+      - 5255:5432
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${JOPLIN_POSTGRES_POSTGRES_PASSWORD}
+      - POSTGRES_USER=${JOPLIN_POSTGRES_POSTGRES_USER}
+      - POSTGRES_DB=${JOPLIN_POSTGRES_POSTGRES_DB}
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
+
 networks:
   proxy:
     driver: bridge

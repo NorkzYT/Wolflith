@@ -1,4 +1,3 @@
----
 version: '3.9'
 services:
   syncthing:
@@ -6,9 +5,9 @@ services:
     container_name: syncthing
     hostname: syncthing
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${SYNCTHING_PUID}
+      - PGID=${SYNCTHING_PGID}
+      - TZ=${SYNCTHING_TZ}
     volumes:
       - /mnt/appdata/syncthing/config:/config
       - /mnt/appdata/:/machine-appdata

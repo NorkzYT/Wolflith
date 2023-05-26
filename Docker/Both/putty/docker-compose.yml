@@ -5,17 +5,17 @@ services:
     image: jlesage/putty:v1.4.0
     hostname: putty
     environment:
-      - TZ=America/NewYork
-      - DISPLAY_WIDTH= 1920
-      - DISPLAY_HEIGHT=1080
-      - SECURE_CONNECTION=1
-      - ENABLE_CJK_FONT=1
-      - PUID=1000
-      - PGID=1000
-      - UMASK=000 # Mask that controls how file permissions are set for newly created files. The value of the mask is in octal notation.
+      - TZ=${PUTTY_TZ}
+      - DISPLAY_WIDTH=${PUTTY_DISPLAY_WIDTH}
+      - DISPLAY_HEIGHT=${PUTTY_DISPLAY_HEIGHT}
+      - SECURE_CONNECTION=${PUTTY_SECURE_CONNECTION}
+      - ENABLE_CJK_FONT=${PUTTY_ENABLE_CJK_FONT}
+      - PUID=${PUTTY_PUID}
+      - PGID=${PUTTY_PGID}
+      - UMASK=${PUTTY_UMASK}
     ports:
-      - "7818:5800"
-      - "7916:5900"
+      - 7818:5800
+      - 7916:5900
     volumes:
       - /mnt/appdata/putty:/config:rw
     labels:
@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-      
+
 networks:
   proxy:
     driver: bridge

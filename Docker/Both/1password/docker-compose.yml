@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 services:
 
   op-connect-api:
@@ -7,10 +7,10 @@ services:
     container_name: op-connect-api
     restart: unless-stopped
     ports:
-      - "6151:8080"
+      - 6151:8080
     volumes:
-      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
-      - "data:/home/opuser/.op/data"
+      - ./1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - data:/home/opuser/.op/data
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
@@ -19,10 +19,10 @@ services:
     hostname: op-connect-sync
     container_name: op-connect-sync
     ports:
-      - "6152:8080"
+      - 6152:8080
     volumes:
-      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
-      - "data:/home/opuser/.op/data"
+      - ./1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - data:/home/opuser/.op/data
     labels:
       - com.centurylinklabs.watchtower.enable=true
 

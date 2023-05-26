@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     shm_size: 1024m
     environment:
-      - VNC_PW=${VNC_PW_DISCORD}
+      - VNC_PW=${KASMWEB_DISCORD_VNC_PW}
     ports:
       - 1039:6901
     labels:
