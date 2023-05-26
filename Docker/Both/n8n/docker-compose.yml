@@ -6,7 +6,7 @@ services:
     image: n8nio/n8n
     environment:
       - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_HOST=192.168.1.55
+      - DB_POSTGRESDB_HOST=IPv4
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_DATABASE=n8n
       - DB_POSTGRESDB_USER=postgres

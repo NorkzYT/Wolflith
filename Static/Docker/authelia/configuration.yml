@@ -184,7 +184,7 @@ session:
   inactivity: 5m
   remember_me_duration: 1M
   redis:
-    host: 192.168.1.55
+    host: IPv4
     port: 6379
     password: NorkzYtYOUTUBE1k2005R3Dis
     database_index: 1
@@ -199,7 +199,7 @@ regulation:
 storage:
   encryption_key: TjWnZr4u7x!A%D*G-KaPdSgUkXp2s5v8
   mysql:
-    host: 192.168.1.55
+    host: IPv4
     port: 3306
     database: authelia
     username: authelia

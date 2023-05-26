@@ -23,7 +23,7 @@ services:
       CACHE_DRIVER: 'redis'
       SESSION_DRIVER: 'redis'
       QUEUE_DRIVER: 'redis'
-      REDIS_HOST: 192.168.1.55
+      REDIS_HOST: IPv4
       REDIS_PORT: 6379
       REDIS_USER: ${REDIS_USER}
       REDIS_PASSWORD: ${REDIS_PASSWORD} # Only if you specified a password in Redis.
@@ -37,7 +37,7 @@ services:
       APP_DEBUG: “false”
       TRUSTED_PROXIES: '*'
 
-      DB_HOST: 192.168.1.55
+      DB_HOST: IPv4
       DB_PORT: 3306
       DB_USER: 'pterodactyl'
       DB_PASSWORD: ${DB_PASSWORD}
