@@ -67,7 +67,7 @@ services:
     networks:
       - proxy # ---------
 
-  postgres:
+  postgresql-authentik:
     image: postgres:15-bullseye # Only this version works with Authentik, if another version then the following will occur: `Postgres - REQUIRES 10 or up`
     container_name: postgresql-authentik
     hostname: postgresql-authentik
@@ -75,7 +75,7 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=${POSTGRES_AUTHENTIK_PASSWORD}
     ports:
       - 5432:8080
     networks:
