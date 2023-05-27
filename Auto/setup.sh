@@ -29,22 +29,22 @@ if [[ $vault_setup = "Y" ]] || [[ $vault_setup = "y" ]]; then
     read -p "What is the secret name that is in the secret engine?: " secret_name
 
     # Replace HASHICORP-VAULT-HOSTNAME with the user-provided hostname in auto-pull-env.sh
-    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" auto-pull-env.sh
+    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" ./Scripts/Vault/auto-pull-env.sh
 
     # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in auto-pull-env.sh
-    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" auto-pull-env.sh
+    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/auto-pull-env.sh
 
     # Replace NAME with the user-provided secret name in auto-pull-env.sh
-    sed -i "s/NAME/$secret_name/g" auto-pull-env.sh
+    sed -i "s/NAME/$secret_name/g" ./Scripts/Vault/auto-pull-env.sh
 
     # Replace HASHICORP-VAULT-HOSTNAME with the user-provided hostname in auto-push-env.sh
-    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" auto-push-env.sh
+    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" ./Scripts/Vault/auto-push-env.sh
 
     # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in auto-push-env.sh
-    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" auto-push-env.sh
+    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/auto-push-env.sh
 
     # Replace NAME with the user-provided secret name in auto-push-env.sh
-    sed -i "s/NAME/$secret_name/g" auto-push-env.sh
+    sed -i "s/NAME/$secret_name/g" ./Scripts/Vault/auto-push-env.sh
 
 
     echo "auto-pull-env.sh updated with the new Vault server address and hostname."
