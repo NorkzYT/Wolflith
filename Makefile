@@ -10,11 +10,11 @@ GIT_HASH ?= $(shell git log --format="%h" -n 1)
 
 help:
 	@echo "\n--------------------------------------------------------------------------------------"
-	@echo "\n\033[1;35mScripts\033[0m\n"   # Purple color for the section header
+	@echo "\n\033[1;35m# Scripts #\033[0m\n"   # Purple color for the section header
 	@echo "\033[1;32m# Will install required dependencies and setup the repo with your directory location\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake setup\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "\033[1;34mHashicorp Vault\033[0m\n"   # Blue color for the section header
+	@echo "\033[1;34m## Hashicorp Vault ##\033[0m\n"   # Blue color for the section header
 	@echo "\033[1;32m# This script extracts the names of environment variables from .env files and stores them in env_var_names.txt.\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake all-env-variables\033[0m"   # Yellow color for the command
 	@echo "\n"
@@ -24,14 +24,14 @@ help:
 	@echo "\033[1;32m# This script sets up authentication to Hashicorp Vault, copies .env.example files to .env files, and pushes environment variables to Vault.\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake hashicorp-vault-push-secrets\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "\033[1;34mLaunchpad Repository\033[0m\n"   # Blue color for the section header
+	@echo "\033[1;34m## Launchpad Repository ##\033[0m\n"   # Blue color for the section header
 	@echo "\033[1;32m# This script updates the playbook files in the Launchpad repository to use 'localhost' as the host and adds 'connection: local' to each playbook.\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake change_hosts_to_localhost\033[0m"   # Yellow color for the command
 	@echo "\n"
 	@echo "\033[1;32m# This script reverts the playbook files in the Launchpad repository to use 'all' as the host and removes the 'connection: local' line from each playbook.\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake change_hosts_to_all\033[0m"   # Yellow color for the command
 	@echo "--------------------------------------------------------------------------------------"
-	@echo "\n\033[1;35mAnsible\033[0m\n"   # Blue color for the section header
+	@echo "\n\033[1;35m# Ansible #\033[0m\n"   # Blue color for the section header
 	@echo "\033[1;32m# Will install 1password\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake ansible-1password\033[0m"   # Yellow color for the command
 	@echo "\n"
