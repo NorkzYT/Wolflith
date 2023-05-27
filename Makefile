@@ -14,10 +14,19 @@ help:
 	@echo "# Will install required dependencies and setup the repo with your directory location"
 	@echo "make setup"
 	@echo "\n"
-	@echo "# Will change Ansible playbook hosts to localhost with connection as local"
+	@echo "This script extracts the names of environment variables from .env files and stores them in env_var_names.txt."
+	@echo "make all-env-variables"
+	@echo "\n"
+	@echo "This script authenticates to Hashicorp Vault, creates .env files from .env.example files, and retrieves secret values from Vault for environment variables in the .env files."
+	@echo "make hashicorp-vault-pull-secrets"
+	@echo "\n"
+	@echo "This script sets up authentication to Hashicorp Vault, copies .env.example files to .env files, and pushes environment variables to Vault."
+	@echo "make hashicorp-vault-push-secrets"
+	@echo "\n"
+	@echo "This script updates the playbook files in the Launchpad repository to use 'localhost' as the host and adds 'connection: local' to each playbook."
 	@echo "make change_hosts_to_localhost"
 	@echo "\n"
-	@echo "# Will change Ansible playbook hosts to all"
+	@echo "This script reverts the playbook files in the Launchpad repository to use 'all' as the host and removes the 'connection: local' line from each playbook."
 	@echo "make change_hosts_to_all"
 	@echo "\n"
 	@echo "# Will setup machines with the default settings"
@@ -109,13 +118,25 @@ setup: ./Auto/setup.sh
 setup-machines:
 	bash ./Scripts/Ansible/FirstTimeSetup/NewMachines.sh
 
-change_hosts_to_localhost: change_hosts_to_localhost.sh
-	chmod +x change_hosts_to_localhost.sh
-	./change_hosts_to_localhost.sh
+change_hosts_to_localhost: ./Scripts/Ansible/change_hosts_to_localhost.sh
+	chmod +x ./Scripts/Ansible/change_hosts_to_localhost.sh
+	./Scripts/Ansible/change_hosts_to_localhost.sh
 
-change_hosts_to_all: change_hosts_to_all.sh
-	chmod +x change_hosts_to_all.sh
-	./change_hosts_to_all.sh
+change_hosts_to_all: ./Scripts/Ansible/change_hosts_to_all.sh
+	chmod +x ./Scripts/Ansible/change_hosts_to_all.sh
+	./Scripts/Ansible/change_hosts_to_all.sh
+
+all-env-variables: ./Scripts/Vault/auto-all-env.sh
+	chmod +x ./Scripts/Vault/auto-all-env.sh
+	./Scripts/Vault/auto-all-env.sh
+
+hashicorp-vault-pull-secrets: ./Scripts/Vault/auto-pull-env.sh
+	chmod +x ./Scripts/Vault/auto-pull-env.sh
+	./Scripts/Vault/auto-pull-env.sh
+
+hashicorp-vault-push-secrets: ./Scripts/Vault/auto-push-env.sh
+	chmod +x ./Scripts/Vault/auto-push-env.sh
+	./Scripts/Vault/auto-push-env.sh
 
 # -------------------------------------------------------------------------------------- 
 # --- Ansible Playbooks ---
