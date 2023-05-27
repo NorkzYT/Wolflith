@@ -62,6 +62,26 @@ if [ ! -d "$directory_location" ]; then
     exit 1
 fi
 
+# Check if the location exists
+if ! [[ -d "$directory_location" ]]; then
+    echo "Directory '$directory_location' does not exist."
+    exit 1
+fi
+
+# Find all .sh files in the specified directory
+sh_files=$(find "$directory_location" -name "*.sh")
+
+# Iterate through each .sh file
+for file in $sh_files; do
+    # Add execute permission to the file
+    chmod +x "$file"
+done
+
+echo ""
+echo "Execute permissions have been granted to all .sh files in '$directory_location'."
+echo ""
+
+
 echo "Updating PCSMenu files with the new directory location."
 
 # Save the directory location

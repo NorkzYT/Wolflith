@@ -102,9 +102,9 @@ help:
 # --- Bash Scripts ---
 # --------------------------------------------------------------------------------------
 
-setup: setup.sh
-	chmod +x setup.sh
-	./setup.sh
+setup: ./Auto/setup.sh
+	chmod +x ./Auto/setup.sh
+	./Auto/setup.sh
 
 setup-machines:
 	bash ./Scripts/Ansible/FirstTimeSetup/NewMachines.sh
