@@ -9,101 +9,100 @@ GIT_HASH ?= $(shell git log --format="%h" -n 1)
 # --------------------------------------------------------------------------------------
 
 help:
+	@echo "\n--------------------------------------------------------------------------------------"
+	@echo "\n\033[1;35mScripts\033[0m\n"   # Purple color for the section header
+	@echo "\033[1;32m# Will install required dependencies and setup the repo with your directory location\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake setup\033[0m"   # Yellow color for the command
+	@echo "\n"
+	@echo "\033[1;34mHashicorp Vault\033[0m\n"   # Blue color for the section header
+	@echo "\033[1;32m# This script extracts the names of environment variables from .env files and stores them in env_var_names.txt.\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake all-env-variables\033[0m"   # Yellow color for the command
+	@echo "\n"
+	@echo "\033[1;32m# This script authenticates to Hashicorp Vault, creates .env files from .env.example files, and retrieves secret values from Vault for environment variables in the .env files.\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake hashicorp-vault-pull-secrets\033[0m"   # Yellow color for the command
+	@echo "\n"
+	@echo "\033[1;32m# This script sets up authentication to Hashicorp Vault, copies .env.example files to .env files, and pushes environment variables to Vault.\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake hashicorp-vault-push-secrets\033[0m"   # Yellow color for the command
+	@echo "\n"
+	@echo "\033[1;34mLaunchpad Repository\033[0m\n"   # Blue color for the section header
+	@echo "\033[1;32m# This script updates the playbook files in the Launchpad repository to use 'localhost' as the host and adds 'connection: local' to each playbook.\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake change_hosts_to_localhost\033[0m"   # Yellow color for the command
+	@echo "\n"
+	@echo "\033[1;32m# This script reverts the playbook files in the Launchpad repository to use 'all' as the host and removes the 'connection: local' line from each playbook.\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake change_hosts_to_all\033[0m"   # Yellow color for the command
 	@echo "--------------------------------------------------------------------------------------"
-	@echo "\nScripts\n"
-	@echo "# Will install required dependencies and setup the repo with your directory location"
-	@echo "make setup"
+	@echo "\n\033[1;35mAnsible\033[0m\n"   # Blue color for the section header
+	@echo "\033[1;32m# Will install 1password\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-1password\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "This script extracts the names of environment variables from .env files and stores them in env_var_names.txt."
-	@echo "make all-env-variables"
+	@echo "\033[1;32m# Will add execute permission to a file\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-add-execute-permission\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "This script authenticates to Hashicorp Vault, creates .env files from .env.example files, and retrieves secret values from Vault for environment variables in the .env files."
-	@echo "make hashicorp-vault-pull-secrets"
+	@echo "\033[1;32m# Will install ansible community\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-ansible-community\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "This script sets up authentication to Hashicorp Vault, copies .env.example files to .env files, and pushes environment variables to Vault."
-	@echo "make hashicorp-vault-push-secrets"
+	@echo "\033[1;32m# Will upgrade ansible\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-ansible-upgrade-install\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "This script updates the playbook files in the Launchpad repository to use 'localhost' as the host and adds 'connection: local' to each playbook."
-	@echo "make change_hosts_to_localhost"
+	@echo "\033[1;32m# Will install apt packages\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-apt\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "This script reverts the playbook files in the Launchpad repository to use 'all' as the host and removes the 'connection: local' line from each playbook."
-	@echo "make change_hosts_to_all"
+	@echo "\033[1;32m# Will run a bash script\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-binfmt\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will setup machines with the default settings"
-	@echo "make setup-machines"
-	@echo "--------------------------------------------------------------------------------------"
-	@echo "\nAnsible\n"
-	@echo "# Will install 1password"
-	@echo "make ansible-1password"
+	@echo "\033[1;32m# Will create a docker network\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-docker-network\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will add execute permission to a file"
-	@echo "make ansible-add-execute-permission"
+	@echo "\033[1;32m# Will update docker\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-docker-update\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will install ansible community"
-	@echo "make ansible-ansible-community"
+	@echo "\033[1;32m# Will install docker unless it is already installed\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-docker\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will upgrade ansible"
-	@echo "make ansible-ansible-upgrade-install"
+	@echo "\033[1;32m# Will install fail2ban\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-fail2ban\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will install apt packages"
-	@echo "make ansible-apt"
+	@echo "\033[1;32m# Will setup multiple docker containers such as Tailscale, Portainer, etc.\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-first-time-docker-container-setup\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will run a bash script"
-	@echo "make ansible-binfmt"
+	@echo "\033[1;32m# Will install iftop\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-iftop\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will create a docker network"
-	@echo "make ansible-docker-network"
+	@echo "\033[1;32m# Will fix lvm\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-lvm-fix\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will update docker"
-	@echo "make ansible-docker-update"
+	@echo "\033[1;32m# Will install oh-my-zsh\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-oh-my-zsh\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will install docker unless it is already installed"
-	@echo "make ansible-docker"
+	@echo "\033[1;32m# Will change the given users password\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-password-change\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will install fail2ban"
-	@echo "make ansible-fail2ban"
+	@echo "\033[1;32m# Will update pihole\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-pihole-update\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will setup multiple docker containers such as Tailscale, Portainer, etc."
-	@echo "make ansible-first-time-docker-container-setup"
+	@echo "\033[1;32m# Will install qemu-guest-agent\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-qemu-guest-agent\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will install iftop"
-	@echo "make ansible-iftop"
+	@echo "\033[1;32m# Will check if reboot is required\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-reboot-required\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will fix lvm"
-	@echo "make ansible-lvm-fix"
+	@echo "\033[1;32m# Will reboot the machines\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-reboot\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will install oh-my-zsh"
-	@echo "make ansible-oh-my-zsh"
+	@echo "\033[1;32m# Will resize lvm\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-resize-lvm\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will change the given users password"
-	@echo "make ansible-password-change"
+	@echo "\033[1;32m# Will get ssh key from 1password and add it to the ssh_keys directory\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-ssh-get-key\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will update pihole"
-	@echo "make ansible-pihole-update"
+	@echo "\033[1;32m# Will set timezone\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-timezone\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will install qemu-guest-agent"
-	@echo "make ansible-qemu-guest-agent"
+	@echo "\033[1;32m# Will create user directory\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-user-dir\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "# Will check if reboot is required"
-	@echo "make ansible-reboot-required"
-	@echo "\n"
-	@echo "# Will reboot the machines"
-	@echo "make ansible-reboot"
-	@echo "\n"
-	@echo "# Will resize lvm"
-	@echo "make ansible-resize-lvm"
-	@echo "\n"
-	@echo "# Will get ssh key from 1password and add it to the ssh_keys directory"
-	@echo "make ansible-ssh-get-key"
-	@echo "\n"
-	@echo "# Will set timezone"
-	@echo "make ansible-timezone"
-	@echo "\n"
-	@echo "# Will create user directory"
-	@echo "make ansible-user-dir"
-	@echo "\n"
-	@echo "# Will install zsh"
-	@echo "make ansible-zsh"
+	@echo "\033[1;32m# Will install zsh\033[0m"   # Green color for the description
+	@echo "\033[1;33mmake ansible-zsh\033[0m"   # Yellow color for the command
 	@echo "--------------------------------------------------------------------------------------"
 	@echo "\n"
 
