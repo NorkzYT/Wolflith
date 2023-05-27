@@ -57,19 +57,19 @@ fi
 read -p "Enter the directory location of the Launchpad repository: (e.g. /home)" directory_location
 
 # Validate the directory location
-if [ ! -d "$directory_location" ]; then
+if [ ! -d "$directory_location/Launchpad" ]; then
     echo "Invalid directory location. Please provide an existing directory."
     exit 1
 fi
 
 # Check if the location exists
-if ! [[ -d "$directory_location" ]]; then
-    echo "Directory '$directory_location' does not exist."
+if ! [[ -d "$directory_location/Launchpad" ]]; then
+    echo "Directory '$directory_location/Launchpad' does not exist."
     exit 1
 fi
 
 # Find all .sh files in the specified directory
-sh_files=$(find "$directory_location" -name "*.sh")
+sh_files=$(find "$directory_location/Launchpad" -name "*.sh")
 
 # Iterate through each .sh file
 for file in $sh_files; do
@@ -78,7 +78,7 @@ for file in $sh_files; do
 done
 
 echo ""
-echo "Execute permissions have been granted to all .sh files in '$directory_location'."
+echo "Execute permissions have been granted to all .sh files in '$directory_location/Launchpad'."
 echo ""
 
 

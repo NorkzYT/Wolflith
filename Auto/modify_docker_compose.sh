@@ -15,6 +15,8 @@ if ! [[ -d "$directory_location" ]]; then
     exit 1
 fi
 
+echo ""
+
 # Prompt the user if they want to change the current docker container appdata location
 read -p "Do you want to change the current docker container appdata location? (Default: /mnt/appdata/) [y/N]: " change_appdata_location
 
@@ -38,6 +40,8 @@ if [[ $change_appdata_location =~ ^[Yy]$ ]]; then
     echo "Docker container appdata location has been updated successfully."
 fi
 
+echo ""
+
 # Prompt the user if they want to change the current docker network name
 read -p "Do you want to change the current docker network name? (Default: proxy) [y/N]: " change_docker_network_name
 
@@ -53,7 +57,9 @@ if [[ $change_docker_network_name =~ ^[Yy]$ ]]; then
         sed -i "s/proxy/$new_docker_network_name/g" "$file"
     done
 
+    echo ""
     echo "Docker network name has been updated successfully."
 fi
 
+echo ""
 echo "Docker Compose files have been updated successfully."
