@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   proxy.py:
     image: abhinavsingh/proxy.py:v2.4.4rc3.dev7

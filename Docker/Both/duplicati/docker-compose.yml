@@ -8,7 +8,7 @@ services:
       - PUID=${DUPLICATI_PUID}
       - PGID=${DUPLICATI_PGID}
       - TZ=${DUPLICATI_TZ}
-      - CLI_ARGS=${DUPLICATI_CLI_ARGS}
+      #- CLI_ARGS=${DUPLICATI_CLI_ARGS}  #optional
     volumes:
       - /mnt/appdata/duplicati:/config
       - /mnt/appdata/duplicati/backups:/backups
