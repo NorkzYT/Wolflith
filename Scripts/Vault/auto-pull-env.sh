@@ -82,7 +82,7 @@ for env_file in $(find . -name "*.env"); do
         if [ "$secret" != "null" ]; then
             # Replace line in .env file with secret from Vault
             echo "--------------------------------------------------------------------------------"
-            sed -i "s|$name=.*$|$name=$secret|" "$env_file"
+            sed -i -e "s|$name=.*$|$name=$(printf '%q' "$secret")|" "$env_file"
             echo "$name has been pulled"
             echo "--------------------------------------------------------------------------------"
         else
