@@ -88,7 +88,7 @@ echo "Updating PCSMenu files with the new directory location."
 echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
 
 # Update the Makefile with the new directory location
-sed -i "s#/home/user#$directory_location#" Makefile
+sed -i'' "s#/home/user#$directory_location#g" Makefile
 
 echo "Makefile updated with the new directory location."
 
