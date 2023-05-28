@@ -1,13 +1,9 @@
 #!/bin/bash
 
-# Install Ansible if not already installed
-if ! command -v ansible &> /dev/null; then
-    echo "Ansible is not installed. Installing Ansible..."
-    sudo apt-get update
-    sudo apt-get install -y ansible
-else
-    echo "Ansible is already installed."
-fi
+# Install all Dependencies needed.
+./Auto/dependencies.sh
+
+echo ""
 
 # Ask if the user has a Hashicorp Vault docker container setup
 read -p "Do you have a Hashicorp Vault docker container setup? (y/n): " vault_setup
@@ -51,6 +47,7 @@ if [[ $vault_setup = "Y" ]] || [[ $vault_setup = "y" ]]; then
 
 else
     echo "Skipping Vault setup."
+    echo ""
 fi
 
 # Prompt user for the directory location of the Launchpad GitHub repository
