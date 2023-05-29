@@ -129,13 +129,13 @@ all-env-variables: ./Scripts/Vault/auto-all-env.sh
 	chmod +x ./Scripts/Vault/auto-all-env.sh
 	./Scripts/Vault/auto-all-env.sh
 
-hashicorp-vault-pull-secrets: ./Scripts/Vault/auto-pull-env.sh
-	chmod +x ./Scripts/Vault/auto-pull-env.sh
-	./Scripts/Vault/auto-pull-env.sh
+hashicorp-vault-pull-secrets: ./Scripts/Vault/vault-pull.sh
+	chmod +x ./Scripts/Vault/vault-pull.sh
+	./Scripts/Vault/vault-pull.sh
 
-hashicorp-vault-push-secrets: ./Scripts/Vault/auto-push-env.sh
-	chmod +x ./Scripts/Vault/auto-push-env.sh
-	./Scripts/Vault/auto-push-env.sh
+hashicorp-vault-push-secrets: ./Scripts/Vault/vault-push.sh
+	chmod +x ./Scripts/Vault/vault-push.sh
+	./Scripts/Vault/vault-push.sh
 
 # -------------------------------------------------------------------------------------- 
 # --- Ansible Playbooks ---
