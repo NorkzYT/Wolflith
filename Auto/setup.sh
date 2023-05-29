@@ -27,7 +27,13 @@ if [[ $vault_setup = "Y" ]] || [[ $vault_setup = "y" ]]; then
     # Replace NAME with the user-provided secret name in vault-pull.go
     sed -i'' "s/NAME/$secret_name/g" ./Scripts/Vault/vault-pull.go
 
-    echo "vault-pull.go updated with the new Vault server address."
+    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in vault-push.go
+    sed -i'' "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/vault-push.go
+
+    # Replace NAME with the user-provided secret name in vault-push.go
+    sed -i'' "s/NAME/$secret_name/g" ./Scripts/Vault/vault-push.go
+
+    echo "vault-pull.go and vault-push.go has been updated with the new Vault server address and the secret name."
 
 else
     echo "Skipping Vault setup."
