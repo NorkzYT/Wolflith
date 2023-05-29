@@ -50,9 +50,9 @@ services:
     volumes:
       - /mnt/appdata/paperless-ngx/pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: paperless
-      POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: paperless
+      - POSTGRES_DB=paperless
+      - POSTGRES_USER=paperless
+      - POSTGRES_PASSWORD=paperless
     labels:
       - com.centurylinklabs.watchtower.enable=true
     networks:
@@ -79,8 +79,8 @@ services:
       - /mnt/appdata/paperless-ngx/main/consume:/usr/src/paperless/consume
     env_file: docker-compose.env
     environment:
-      PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
-      PAPERLESS_DBHOST: paperless-ngx-db
+      - PAPERLESS_REDIS=redis://paperless-ngx-redis:6379
+      - PAPERLESS_DBHOST=paperless-ngx-db
     labels:
       - com.centurylinklabs.watchtower.enable=true
     networks:

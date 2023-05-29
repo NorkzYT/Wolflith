@@ -45,7 +45,7 @@ for root, dirs, files in os.walk(os.path.join(repo_path, "Docker")):
                         with open(env_example_path, "r") as f:
                             env_example_lines = f.readlines()
                         env_example_lines = [line.strip() for line in env_example_lines]
-                        env_example_dict = dict(line.split('=') for line in env_example_lines if '=' in line)
+                        env_example_dict = dict(line.split('=', 1) for line in env_example_lines if '=' in line)
 
                     for env in attributes["environment"]:
                         # Check if environment variable follows KEY=VALUE format
