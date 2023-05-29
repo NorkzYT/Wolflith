@@ -41,7 +41,7 @@ else
 fi
 
 # Prompt user for the directory location of the Launchpad GitHub repository
-read -p "Enter the directory location of the Launchpad repository: (e.g. /home)" directory_location
+read -p "Enter the directory location of the Launchpad repository: (e.g. /home/user)" directory_location
 
 # Validate the directory location
 if [ ! -d "$directory_location/Launchpad" ]; then
