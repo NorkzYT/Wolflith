@@ -35,11 +35,11 @@ else
     echo "Installing..."
 
     # If Docker is not installed, update the system and install the required packages
-    ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker-local.yml
+    ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker.yml
     echo -e "\e[32mInstalled Docker and Docker Compose \e[0m"
 
     # Print the version of Docker and Docker Compose to confirm successful installation
-    sudo docker version && sudo docker-compose version
+    sudo docker version && sudo docker compose version
 
     echo -e "\e[32mTada! All is well. \e[0m"
 fi

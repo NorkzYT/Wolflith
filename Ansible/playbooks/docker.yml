@@ -23,7 +23,7 @@
         path: /etc/apt/sources.list.d/docker.list
         state: absent
 
-    - name: install dependencies
+    - name: Install dependencies
       apt:
         name:
           - ca-certificates
@@ -43,7 +43,7 @@
         repo: deb https://download.docker.com/linux/ubuntu focal stable
         state: present
 
-    - name: install docker engine, containerd, and Docker Compose.
+    - name: Install docker engine, containerd, and Docker Compose.
       apt:
         name:
           - docker-ce
@@ -53,10 +53,10 @@
         state: present
         update_cache: true
 
-    - name: test docker
+    - name: Test docker
       command: docker info
 
-    - name: test docker compose
+    - name: Test docker compose
       command: docker compose version
 
     - name: Add remote "{{ user }}" user to "docker" group

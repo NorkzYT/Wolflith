@@ -18,32 +18,16 @@ if [[ $vault_setup = "Y" ]] || [[ $vault_setup = "y" ]]; then
         fi
     done
 
-    # Ask for the hostname of the docker container for the Vault
-    read -p "What is the hostname of the docker container for the Vault?: " vault_hostname
-
     # Ask for the secret name in the secret engine
     read -p "What is the secret name that is in the secret engine?: " secret_name
 
-    # Replace HASHICORP-VAULT-HOSTNAME with the user-provided hostname in auto-pull-env.sh
-    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" ./Scripts/Vault/auto-pull-env.sh
+    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in vault-pull.go
+    sed -i'' "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/vault-pull.go
 
-    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in auto-pull-env.sh
-    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/auto-pull-env.sh
+    # Replace NAME with the user-provided secret name in vault-pull.go
+    sed -i'' "s/NAME/$secret_name/g" ./Scripts/Vault/vault-pull.go
 
-    # Replace NAME with the user-provided secret name in auto-pull-env.sh
-    sed -i "s/NAME/$secret_name/g" ./Scripts/Vault/auto-pull-env.sh
-
-    # Replace HASHICORP-VAULT-HOSTNAME with the user-provided hostname in auto-push-env.sh
-    sed -i "s/HASHICORP-VAULT-HOSTNAME/$vault_hostname/g" ./Scripts/Vault/auto-push-env.sh
-
-    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in auto-push-env.sh
-    sed -i "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/auto-push-env.sh
-
-    # Replace NAME with the user-provided secret name in auto-push-env.sh
-    sed -i "s/NAME/$secret_name/g" ./Scripts/Vault/auto-push-env.sh
-
-
-    echo "auto-pull-env.sh updated with the new Vault server address and hostname."
+    echo "vault-pull.go updated with the new Vault server address."
 
 else
     echo "Skipping Vault setup."
