@@ -44,7 +44,7 @@ services:
       - proxymoxy
 
   paperless-ngx-db:
-    image: docker.io/library/postgres:13
+    image: docker.io/library/postgres:15
     container_name: paperless-ngx-db
     restart: unless-stopped
     volumes:
