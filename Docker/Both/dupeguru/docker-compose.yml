@@ -2,7 +2,7 @@ version: '3'
 services:
   dupeguru:
     container_name: dupeguru
-    image: jlesage/dupeguru:v1.12.1
+    image: jlesage/dupeguru:v23.06.1
     hostname: dupeguru
     environment:
       - TZ=${DUPEGURU_TZ}
