@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   coder:
-    image: codercom/coder:1.43.1
+    image: codercom/coder:1.44.0
     container_name: coderd
     hostname: coderd
     ports:
