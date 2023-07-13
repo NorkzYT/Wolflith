@@ -53,7 +53,7 @@ services:
       - proxy
 
   geoipupdate: # Optional
-    image: maxmindinc/geoipupdate:v5.1
+    image: maxmindinc/geoipupdate:v6.0
     container_name: geoipupdate
     hostname: geoipupdate
     volumes:
