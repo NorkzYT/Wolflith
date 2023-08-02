@@ -2,7 +2,7 @@ version: '3.9'
 services:
   guacamole:
     container_name: guacamole
-    image: guacamole/guacamole:1.5.2
+    image: guacamole/guacamole:1.5.3
     hostname: guacamole
     ports:
       - 1001:8080
