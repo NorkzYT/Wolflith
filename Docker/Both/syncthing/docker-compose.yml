@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   syncthing:
-    image: linuxserver/syncthing:1.23.6
+    image: linuxserver/syncthing:1.23.7
     container_name: syncthing
     hostname: syncthing
     environment:
