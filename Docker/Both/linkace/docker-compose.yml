@@ -26,7 +26,7 @@ services:
 
   # --- MariaDB
   linkace-mariadb:
-    image: mariadb:11.0
+    image: mariadb:11.1
     container_name: linkace-mariadb
     hostname: linkace-mariadb
     restart: unless-stopped
