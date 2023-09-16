@@ -1,7 +1,7 @@
 version: '3'
 services:
   db-wiki:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     container_name: db-wiki
     hostname: db-wiki
     environment:
