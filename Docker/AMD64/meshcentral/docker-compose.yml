@@ -3,7 +3,7 @@ services:
   meshcentral:
     container_name: meshcentral
     hostname: meshcentral
-    image: typhonragewind/meshcentral:1.1.10
+    image: typhonragewind/meshcentral:1.1.11
     ports:
       - 8089:443 #MeshCentral will moan and try everything not to use port 80, but you can also use it if you so desire, just change the config.json according to your needs.
     environment:
