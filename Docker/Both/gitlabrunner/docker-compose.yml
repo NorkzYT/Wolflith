@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   gitlab-runner:
-    image: gitlab/gitlab-runner:v16.4.1
+    image: gitlab/gitlab-runner:v16.5.0
     container_name: gitlab-runner
     hostname: gitlab-runner
     environment:
