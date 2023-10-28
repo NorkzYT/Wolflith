@@ -2,7 +2,7 @@ version: '3.9'
 services:
 
   authentik:
-    image: beryju/authentik:2023.8
+    image: beryju/authentik:2023.10
     container_name: authentik
     hostname: authentik
     restart: unless-stopped
@@ -30,7 +30,7 @@ services:
       - proxy
 
   worker:
-    image: beryju/authentik:2023.8
+    image: beryju/authentik:2023.10
     container_name: authentik_worker
     hostname: authentik_worker
     restart: unless-stopped
