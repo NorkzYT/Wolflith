@@ -2,7 +2,7 @@ version: '3'
 services:
   dozzle:
     container_name: dozzle
-    image: amir20/dozzle:v5.1.2
+    image: amir20/dozzle:v5.2.1
     hostname: dozzle
     environment:
       - DOZZLE_USERNAME=${DOZZLE_USERNAME}
