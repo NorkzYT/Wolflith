@@ -2,7 +2,7 @@ version: '3.9'
 services:
   joplin:
     container_name: joplin
-    image: etechonomy/joplin-server:2.13.2
+    image: etechonomy/joplin-server:2.13.3
     hostname: joplin
     environment:
       - APP_PORT=${JOPLIN_APP_PORT}
