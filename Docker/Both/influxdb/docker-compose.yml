@@ -4,7 +4,7 @@ services:
   influxdb:
     container_name: influxdb
     hostname: influxdb
-    image: influxdb:2.7.3
+    image: influxdb:2.7.4
     ports:
       - 8086:8086
     volumes:
