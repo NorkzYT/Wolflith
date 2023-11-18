@@ -2,7 +2,7 @@ version: '3.9'
 services:
 
   db-backup:
-    image: tiredofit/db-backup:4.0.15
+    image: tiredofit/db-backup:4.0.17
     container_name: db-backup
     hostname: db-backup
 
