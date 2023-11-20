@@ -2,7 +2,7 @@ version: '3.9'
 services:
   putty:
     container_name: putty
-    image: jlesage/putty:v23.11.1
+    image: jlesage/putty:v23.11.2
     hostname: putty
     environment:
       - TZ=${PUTTY_TZ}
