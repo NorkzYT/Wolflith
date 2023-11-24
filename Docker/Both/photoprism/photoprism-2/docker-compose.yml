@@ -90,7 +90,7 @@ services:
   ## Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
   photoprism-mariadb-2:
-    image: mariadb:11.1
+    image: mariadb:11.2
     container_name: photoprism-mariadb-2
     hostname: photoprism-mariadb-2
     ## If MariaDB gets stuck in a restart loop, this points to a memory or filesystem issue:
