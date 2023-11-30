@@ -3,7 +3,7 @@ services:
   mongo:
     container_name: mongodb
     hostname: mongodb
-    image: mongo:7.0.3
+    image: mongo:7.0.4
     volumes:
       - /mnt/appdata/mongodb/data:/data/db
     ports:
