@@ -2,7 +2,7 @@ version: '2.1'
 services:
   pwdpush:
     container_name: pwdpush
-    image: pglombardo/pwpush-postgres:1.34.4
+    image: pglombardo/pwpush-postgres:1.34.5
     hostname: pwdpush
     environment:
       - DATABASE_URL=${PWDPUSH_DATABASE_URL}
