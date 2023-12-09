@@ -1,7 +1,7 @@
 version: '3'
 services:
   cloudcmd:
-    image: coderaiser/cloudcmd:16.17.9
+    image: coderaiser/cloudcmd:16.18.0
     container_name: cloudcmd
     hostname: cloudcmd
 
