@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   memcached:
-    image: bitnami/memcached:1.6.22
+    image: bitnami/memcached:1.6.23
     container_name: memcached
     hostname: memcached
     environment:
