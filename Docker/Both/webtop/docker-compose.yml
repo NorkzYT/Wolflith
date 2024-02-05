@@ -16,7 +16,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock #optional only if you need access to docker within this container.
     ports:
       - 3050:3000
-    shm_size: 8gb   #optional but set to 1GB or higher to prevent browser crashes
+    shm_size: 8gb #optional but set to 1GB or higher to prevent browser crashes
 
     restart: unless-stopped
     networks:

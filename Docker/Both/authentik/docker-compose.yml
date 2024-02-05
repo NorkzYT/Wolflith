@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   authentik:
     image: beryju/authentik:2023.10
     container_name: authentik

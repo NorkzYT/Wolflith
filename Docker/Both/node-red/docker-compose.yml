@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   node-red:
     image: nodered/node-red:2.2.3-12
     container_name: node-red
@@ -21,9 +20,6 @@ networks:
   proxy:
     driver: bridge
     external: true
-
-
-
 # Run the following command to be able to give `node-red` file permission so it can work.
 # sudo chmod -R 775 /mnt/appdata/node-red   #(VOLUME FOLDER)
 

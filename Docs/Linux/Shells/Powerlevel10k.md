@@ -35,7 +35,7 @@ Find your wsl, wsl2, or Command Prompt profile and add the line “face”: “<
     [
         {
             "guid": "{<your-profile-id>}",
-            "font": 
+            "font":
             {
                 "face": "<name-of-your-font>"
             },

@@ -1,7 +1,5 @@
 version: '3.9'
 services:
-
-
   linkace:
     image: linkace/linkace:simple # linkace/linkace:v1.10.5
     container_name: linkace
@@ -51,7 +49,6 @@ services:
   #     - REDIS_PASSWORD=${REDIS_PASSWORD}
   #   networks:
   #     - proxy
-
 
 networks:
   proxy:

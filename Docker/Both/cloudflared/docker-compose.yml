@@ -5,7 +5,7 @@ services:
     container_name: cloudflared
     restart: unless-stopped
     network_mode: host
-    command: tunnel run --token ${CLOUDFLARED_TUNNEL_TOKEN} 
+    command: tunnel run --token ${CLOUDFLARED_TUNNEL_TOKEN}
     environment:
       - PUID=${CLOUDFLARED_PUID}
       - PGID=${CLOUDFLARED_PGID}

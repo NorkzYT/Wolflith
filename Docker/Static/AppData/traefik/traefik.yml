@@ -33,7 +33,6 @@ entryPoints:
 #        - my-fail2ban@file
 #        - my-souin@file
 
-
 providers:
   providersThrottleDuration: 2s
 
@@ -47,7 +46,7 @@ providers:
     watch: true
     network: docker_network
     # Default host rule to containername.domain.example
-    defaultRule: "Host(`{{ lower (trimPrefix `/` .Name )}}.domain.com`)"
+    defaultRule: 'Host(`{{ lower (trimPrefix `/` .Name )}}.domain.com`)'
     swarmModeRefreshSeconds: 15s
     exposedByDefault: false
 
@@ -70,11 +69,11 @@ certificatesResolvers:
         provider: cloudflare
         # Used to make sure the dns challenge is propagated to the rights dns servers
         resolvers:
-          - "1.1.1.1:53"
-          - "1.0.0.1:53"
+          - '1.1.1.1:53'
+          - '1.0.0.1:53'
 
 experimental:
   plugins:
     traefik-real-ip:
-        moduleName: "github.com/soulbalz/traefik-real-ip"
-        version: "v1.0.3"
+      moduleName: 'github.com/soulbalz/traefik-real-ip'
+      version: 'v1.0.3'

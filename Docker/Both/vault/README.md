@@ -7,4 +7,4 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**static-appdata**](static-appdata)
-    - [**config**](static-appdata/config)
+  - [**config**](static-appdata/config)

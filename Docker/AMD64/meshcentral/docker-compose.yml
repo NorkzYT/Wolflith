@@ -7,8 +7,8 @@ services:
     ports:
       - 8089:443 #MeshCentral will moan and try everything not to use port 80, but you can also use it if you so desire, just change the config.json according to your needs.
     environment:
-      - HOSTNAME=${MESHCENTRAL_HOSTNAME}  #Your hostname.
-      - REVERSE_PROXY=${MESHCENTRAL_REVERSE_PROXY}    #Set to your reverse proxy IP if you want to put meshcentral behind a reverse proxy.
+      - HOSTNAME=${MESHCENTRAL_HOSTNAME} #Your hostname.
+      - REVERSE_PROXY=${MESHCENTRAL_REVERSE_PROXY} #Set to your reverse proxy IP if you want to put meshcentral behind a reverse proxy.
       - REVERSE_PROXY_TLS_PORT=${MESHCENTRAL_REVERSE_PROXY_TLS_PORT}
       - IFRAME=${MESHCENTRAL_IFRAME}
       - ALLOW_NEW_ACCOUNTS=${MESHCENTRAL_ALLOW_NEW_ACCOUNTS}

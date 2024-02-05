@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   mrss-bot:
     container_name: mrss-bot
     restart: unless-stopped

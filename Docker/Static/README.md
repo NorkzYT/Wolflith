@@ -7,4 +7,4 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**AppData**](AppData)
-    - [**Traefik**](AppData/Traefik)
+  - [**Traefik**](AppData/Traefik)

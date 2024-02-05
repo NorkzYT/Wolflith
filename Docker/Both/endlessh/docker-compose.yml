@@ -11,7 +11,7 @@ services:
       - MAXLINES=${ENDLESSH_MAXLINES}
       - MAXCLIENTS=${ENDLESSH_MAXCLIENTS}
       - LOGFILE=${ENDLESSH_LOGFILE}
-     # - BINDFAMILY=${ENDLESSH_BINDFAMILY}
+      # - BINDFAMILY=${ENDLESSH_BINDFAMILY}
     volumes:
       - /mnt/appdata/endlessh:/config #optional
     ports:

@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   traefik:
     container_name: traefik
     hostname: traefik

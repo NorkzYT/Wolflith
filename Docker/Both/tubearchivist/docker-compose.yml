@@ -45,7 +45,7 @@ services:
       - proxy
 
   archivist-es:
-    image: bbilly1/tubearchivist-es                         # only for amd64, or use official es 8.7.0
+    image: bbilly1/tubearchivist-es # only for amd64, or use official es 8.7.0
     container_name: archivist-es
     restart: unless-stopped
     environment:
@@ -56,7 +56,7 @@ services:
       - bootstrap.memory_lock=${ARCHIVIST_ES_bootstrap.memory_lock}
       - path.repo=${ARCHIVIST_ES_path.repo}
     volumes:
-      - /mnt/appdata/tubearchivist-es:/usr/share/elasticsearch/data    # check for permission error when using bind mount, see readme
+      - /mnt/appdata/tubearchivist-es:/usr/share/elasticsearch/data # check for permission error when using bind mount, see readme
     expose:
       - '9200'
     labels:

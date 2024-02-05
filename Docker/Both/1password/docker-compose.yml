@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   op-connect-api:
     image: 1password/connect-api:1.7
     hostname: op-connect-api

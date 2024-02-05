@@ -31,7 +31,6 @@
 
 version: '3.9'
 services:
-
   paperless-ngx-redis:
     image: docker.io/library/redis:7
     container_name: paperless-ngx-redis
@@ -66,9 +65,9 @@ services:
       - paperless-ngx-db
       - paperless-ngx-redis
     ports:
-      - "4357:8000"
+      - '4357:8000'
     healthcheck:
-      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      test: ['CMD', 'curl', '-fs', '-S', '--max-time', '2', 'http://localhost:8000']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -85,7 +84,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxymoxy
-    
+
 networks:
   proxymoxy:
     driver: bridge

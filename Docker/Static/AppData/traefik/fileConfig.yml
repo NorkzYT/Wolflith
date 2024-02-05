@@ -6,21 +6,21 @@ http:
     traefik:
       entryPoints:
         - https
-      rule: "Host(`traefik.domain.com`)"
+      rule: 'Host(`traefik.domain.com`)'
       service: traefik
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #FreeIPA routing
     freeipa:
       entryPoints:
         - https
-      rule: "Host(`ipa.domain.com`)"
+      rule: 'Host(`ipa.domain.com`)'
       service: freeipa
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Authentik auth routing
     authentik:
@@ -29,167 +29,167 @@ http:
       rule: 'Host(`auth.domain.com`)'
       service: authentik-auth
       middlewares:
-        - "securityHeaders"
+        - 'securityHeaders'
 
     #VSCode routing
     vscode:
       entryPoints:
         - https
-      rule: "Host(`vscode.domain.com`)"
+      rule: 'Host(`vscode.domain.com`)'
       service: vscode
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Organizrv2 routing
     organizr:
       entryPoints:
         - https
-      rule: "Host(`organizr.domain.com`)"
+      rule: 'Host(`organizr.domain.com`)'
       service: organizr
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #ApacheGuacamole routing
     guacamole:
       entryPoints:
         - https
-      rule: "Host(`guacamole.domain.com`)"
+      rule: 'Host(`guacamole.domain.com`)'
       service: guacamole
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Webtop routing
     webtop:
       entryPoints:
         - https
-      rule: "Host(`webtop.domain.com`)"
+      rule: 'Host(`webtop.domain.com`)'
       service: webtop
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #HomeChart routing
     homechart:
       entryPoints:
         - https
-      rule: "Host(`tasks.domain.com`)"
+      rule: 'Host(`tasks.domain.com`)'
       service: homechart
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Bookstack routing
     bookstack:
       entryPoints:
         - https
-      rule: "Host(`docstack.domain.com`)"
+      rule: 'Host(`docstack.domain.com`)'
       service: bookstack
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #InfluxDB routing
     influxdb:
       entryPoints:
         - https
-      rule: "Host(`influx.domain.com`)"
+      rule: 'Host(`influx.domain.com`)'
       service: influxdb
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #VaultWarden routing
     vwarden:
       entryPoints:
         - https
-      rule: "Host(`vwarden.domain.com`)"
+      rule: 'Host(`vwarden.domain.com`)'
       service: vwarden
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Grafana routing
     grafana:
       entryPoints:
         - https
-      rule: "Host(`graf.domain.com`)"
+      rule: 'Host(`graf.domain.com`)'
       service: grafana
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Uptime_Kuma routing
     ukuma:
       entryPoints:
         - https
-      rule: "Host(`ukuma.domain.com`)"
+      rule: 'Host(`ukuma.domain.com`)'
       service: ukuma
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Mesh_Central routing
     meshc:
       entryPoints:
         - https
-      rule: "Host(`mesh.domain.com`)"
+      rule: 'Host(`mesh.domain.com`)'
       service: meshc
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Dozzle routing
     dozzle:
       entryPoints:
         - https
-      rule: "Host(`dozzle.domain.com`)"
+      rule: 'Host(`dozzle.domain.com`)'
       service: dozzle
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Cryptgeon routing
     cryptgeon:
       entryPoints:
         - https
-      rule: "Host(`crypt.domain.com`)"
+      rule: 'Host(`crypt.domain.com`)'
       service: cryptgeon
       middlewares:
-        - "securityHeaders"
+        - 'securityHeaders'
         #- "authentik-auth"
 
     #Firefly-iii routing
     firefly:
       entryPoints:
         - https
-      rule: "Host(`firefly.domain.com`)"
+      rule: 'Host(`firefly.domain.com`)'
       service: firefly
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
     #Pterodactyl-panel routing
     pterodactyl-panel:
       entryPoints:
         - https
-      rule: "Host(`pterodactyl-panel.domain.com`)"
+      rule: 'Host(`pterodactyl-panel.domain.com`)'
       service: pterodactyl-panel
       middlewares:
-        - "securityHeaders"
-        - "corsAll@file"
+        - 'securityHeaders'
+        - 'corsAll@file'
 
     #Pterodactyl-wings/node routing
     pterodactyl-wing:
       entryPoints:
         - https
-      rule: "Host(`pterodactyl-wings.domain.com`)"
+      rule: 'Host(`pterodactyl-wings.domain.com`)'
       service: pterodactyl-wings
       middlewares:
-        - "securityHeaders"
-        - "corsAll@file"
+        - 'securityHeaders'
+        - 'corsAll@file'
 
     #Syncthing service
     syncthing:
@@ -198,8 +198,8 @@ http:
       rule: 'Host(`syncthing.domain.com`)'
       service: syncthing
       middlewares:
-        - "securityHeaders"
-        - "authentik-auth"
+        - 'securityHeaders'
+        - 'authentik-auth'
 
   #    homeassistant:
   #      entryPoints:
@@ -210,7 +210,7 @@ http:
   #        - "securityHeaders"
   #        - "authentik-auth"
 
-########################################################################################################################################################################
+  ########################################################################################################################################################################
 
   ## SERVICES ##
   services:
@@ -224,7 +224,7 @@ http:
     freeipa:
       loadbalancer:
         servers:
-          - url: "https://IPv4:443"
+          - url: 'https://IPv4:443'
 
     # Authentic auth service
     authentik-auth:
@@ -260,7 +260,7 @@ http:
     homechart:
       loadbalancer:
         servers:
-          - url: "http://hostname:3040"
+          - url: 'http://hostname:3040'
 
     # Bookstack service
     bookstack:
@@ -338,7 +338,6 @@ http:
 
   ## MIDDLEWARES ##
   middlewares:
-
     # Authentik guard
     authentik-auth:
       forwardauth:
@@ -383,9 +382,9 @@ http:
     corsAll:
       headers:
         customRequestHeaders:
-          X-Forwarded-Proto: "https"
+          X-Forwarded-Proto: 'https'
         customResponseHeaders:
-          X-Forwarded-Proto: "https"
+          X-Forwarded-Proto: 'https'
         accessControlAllowMethods:
           - OPTION
           - POST
@@ -393,9 +392,9 @@ http:
           - PUT
           - DELETE
         accessControlAllowHeaders:
-          - "*"
+          - '*'
         accessControlAllowOriginList:
-          - "*"
+          - '*'
         accessControlMaxAge: 100
         addVaryHeader: true
 
@@ -403,15 +402,15 @@ http:
     securityHeaders:
       headers:
         customResponseHeaders:
-          X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex"
-          server: ""
+          X-Robots-Tag: 'none,noarchive,nosnippet,notranslate,noimageindex'
+          server: ''
         sslProxyHeaders:
           X-Forwarded-Proto: https
-        referrerPolicy: "same-origin"
+        referrerPolicy: 'same-origin'
         hostsProxyHeaders:
-          - "X-Forwarded-Host"
+          - 'X-Forwarded-Host'
         customRequestHeaders:
-          X-Forwarded-Proto: "https"
+          X-Forwarded-Proto: 'https'
         contentTypeNosniff: true
         browserXssFilter: true
         forceSTSHeader: true

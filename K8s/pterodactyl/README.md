@@ -7,4 +7,4 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**panel**](panel)
-    - [**node**](panel/node)
+  - [**node**](panel/node)

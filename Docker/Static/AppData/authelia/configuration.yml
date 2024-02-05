@@ -12,15 +12,15 @@ default_redirection_url: https://guacamole.domain.com
 server:
   host: 0.0.0.0
   port: 9091
-  path: ""
+  path: ''
   read_buffer_size: 4096
   write_buffer_size: 4096
   enable_pprof: false
   enable_expvars: false
   disable_healthcheck: false
   tls:
-    key: ""
-    certificate: ""
+    key: ''
+    certificate: ''
 
 log:
   level: debug
@@ -76,80 +76,80 @@ access_control:
   rules:
     ## Bypass rule
     - domain:
-        - "auth.domain.com"
+        - 'auth.domain.com'
       policy: bypass
 
     ## bypass api / trigges
-    - domain: "*.domain.com"
+    - domain: '*.domain.com'
       resources:
-        - "^/api/.*$"
-        - "^/api([/?].*)?$"
-        - "^/identity.*$"
-        - "^/triggers.*$"
-        - "^/meshagents.*$"
-        - "^/meshsettings.*$"
-        - "^/agent.*$"
-        - "^/control.*$"
-        - "^/meshrelay.*$"
-        - "^/wl.*$"
+        - '^/api/.*$'
+        - '^/api([/?].*)?$'
+        - '^/identity.*$'
+        - '^/triggers.*$'
+        - '^/meshagents.*$'
+        - '^/meshsettings.*$'
+        - '^/agent.*$'
+        - '^/control.*$'
+        - '^/meshrelay.*$'
+        - '^/wl.*$'
       policy: bypass
 
     - domain:
-        - "guacamole.domain.com"
+        - 'guacamole.domain.com'
       networks:
-        - "75.178.132.74"
+        - '75.178.132.74'
       policy: bypass
 
     - domain:
-        - "guacamole.domain.com"
-        - "webtop.domain.com"
+        - 'guacamole.domain.com'
+        - 'webtop.domain.com'
       subject:
-        - "group:rdp"
+        - 'group:rdp'
       policy: one_factor
 
     - domain:
-        - "*.domain.com"
-        - "domain.com"
+        - '*.domain.com'
+        - 'domain.com'
       networks:
-        - "75.178.132.74"
+        - '75.178.132.74'
       policy: bypass
 
     - domain:
-        - "*.domain.com"
-        - "domain.com"
+        - '*.domain.com'
+        - 'domain.com'
       policy: two_factor
-  
+
     ## block admin
-    - domain: "vwarden.domain.com"
+    - domain: 'vwarden.domain.com'
       resources:
-        - "^*/admin.*$"
+        - '^*/admin.*$'
       policy: one_factor
 
     ## two factor login - admin
     - domain:
-        - "traefik.domain.com"
-        - "ipa.domain.com"
-        - "nas.domain.com"
-        - "organizr.domain.com"
+        - 'traefik.domain.com'
+        - 'ipa.domain.com'
+        - 'nas.domain.com'
+        - 'organizr.domain.com'
       subject:
-        - "group:admins"
+        - 'group:admins'
       policy: one_factor
 
-    ## one factor login - catch all 
-    - domain: "*.domain.com"
-      subject: 
-        - "group:admins"
+    ## one factor login - catch all
+    - domain: '*.domain.com'
+      subject:
+        - 'group:admins'
       policy: one_factor
 
     ## two factor login - moderators
-    - domain: "*.domain.com"
-      subject: 
-        - "group:moderators"
+    - domain: '*.domain.com'
+      subject:
+        - 'group:moderators'
       policy: two_factor
 
     ## bypass rule
     - domain:
-        - "blog.domain.com"
+        - 'blog.domain.com'
       policy: bypass
 
   #  ## one factor login - moderators
@@ -161,7 +161,7 @@ access_control:
   #      - "torrent.domain.com"
   #      - "domain.com"
   #       - "guacamole.domain.com"
-  #    subject: 
+  #    subject:
   #      - "group:moderators"
   #      - "group:admins"
   #    policy: one_factor
@@ -170,7 +170,7 @@ access_control:
   # - domain:
   #     - "guacamole.domain.com"
   #     - "overseerr.domain.com"
-  #   subject: 
+  #   subject:
   #     - "group:requesters"
   #     - "group:admins"
   #   policy: one_factor
@@ -204,7 +204,7 @@ storage:
     database: authelia
     username: authelia
     password: xxx
-  
+
 notifier:
   disable_startup_check: false
   smtp:
@@ -214,11 +214,10 @@ notifier:
     port: 587
     sender: noreply@domain.com
     identifier: anonymous
-    subject: "[Important] {Authelia}"
+    subject: '[Important] {Authelia}'
     startup_check_address: test@authelia.com
     disable_require_tls: false
     disable_html_emails: false
     tls:
       skip_verify: false
       minimum_version: TLS1.2
-...

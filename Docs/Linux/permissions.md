@@ -1,4 +1,4 @@
-# Chmod 
+# Chmod
 
 [Chmod Series](https://linuxize.com/tags/chmod/)
 

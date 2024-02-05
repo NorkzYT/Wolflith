@@ -7,8 +7,8 @@ services:
     volumes:
       - /mnt/appdata/floatplanedownloader/db:/fp/db
       - /mnt/appdata/media:/fp/videos
-    tty: true           # To be able to reply to interactive prompts.
-    stdin_open: true    # For interactive flag.
+    tty: true # To be able to reply to interactive prompts.
+    stdin_open: true # For interactive flag.
     restart: unless-stopped
     environment:
       - headless=${FLOATPLANE_DOWNLOADER_headless}

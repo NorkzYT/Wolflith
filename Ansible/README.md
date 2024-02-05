@@ -12,7 +12,7 @@ https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#beh
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**adhoc**](adhoc)
-    - [adhoc commands](adhoc/adhoc.md)
+  - [adhoc commands](adhoc/adhoc.md)
 - [**collections**](collections)
 - [**inventory**](inventory)
 - [**k3s**](k3s)

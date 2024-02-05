@@ -4,7 +4,6 @@
 
 version: '3.9'
 services:
-
   discordchatexporter:
     image: tyrrrz/discordchatexporter:stable
     container_name: discordchatexporter
