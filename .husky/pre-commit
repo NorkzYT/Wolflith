@@ -1,17 +1,12 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Format code with Prettier.
-pnpm make-style:prettier
+# Get a list of staged Python files and iterate over them
+git diff --name-only --cached --diff-filter=d | grep '\.py$' | while IFS= read -r file; do
 
-# Stage the code.
-git add .
+    # Format each file with Prettier
+    bun run prettier:format
 
-# Check if the code was formatted.
-pnpm check-style:prettier
-
-# Generates/updates Markdown trees that act as a table of contents for folder structure.
-pnpm markdown-notes-tree
-
-# Stage the code.
-git add .
+    # Stage the newly-formatted file
+    git add "$file"
+done
