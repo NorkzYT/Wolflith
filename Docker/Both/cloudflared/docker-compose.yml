@@ -1,11 +1,11 @@
-version: '3.8'
+version: '3.9'
 services:
   cloudflared:
-    build: https://github.com/cloudflare/cloudflared.git
-    #image: cloudflared:2022.1.0-arm64
+    image: cloudflare/cloudflared:latest
     container_name: cloudflared
     restart: unless-stopped
     network_mode: host
+    command: tunnel run --token ${CLOUDFLARED_TUNNEL_TOKEN} 
     environment:
       - PUID=${CLOUDFLARED_PUID}
       - PGID=${CLOUDFLARED_PGID}

@@ -55,7 +55,7 @@ authentication_backend:
     mail_attribute: mail
     display_name_attribute: givenName
     user: uid=authelia,cn=users,cn=accounts,dc=domain,dc=com
-    password: NorkzYtYOUTUBE1K2005AUTHELIA
+    password: xxx
 
 #  ####################################
 #  file:
@@ -179,14 +179,14 @@ session:
   name: authelia_session
   domain: domain.com
   same_site: lax
-  secret: p3s6v9y$B&E)H@McQfTjWnZq4t7w!z%C
+  secret: xxx
   expiration: 8h
   inactivity: 5m
   remember_me_duration: 1M
   redis:
     host: IPv4
     port: 6379
-    password: NorkzYtYOUTUBE1k2005R3Dis
+    password: xxx
     database_index: 1
     maximum_active_connections: 10
     minimum_idle_connections: 0
@@ -203,13 +203,13 @@ storage:
     port: 3306
     database: authelia
     username: authelia
-    password: NorkzYtYOUTUBE1K2005
+    password: xxx
   
 notifier:
   disable_startup_check: false
   smtp:
-    username: richardlora557@gmail.com
-    password: qzdqixjkpkddnnsm
+    username: something@gmail.com
+    password: xxx
     host: smtp.gmail.com
     port: 587
     sender: noreply@domain.com
