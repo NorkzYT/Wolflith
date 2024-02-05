@@ -1,30 +1,50 @@
 version: '3.9'
 services:
-  openvscode-server:
-    image: linuxserver/code-server:4.20.1
-    container_name: vscode-server
+  vscode:
+    image: wolflith/vscode:latest
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: vscode
     hostname: vscode
     environment:
-      - PUID=${OPENVSCODE_SERVER_PUID}
-      - PGID=${OPENVSCODE_SERVER_PGID}
-      - UMASK=${OPENVSCODE_SERVER_UMASK}
-      - TZ=${OPENVSCODE_SERVER_TZ}
-      - CONNECTION_TOKEN=${OPENVSCODE_SERVER_CONNECTION_TOKEN}
-      - CONNECTION_SECRET=${OPENVSCODE_SERVER_CONNECTION_SECRET}
+      - PUID=0
+      - PGID=0
+      - UMASK=022
+      - TZ=${TZ:?error}
+      # - CONNECTION_TOKEN=${OPENVSCODE_SERVER_CONNECTION_TOKEN}       #optional
+      # - CONNECTION_SECRET=${OPENVSCODE_SERVER_CONNECTION_SECRET}     #optional
       - SUDO_PASSWORD=${OPENVSCODE_SERVER_SUDO_PASSWORD}
-      - SUDO_PASSWORD_HASH=${OPENVSCODE_SERVER_SUDO_PASSWORD_HASH}
+      # - SUDO_PASSWORD_HASH=${OPENVSCODE_SERVER_SUDO_PASSWORD_HASH}   #optional
       - DEFAULT_WORKSPACE=${OPENVSCODE_SERVER_DEFAULT_WORKSPACE}
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/appdata/vscode/config:/config
-      - /mnt:/data-compose/appdata_of_containers
-      - /home/user:/data-compose/docker_compose
+      - ./wolflith.code-workspace:/config/workspace/wolflith.code-workspace
+      - ../../../:/wolflith
+      - /mnt:/mnt
+      - /home:/home
     ports:
       - 1007:8443
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
+    depends_on:
+      - dockersocketvscode
     networks:
       - proxy
+
+  dockersocketvscode:
+    container_name: dockersocketvscode
+    hostname: dockersocketvscode
+    image: tecnativa/docker-socket-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+    environment:
+      CONTAINERS: 1
+      POST: 0
+    privileged: true
+    restart: unless-stopped
 
 networks:
   proxy:
