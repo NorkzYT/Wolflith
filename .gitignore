@@ -35,4 +35,9 @@ yarn-error.log*
 # Packages
 *.gz
 
-double-check
+# Specific Files
+error_messages.txt
+1password-credentials.json
+
+# OpenCommit commitlint config
+.opencommit-commitlint
