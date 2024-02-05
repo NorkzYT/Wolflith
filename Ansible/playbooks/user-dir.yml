@@ -9,7 +9,7 @@
       prompt: 'Enter the password for the new user'
       private: yes
     - name: 'parent_directory'
-      prompt: 'Enter the parent directory of the Launchpad GitHub Repo'
+      prompt: 'Enter the parent directory of the Wolflith GitHub Repo'
       private: no
 
   tasks:
@@ -20,7 +20,7 @@
     - name: Write Linux machine names to file on local machine.
       delegate_to: localhost
       run_once: true
-      shell: echo "{{ hostname_result.stdout }}" >> {{ parent_directory }}/Launchpad/Scripts/DoNotTouch/hostnames.txt
+      shell: echo "{{ hostname_result.stdout }}" >> {{ parent_directory }}/Wolflith/Scripts/DoNotTouch/hostnames.txt
 
     - name: Print Linux machine name
       debug:

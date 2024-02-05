@@ -6,7 +6,7 @@ if ! command -v docker compose &>/dev/null; then
     exit 1
 fi
 
-# Get the directory location of the Launchpad repository from the input variable
+# Get the directory location of the Wolflith repository from the input variable
 directory_location="$1"
 
 # Check if the location exists
@@ -30,7 +30,7 @@ if [[ $change_appdata_location =~ ^[Yy]$ ]]; then
     done
 
     # Find docker-compose.yml files in the specified directory
-    docker_compose_files=$(find "$directory_location/Launchpad/Docker" -name "docker-compose.yml")
+    docker_compose_files=$(find "$directory_location/Wolflith/Docker" -name "docker-compose.yml")
 
     # Iterate through each docker-compose.yml file and replace the appdata location
     for file in $docker_compose_files; do
@@ -50,7 +50,7 @@ if [[ $change_docker_network_name =~ ^[Yy]$ ]]; then
     read -p "Enter the new docker network name: " new_docker_network_name
 
     # Find docker-compose.yml files in the specified directory
-    docker_compose_files=$(find "$directory_location/Launchpad/Docker" -name "docker-compose.yml")
+    docker_compose_files=$(find "$directory_location/Wolflith/Docker" -name "docker-compose.yml")
 
     # Iterate through each docker-compose.yml file and replace the docker network name
     for file in $docker_compose_files; do

@@ -1,6 +1,6 @@
-# Developing Launchpad
+# Developing Wolflith
 
-- [Developing Launchpad](#developing-launchpad)
+- [Developing Wolflith](#developing-wolflith)
   - [Getting started](#getting-started)
     - [Install dependencies](#install-dependencies)
   - [Local development](#local-development)
@@ -13,9 +13,9 @@
 
 ## Getting started
 
-Thank you for your interest in Launchpad and your willingness to contribute!
+Thank you for your interest in Wolflith and your willingness to contribute!
 
-We encourage you to explore the existing [issues](https://github.com/NorkzYT/Launchpad/issues) to see how you can make a meaningful impact. This document will help you setup your development environment.
+We encourage you to explore the existing [issues](https://github.com/NorkzYT/Wolflith/issues) to see how you can make a meaningful impact. This document will help you setup your development environment.
 
 ### Install dependencies
 
@@ -32,19 +32,19 @@ You will need to install and configure the following dependencies on your linux 
 
 ### Fork the repo
 
-To contribute code, you must fork the [Launchpad repo](https://github.com/NorkzYT/Launchpad).
+To contribute code, you must fork the [Wolflith repo](https://github.com/NorkzYT/Wolflith).
 
 ### Clone the repo
 
 1. Clone your GitHub forked repo:
 
    ```sh
-   git clone https://github.com/<github_username>/Launchpad.git
+   git clone https://github.com/<github_username>/Wolflith.git
    ```
 
-2. Go to the Launchpad directory:
+2. Go to the Wolflith directory:
    ```sh
-   cd Launchpad
+   cd Wolflith
    ```
 
 ### Install dependencies

@@ -40,23 +40,23 @@ else
     echo ""
 fi
 
-# Prompt user for the directory location of the Launchpad GitHub repository
-read -p "Enter the directory location of the Launchpad repository: (e.g. /home/user)" directory_location
+# Prompt user for the directory location of the Wolflith GitHub repository
+read -p "Enter the directory location of the Wolflith repository: (e.g. /home/user)" directory_location
 
 # Validate the directory location
-if [ ! -d "$directory_location/Launchpad" ]; then
+if [ ! -d "$directory_location/Wolflith" ]; then
     echo "Invalid directory location. Please provide an existing directory."
     exit 1
 fi
 
 # Check if the location exists
-if ! [[ -d "$directory_location/Launchpad" ]]; then
-    echo "Directory '$directory_location/Launchpad' does not exist."
+if ! [[ -d "$directory_location/Wolflith" ]]; then
+    echo "Directory '$directory_location/Wolflith' does not exist."
     exit 1
 fi
 
 # Find all .sh files in the specified directory
-sh_files=$(find "$directory_location/Launchpad" -name "*.sh")
+sh_files=$(find "$directory_location/Wolflith" -name "*.sh")
 
 # Iterate through each .sh file
 for file in $sh_files; do
@@ -65,14 +65,14 @@ for file in $sh_files; do
 done
 
 echo ""
-echo "Execute permissions have been granted to all .sh files in '$directory_location/Launchpad'."
+echo "Execute permissions have been granted to all .sh files in '$directory_location/Wolflith'."
 echo ""
 
 
 echo "Updating PCSMenu files with the new directory location."
 
 # Save the directory location
-echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
+echo "$directory_location" >$directory_location/Wolflith/Scripts/directory_location.txt
 
 # Update the Makefile with the new directory location
 sed -i'' "s#/home/user#$directory_location#g" Makefile
@@ -80,10 +80,10 @@ sed -i'' "s#/home/user#$directory_location#g" Makefile
 echo "Makefile updated with the new directory location."
 
 # Replace /home/user with the user-provided directory location in all files in the PCSMenu folder
-find $directory_location/Launchpad/PCSMenu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
+find $directory_location/Wolflith/PCSMenu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
 
 echo "PCSMenu files updated with the new directory location."
 
 echo ""
 
-"$directory_location/Launchpad/Auto/update_env_vars.sh" "$directory_location"
+"$directory_location/Wolflith/Auto/update_env_vars.sh" "$directory_location"

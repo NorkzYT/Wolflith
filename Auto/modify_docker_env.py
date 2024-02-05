@@ -2,7 +2,7 @@ import os
 import sys
 from ruamel.yaml import YAML
 
-# Get the Launchpad repository location from command-line argument
+# Get the Wolflith repository location from command-line argument
 repo_path = sys.argv[1]
 
 # Check if the location exists
@@ -10,9 +10,9 @@ if not os.path.isdir(repo_path):
     print(f"Directory {repo_path} does not exist.")
     exit(1)
 
-# Append "/Launchpad" to the repo_path if not already present
-if not repo_path.endswith("/Launchpad"):
-    repo_path = os.path.join(repo_path, "Launchpad")
+# Append "/Wolflith" to the repo_path if not already present
+if not repo_path.endswith("/Wolflith"):
+    repo_path = os.path.join(repo_path, "Wolflith")
 
 # Create a new ruamel.yaml instance
 ruamel_instance = YAML()

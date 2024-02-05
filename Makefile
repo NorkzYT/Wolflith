@@ -1,5 +1,5 @@
 DOCKER_USERNAME ?= norkz
-APPLICATION_NAME ?= Launchpad
+APPLICATION_NAME ?= Wolflith
 GIT_HASH ?= $(shell git log --format="%h" -n 1)
 
 ### Comments ###
@@ -24,11 +24,11 @@ help:
 	@echo "\033[1;32m# This script sets up authentication to Hashicorp Vault, copies .env.example files to .env files, and pushes environment variables to Vault.\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake hashicorp-vault-push-secrets\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "\033[1;34m## Launchpad Repository ##\033[0m\n"   # Blue color for the section header
-	@echo "\033[1;32m# This script updates the playbook files in the Launchpad repository to use 'localhost' as the host and adds 'connection: local' to each playbook.\033[0m"   # Green color for the description
+	@echo "\033[1;34m## Wolflith Repository ##\033[0m\n"   # Blue color for the section header
+	@echo "\033[1;32m# This script updates the playbook files in the Wolflith repository to use 'localhost' as the host and adds 'connection: local' to each playbook.\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake change_hosts_to_localhost\033[0m"   # Yellow color for the command
 	@echo "\n"
-	@echo "\033[1;32m# This script reverts the playbook files in the Launchpad repository to use 'all' as the host and removes the 'connection: local' line from each playbook.\033[0m"   # Green color for the description
+	@echo "\033[1;32m# This script reverts the playbook files in the Wolflith repository to use 'all' as the host and removes the 'connection: local' line from each playbook.\033[0m"   # Green color for the description
 	@echo "\033[1;33mmake change_hosts_to_all\033[0m"   # Yellow color for the command
 	@echo "--------------------------------------------------------------------------------------"
 	@echo "\n\033[1;35m# Ansible #\033[0m\n"   # Blue color for the section header
@@ -142,78 +142,78 @@ hashicorp-vault-push-secrets: ./Scripts/Vault/vault-push.sh
 # --------------------------------------------------------------------------------------
 
 ansible-1password:
-	ansible-playbook "/home/user/Launchpad/Ansible/playbooks/1password.yml" -i "/home/user/Ansible/inventory/hosts"
+	ansible-playbook "/home/user/Wolflith/Ansible/playbooks/1password.yml" -i "/home/user/Ansible/inventory/hosts"
 
 ansible-add-execute-permission:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/add-execute-permission.yml -i "/home/user/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/add-execute-permission.yml -i "/home/user/Ansible/inventory/hosts"
 
 ansible-ansible-community:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ansible-community.yml -i "/home/user/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/ansible-community.yml -i "/home/user/Ansible/inventory/hosts"
 
 ansible-ansible-upgrade-install:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ansible-upgrade-install.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/ansible-upgrade-install.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-apt:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/apt.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/apt.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-bash-script:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/bash-script.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/bash-script.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-binfmt:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/binfmt.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/binfmt.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-docker-network:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker-network.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/docker-network.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-docker-update:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker-update.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/docker-update.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-docker:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/docker.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/docker.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-fail2ban:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/fail2ban.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/fail2ban.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-first-time-docker-container-setup:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/first-time-docker-container-setup.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/first-time-docker-container-setup.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-iftop:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/iftop.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/iftop.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-lvm-fix:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/lvm-fix.ym -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/lvm-fix.ym -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-oh-my-zsh:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/oh-my-zsh.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/oh-my-zsh.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-password-change:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/password-change.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/password-change.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-pihole-update:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/pihole-update.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/pihole-update.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-qemu-guest-agent:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/qemu-guest-agent.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/qemu-guest-agent.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-reboot-required:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/reboot-required.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/reboot-required.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-reboot:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/reboot.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/reboot.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-resize-lvm:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/resize-lvm.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/resize-lvm.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-ssh-get-key:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/ssh-get-key.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/ssh-get-key.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-timezone:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/timezone.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/timezone.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-user-dir:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/user-dir.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/user-dir.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 ansible-zsh:
-	ansible-playbook /home/user/Launchpad/Ansible/playbooks/zsh.yml -i "/home/user/Launchpad/Ansible/inventory/hosts"
+	ansible-playbook /home/user/Wolflith/Ansible/playbooks/zsh.yml -i "/home/user/Wolflith/Ansible/inventory/hosts"
 
 # --------------------------------------------------------------------------------------
