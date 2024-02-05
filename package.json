@@ -48,7 +48,7 @@
 		"**/*": "prettier --write --ignore-unknown"
 	},
 	"dependencies": {
-		"prettier-plugin-organize-attributes": "^0.0.5",
+		"prettier-plugin-organize-attributes": "^1.0.0",
 		"prettyjson": "^1.2.5"
 	},
 	"devDependencies": {

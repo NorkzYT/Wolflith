@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   prettier-plugin-organize-attributes:
-    specifier: ^0.0.5
-    version: 0.0.5(prettier@3.2.5)
+    specifier: ^1.0.0
+    version: 1.0.0(prettier@3.2.5)
   prettyjson:
     specifier: ^1.2.5
     version: 1.2.5
@@ -2068,11 +2068,11 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /prettier-plugin-organize-attributes@0.0.5(prettier@3.2.5):
-    resolution: {integrity: sha512-dSts16q8wd+oq8Zwk5mwmYXo1aN3B+ZkEJqx/ar5fedNHdOvx7S4XDMH/pNK7rmBW0bPXkp/kJX5gAANsWzh3A==}
-    engines: {node: '>=11.0.0'}
+  /prettier-plugin-organize-attributes@1.0.0(prettier@3.2.5):
+    resolution: {integrity: sha512-+NmameaLxbCcylEXsKPmawtzla5EE6ECqvGkpfQz4KM847fXDifB1gFnPQEpoADAq6IXg+cMI8Z0ISJEXa6fhg==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
-      prettier: ^2.0.0
+      prettier: ^3.0.0
     dependencies:
       prettier: 3.2.5
     dev: false
