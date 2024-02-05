@@ -1,15 +1,14 @@
 {
 	"name": "launchpad",
-	"description": "Launchpad",
+	"description": "",
 	"version": "1.0.0",
-	"author": "Norkz",
+	"author": "NorkzYT",
 	"private": false,
-	"main": "none",
+	"main": "Auto/setup.sh",
 	"scripts": {
 		"clean:install": "rm -rf node_modules/ && rm -rf bun.lockb && bun i",
-		"check-style:prettier": "prettier --check ./Ansible ./Docker ./K8s ./Scripts",
-		"make-style:prettier": "prettier --write ./Ansible ./Docker ./K8s ./Scripts",
-		"watch-global-sass": "sass --watch styles/style.scss styles/style.css",
+		"prettier:check": "prettier --check .",
+		"prettier:format": "prettier --write .",
 		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore CONTRIBUTING.md",
 		"preinstall": "husky install"
 	},
@@ -43,9 +42,6 @@
 			"p4-prepare-changelist": "echo \"[Husky] p4-prepare-changelist\"",
 			"reference-transaction": "echo \"[Husky] reference-transaction\""
 		}
-	},
-	"lint-staged": {
-		"**/*": "prettier --write --ignore-unknown"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^18.4.4",

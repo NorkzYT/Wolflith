@@ -1,0 +1,12 @@
+{
+	"workbench.colorTheme": "Shades of Purple (Super Dark)",
+	"workbench.iconTheme": "material-icon-theme",
+	"files.autoSaveDelay": 1000,
+	"files.autoSave": "afterDelay",
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"scm.autoReveal": true,
+	"scm.alwaysShowRepositories": true,
+	"git.postCommitCommand": "sync",
+	"git.autofetch": true
+}

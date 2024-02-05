@@ -1,0 +1,17 @@
+{
+	"recommendations": [
+		"esbenp.prettier-vscode", // Prettier - Code formatter
+		"eamodio.gitlens", // GitLens — Git supercharged
+		"aaron-bond.better-comments", // Better Comments
+		"oderwat.indent-rainbow", // Indent Rainbow
+		"wayou.vscode-todo-highlight", // TODO Highlight
+		"Gruntfuggly.todo-tree", // TODO Tree
+		"christian-kohler.path-intellisense", // Path Intellisense
+		"alefragnani.Bookmarks", // Bookmarks
+		"usernamehw.errorlens", // Error Lens
+		"SonarSource.sonarlint-vscode", // SonarLint
+		"mechatroner.rainbow-csv", // Rainbow CSV
+		"PKief.material-icon-theme", // Material Icon Theme
+		"ahmadawais.shades-of-purple" // Shades of Purple
+	]
+}
