@@ -8,5 +8,8 @@
 	"scm.autoReveal": true,
 	"scm.alwaysShowRepositories": true,
 	"git.postCommitCommand": "sync",
-	"git.autofetch": true
+	"git.autofetch": true,
+	"[shellscript]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	}
 }
