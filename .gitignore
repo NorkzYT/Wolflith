@@ -38,6 +38,7 @@ yarn-error.log*
 # Specific Files
 error_messages.txt
 1password-credentials.json
+directory_location.txt
 
 # OpenCommit commitlint config
 .opencommit-commitlint
