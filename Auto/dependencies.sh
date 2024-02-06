@@ -42,34 +42,6 @@ install_beautifulsoup() {
     fi
 }
 
-# Function to install PyYAML
-install_pyyaml() {
-    if ! python3 -c "import yaml" &>/dev/null; then
-        echo "PyYAML is not installed. Installing..."
-        pip3 install PyYAML
-        if [ $? -ne 0 ]; then
-            echo "Failed to install PyYAML. Please check your Python environment."
-            exit 1
-        fi
-    else
-        echo "PyYAML is already installed."
-    fi
-}
-
-# Function to install ruamel.yaml
-install_ruamel_yaml() {
-    if ! python3 -c "import ruamel.yaml" &>/dev/null; then
-        echo "ruamel.yaml is not installed. Installing..."
-        pip3 install ruamel.yaml
-        if [ $? -ne 0 ]; then
-            echo "Failed to install ruamel.yaml. Please check your Python environment."
-            exit 1
-        fi
-    else
-        echo "ruamel.yaml is already installed."
-    fi
-}
-
 # Function to install Go with user-specified architecture
 install_go() {
     if command -v go &>/dev/null; then
@@ -162,6 +134,4 @@ END
 install_ansible
 install_python
 install_beautifulsoup
-install_pyyaml
-install_ruamel_yaml
 install_go

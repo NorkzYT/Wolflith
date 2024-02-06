@@ -2,6 +2,7 @@
 	"recommendations": [
 		"esbenp.prettier-vscode", // Prettier - Code formatter
 		"foxundermoon.shell-format", // shell-format - Code formatter
+		"ms-python.black-formatter", // Black Formatter - Code formatter
 		"eamodio.gitlens", // GitLens — Git supercharged
 		"aaron-bond.better-comments", // Better Comments
 		"oderwat.indent-rainbow", // Indent Rainbow
