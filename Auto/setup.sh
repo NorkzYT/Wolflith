@@ -55,6 +55,9 @@ if ! [[ -d "$directory_location/Wolflith" ]]; then
     exit 1
 fi
 
+# Save the directory location
+echo "$directory_location" >$directory_location/Wolflith/Scripts/directory_location.txt
+
 # Find all .sh files in the specified directory
 sh_files=$(find "$directory_location/Wolflith" -name "*.sh")
 
@@ -70,9 +73,6 @@ echo ""
 
 
 echo "Updating PCSMenu files with the new directory location."
-
-# Save the directory location
-echo "$directory_location" >$directory_location/Wolflith/Scripts/directory_location.txt
 
 # Update the Makefile with the new directory location
 sed -i'' "s#/home/user#$directory_location#g" Makefile

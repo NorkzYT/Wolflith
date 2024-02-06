@@ -1,65 +1,71 @@
 #!/bin/bash
 
-# Check if Docker Compose is installed
-if ! command -v docker compose &>/dev/null; then
-    echo "Docker Compose is not installed. Please install Docker Compose and try again."
-    exit 1
-fi
+# Function to check Docker Compose installation
+check_docker_compose_installed() {
+    if ! command -v docker compose &>/dev/null; then
+        echo "Docker Compose is not installed. Please install Docker Compose and try again."
+        exit 1
+    fi
+}
 
-# Get the directory location of the Wolflith repository from the input variable
-directory_location="$1"
+# Function to prompt for directory location
+prompt_directory_location() {
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+    local saved_dir_location="$script_dir/../Scripts/directory_location.txt"
 
-# Check if the location exists
-if ! [[ -d "$directory_location" ]]; then
-    echo "Directory '$directory_location' does not exist."
-    exit 1
-fi
+    if [ -f "$saved_dir_location" ]; then
+        directory_location=$(cat "$saved_dir_location")
+        if [ -z "$directory_location" ] || [ ! -d "$directory_location" ]; then
+            echo "Saved directory location is invalid. Please enter a new directory location."
+        else
+            echo "Using saved directory location: $directory_location"
+            return
+        fi
+    fi
 
-echo ""
+    read -p "Enter the directory location of the Wolflith repository: " directory_location
+    if [ ! -d "$directory_location" ]; then
+        echo "Directory '$directory_location' does not exist."
+        exit 1
+    fi
+    echo "Directory validated: $directory_location"
+    # Save the directory location for future use
+    echo "$directory_location" >"$directory_location/Wolflith/Scripts/directory_location.txt"
+}
 
-# Prompt the user if they want to change the current docker container appdata location
-read -p "Do you want to change the current docker container appdata location? (Default: /mnt/appdata/) [y/N]: " change_appdata_location
-
-# Set the appdata location based on user input
-if [[ $change_appdata_location =~ ^[Yy]$ ]]; then
-    read -p "Enter the new docker container appdata location: " new_appdata_location
-    # Validate the directory location
-    while ! [[ -d "$new_appdata_location" ]]; do
-        echo "Invalid directory location. Please enter a valid directory."
+# Function to change appdata location
+change_appdata_location() {
+    read -p "Do you want to change the current docker container appdata location? (Default: /mnt/appdata/) [y/N]: " response
+    if [[ $response =~ ^[Yy]$ ]]; then
         read -p "Enter the new docker container appdata location: " new_appdata_location
-    done
+        while ! [ -d "$new_appdata_location" ]; do
+            echo "Invalid directory location. Please enter a valid directory."
+            read -p "Enter the new docker container appdata location: " new_appdata_location
+        done
 
-    # Find docker-compose.yml files in the specified directory
-    docker_compose_files=$(find "$directory_location/Wolflith/Docker" -name "docker-compose.yml")
+        find "$directory_location" -name "docker-compose.yml" -exec sed -i "s|/mnt/appdata/|$new_appdata_location/|g" {} \;
+        echo "Docker container appdata location has been updated to $new_appdata_location."
+    else
+        echo "Keeping the current docker container appdata location."
+    fi
+}
 
-    # Iterate through each docker-compose.yml file and replace the appdata location
-    for file in $docker_compose_files; do
-        sed -i "s~/mnt/appdata/~$new_appdata_location/~" "$file"
-    done
+# Function to change Docker network name
+change_docker_network_name() {
+    read -p "Do you want to change the compose files current docker network name? (Default: proxy) [y/N]: " response
+    if [[ $response =~ ^[Yy]$ ]]; then
+        read -p "Enter the new docker network name: " new_docker_network_name
+        find "$directory_location" -name "docker-compose.yml" -exec sed -i "s|proxy|$new_docker_network_name|g" {} \;
+        echo "Docker network name has been updated to $new_docker_network_name."
+    else
+        echo "Keeping the current docker network name."
+    fi
+}
 
-    echo "Docker container appdata location has been updated successfully."
-fi
+# Main execution flow
+check_docker_compose_installed
+prompt_directory_location
+change_appdata_location
+change_docker_network_name
 
-echo ""
-
-# Prompt the user if they want to change the current docker network name
-read -p "Do you want to change the current docker network name? (Default: proxy) [y/N]: " change_docker_network_name
-
-# Set the docker network name based on user input
-if [[ $change_docker_network_name =~ ^[Yy]$ ]]; then
-    read -p "Enter the new docker network name: " new_docker_network_name
-
-    # Find docker-compose.yml files in the specified directory
-    docker_compose_files=$(find "$directory_location/Wolflith/Docker" -name "docker-compose.yml")
-
-    # Iterate through each docker-compose.yml file and replace the docker network name
-    for file in $docker_compose_files; do
-        sed -i "s/proxy/$new_docker_network_name/g" "$file"
-    done
-
-    echo ""
-    echo "Docker network name has been updated successfully."
-fi
-
-echo ""
 echo "Docker Compose files have been updated successfully."
