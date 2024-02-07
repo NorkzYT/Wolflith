@@ -36,9 +36,9 @@ yarn-error.log*
 *.gz
 
 # Specific Files
-error_messages.txt
 1password-credentials.json
 directory_location.txt
+hosts.yaml
 
 # OpenCommit commitlint config
 .opencommit-commitlint

@@ -170,7 +170,7 @@ ansible() {
         sleep 0.2
         clear
         ansible_banner
-        new_machine_setup
+        setup_hosts_add_machines
         clear
         ansible
         ;;
@@ -180,7 +180,7 @@ ansible() {
         sleep 0.2
         clear
         ansible_banner
-        first_docker_setup
+        new_machine_setup
         clear
         ansible
         ;;
@@ -228,7 +228,7 @@ ansible() {
     *)
         Color_Off
         invalid_input
-        tools
+        ansible
         ;;
 
     esac

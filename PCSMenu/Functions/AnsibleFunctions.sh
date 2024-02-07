@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source Functions/MainFunctions.sh
+
 # PCSMenu AnsibleFunctions.sh
 
 #####################################################################################################################################################################
@@ -8,7 +10,11 @@
 
 #####################################################################################################################################################################
 
-function ansible_banner {
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../Scripts/directory_location.txt")
+
+function ansible_banner() {
     printf "$White"
     # Display a banner with the text "Ansible"
     cat <<"EOF"
@@ -29,11 +35,11 @@ EOF
 function ansible_options() {
 
     printf "$Cyan"
-    printf "1) A. Setup New Machines                                  2) B. First Time Docker Setup"
+    printf "1) Setup Hosts/Add More Machines                            2) Setup New Machines"
     printf "\n"
-    printf "3) C. Setup Kubernetes Cluster                            4) D. Accessing Kubernetes Cluster"
+    printf "3) C. Setup Kubernetes Cluster                              4) D. Accessing Kubernetes Cluster"
     printf "\n"
-    printf "5) C. Testing Kubernetes Cluster"
+    printf "5) E. Testing Kubernetes Cluster"
     printf "$Color_Off"
     echo ""
 
@@ -43,14 +49,51 @@ function ansible_options() {
 
 # --------------------------------------------------------------- #
 
-function ansible_message {
-    printf "\nConfigure "Ansible/inventory/hosts" file before choosing any option, and for Kubernetes configure "Ansible/k3s/inventory/sample/hosts.ini", and "Ansible/k3s/inventory/sample/group_vars/all.yml"!\n\n"
+function ansible_message() {
+    printf "\nConfigure "Ansible/inventory/hosts.yaml" with the first option before choosing any other option!\n\n"
 
 }
 
 ####################################################
 
 ### 1 ###
+
+####################################################
+
+# Function to setup hosts/add more machines
+function setup_hosts_add_machines() {
+    while true; do
+        printf "This option allows you to add more machines to your Ansible 'hosts.yaml' file.\n"
+        echo ""
+        read -p "Do you want to proceed with adding a new machine to the hosts file? (yes/no) " proceed
+
+        if [[ "$proceed" == "yes" ]] || [[ "$proceed" == "y" ]]; then
+            # Run the updateHosts.sh script
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Ansible/updateHosts.sh"
+
+            # Ask if the user wants to add another machine
+            echo ""
+            read -p "Do you want to add another machine? (yes/no) " add_more
+            if [[ "$add_more" != "yes" ]] && [[ "$add_more" != "y" ]]; then
+                break
+            fi
+        else
+            printf "\nAction canceled.\n"
+            break
+        fi
+    done
+
+    printf "\nReturning to Ansible menu...\n"
+    sleep 2
+    clear
+    ansible
+}
+
+# --------------------------------------------------------------- #
+
+####################################################
+
+### 2 ###
 
 ####################################################
 
@@ -67,7 +110,7 @@ function new_machine_setup() {
     if [ "$run_command" == "yes" ]; then
 
         # Run the NewMachines.sh script
-        bash /home/user/Wolflith/Menu/Scripts/Ansible/FirstTimeSetup/NewMachines.sh
+        bash "$DIRECTORY_LOCATION/Wolflith/Scripts/Ansible/FirstTimeSetup/NewMachines.sh"
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
@@ -107,70 +150,15 @@ function new_machine_setup() {
 
 ####################################################
 
-### 2 ###
-
-####################################################
-
-function first_docker_setup() {
-    printf "This playbook makes a script called DockerContainerSetup.sh executable and then runs it. The tasks are run with elevated privileges using the sudo command, and the playbook will be applied to all hosts specified in the inventory. The script executed  installs and sets up various Docker containers on a machine by using the docker-compose command to bring up the containers in the background. The containers are located in the specified directories and are started in the following order: WatchTower, Tailscale, Syncthing, Portainer, Vscode, Authentik, Traefik, GitLab. The script also modifies the docker-compose.yml file in the Tailscale directory and runs a command inside the Tailscale container. The script ends with several commented lines that do not have any effect on the script's execution.\n"
-    echo ""
-    read -p "Do you still want to run this command? (yes/no) " run_command
-    echo ""
-
-    # Check the user's answer
-    if [ "$run_command" == "yes" ]; then
-
-        # Installs all docker containers for new machines
-        ansible-playbook /home/user/Wolflith/Ansible/playbooks/first-time-docker-container-setup.yml
-
-    else
-        printf "\n--------------------------------------------------------------------------------\n"
-        printf "\nThe command was not run.\n"
-    fi
-
-    printf "\n--------------------------------------------------------------------------------\n"
-    echo ""
-    # Done viewing function
-    # Ask the user if they are done viewing the current option
-    read -p "Are you done viewing this option? (yes/no) " done
-
-    # Check the user's answer
-    if [[ "$done" == "yes" ]] || [[ "$done" == "y" ]] || [[ "$done" == "Yes" ]] || [[ "$done" == "Y" ]]; then
-        # Return to the main menu
-        clear
-        ansible
-    else
-
-        # Check the user's answer
-        if [[ "$done" == "no" ]] || [[ "$done" == "n" ]] || [[ "$done" == "No" ]] || [[ "$done" == "N" ]]; then
-            # Return to the main menu
-            clear
-            ansible_banner
-            first_docker_setup
-
-        else
-            # The user entered an invalid answer
-            invalid_answer
-            clear
-            ansible_banner
-            first_docker_setup
-        fi
-    fi
-}
-
-# --------------------------------------------------------------- #
-
-####################################################
-
 ### 3 ###
 
 ####################################################
 
 # Define the function
 function kubernetes_setup() {
-    printf "This command is running an Ansible playbook, which is a script written in the Ansible automation language that defines a set of tasks to be executed, to install the k3s software on a server. The playbook is located at /home/user/Wolflith/Ansible/k3s/site.yml, and the command specifies a host inventory file, /home/user/Wolflith/Ansible/k3s/inventory/sample/hosts.ini, which contains a list of servers that the playbook will be run on.\n"
+    printf "This command is running an Ansible playbook, which is a script written in the Ansible automation language that defines a set of tasks to be executed, to install the k3s software on a server. The playbook is located at $DIRECTORY_LOCATION/Wolflith/Ansible/k3s/site.yml, and the command specifies a host inventory file, $DIRECTORY_LOCATION/Wolflith/Ansible/k3s/inventory/sample/hosts.ini, which contains a list of servers that the playbook will be run on.\n"
     echo ""
-    printf "Make sure to have /home/user/Wolflith/Ansible/k3s/inventory/sample/hosts.ini configured before running this command.\n"
+    printf "Make sure to have $DIRECTORY_LOCATION/Wolflith/Ansible/k3s/inventory/sample/hosts.ini configured before running this command.\n"
     echo ""
     read -p "Do you still want to run this command? (yes/no) " run_command
     echo ""
@@ -179,7 +167,7 @@ function kubernetes_setup() {
     if [ "$run_command" == "yes" ]; then
 
         # Run Ansible playbook to install k3s
-        ansible-playbook /home/user/Wolflith/Ansible/k3s/site.yml -i /home/user/Wolflith/Ansible/k3s/inventory/sample/hosts.ini
+        ansible-playbook "$DIRECTORY_LOCATION/Wolflith/Ansible/k3s/site.yml" -i "$DIRECTORY_LOCATION/Wolflith/Ansible/k3s/inventory/sample/hosts.ini"
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
@@ -232,7 +220,7 @@ function kubernetes_cluster_access() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
 
-        bash /home/user/Wolflith/Scripts/Ansible/FirstTimeSetup/K3sExtract-ip-addresses-and-scp.sh
+        bash "$DIRECTORY_LOCATION/Wolflith/Scripts/Ansible/FirstTimeSetup/K3sExtract-ip-addresses-and-scp.sh"
 
     else
         printf "\n--------------------------------------------------------------------------------\n"
@@ -280,7 +268,7 @@ function kubernetes_cluster_access() {
 function kubernetes_cluster_test() {
     printf "This is a bash script that extracts the VIP address from the apiserver_endpoint line in a all.yml file, pings the VIP address, and gets the nodes in a Kubernetes cluster. The script is intended for troubleshooting purposes, and the commands it runs are described in the comments above the commands in the file.\n"
     echo ""
-    printf "CONFIGURE "/home/user/Wolflith/Ansible/k3s/inventory/sample/group_vars/all.yml" before running this command!\n"
+    printf "CONFIGURE "$DIRECTORY_LOCATION/Wolflith/Ansible/k3s/inventory/sample/group_vars/all.yml" before running this command!\n"
     echo ""
     printf "Follow the video tutorial at https://youtu.be/CbkEWcUZ7zM?t=393 to configure the file.\n"
     echo ""
@@ -290,7 +278,7 @@ function kubernetes_cluster_test() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
 
-        bash /home/user/Wolflith/Scripts/Ansible/FirstTimeSetup/K3sTest.sh
+        bash "$DIRECTORY_LOCATION/Wolflith/Scripts/Ansible/FirstTimeSetup/K3sTest.sh"
 
     else
         printf "\n--------------------------------------------------------------------------------\n"

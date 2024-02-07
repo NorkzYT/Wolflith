@@ -8,7 +8,11 @@
 
 #####################################################################################################################################################################
 
-function docker_banner {
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../Scripts/directory_location.txt")
+
+function docker_banner() {
     printf "$Cyan"
     # Display a banner with the text "Docker"
     cat <<"EOF"
@@ -56,7 +60,7 @@ function docker_memory_check() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
         # Run the DockerContainerMem.sh script
-        bash /home/user/Wolflith/Scripts/Menu/Auto/DockerContainerMem.sh
+        bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Auto/DockerContainerMem.sh"
     else
         printf "\n--------------------------------------------------------------------------------\n"
         printf "\nThe command was not run.\n"
@@ -107,7 +111,7 @@ function docker_install() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
         # Run the DockerInstaller.sh script
-        bash /home/user/Wolflith/Scripts/Menu/Auto/DockerInstaller.sh
+        bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Auto/DockerInstaller.sh"
     else
         printf "\n--------------------------------------------------------------------------------\n"
         printf "\nThe command was not run.\n"
@@ -160,7 +164,7 @@ function run_docker_command() {
     # Check the user's answer
     if [ "$run_command" == "yes" ]; then
         # Run the DockerManualCommand.sh script
-        bash /home/user/Wolflith/Scripts/Menu/Auto/DockerManualCommand.sh
+        bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Auto/DockerManualCommand.sh"
     else
         printf "\n--------------------------------------------------------------------------------\n"
         printf "\nThe command was not run.\n"

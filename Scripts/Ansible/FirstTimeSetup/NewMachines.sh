@@ -1,58 +1,81 @@
 #!/bin/bash
 
-# ------------------------------------------------------------------------------------------------------------------------ #
+# Read the directory location from the directory_location.txt file
+DIRECTORY_LOCATION=$(cat Scripts/directory_location.txt)
+HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
 
-# Runs the the following Ansible playbooks in order which is only for every new machine that needs to be setup.
-
-# ------------------------------------------------------------------------------------------------------------------------ #
-
-# Prompt user for the directory location of the Wolflith GitHub repository
-read -p "Enter the directory location of the Wolflith repository: " directory_location
-
-# Validate the directory location
-if [ ! -d "$directory_location" ]; then
-    echo "Invalid directory location. Please provide an existing directory."
+# Ensure the initial structure of the YAML file if not present
+if [ ! -f "$HOSTS_FILE" ]; then
+    echo "hosts.yaml file not found at $HOSTS_FILE."
     exit 1
 fi
 
-# This ansible playbook updates the package cache and upgrades all installed packages to their latest versions on all specified hosts.
-# It uses the apt module and the become: true option to run with elevated privileges.
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/apt.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+# Check for yq and install if not present
+if ! command -v yq &>/dev/null; then
+    echo "yq could not be found, attempting to install..."
 
-# This ansible playbook configures time synchronization on all hosts specified in the hosts field.
-# It sets the timezone to America/NewYork, stops and starts the systemd-timesyncd service, and copies over a configuration file for timesyncd, which is a daemon that synchronizes the system clock with a remote server using the Network Time Protocol (NTP).
-# The configuration file specifies the remote servers to use for time synchronization.
-# The become option allows the tasks to run with elevated privileges, which may be necessary to modify system settings and control services.
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/timezone.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+    # Detect system architecture
+    ARCH=$(uname -m)
+    case $ARCH in
+    x86_64) YQ_BIN="yq_linux_amd64" ;;
+    aarch64) YQ_BIN="yq_linux_arm64" ;;
+    *)
+        echo "Unsupported architecture: $ARCH"
+        exit 1
+        ;;
+    esac
 
-# This playbook installs the fail2ban package, creates local copies of the fail2ban and jail configuration files, -
-# updates the backend in the jail.local configuration file, and checks the status of fail2ban and the sshd service.
-# It will run on all hosts in the inventory with sudo privileges.
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/fail2ban.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+    # Download and install yq
+    wget "https://github.com/mikefarah/yq/releases/latest/download/$YQ_BIN" -O /usr/local/bin/yq &&
+        chmod +x /usr/local/bin/yq
 
-# This ansible playbook creates a user on the host machine, prompts the user to enter a password, -
-# switches to the user, and creates a directory in the user's home directory, .
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/user-dir.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+    if ! command -v yq &>/dev/null; then
+        echo "Failed to install yq. Please install it manually."
+        exit 1
+    fi
+fi
 
-# This ansible playbook upgrades the ansible package to the latest version or installs it on all specified hosts.
-# It uses the apt module to manage the ansible package, setting the state parameter to 'latest' to upgrade to the latest version. The hosts field specifies that the playbook will run on all specified hosts.
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/ansible-upgrade-install.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+# Function to list machines from hosts.yaml using yq
+list_machines() {
+    echo "Machines listed in hosts.yaml:"
+    yq e '.all.children.*.hosts | keys | .[]' "$HOSTS_FILE"
+}
 
-# The provided YAML code lists collections (i.e., "ansible.utils", "community.general", "ansible.posix", -
-# and "kubernetes.core") that are required for a certain task or project, and the "requirements.yml" file is used to specify these collections so that they can be installed and made available for use in the project.
-ansible-galaxy install -r $directory_location/Wolflith/Ansible/collections/requirements.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+# Prompt user to choose running for all machines or select one
+list_machines
+echo "Do you want to run the playbooks for all machines listed in hosts.yaml? (y/n)"
+read -r run_for_all
 
-# This ansible playbook installs Oh-My-Zsh, a framework for managing the Z shell (zsh) configuration, on all hosts specified in the hosts field for the user.
-# It includes a pre-defined role called gantsign.oh-my-zsh that sets up Oh-My-Zsh as the default shell for the specified user and is assumed to have already been installed on the controller using the ansible-galaxy command.
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/oh-my-zsh.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+# Adjusting the selection process for running against all machines or a specific one
+if [[ "$run_for_all" =~ ^[Yy]$ ]]; then
+    LIMIT_OPTION="" # No limit, run against all machines
+else
+    echo "Enter the name of the machine you want to run the playbooks for:"
+    read -r machine_name
+    LIMIT_OPTION="--limit $machine_name" # Limit to the selected machine
+fi
 
-# This ansible playbook clones a Git repository hosted on GitLab to the local host.
-# It consists of a single task that uses the git module to clone the repository to the specified location on the local host.
-# The playbook can be used to download a copy of the Git repository to the local host.
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/git-repo-pull.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+# Define a function to run ansible playbooks with limit option if applicable
+run_playbook() {
+    playbook=$1
+    echo "Running playbook: $playbook"
+    ansible-playbook "$DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/$playbook.yml" -i "$HOSTS_FILE" $LIMIT_OPTION
+}
 
-# This is an ansible playbook that runs the "chmod" command to add execute permissions to all bash files in the "$directory_location/Wolflith/" directory on the local host.
-ansible-playbook $directory_location/Wolflith/Ansible/playbooks/add-execute-permission.yml -i $directory_location/Wolflith/Ansible/inventory/hosts
+# List of playbooks to be executed
+declare -a playbooks=("apt" "timezone" "fail2ban" "user-dir")
 
-# ------------------------------------------------------------------------------------------------------------------------ #
-# ------------------------------------------------------------------------------------------------------------------------ #
+# Run the playbooks
+for playbook in "${playbooks[@]}"; do
+    run_playbook "$playbook"
+done
+
+# Install required collections
+ansible-galaxy install -r "$DIRECTORY_LOCATION/Wolflith/Ansible/collections/requirements.yml" $INVENTORY_OPTION
+
+# Additional playbooks that require special handling or roles
+run_playbook "oh-my-zsh"
+run_playbook "git-repo-pull"
+run_playbook "add-execute-permission"
+
+echo "All specified playbooks have been executed successfully."

@@ -87,8 +87,8 @@ update_config_locations() {
 }
 
 # Modify Docker Compose files
-modify_compose_files() {
-    "$directory_location/Wolflith/Auto/modify_compose_files.sh" "$directory_location"
+modifyComposeFiles() {
+    "$directory_location/Wolflith/Auto/modifyComposeFiles.sh" "$directory_location"
 }
 
 # Main function to coordinate the setup process
@@ -99,7 +99,7 @@ main() {
     configure_vault
     update_permissions
     update_config_locations
-    modify_compose_files
+    modifyComposeFiles
     greenprint "Wolflith setup completed successfully."
 }
 
