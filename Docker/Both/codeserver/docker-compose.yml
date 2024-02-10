@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   openvscode-server:
-    image: linuxserver/code-server:4.21.0
+    image: linuxserver/code-server:4.21.1
     container_name: vscode-server
     hostname: vscode
     environment:
