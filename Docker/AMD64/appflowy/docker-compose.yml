@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   appflowy_client:
-    image: appflowyio/appflowy_client:0.4.6
+    image: appflowyio/appflowy_client:0.4.7
     container_name: appflowy_client
     hostname: appflowy_client
     environment:
