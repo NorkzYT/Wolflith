@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Read the directory location from the directory_location.txt file
-DIRECTORY_LOCATION=$(cat Scripts/directory_location.txt)
+DIRECTORY_LOCATION=$(cat ../Scripts/directory_location.txt)
 HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
 
 # Ensure the initial structure of the YAML file if not present
@@ -75,7 +75,5 @@ ansible-galaxy install -r "$DIRECTORY_LOCATION/Wolflith/Ansible/collections/requ
 
 # Additional playbooks that require special handling or roles
 run_playbook "oh-my-zsh"
-run_playbook "git-repo-pull"
-run_playbook "add-execute-permission"
 
 echo "All specified playbooks have been executed successfully."

@@ -8,19 +8,11 @@
     - name: 'newuser_password'
       prompt: 'Enter the password for the new user'
       private: yes
-    - name: 'parent_directory'
-      prompt: 'Enter the parent directory of the Wolflith GitHub Repo'
-      private: no
 
   tasks:
     - name: Get Linux machine name
       shell: hostname
       register: hostname_result
-
-    - name: Write Linux machine names to file on local machine.
-      delegate_to: localhost
-      run_once: true
-      shell: echo "{{ hostname_result.stdout }}" >> {{ parent_directory }}/Wolflith/Scripts/DoNotTouch/hostnames.txt
 
     - name: Print Linux machine name
       debug:
@@ -34,21 +26,3 @@
         password: "{{ newuser_password | password_hash('sha512','00C0A6220') }}"
         update_password: on_create
         group: sudo
-
-    - name: Create new directory
-      file:
-        path: '/home/{{ new_username }}/github'
-        state: directory
-        mode: 0755
-# Make sure to record credentials, and password before entering it when prompted by the playbook.
-# Do this with the `hostname` of the Linux Machine that is first given to you.
-# Save credentials like the following example.
-#
-# ----------------------------------------------
-# Name of Item = Machine {hostname}
-# Username = User
-# Password = {password}
-# Website = {website}
-# ----------------------------------------------
-
-# The names inside the curly braces are the ones that you need to fill in since they are only placeholders.

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source Functions/MainFunctions.sh
-
 # PCSMenu AnsibleFunctions.sh
 
 #####################################################################################################################################################################
@@ -35,11 +33,11 @@ EOF
 function ansible_options() {
 
     printf "$Cyan"
-    printf "1) Setup Hosts/Add More Machines                            2) Setup New Machines"
+    printf "1) Setup Hosts/Add More Machines                             2) Setup New Machines"
     printf "\n"
-    printf "3) C. Setup Kubernetes Cluster                              4) D. Accessing Kubernetes Cluster"
+    printf "3) Provision Proxmox LXC with a Docker Service               4) Setup Kubernetes Cluster"
     printf "\n"
-    printf "5) E. Testing Kubernetes Cluster"
+    printf "5) Accessing Kubernetes Cluster                              6) Testing Kubernetes Cluster"
     printf "$Color_Off"
     echo ""
 
@@ -50,7 +48,7 @@ function ansible_options() {
 # --------------------------------------------------------------- #
 
 function ansible_message() {
-    printf "\nConfigure "Ansible/inventory/hosts.yaml" with the first option before choosing any other option!\n\n"
+    printf "\nConfigure "Ansible/inventory/hosts.yaml" with the first option before choosing any other options!\n\n"
 
 }
 
@@ -67,26 +65,29 @@ function setup_hosts_add_machines() {
         echo ""
         read -p "Do you want to proceed with adding a new machine to the hosts file? (yes/no) " proceed
 
-        if [[ "$proceed" == "yes" ]] || [[ "$proceed" == "y" ]]; then
+        if [[ "$proceed" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
             # Run the updateHosts.sh script
             bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Ansible/updateHosts.sh"
 
-            # Ask if the user wants to add another machine
             echo ""
             read -p "Do you want to add another machine? (yes/no) " add_more
-            if [[ "$add_more" != "yes" ]] && [[ "$add_more" != "y" ]]; then
+            if ! [[ "$add_more" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
                 break
             fi
+        elif [[ "$proceed" =~ ^[Nn][Oo]?$ ]]; then
+            # Immediately return to the main menu
+            clear
+            ansible
+            return # Ensure no further code in this function is executed
         else
-            printf "\nAction canceled.\n"
-            break
+            # User entered an invalid answer
+            invalid_answer
+            clear
+            ansible_banner
+            setup_hosts_add_machines
         fi
     done
 
-    printf "\nReturning to Ansible menu...\n"
-    sleep 2
-    clear
-    ansible
 }
 
 # --------------------------------------------------------------- #
@@ -101,41 +102,21 @@ function setup_hosts_add_machines() {
 # Function to setup new machines
 function new_machine_setup() {
 
-    printf "This script is an automation tool that runs several Ansible playbooks in order to set up a new machine. The playbooks perform various tasks such as updating the package cache and installed packages, configuring time synchronization, installing and configuring the fail2ban package, creating a user and directory on the host machine, upgrading and installing the ansible package, installing specified ansible collections, setting up Oh-My-Zsh on the host machine, cloning a Git repository, and adding execute permissions to bash files.\n"
+    printf "This script is an automation tool that runs several Ansible playbooks in order to set up a new machine. The playbooks perform various tasks such as updating the package cache and installed packages, configuring time synchronization, installing and configuring the fail2ban package, creating a user on the host machine, and setting up Oh-My-Zsh on the host machine.\n"
     echo ""
-    read -p "Do you still want to run this command? (yes/no) " run_command
-    echo ""
+    while true; do
+        read -p "Do you still want to run this command? (yes/no) " run_command
+        echo ""
 
-    # Check the user's answer
-    if [ "$run_command" == "yes" ]; then
-
-        # Run the NewMachines.sh script
-        bash "$DIRECTORY_LOCATION/Wolflith/Scripts/Ansible/FirstTimeSetup/NewMachines.sh"
-
-    else
-        printf "\n--------------------------------------------------------------------------------\n"
-        printf "\nThe command was not run.\n"
-    fi
-
-    printf "\n--------------------------------------------------------------------------------"
-    echo ""
-
-    # Done viewing function
-    # Ask the user if they are done viewing the current option
-    read -p "Are you done viewing this option? (yes/no) " done
-
-    # Check the user's answer
-    if [[ "$done" == "yes" ]] || [[ "$done" == "y" ]] || [[ "$done" == "Yes" ]] || [[ "$done" == "Y" ]]; then
-        # Return to the main menu
-        clear
-        ansible
-    else
-        # Check the user's answer
-        if [[ "$done" == "no" ]] || [[ "$done" == "n" ]] || [[ "$done" == "No" ]] || [[ "$done" == "N" ]]; then
-            # Return to the main menu
+        if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
+            # Run the newMachines.sh script
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Ansible/newMachines.sh"
+            break
+        elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
+            # Immediately return to the main menu
             clear
-            ansible_banner
-            new_machine_setup
+            ansible
+            return # Ensure no further code in this function is executed
         else
             # The user entered an invalid answer
             invalid_answer
@@ -143,7 +124,7 @@ function new_machine_setup() {
             ansible_banner
             new_machine_setup
         fi
-    fi
+    done
 }
 
 # --------------------------------------------------------------- #
@@ -151,6 +132,23 @@ function new_machine_setup() {
 ####################################################
 
 ### 3 ###
+
+####################################################
+
+function provision_docker_services_on_lxc() {
+    printf "This option will guide you through provisioning Docker services on a new LXC container within a Proxmox VE.\n"
+    echo ""
+    # Assuming the scripts are placed under the same directory structure as described
+    bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Proxmox/select_service.sh"
+    bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Proxmox/setup_service.sh"
+    bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Proxmox/provision_lxc.sh"
+}
+
+# --------------------------------------------------------------- #
+
+####################################################
+
+### 4 ###
 
 ####################################################
 
@@ -207,7 +205,7 @@ function kubernetes_setup() {
 
 ####################################################
 
-### 4 ###
+### 5 ###
 
 ####################################################
 
@@ -260,7 +258,7 @@ function kubernetes_cluster_access() {
 
 ####################################################
 
-### 5 ###
+### 6 ###
 
 ####################################################
 

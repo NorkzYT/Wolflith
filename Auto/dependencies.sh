@@ -28,18 +28,16 @@ install_python() {
     fi
 }
 
-# Function to install BeautifulSoup
-install_beautifulsoup() {
-    if ! pip freeze | grep -q beautifulsoup4; then
-        echo "BeautifulSoup is not installed. Installing it..."
-        pip install beautifulsoup4
-        if [ $? -ne 0 ]; then
-            echo "Failed to install BeautifulSoup. Please check your Python environment."
-            exit 1
-        fi
-    else
-        echo "BeautifulSoup is already installed."
+# Function to install Python dependencies from requirements.txt
+install_python_dependencies() {
+    echo "Installing Python dependencies..."
+    pip3 install -r Auto/requirements.txt
+    if [ $? -ne 0 ]; then
+        echo "Failed to install Python dependencies. Please check your Python environment."
+        exit 1
     fi
+
+    echo "Python dependencies installed successfully."
 }
 
 # Function to install Go with user-specified architecture
@@ -133,5 +131,5 @@ END
 # Main execution flow
 install_ansible
 install_python
-install_beautifulsoup
+install_python_dependencies
 install_go

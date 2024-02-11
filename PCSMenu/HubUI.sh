@@ -190,7 +190,7 @@ ansible() {
         sleep 0.2
         clear
         ansible_banner
-        kubernetes_setup
+        provision_docker_services_on_lxc
         clear
         ansible
         ;;
@@ -200,12 +200,22 @@ ansible() {
         sleep 0.2
         clear
         ansible_banner
-        kubernetes_cluster_access
+        kubernetes_setup
         clear
         ansible
         ;;
 
     5)
+        Color_Off
+        sleep 0.2
+        clear
+        ansible_banner
+        kubernetes_cluster_access
+        clear
+        ansible
+        ;;
+
+    6)
         Color_Off
         sleep 0.2
         clear

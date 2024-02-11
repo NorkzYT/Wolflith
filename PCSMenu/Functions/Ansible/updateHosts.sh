@@ -54,6 +54,7 @@ append_group_with_vars() {
         echo "        ansible_ssh_private_key_file: $auth_value" >>"$HOSTS_FILE"
     elif [ "$auth_method" == "password" ]; then
         echo "        ansible_ssh_pass: $auth_value" >>"$HOSTS_FILE"
+        echo "        ansible_become_pass: $auth_value" >>"$HOSTS_FILE"
     fi
 }
 

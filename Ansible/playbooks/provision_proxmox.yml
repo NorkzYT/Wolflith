@@ -1,0 +1,230 @@
+---
+- name: Preliminary System Checks
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Verify if target system is Proxmox VE
+      ansible.builtin.script: '../../PCSMenu/Functions/Proxmox/check_proxmox.sh'
+      register: proxmox_check
+      ignore_errors: yes
+
+    - name: Halt if any target system is not Proxmox VE
+      ansible.builtin.fail:
+        msg: 'One or more targeted systems are not Proxmox VE. Process halted.'
+      when: proxmox_check is failed
+
+- name: Proxmox VE Node Preparation
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Update and Refresh apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Ensure Python3 and pip are Installed
+      ansible.builtin.apt:
+        name:
+          - python3
+          - python3-pip
+        state: present
+
+    - name: Install Proxmox API Utilities
+      ansible.builtin.apt:
+        name:
+          - python3-proxmoxer
+          - python3-requests
+        state: present
+
+- name: Debian 12 Template Verification and Installation
+  hosts: all
+  become: yes
+  vars_files:
+    - /tmp/lxc_provisioning_vars.yml
+  tasks:
+    - name: Check for Debian 12 Template Presence and Install if Missing
+      community.general.proxmox_template:
+        node: '{{ node }}'
+        api_host: '{{ api_host }}'
+        api_user: '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        storage: '{{ ct_storage }}'
+        template: 'debian-12-standard_12.2-1_amd64.tar.zst'
+        state: present
+
+- name: LXC Container Provisioning
+  hosts: all
+  become: yes
+  vars_files:
+    - /tmp/lxc_provisioning_vars.yml
+  tasks:
+    - name: Provision LXC Container with Debian 12 Template
+      community.general.proxmox:
+        api_user: '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        api_host: '{{ api_host }}'
+        node: '{{ node }}'
+        hostname: '{{ hostname }}'
+        ostemplate: '{{ ct_storage }}:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst'
+        password: '{{ lxc_root_password }}'
+        cores: '{{ vCPU }}'
+        memory: '{{ RAM }}'
+        swap: '{{ RAM }}'
+        disk: '{{ lxc_storage_name }}:{{ lxc_storage_amount }}'
+        netif: '{{ netif }}'
+        onboot: true
+        unprivileged: true
+        state: present
+        features:
+          - keyctl=1
+          - nesting=1
+      delegate_to: localhost
+      register: provisioning_output
+
+    - name: Extract and Set VMID from Provisioning Output
+      set_fact:
+        vmid: "{{ provisioning_output.msg | regex_search('VM (\\d+) from template', '\\1') | first }}"
+      delegate_to: localhost
+
+    - name: Update VMID in Local Configuration File
+      ansible.builtin.lineinfile:
+        path: /tmp/lxc_provisioning_vars.yml
+        regexp: '^vmid:.*$'
+        line: 'vmid: {{ vmid }}'
+        backrefs: yes
+        create: yes
+      delegate_to: localhost
+
+- name: Docker Setup in Provisioned LXC Container
+  hosts: all
+  become: yes
+  vars_files:
+    - /tmp/lxc_provisioning_vars.yml
+  tasks:
+    - name: Start LXC Container Before Docker Setup
+      community.general.proxmox:
+        api_user: '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        api_host: '{{ api_host }}'
+        node: '{{ node }}'
+        vmid: '{{ vmid }}'
+        unprivileged: true
+        state: started
+
+    - name: Update & Upgrade Packages inside LXC Container
+      ansible.builtin.shell: |
+        pct exec {{ vmid }} -- apt-get update &&
+        pct exec {{ vmid }} -- apt-get upgrade -y
+
+    - name: Install Docker and Dependencies in LXC Container
+      ansible.builtin.shell: |
+        pct exec {{ vmid }} -- bash -c "\
+        apt-get update && apt-get install ca-certificates curl gnupg lsb-release -y && \
+        mkdir -p /etc/apt/keyrings && \
+        curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
+        echo 'deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable' | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+        apt-get update && apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y"
+
+    - name: Reboot LXC Container Post Docker Installation
+      community.general.proxmox:
+        api_user: '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        api_host: '{{ api_host }}'
+        node: '{{ node }}'
+        vmid: '{{ vmid }}'
+        unprivileged: true
+        state: restarted
+
+- name: Final Configuration and Cleanup
+  hosts: all
+  become: yes
+  vars_files:
+    - /tmp/lxc_provisioning_vars.yml
+  tasks:
+    - name: Docker Network and Directory Setup
+      block:
+        - name: Create Docker Network in the LXC Container
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- docker network create {{ network_name }}
+          ignore_errors: yes
+
+        - name: Ensure Host Destination Directory Exists
+          ansible.builtin.file:
+            path: '/tmp/docker/{{ selected_service }}'
+            state: directory
+            mode: '0755'
+
+        - name: Ensure LXC Container Destination Directories Exist
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- mkdir -p /home/docker/{{ selected_service }}
+            pct exec {{ vmid }} -- mkdir -p /tmp
+
+    - name: File Transfers to Proxmox Host and LXC Container
+      block:
+        - name: Transfer Scripts and Configuration Files to Proxmox Host
+          ansible.builtin.copy:
+            src: '{{ item.src }}'
+            dest: '{{ item.dest }}'
+            mode: '0755'
+          loop:
+            - {
+                src: '{{ repo_path }}/PCSMenu/Functions/Proxmox/generate_in_lxc_env.sh',
+                dest: '/tmp/generate_in_lxc_env.sh',
+              }
+            - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
+            - {
+                src: '{{ selected_service_path }}/docker-compose.yml',
+                dest: '/tmp/docker/{{ selected_service }}/docker-compose.yml',
+              }
+            - {
+                src: '{{ selected_service_path }}/.env.example',
+                dest: '/tmp/docker/{{ selected_service }}/.env.example',
+              }
+
+        - name: Push Files into the LXC Container
+          ansible.builtin.shell: |
+            pct push {{ vmid }} {{ item.src }} {{ item.dest }}
+          loop:
+            - { src: '/tmp/generate_in_lxc_env.sh', dest: '/tmp/generate_in_lxc_env.sh' }
+            - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
+            - {
+                src: '/tmp/docker/{{ selected_service }}/docker-compose.yml',
+                dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
+              }
+            - {
+                src: '/tmp/docker/{{ selected_service }}/.env.example',
+                dest: '/home/docker/{{ selected_service }}/.env.example',
+              }
+
+    - name: Script Execution and Docker Service Deployment
+      block:
+        - name: Set Execute Permission for the Script Inside LXC Container
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- chmod +x /tmp/generate_in_lxc_env.sh
+
+        - name: Execute Script Inside LXC to Generate .env File
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- bash -c "cd /tmp && ./generate_in_lxc_env.sh {{ selected_service }}"
+
+        - name: Deploy Docker Compose Service Inside LXC Container
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- bash -c "cd /home/docker/{{ selected_service }} && docker compose up -d"
+
+    - name: Cleanup Temporary Files and Directories
+      block:
+        - name: Remove Temporary Files from Proxmox Host
+          ansible.builtin.file:
+            path: '{{ item }}'
+            state: absent
+          loop:
+            - '/tmp/generate_in_lxc_env.sh'
+            - '/tmp/env_vars_for_ansible.yml'
+            - '/tmp/docker'
+
+        - name: Remove Temporary Files from LXC Container
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- rm -f /tmp/{{ item }}
+          loop:
+            - 'generate_in_lxc_env.sh'
+            - 'env_vars_for_ansible.yml'
