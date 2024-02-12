@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Source the PersonalizationFunctions for color support
+source PCSMenu/Functions/PersonalizationFunctions.sh
+
 # Function to install Ansible
 install_ansible() {
     if ! command -v ansible &>/dev/null; then
@@ -11,6 +14,19 @@ install_ansible() {
         fi
     else
         echo "Ansible is already installed."
+    fi
+}
+
+# Function to install required Ansible collections
+install_ansible_required_collections() {
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+    local saved_dir_location="$script_dir/../Scripts/directory_location.txt"
+    directory_location=$(cat "$saved_dir_location")
+    if ansible-galaxy collection install -r "$directory_location/Wolflith/Ansible/collections/requirements.yml"; then
+        greenprint "Required collections installed successfully."
+    else
+        redprint "Failed to install required collections."
+        exit 1
     fi
 }
 
@@ -130,6 +146,7 @@ END
 
 # Main execution flow
 install_ansible
+install_ansible_required_collections
 install_python
 install_python_dependencies
 install_go

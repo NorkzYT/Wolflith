@@ -1,0 +1,87 @@
+---
+- name: Preliminary System Checks
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Verify if target system is a Linux System
+      ansible.builtin.script: '../../PCSMenu/Functions/Scripts/check_linux.sh'
+      register: proxmox_check
+      ignore_errors: yes
+
+    - name: Halt if any target system is not a Linux System
+      ansible.builtin.fail:
+        msg: 'One or more targeted systems are not a System of Linux. Process halted.'
+      when: proxmox_check is failed
+
+    - name: Update & Upgrade Packages
+      ansible.builtin.shell: |
+        apt-get update &&
+        apt-get upgrade -y
+
+- name: Final Configuration and Cleanup
+  hosts: all
+  become: yes
+  vars_files:
+    - /tmp/provisioning_docker_service_vars.yml
+  tasks:
+    - name: Docker Network and Directory Setup
+      block:
+        - name: Create Docker Network in the Linux Machine
+          ansible.builtin.shell: |
+            docker network create {{ network_name }}
+          ignore_errors: yes
+
+        - name: Ensure Host Destination Directory Exists
+          ansible.builtin.file:
+            path: '/home/docker/{{ selected_service }}'
+            state: directory
+            mode: '0755'
+
+        - name: Transfer Scripts and Configuration Files to Linux Host
+          ansible.builtin.copy:
+            src: '{{ item.src }}'
+            dest: '{{ item.dest }}'
+            mode: '0755'
+          loop:
+            - {
+                src: '{{ repo_path }}/PCSMenu/Functions/Docker/update_docker_compose_env.sh',
+                dest: '/tmp/update_docker_compose_env.sh',
+              }
+            - {
+                src: '/tmp/provisioning_docker_service_vars.yml',
+                dest: '/tmp/provisioning_docker_service_vars.yml',
+              }
+            - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
+            - {
+                src: '{{ selected_service_path }}/docker-compose.yml',
+                dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
+              }
+            - {
+                src: '{{ selected_service_path }}/.env.example',
+                dest: '/home/docker/{{ selected_service }}/.env.example',
+              }
+
+    - name: Script Execution and Docker Service Deployment
+      block:
+        - name: Set Execute Permission for the Script Inside LXC Container
+          ansible.builtin.shell: |
+            chmod +x /tmp/update_docker_compose_env.sh
+
+        - name: Execute Script Inside LXC to Generate .env File
+          ansible.builtin.shell: |
+            bash -c "cd /tmp && ./update_docker_compose_env.sh {{ selected_service }}"
+
+        - name: Deploy Docker Compose Service Inside LXC Container
+          ansible.builtin.shell: |
+            bash -c "cd /home/docker/{{ selected_service }} && docker compose up -d"
+
+    - name: Cleanup Temporary Files and Directories
+      block:
+        - name: Remove Temporary Files from Linux Host
+          ansible.builtin.file:
+            path: '{{ item }}'
+            state: absent
+          loop:
+            - '/tmp/update_docker_compose_env.sh'
+            - '/tmp/provisioning_docker_service_vars.yml'
+            - '/tmp/env_vars_for_ansible.yml'

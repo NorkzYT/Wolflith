@@ -200,7 +200,7 @@ ansible() {
         sleep 0.2
         clear
         ansible_banner
-        kubernetes_setup
+        provision_docker_compose_service
         clear
         ansible
         ;;
@@ -210,7 +210,7 @@ ansible() {
         sleep 0.2
         clear
         ansible_banner
-        kubernetes_cluster_access
+        kubernetes_setup
         clear
         ansible
         ;;
@@ -220,7 +220,7 @@ ansible() {
         sleep 0.2
         clear
         ansible_banner
-        kubernetes_cluster_test
+        kubernetes_cluster_access
         clear
         ansible
         ;;

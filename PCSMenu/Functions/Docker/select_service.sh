@@ -1,10 +1,12 @@
 #!/bin/bash
 
+source Functions/PersonalizationFunctions.sh
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Scripts/directory_location.txt")
 DOCKER_FOLDER="$DIRECTORY_LOCATION/Wolflith/Docker"
 
-echo "Scanning for Docker services in $DOCKER_FOLDER..."
+blueprint "Scanning for Docker services in $DOCKER_FOLDER..."
 
 # Initialize arrays for different architectures
 declare -a amd64_services
@@ -34,12 +36,11 @@ unset IFS
 services=("${amd64_services[@]}" "${arm64_services[@]}" "${both_services[@]}")
 
 if [ ${#services[@]} -eq 0 ]; then
-    echo "No Docker services found."
+    redprint "No Docker services found."
     exit 1
 fi
 
-echo ""
-echo "Available Docker services:"
+blueprint "\nAvailable Docker services:"
 
 # Define maximum columns
 max_columns=4
@@ -67,16 +68,16 @@ if [ $current_column -ne 0 ]; then
     echo ""
 fi
 
-echo ""
-read -p "Select the Docker service to install (number): " selection
+cyanprint "\nSelect the Docker service to install (number): "
+read -p "" selection
 if ! [[ "$selection" =~ ^[0-9]+$ ]] || [ "$selection" -lt 1 ] || [ "$selection" -gt ${#services[@]} ]; then
-    echo "Invalid selection. Exiting."
+    redprint "Invalid selection. Exiting."
     exit 2
 fi
 
 selected_service="${services[$selection - 1]}"
 selected_service_basename=$(basename "$selected_service")
 selected_service_path="$DOCKER_FOLDER/${selected_service}"
-echo "You selected: $selected_service"
+greenprint "You selected: $selected_service"
 echo "$selected_service_basename" >/tmp/selected_docker_service.txt
 echo "$selected_service_path" >/tmp/selected_docker_service_path.txt

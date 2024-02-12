@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source ./Auto/personalizationFunctions.sh
+source PCSMenu/Functions/PersonalizationFunctions.sh
 
 # Install all dependencies
 install_dependencies() {

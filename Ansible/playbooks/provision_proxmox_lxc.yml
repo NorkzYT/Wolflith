@@ -140,6 +140,7 @@
   hosts: all
   become: yes
   vars_files:
+    - /tmp/provisioning_docker_service_vars.yml
     - /tmp/lxc_provisioning_vars.yml
   tasks:
     - name: Docker Network and Directory Setup
@@ -169,10 +170,14 @@
             mode: '0755'
           loop:
             - {
-                src: '{{ repo_path }}/PCSMenu/Functions/Proxmox/generate_in_lxc_env.sh',
-                dest: '/tmp/generate_in_lxc_env.sh',
+                src: '{{ repo_path }}/PCSMenu/Functions/Docker/update_docker_compose_env.sh',
+                dest: '/tmp/update_docker_compose_env.sh',
               }
             - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
+            - {
+                src: '/tmp/provisioning_docker_service_vars.yml',
+                dest: '/tmp/provisioning_docker_service_vars.yml',
+              }
             - {
                 src: '{{ selected_service_path }}/docker-compose.yml',
                 dest: '/tmp/docker/{{ selected_service }}/docker-compose.yml',
@@ -186,8 +191,15 @@
           ansible.builtin.shell: |
             pct push {{ vmid }} {{ item.src }} {{ item.dest }}
           loop:
-            - { src: '/tmp/generate_in_lxc_env.sh', dest: '/tmp/generate_in_lxc_env.sh' }
+            - {
+                src: '/tmp/update_docker_compose_env.sh',
+                dest: '/tmp/update_docker_compose_env.sh',
+              }
             - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
+            - {
+                src: '/tmp/provisioning_docker_service_vars.yml',
+                dest: '/tmp/provisioning_docker_service_vars.yml',
+              }
             - {
                 src: '/tmp/docker/{{ selected_service }}/docker-compose.yml',
                 dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
@@ -201,11 +213,11 @@
       block:
         - name: Set Execute Permission for the Script Inside LXC Container
           ansible.builtin.shell: |
-            pct exec {{ vmid }} -- chmod +x /tmp/generate_in_lxc_env.sh
+            pct exec {{ vmid }} -- chmod +x /tmp/update_docker_compose_env.sh
 
         - name: Execute Script Inside LXC to Generate .env File
           ansible.builtin.shell: |
-            pct exec {{ vmid }} -- bash -c "cd /tmp && ./generate_in_lxc_env.sh {{ selected_service }}"
+            pct exec {{ vmid }} -- bash -c "cd /tmp && ./update_docker_compose_env.sh {{ selected_service }}"
 
         - name: Deploy Docker Compose Service Inside LXC Container
           ansible.builtin.shell: |
@@ -218,7 +230,7 @@
             path: '{{ item }}'
             state: absent
           loop:
-            - '/tmp/generate_in_lxc_env.sh'
+            - '/tmp/update_docker_compose_env.sh'
             - '/tmp/env_vars_for_ansible.yml'
             - '/tmp/docker'
 
@@ -226,5 +238,6 @@
           ansible.builtin.shell: |
             pct exec {{ vmid }} -- rm -f /tmp/{{ item }}
           loop:
-            - 'generate_in_lxc_env.sh'
+            - 'update_docker_compose_env.sh'
             - 'env_vars_for_ansible.yml'
+            - 'provisioning_docker_service_vars.yml'
