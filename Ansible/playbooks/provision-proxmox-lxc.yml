@@ -183,8 +183,8 @@
                 dest: '/tmp/docker/{{ selected_service }}/docker-compose.yml',
               }
             - {
-                src: '{{ selected_service_path }}/.env.example',
-                dest: '/tmp/docker/{{ selected_service }}/.env.example',
+                src: '{{ selected_service_path }}/.env',
+                dest: '/tmp/docker/{{ selected_service }}/.env',
               }
 
         - name: Push Files into the LXC Container
@@ -205,8 +205,8 @@
                 dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
               }
             - {
-                src: '/tmp/docker/{{ selected_service }}/.env.example',
-                dest: '/home/docker/{{ selected_service }}/.env.example',
+                src: '/tmp/docker/{{ selected_service }}/.env',
+                dest: '/home/docker/{{ selected_service }}/.env',
               }
 
     - name: Script Execution and Docker Service Deployment

@@ -57,8 +57,8 @@
                 dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
               }
             - {
-                src: '{{ selected_service_path }}/.env.example',
-                dest: '/home/docker/{{ selected_service }}/.env.example',
+                src: '{{ selected_service_path }}/.env',
+                dest: '/home/docker/{{ selected_service }}/.env',
               }
 
     - name: Script Execution and Docker Service Deployment

@@ -10,8 +10,6 @@ services:
       - VNC_PW=${KASMWEB_DISCORD_VNC_PW}
     ports:
       - 1039:6901
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Script to generate .env file from .env.example and values in env_vars_for_ansible.yml and -
-# to update docker-compose.yml with appdata_location and network_name from provisioning_docker_service_vars.yml
+# Script to update docker-compose.yml with appdata_location and network_name from provisioning_docker_service_vars.yml
 
 # Validate service name input
 if [ -z "$1" ]; then
@@ -10,7 +9,7 @@ if [ -z "$1" ]; then
 fi
 
 # Define paths
-env_example_path="/home/docker/$1/.env.example"
+env_example_path="/home/docker/$1/.env"
 env_vars_path="/tmp/env_vars_for_ansible.yml"
 output_env_path="/home/docker/$1/.env"
 provisioning_vars_path="/tmp/provisioning_docker_service_vars.yml"
@@ -18,21 +17,29 @@ docker_compose_path="/home/docker/$1/docker-compose.yml"
 
 # Check if required files exist
 if [ ! -f "$env_example_path" ] || [ ! -f "$env_vars_path" ]; then
-    echo "Required files are missing. Ensure both .env.example and env_vars_for_ansible.yml are present."
+    echo "Required files are missing. Ensure both .env and env_vars_for_ansible.yml are present."
     exit 1
 fi
 
-# Create or clear the .env file
->"$output_env_path"
+# Backup the current .env file
+cp "$env_path" "${env_path}.bak"
 
-# Read .env.example and extract variable names
-grep '^[A-Z_]\+=' $env_example_path | while read -r line; do
-    var_name=$(echo "$line" | cut -d '=' -f1)
-    # Look for the variable in env_vars_for_ansible.yml and append it to the .env file
-    grep "^$var_name=" "$env_vars_path" >>"$output_env_path"
-done
+# Iterate through each line in env_vars_for_ansible.yml
+while IFS= read -r line; do
+    # Extract the key and value, trimming quotes from the value
+    key=$(echo "$line" | cut -d '=' -f 1)
+    value=$(echo "$line" | cut -d '=' -f 2-)
 
-echo ".env file generated successfully."
+    # Check if key exists in .env and its value is 'xxx', then replace it
+    if grep -q "^$key='xxx'$" "$env_path"; then
+        sed -i "s|^$key='xxx'$|$key=$value|g" "$env_path"
+    elif ! grep -q "^$key=" "$env_path"; then
+        # If the key does not exist in .env, add it
+        echo "$key=$value" >>"$env_path"
+    fi
+done <"$env_vars_path"
+
+echo ".env file updated successfully."
 
 # Read variables from provisioning_docker_service_vars.yml
 network_name=$(awk '/network_name:/ {print $2}' "$provisioning_vars_path" | tr -d '"')

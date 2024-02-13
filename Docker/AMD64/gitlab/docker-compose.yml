@@ -12,9 +12,9 @@ services:
       - 1012:80
       - 1013:443
     volumes:
-      - $GITLAB_HOME/config:/etc/gitlab
-      - $GITLAB_HOME/logs:/var/log/gitlab
-      - $GITLAB_HOME/data:/var/opt/gitlab
+      - /mnt/appdata/gitlab/config:/etc/gitlab
+      - /mnt/appdata/gitlab/logs:/var/log/gitlab
+      - /mnt/appdata/gitlab/data:/var/opt/gitlab
     shm_size: 256m
     labels:
       - com.centurylinklabs.watchtower.enable=true

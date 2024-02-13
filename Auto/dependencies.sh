@@ -147,6 +147,7 @@ END
 # Main execution flow
 install_ansible
 install_ansible_required_collections
+export ANSIBLE_CONFIG=$directory_location/Wolflith/Ansible/inventory/ansible.cfg
 install_python
 install_python_dependencies
 install_go

@@ -1,6 +1,0 @@
----
-- name: Update pihole
-  hosts: all
-  tasks:
-    - name: pihole update
-      shell: pihole -up

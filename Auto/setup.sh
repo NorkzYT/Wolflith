@@ -91,6 +91,11 @@ modifyComposeFiles() {
     "$directory_location/Wolflith/Auto/modifyComposeFiles.sh" "$directory_location"
 }
 
+# Setup Docker Environment files
+dockerEnvSetup() {
+    "$directory_location/Wolflith/Auto/environmentSetup.sh" "$directory_location"
+}
+
 # Main function to coordinate the setup process
 main() {
     cyanprint "Starting Wolflith setup..."
@@ -100,6 +105,7 @@ main() {
     update_permissions
     update_config_locations
     modifyComposeFiles
+    dockerEnvSetup
     greenprint "Wolflith setup completed successfully."
 }
 

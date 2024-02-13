@@ -13,14 +13,8 @@
 
 Wolflith is a comprehensive toolkit designed to automate the setup and management of homelabs and homeservers. It facilitates the rapid deployment of technologies such as Docker, Kubernetes, Ansible, and more, with an emphasis on modularity and ease of use. Whether you're a beginner or an experienced user, Wolflith aims to streamline the process of deploying various applications and services across your infrastructure.
 
-### Key Features:
 
-- **Docker Compose Files**: Pre-configured Docker Compose files for easy deployment of containerized applications.
-- **Kubernetes Manifests**: Ready-to-use Kubernetes manifests for orchestrating containerized services.
-- **Ansible Playbooks**: Automated server and application setup using Ansible for consistent environments.
-- **Proxmox LXC Integration**: Scripts for directly deploying Docker Compose files into Proxmox LXC containers, simplifying the management of virtualized environments.
-
-Note: This repository is still a work in progress, and I welcome contributions to expand its capabilities and usability.
+Note: This repository is in BETA and still a work in progress, I welcome contributions to expand its capabilities and usability.
 
 ## Contributing
 

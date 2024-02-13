@@ -40,7 +40,8 @@ if [ ${#services[@]} -eq 0 ]; then
     exit 1
 fi
 
-blueprint "\nAvailable Docker services:"
+echo ""
+blueprint "Available Docker services:"
 
 # Define maximum columns
 max_columns=4
@@ -68,7 +69,8 @@ if [ $current_column -ne 0 ]; then
     echo ""
 fi
 
-cyanprint "\nSelect the Docker service to install (number): "
+echo ""
+cyanprint "Select the Docker service to install (number): "
 read -p "" selection
 if ! [[ "$selection" =~ ^[0-9]+$ ]] || [ "$selection" -lt 1 ] || [ "$selection" -gt ${#services[@]} ]; then
     redprint "Invalid selection. Exiting."
