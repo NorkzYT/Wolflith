@@ -11,8 +11,6 @@ services:
       - /mnt/appdata/squid/data:/var/spool/squid # Volume to store the squid cache.
     ports:
       - 1019:3128
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

@@ -16,8 +16,6 @@ services:
       - /mnt/appdata/gitlab/logs:/var/log/gitlab
       - /mnt/appdata/gitlab/data:/var/opt/gitlab
     shm_size: 256m
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

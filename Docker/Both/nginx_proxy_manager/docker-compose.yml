@@ -28,8 +28,6 @@ services:
       test: [CMD, /bin/check-health]
       interval: 10s
       timeout: 3s
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

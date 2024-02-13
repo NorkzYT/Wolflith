@@ -1,5 +1,4 @@
-version: '3'
-
+version: '3.9'
 services:
   influxdb:
     container_name: influxdb
@@ -15,7 +14,7 @@ services:
       #- /etc/ssl/cloudflare/cert-key.pem/:/etc/ssl/cert-key.pem
 
     # # Automatically setup influxdb
-    # TODO: no tested...
+    # TODO: not tested...
     # environment:
     #   - DOCKER_INFLUXDB_INIT_MODE=setup
     #   - DOCKER_INFLUXDB_INIT_USERNAME=my-user

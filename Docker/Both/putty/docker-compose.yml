@@ -18,8 +18,6 @@ services:
       - 7916:5900
     volumes:
       - /mnt/appdata/putty:/config:rw
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

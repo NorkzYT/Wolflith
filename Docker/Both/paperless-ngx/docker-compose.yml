@@ -37,10 +37,8 @@ services:
     restart: unless-stopped
     volumes:
       - /mnt/appdata/paperless-ngx/redisdata:/data
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
-      - proxymoxy
+      - proxy
 
   paperless-ngx-db:
     image: docker.io/library/postgres:16
@@ -52,10 +50,8 @@ services:
       - POSTGRES_DB=paperless
       - POSTGRES_USER=paperless
       - POSTGRES_PASSWORD=paperless
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
-      - proxymoxy
+      - proxy
 
   paperless-ngx:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
@@ -80,12 +76,10 @@ services:
     environment:
       - PAPERLESS_REDIS=redis://paperless-ngx-redis:6379
       - PAPERLESS_DBHOST=paperless-ngx-db
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
-      - proxymoxy
+      - proxy
 
 networks:
-  proxymoxy:
+  proxy:
     driver: bridge
     external: true

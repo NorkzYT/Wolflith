@@ -14,8 +14,6 @@ services:
       - DISCORD_TOKEN=${DISCORDCHATEXPORTER_DISCORD_TOKEN}
       - DISCORD_TOKEN_BOT=${DISCORDCHATEXPORTER_DISCORD_TOKEN_BOT}
     command: exportguild -g DISCORD_SERVER_ID --dateformat "dd/MM/yyyy HH:mm"
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

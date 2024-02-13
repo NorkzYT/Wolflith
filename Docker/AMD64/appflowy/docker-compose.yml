@@ -12,8 +12,6 @@ services:
       - /dev/dri:/dev/dri
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       - /mnt/appdata/appflowy_client:/home/appflowy
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

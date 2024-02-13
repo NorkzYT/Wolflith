@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   dupeguru:
     container_name: dupeguru
@@ -17,8 +17,6 @@ services:
     volumes:
       - /mnt/appdata/dupeguru:/config:rw
       - /mnt/appdata/dupeguru/storage:/storage:rw
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

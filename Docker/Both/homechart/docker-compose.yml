@@ -1,5 +1,4 @@
 version: '3.9'
-
 services:
   homechart:
     container_name: homechart
@@ -35,9 +34,8 @@ services:
     ports:
       - 3040:3000
     restart: unless-stopped
-
     networks:
-      - proxym
+      - proxy
 
 networks:
   proxy:

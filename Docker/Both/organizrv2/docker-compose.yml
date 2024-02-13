@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.9'
 services:
   organizr:
     image: organizr/organizr:latest
@@ -10,12 +10,9 @@ services:
       - TZ=${ORGANIZR_TZ}
     volumes:
       - /mnt/appdata/organizrv2:/config
-
     ports:
       - 9284:80
-
     restart: unless-stopped
-
     networks:
       - proxy
 

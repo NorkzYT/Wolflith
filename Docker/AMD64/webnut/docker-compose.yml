@@ -13,11 +13,11 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - DockerNetwork
+      - proxy
     ports:
       - 1033:6543
 
 networks:
-  DockerNetwork: # rename this to your custom docker network.
+  proxy:
     driver: bridge
     external: true

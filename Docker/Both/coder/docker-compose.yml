@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.9'
 services:
   coder:
     image: codercom/coder:1.44.3

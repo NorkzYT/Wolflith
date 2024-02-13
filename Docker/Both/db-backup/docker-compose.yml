@@ -4,7 +4,6 @@ services:
     image: tiredofit/db-backup:4.0.35
     container_name: db-backup
     hostname: db-backup
-
     volumes:
       - /mnt/backups/databases/db-backup:/backup
       #- ./post-script.sh:/assets/custom-scripts/post-script.sh

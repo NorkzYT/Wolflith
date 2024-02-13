@@ -23,15 +23,15 @@ entryPoints:
         # Generate a wildcard domain certificate
         certResolver: letsencrypt
         domains:
-          - main: domain.com
+          - main: $DOMAIN
             sans:
-              - '*.domain.com'
+              - '*.$DOMAIN'
       middlewares:
         - securityHeaders@file
-        - traefik-real-ip@file
+        - corsAll@file
 
 providers:
-  providersThrottleDuration: 2
+  providersThrottleDuration: 2s
 
   # File provider for connecting things that are outside of docker / defining middleware
   file:
@@ -41,10 +41,10 @@ providers:
   # Docker provider for connecting all apps that are inside of the docker network
   docker:
     watch: true
-    network: DockerNetwork
+    network: $DOCKER_NETWORK
     # Default host rule to containername.domain.example
-    defaultRule: 'Host(`{{ lower (trimPrefix `/` .Name )}}.domain.com`)'
-    swarmModeRefreshSeconds: 15
+    defaultRule: 'Host(`{{ lower (trimPrefix `/` .Name )}}.$DOMAIN`)'
+    swarmModeRefreshSeconds: 15s
     exposedByDefault: false
 
 # Enable traefik ui
@@ -60,7 +60,7 @@ log:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: first@email.com
+      email: something@email.com
       storage: /etc/traefik/acme.json
       dnsChallenge:
         provider: cloudflare
@@ -68,9 +68,3 @@ certificatesResolvers:
         resolvers:
           - '1.1.1.1:53'
           - '1.0.0.1:53'
-
-experimental:
-  plugins:
-    traefik-real-ip:
-      moduleName: 'github.com/soulbalz/traefik-real-ip'
-      version: 'v1.0.3'

@@ -1,5 +1,4 @@
-version: '3.3'
-
+version: '3.9'
 services:
   tubearchivist:
     container_name: tubearchivist
@@ -23,8 +22,6 @@ services:
     depends_on:
       - archivist-es
       - archivist-redis
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 
@@ -39,8 +36,6 @@ services:
       - /mnt/appdata/tubearchivist-redis:/data
     depends_on:
       - archivist-es
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 
@@ -56,11 +51,9 @@ services:
       - bootstrap.memory_lock=${ARCHIVIST_ES_bootstrap.memory_lock}
       - path.repo=${ARCHIVIST_ES_path.repo}
     volumes:
-      - /mnt/appdata/tubearchivist-es:/usr/share/elasticsearch/data # check for permission error when using bind mount, see readme
+      - /mnt/appdata/tubearchivist-es:/usr/share/elasticsearch/data
     expose:
       - '9200'
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

@@ -1,4 +1,4 @@
-version: '2'
+version: '3.9'
 services:
   bookstack:
     image: linuxserver/bookstack:23.12.20240115

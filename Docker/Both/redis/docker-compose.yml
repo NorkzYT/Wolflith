@@ -1,5 +1,4 @@
-version: '2'
-
+version: '3.9'
 services:
   redis:
     container_name: redis
@@ -13,7 +12,6 @@ services:
       interval: 30s
       retries: 5
       timeout: 3s
-
     restart: unless-stopped
     networks:
       - proxy

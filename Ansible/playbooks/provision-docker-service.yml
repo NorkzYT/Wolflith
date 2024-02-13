@@ -61,6 +61,14 @@
                 dest: '/home/docker/{{ selected_service }}/.env',
               }
 
+        - name: Check and Transfer Config Folder to Linux Host
+          ansible.builtin.copy:
+            src: '{{ selected_service_path }}/config'
+            dest: '/home/docker/{{ selected_service }}/config'
+            mode: '0755'
+            remote_src: yes
+          when: '"config" in lookup("ansible.builtin.fileglob", "{{ selected_service_path }}/config/*", wantlist=True)'
+
     - name: Script Execution and Docker Service Deployment
       block:
         - name: Set Execute Permission for the Script Inside LXC Container

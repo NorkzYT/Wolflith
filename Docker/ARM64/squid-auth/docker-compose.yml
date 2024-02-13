@@ -9,8 +9,6 @@ services:
       - SQUID_PASSWORD=${SQUID_PASSWORD}
     ports:
       - 3588:3128
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

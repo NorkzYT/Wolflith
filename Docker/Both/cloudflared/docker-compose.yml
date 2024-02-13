@@ -11,6 +11,6 @@ services:
       - PGID=${CLOUDFLARED_PGID}
       - TUNNEL_TOKEN=${CLOUDFLARED_TUNNEL_TOKEN}
     volumes:
-      - /mnt/appdata/cloudflared/:/etc/cloudflared/
+      - ./config/:/etc/cloudflared/
 #    extra_hosts:
 #      - "vps.domain.com:127.0.0.1"                  # Only necessary on some VPS machines if Cloudflared does not connect properly.

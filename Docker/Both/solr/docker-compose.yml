@@ -11,8 +11,6 @@ services:
     command:
       - solr-precreate
       - gettingstarted
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

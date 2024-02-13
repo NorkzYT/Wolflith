@@ -17,8 +17,6 @@ services:
     ports:
       - 9283:80
     restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

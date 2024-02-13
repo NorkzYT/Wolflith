@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.9'
 services:
   webtop:
     image: linuxserver/webtop:ubuntu-mate #choose your flavor
@@ -17,7 +17,6 @@ services:
     ports:
       - 3050:3000
     shm_size: 8gb #optional but set to 1GB or higher to prevent browser crashes
-
     restart: unless-stopped
     networks:
       - proxy

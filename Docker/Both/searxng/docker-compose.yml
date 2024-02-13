@@ -11,8 +11,6 @@ services:
       - INSTANCE_NAME=${SEARXNG_INSTANCE_NAME}
     ports:
       - 9651:8080
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

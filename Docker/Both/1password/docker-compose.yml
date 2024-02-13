@@ -10,8 +10,8 @@ services:
     volumes:
       - ./1password-credentials.json:/home/opuser/.op/1password-credentials.json
       - data:/home/opuser/.op/data
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
 
   op-connect-sync:
     image: 1password/connect-sync:1.7
@@ -22,8 +22,13 @@ services:
     volumes:
       - ./1password-credentials.json:/home/opuser/.op/1password-credentials.json
       - data:/home/opuser/.op/data
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - proxy
 
 volumes:
   data:
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

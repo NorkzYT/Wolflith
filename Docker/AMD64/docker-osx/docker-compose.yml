@@ -1,5 +1,3 @@
-# Use root/example as user/password credentials
-
 version: '3.9'
 services:
   docker-osx:
@@ -21,8 +19,6 @@ services:
       - /mnt/appdata/docker-osx_data:/home
     ports:
       - 1009:10022
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     devices:
       - /dev/kvm
     networks:

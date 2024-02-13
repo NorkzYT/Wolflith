@@ -106,6 +106,9 @@ main() {
     update_config_locations
     modifyComposeFiles
     dockerEnvSetup
+    blueprint "Before provisioning any Docker services, you have the opportunity to customize the environment settings. This can be done by modifying the .env file located in the respective docker service's folder."
+    blueprint "Please ensure to review and adjust the .env file as needed to suit your specific configuration requirements prior to initiating the provisioning process."
+    echo ""
     greenprint "Wolflith setup completed successfully."
 }
 
