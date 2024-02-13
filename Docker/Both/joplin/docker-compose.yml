@@ -30,7 +30,7 @@ services:
       - proxy
 
   joplin-postgres:
-    image: postgres:16.1
+    image: postgres:16.2
     container_name: joplin-postgres
     hostname: joplin-postgres
     volumes:
