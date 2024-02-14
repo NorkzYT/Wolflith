@@ -4,7 +4,7 @@ source Functions/PersonalizationFunctions.sh
 
 # Default values
 default_network_name="proxy"
-default_appdata_location="/mnt/appdata"
+default_appdata_location="/opt/appdata"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Scripts/directory_location.txt")

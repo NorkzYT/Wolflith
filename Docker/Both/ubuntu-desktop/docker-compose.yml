@@ -9,7 +9,7 @@ services:
     environment:
       - VNC_PW=${CORE_UBUNTU_BIONIC_VNC_PW}
     volumes:
-      - /mnt/appdata/ubuntu-vnc/dev/shm:/dev/shm
+      - /opt/appdata/ubuntu-vnc/dev/shm:/dev/shm
     ports:
       - 1038:6901
     networks:

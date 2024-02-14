@@ -12,8 +12,8 @@ services:
       - 8255:80
     volumes:
       - ./.env:/app/.env
-      - /mnt/appdata/linkace/backups:/app/storage/app/backups
-      - /mnt/appdata/linkace:/app/storage/logs
+      - /opt/appdata/linkace/backups:/app/storage/app/backups
+      - /opt/appdata/linkace:/app/storage/logs
       # Remove the hash of the following line if you want to use HTTPS for this container
       #- ./nginx-ssl.conf:/etc/nginx/conf.d/default.conf:ro
       #- /path/to/your/ssl/certificates:/certs:ro
@@ -33,7 +33,7 @@ services:
       - MYSQL_PASSWORD=${LINKACE_MARIADB_MYSQL_PASSWORD}
       - MYSQL_DATABASE=${LINKACE_MARIADB_MYSQL_DATABASE}
     volumes:
-      - /mnt/appdata/linkace-mariadb:/var/lib/mysql
+      - /opt/appdata/linkace-mariadb:/var/lib/mysql
     networks:
       - proxy
 

@@ -21,7 +21,7 @@ services:
       - MAIL_FROM_NAME=${BOOKSTACK_MAIL_FROM_NAME}
       - QUEUE_CONNECTION=${BOOKSTACK_QUEUE_CONNECTION}
     volumes:
-      - /mnt/appdata/bookstack:/config
+      - /opt/appdata/bookstack:/config
     ports:
       - 6875:80
     restart: unless-stopped

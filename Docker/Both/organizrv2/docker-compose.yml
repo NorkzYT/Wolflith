@@ -9,7 +9,7 @@ services:
       - PGID=${ORGANIZR_PGID}
       - TZ=${ORGANIZR_TZ}
     volumes:
-      - /mnt/appdata/organizrv2:/config
+      - /opt/appdata/organizrv2:/config
     ports:
       - 9284:80
     restart: unless-stopped

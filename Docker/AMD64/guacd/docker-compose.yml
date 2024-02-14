@@ -5,8 +5,8 @@ services:
     hostname: guacd
     image: guacamole/guacd:1.5.4
     volumes:
-      - /mnt/appdata/guacd/drive:/drive:rw
-      - /mnt/appdata/guacd/record:/record:rw
+      - /opt/appdata/guacd/drive:/drive:rw
+      - /opt/appdata/guacd/record:/record:rw
 
     restart: unless-stopped
     networks:

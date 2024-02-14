@@ -19,7 +19,7 @@ services:
       - DEFAULT_WORKSPACE=${OPENVSCODE_SERVER_DEFAULT_WORKSPACE}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/appdata/vscode/config:/config
+      - /opt/appdata/vscode/config:/config
       - ./wolflith.code-workspace:/config/workspace/wolflith.code-workspace
       - ../../../:/wolflith
       - /mnt:/mnt

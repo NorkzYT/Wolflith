@@ -5,7 +5,7 @@ services:
     image: searxng/searxng:2023.5.22-b2d0b743
     hostname: searxng
     volumes:
-      - /mnt/appdata/searxng:/etc/searxng
+      - /opt/appdata/searxng:/etc/searxng
     environment:
       - BASE_URL=${SEARXNG_BASE_URL}
       - INSTANCE_NAME=${SEARXNG_INSTANCE_NAME}

@@ -32,7 +32,7 @@ services:
     container_name: joplin-postgres
     hostname: joplin-postgres
     volumes:
-      - /mnt/appdata/joplin-postgres:/var/lib/postgresql/data
+      - /opt/appdata/joplin-postgres:/var/lib/postgresql/data
     ports:
       - 5255:5432
     restart: unless-stopped

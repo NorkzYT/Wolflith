@@ -28,7 +28,7 @@ services:
       - 6353:8080
     restart: unless-stopped
     volumes:
-      - /mnt/appdata/firefly-iii/upload:/var/www/html/storage/upload
+      - /opt/appdata/firefly-iii/upload:/var/www/html/storage/upload
     networks:
       - proxy
 

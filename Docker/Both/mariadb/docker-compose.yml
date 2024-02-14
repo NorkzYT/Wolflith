@@ -13,7 +13,7 @@ services:
       - MYSQL_USER=${MARIADB_MYSQL_USER}
       - MYSQL_PASSWORD=${MARIADB_MYSQL_PASSWORD}
     volumes:
-      - /mnt/appdata/mariadb:/config
+      - /opt/appdata/mariadb:/config
     ports:
       - 3306:3306
     restart: unless-stopped

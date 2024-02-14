@@ -57,9 +57,9 @@ if [ -n "$network_name" ] && [ -n "$appdata_location" ]; then
     # Update the global network name definition
     sed -i "s|proxy:|$network_name:|g" "$docker_compose_path"
 
-    # Replace /mnt/appdata with the actual appdata_location in volumes
+    # Replace /opt/appdata with the actual appdata_location in volumes
     # This command targets the specific volume path for the configuration
-    sed -i "s|/mnt/appdata/webtop|$appdata_location/$selected_service|g" "$docker_compose_path"
+    sed -i "s|/opt/appdata/webtop|$appdata_location/$selected_service|g" "$docker_compose_path"
 
     echo "docker-compose.yml updated successfully."
 else

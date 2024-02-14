@@ -12,9 +12,9 @@ services:
       - 1012:80
       - 1013:443
     volumes:
-      - /mnt/appdata/gitlab/config:/etc/gitlab
-      - /mnt/appdata/gitlab/logs:/var/log/gitlab
-      - /mnt/appdata/gitlab/data:/var/opt/gitlab
+      - /opt/appdata/gitlab/config:/etc/gitlab
+      - /opt/appdata/gitlab/logs:/var/log/gitlab
+      - /opt/appdata/gitlab/data:/var/opt/gitlab
     shm_size: 256m
     restart: unless-stopped
     networks:

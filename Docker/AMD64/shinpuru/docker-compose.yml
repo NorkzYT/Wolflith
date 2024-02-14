@@ -6,7 +6,7 @@ services:
     expose:
       - '9000'
     volumes:
-      - /mnt/appdata/shinpuru/minio/data:/data
+      - /opt/appdata/shinpuru/minio/data:/data
     environment:
       - MINIO_ACCESS_KEY=${MINIO_SHINPURU_MINIO_ACCESS_KEY}
       - MINIO_SECRET_KEY=${MINIO_SHINPURU_MINIO_SECRET_KEY}
@@ -32,8 +32,8 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_SHINPURU_MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_SHINPURU_MYSQL_DATABASE}
     volumes:
-      - /mnt/appdata/shinpuru/mysql/cfg:/etc/mysql
-      - /mnt/appdata/shinpuru/mysql/lib:/var/lib/mysql
+      - /opt/appdata/shinpuru/mysql/cfg:/etc/mysql
+      - /opt/appdata/shinpuru/mysql/lib:/var/lib/mysql
     restart: always
     networks:
       - proxy
@@ -41,8 +41,8 @@ services:
   shinpuru:
     image: ghcr.io/zekrotja/shinpuru:latest
     volumes:
-      - /mnt/appdata/shinpuru/config:/etc/config
-      - /mnt/appdata/shinpuru/cert:/etc/cert
+      - /opt/appdata/shinpuru/config:/etc/config
+      - /opt/appdata/shinpuru/cert:/etc/cert
     expose:
       - '8080'
     environment:

@@ -35,7 +35,7 @@ prompt_directory_location() {
 
 # Function to change appdata location
 change_appdata_location() {
-    read -p "Do you want to change the compose files current appdata location? (Default: /mnt/appdata/) [y/N]: " response
+    read -p "Do you want to change the compose files current appdata location? (Default: /opt/appdata/) [y/N]: " response
     if [[ $response =~ ^[Yy]$ ]]; then
         read -p "Enter the new docker container appdata location: " new_appdata_location
         while ! [ -d "$new_appdata_location" ]; do
@@ -43,7 +43,7 @@ change_appdata_location() {
             read -p "Enter the new docker container appdata location: " new_appdata_location
         done
 
-        find "$directory_location" -name "docker-compose.yml" -exec sed -i "s|/mnt/appdata/|$new_appdata_location/|g" {} \;
+        find "$directory_location" -name "docker-compose.yml" -exec sed -i "s|/opt/appdata/|$new_appdata_location/|g" {} \;
         echo "Docker container appdata location has been updated to $new_appdata_location."
     else
         echo "Keeping the current docker container appdata location."

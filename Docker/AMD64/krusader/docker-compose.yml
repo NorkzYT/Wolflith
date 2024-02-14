@@ -9,10 +9,10 @@ services:
       - 5900:5900
       - 6070:6080
     volumes:
-      - /mnt/appdata/krusader:/config
-      - /mnt/appdata/krusader/user:/media
-      - /mnt/appdata/krusader/etc/localtime:/etc/localtime:ro
-      - /:/mnt/appdata:ro
+      - /opt/appdata/krusader:/config
+      - /opt/appdata/krusader/user:/media
+      - /opt/appdata/krusader/etc/localtime:/etc/localtime:ro
+      - /:/opt/appdata:ro
     environment:
       - PUID=${KRUSADER_PUID}
       - PGID=${KRUSADER_PGID}

@@ -11,7 +11,7 @@ services:
       # Enable WebSocket notifications.
       - WEBSOCKET_ENABLED=${VAULTWARDEN_WEBSOCKET_ENABLED}
     volumes:
-      - /mnt/appdata/vaultwarden:/data
+      - /opt/appdata/vaultwarden:/data
     restart: unless-stopped
     networks:
       - proxy

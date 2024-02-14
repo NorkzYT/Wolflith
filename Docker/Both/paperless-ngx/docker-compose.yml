@@ -36,7 +36,7 @@ services:
     container_name: paperless-ngx-redis
     restart: unless-stopped
     volumes:
-      - /mnt/appdata/paperless-ngx/redisdata:/data
+      - /opt/appdata/paperless-ngx/redisdata:/data
     networks:
       - proxy
 
@@ -45,7 +45,7 @@ services:
     container_name: paperless-ngx-db
     restart: unless-stopped
     volumes:
-      - /mnt/appdata/paperless-ngx/pgdata:/var/lib/postgresql/data
+      - /opt/appdata/paperless-ngx/pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=paperless
       - POSTGRES_USER=paperless
@@ -68,10 +68,10 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - /mnt/appdata/paperless-ngx/main/data:/usr/src/paperless/data
-      - /mnt/appdata/paperless-ngx/main/media:/usr/src/paperless/media
-      - /mnt/appdata/paperless-ngx/main/export:/usr/src/paperless/export
-      - /mnt/appdata/paperless-ngx/main/consume:/usr/src/paperless/consume
+      - /opt/appdata/paperless-ngx/main/data:/usr/src/paperless/data
+      - /opt/appdata/paperless-ngx/main/media:/usr/src/paperless/media
+      - /opt/appdata/paperless-ngx/main/export:/usr/src/paperless/export
+      - /opt/appdata/paperless-ngx/main/consume:/usr/src/paperless/consume
     env_file: docker-compose.env
     environment:
       - PAPERLESS_REDIS=redis://paperless-ngx-redis:6379

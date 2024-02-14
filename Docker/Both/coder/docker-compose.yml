@@ -8,7 +8,7 @@ services:
       - 7076:7080/tcp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/appdata/coder/.coder:/var/run/coder
+      - /opt/appdata/coder/.coder:/var/run/coder
 
     restart: unless-stopped
     networks:

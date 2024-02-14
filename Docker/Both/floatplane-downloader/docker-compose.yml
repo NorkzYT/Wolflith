@@ -5,8 +5,8 @@ services:
     container_name: floatplane-downloader
     hostname: floatplane-downloader
     volumes:
-      - /mnt/appdata/floatplanedownloader/db:/fp/db
-      - /mnt/appdata/media:/fp/videos
+      - /opt/appdata/floatplanedownloader/db:/fp/db
+      - /opt/appdata/media:/fp/videos
     tty: true # To be able to reply to interactive prompts.
     stdin_open: true # For interactive flag.
     restart: unless-stopped

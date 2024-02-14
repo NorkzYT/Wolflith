@@ -7,8 +7,8 @@ services:
     ports:
       - 8086:8086
     volumes:
-      - /mnt/appdata/influxdb-data:/var/lib/influxdb2
-      - /mnt/appdata/etc/influxdb2:/etc/influxdb2
+      - /opt/appdata/influxdb-data:/var/lib/influxdb2
+      - /opt/appdata/etc/influxdb2:/etc/influxdb2
       # # (optional) If you're using self-signed certs
       #- /etc/ssl/cloudflare/cert.pem/:/etc/ssl/cert.pem
       #- /etc/ssl/cloudflare/cert-key.pem/:/etc/ssl/cert-key.pem

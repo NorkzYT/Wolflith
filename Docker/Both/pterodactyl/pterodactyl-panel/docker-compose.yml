@@ -6,12 +6,12 @@ services:
     hostname: pterodactyl-panel
     ports:
       - 8025:80
-    # chmod -R 600 /mnt/appdata/pterodactyl/panel/game.data/config.yml -- IF Panel changes configuration and breaks the node.
+    # chmod -R 600 /opt/appdata/pterodactyl/panel/game.data/config.yml -- IF Panel changes configuration and breaks the node.
     volumes:
-      - /mnt/appdata/pterodactyl-panel/appdata/:/data #Appdata
-      - /mnt/appdata/pterodactyl-wings:/etc/pterodactyl #Where config.yml goes into. #Appdata
-      - /mnt/appdata/pterodactyl-wings/data:/mnt/appdata/pterodactyl-wings/data #Shared data between Panel and Wings.
-      - /mnt/appdata/pterodactyl-panel/nginx/:/etc/nginx/conf.d/ #Nginx Config
+      - /opt/appdata/pterodactyl-panel/appdata/:/data #Appdata
+      - /opt/appdata/pterodactyl-wings:/etc/pterodactyl #Where config.yml goes into. #Appdata
+      - /opt/appdata/pterodactyl-wings/data:/opt/appdata/pterodactyl-wings/data #Shared data between Panel and Wings.
+      - /opt/appdata/pterodactyl-panel/nginx/:/etc/nginx/conf.d/ #Nginx Config
     environment:
       - APP_ENV=${PTERODACTYL_PANEL_APP_ENV}
       - APP_ENVIRONMENT_ONLY=${PTERODACTYL_PANEL_APP_ENVIRONMENT_ONLY}

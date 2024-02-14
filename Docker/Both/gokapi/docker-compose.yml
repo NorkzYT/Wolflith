@@ -8,8 +8,8 @@ services:
     ports:
       - 53842:53842
     volumes:
-      - /mnt/appdata/gokapi-data:/app/data
-      - /mnt/appdata/gokapi-config:/app/config
+      - /opt/appdata/gokapi-data:/app/data
+      - /opt/appdata/gokapi-config:/app/config
     networks:
       - proxy
 

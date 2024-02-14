@@ -17,7 +17,7 @@ services:
       - 7818:5800
       - 7916:5900
     volumes:
-      - /mnt/appdata/putty:/config:rw
+      - /opt/appdata/putty:/config:rw
     restart: unless-stopped
     networks:
       - proxy

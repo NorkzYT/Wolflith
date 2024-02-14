@@ -14,8 +14,8 @@ services:
       - ALLOW_NEW_ACCOUNTS=${MESHCENTRAL_ALLOW_NEW_ACCOUNTS}
       - WEBRTC=${MESHCENTRAL_WEBRTC}
     volumes:
-      - /mnt/appdata/meshcentral/data:/opt/meshcentral/meshcentral-data
-      - /mnt/appdata/meshcentral/user_files:/opt/meshcentral/meshcentral-files
+      - /opt/appdata/meshcentral/data:/opt/meshcentral/meshcentral-data
+      - /opt/appdata/meshcentral/user_files:/opt/meshcentral/meshcentral-files
     restart: unless-stopped
     networks:
       - proxy

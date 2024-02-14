@@ -10,7 +10,7 @@ services:
     ports:
       - 1880:1880
     volumes:
-      - /mnt/appdata/node-red/data:/data
+      - /opt/appdata/node-red/data:/data
     networks:
       - proxy
 

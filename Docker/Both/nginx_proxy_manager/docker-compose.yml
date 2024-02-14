@@ -21,9 +21,9 @@ services:
       - MYSQL_PASSWORD=${NGINX_PROXY_MANAGER_MYSQL_PASSWORD}
     volumes:
       # Make sure this config.json file exists as per instructions above:
-      - /mnt/appdata/nginx-proxy-manager/config.json:/app/config/production.json
-      - /mnt/appdata/nginx-proxy-manager/data:/data
-      - /mnt/appdata/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - /opt/appdata/nginx-proxy-manager/config.json:/app/config/production.json
+      - /opt/appdata/nginx-proxy-manager/data:/data
+      - /opt/appdata/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
     healthcheck:
       test: [CMD, /bin/check-health]
       interval: 10s

@@ -15,8 +15,8 @@ services:
       - 57801:5800
       - 7901:5900
     volumes:
-      - /mnt/appdata/dupeguru:/config:rw
-      - /mnt/appdata/dupeguru/storage:/storage:rw
+      - /opt/appdata/dupeguru:/config:rw
+      - /opt/appdata/dupeguru/storage:/storage:rw
     restart: unless-stopped
     networks:
       - proxy

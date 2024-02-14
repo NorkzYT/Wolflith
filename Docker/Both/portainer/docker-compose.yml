@@ -9,7 +9,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /mnt/appdata/portainer/portainer-data:/data
+      - /opt/appdata/portainer/portainer-data:/data
     ports:
       - 9443:9000
     restart: unless-stopped

@@ -21,8 +21,8 @@ services:
     ports:
       - 8354:3000
     volumes:
-      - /mnt/appdata/browserless/downloads:/downloads
-      - /mnt/appdata/browserless/root:/root/metrics.json
+      - /opt/appdata/browserless/downloads:/downloads
+      - /opt/appdata/browserless/root:/root/metrics.json
     restart: unless-stopped
     networks:
       - proxy

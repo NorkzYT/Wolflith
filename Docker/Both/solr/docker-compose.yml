@@ -7,7 +7,7 @@ services:
     ports:
       - 8626:8983
     volumes:
-      - /mnt/appdata/solr:/var/solr
+      - /opt/appdata/solr:/var/solr
     command:
       - solr-precreate
       - gettingstarted

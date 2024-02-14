@@ -16,7 +16,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev:/dev
       - /lib/modules:/lib/modules
-      - /mnt/appdata/docker-osx_data:/home
+      - /opt/appdata/docker-osx_data:/home
     ports:
       - 1009:10022
     devices:

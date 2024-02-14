@@ -13,7 +13,7 @@ services:
       - LOGFILE=${ENDLESSH_LOGFILE}
       # - BINDFAMILY=${ENDLESSH_BINDFAMILY}
     volumes:
-      - /mnt/appdata/endlessh:/config #optional
+      - /opt/appdata/endlessh:/config #optional
     ports:
       - 2222:2222
     restart: unless-stopped

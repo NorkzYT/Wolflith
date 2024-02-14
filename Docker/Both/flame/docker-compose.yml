@@ -4,7 +4,7 @@ services:
     image: pawelmalak/flame:multiarch2.3.0
     container_name: flame
     volumes:
-      - /mnt/appdata/flame:/app/data
+      - /opt/appdata/flame:/app/data
       - /var/run/docker.sock:/var/run/docker.sock # optional but required for Docker integration feature
     ports:
       - 5030:5005

@@ -9,7 +9,7 @@ services:
     container_name: discordchatexporter
     restart: unless-stopped
     volumes:
-      - /mnt/appdata/discord/chat-exporter:/out
+      - /opt/appdata/discord/chat-exporter:/out
     environment:
       - DISCORD_TOKEN=${DISCORDCHATEXPORTER_DISCORD_TOKEN}
       - DISCORD_TOKEN_BOT=${DISCORDCHATEXPORTER_DISCORD_TOKEN_BOT}

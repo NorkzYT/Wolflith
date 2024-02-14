@@ -7,8 +7,8 @@ services:
     ports:
       - 8953:8000
     volumes:
-      - /mnt/appdata/tubearchivist/media:/youtube
-      - /mnt/appdata/tubearchivist/cache:/cache
+      - /opt/appdata/tubearchivist/media:/youtube
+      - /opt/appdata/tubearchivist/cache:/cache
     environment:
       - ES_URL=${TUBEARCHIVIST_ES_URL}
       - REDIS_HOST=${TUBEARCHIVIST_REDIS_HOST}
@@ -33,7 +33,7 @@ services:
     ports:
       - 8952:6379
     volumes:
-      - /mnt/appdata/tubearchivist-redis:/data
+      - /opt/appdata/tubearchivist-redis:/data
     depends_on:
       - archivist-es
     networks:
@@ -51,7 +51,7 @@ services:
       - bootstrap.memory_lock=${ARCHIVIST_ES_bootstrap.memory_lock}
       - path.repo=${ARCHIVIST_ES_path.repo}
     volumes:
-      - /mnt/appdata/tubearchivist-es:/usr/share/elasticsearch/data
+      - /opt/appdata/tubearchivist-es:/usr/share/elasticsearch/data
     expose:
       - '9200'
     networks:
