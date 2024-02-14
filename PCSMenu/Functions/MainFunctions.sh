@@ -103,9 +103,17 @@ function go_back_menu() {
 
 ### Option number amount ###
 function option_number() {
-
-    printf "1-6"
-
+    case $CURRENT_MENU in
+    "Main") printf "1-7" ;;
+    "Linux") printf "1-55" ;;
+    "Proxmox") printf "1-26" ;;
+    "Docker") printf "1-3" ;;
+    "Ansible") printf "1-2" ;;
+    "GitHub") printf "1-1" ;;
+    "GitLab") printf "1-1" ;;
+    "Tools") printf "1-1" ;;
+    *) printf "1-6" ;;
+    esac
 }
 
 ### Exit Function for main ###

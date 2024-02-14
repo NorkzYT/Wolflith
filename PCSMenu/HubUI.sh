@@ -13,6 +13,9 @@ source Functions/GitHubFunctions.sh
 source Functions/GitLabFunctions.sh
 source Functions/MachineFunctions.sh
 
+# Global variable to track the current menu context
+CURRENT_MENU=""
+
 #####################################################################################################################################################################
 
 ### HUB UI SECTION ###
@@ -24,7 +27,7 @@ source Functions/MachineFunctions.sh
 server_name=$(hostname)
 
 tools() {
-
+    CURRENT_MENU="Tools"
     menu_cover    # Declared Menu_Cover
     menu_bar      # Declared Menu_Bar
     tools_options # Shows Tools Options
@@ -70,7 +73,7 @@ tools() {
 ### Gitlab Sub_menu ###
 
 gitlab() {
-
+    CURRENT_MENU="GitLab"
     menu_cover     # Declared Menu_Cover
     menu_bar       # Declared Menu_Bar
     gitlab_options # Shows Kubernetes Options
@@ -111,7 +114,7 @@ gitlab() {
 ### Github Sub_menu ###
 
 github() {
-
+    CURRENT_MENU="GitHub"
     menu_cover     # Declared Menu_Cover
     menu_bar       # Declared Menu_Bar
     github_options # Shows Kubernetes Options
@@ -152,7 +155,7 @@ github() {
 ### Ansible Sub_menu ###
 
 ansible() {
-
+    CURRENT_MENU="Ansible"
     menu_cover      # Declared Menu_Cover
     menu_bar        # Declared Menu_Bar
     ansible_message # Declared ansible_message
@@ -185,46 +188,6 @@ ansible() {
         ansible
         ;;
 
-    3)
-        Color_Off
-        sleep 0.2
-        clear
-        ansible_banner
-        provision_docker_services_on_lxc
-        clear
-        ansible
-        ;;
-
-    4)
-        Color_Off
-        sleep 0.2
-        clear
-        ansible_banner
-        provision_docker_compose_service
-        clear
-        ansible
-        ;;
-
-    5)
-        Color_Off
-        sleep 0.2
-        clear
-        ansible_banner
-        kubernetes_setup
-        clear
-        ansible
-        ;;
-
-    6)
-        Color_Off
-        sleep 0.2
-        clear
-        ansible_banner
-        kubernetes_cluster_access
-        clear
-        ansible
-        ;;
-
     #2)  ; tools ;;
     #3)  ; tools ;;
     #4)  ; tools ;;
@@ -250,7 +213,7 @@ ansible() {
 ### Docker Sub_menu ###
 
 docker() {
-
+    CURRENT_MENU="Docker"
     menu_cover     # Declared Menu_Cover
     menu_bar       # Declared Menu_Bar
     docker_options # Shows Docker Options
@@ -276,7 +239,7 @@ docker() {
         sleep 0.2
         clear
         docker_banner
-        run_docker_command
+        docker_update
         clear
         docker
         ;;
@@ -286,16 +249,7 @@ docker() {
         sleep 0.2
         clear
         docker_banner
-        docker_memory_check
-        clear
-        docker
-        ;;
-    4)
-        Color_Off
-        sleep 0.2
-        clear
-        docker_banner
-        rm_unused_resources
+        provision_docker_compose_service
         clear
         docker
         ;;
@@ -320,7 +274,7 @@ docker() {
 ### Proxmox Sub_menu ###
 
 proxmox() {
-
+    CURRENT_MENU="Proxmox"
     menu_cover      # Declared Menu_Cover
     menu_bar        # Declared Menu_Bar
     proxmox_options # Shows Proxmox Options
@@ -336,7 +290,7 @@ proxmox() {
         sleep 0.2
         clear
         proxmox_banner
-        pveperf
+        provision_docker_services_on_lxc
         clear
         proxmox
         ;;
@@ -596,7 +550,7 @@ proxmox() {
 ### Linux Sub_menu ###
 
 linux() {
-
+    CURRENT_MENU="Linux"
     menu_cover    # Declared Menu_Cover
     menu_bar      # Declared Menu_Bar
     linux_options # Shows Linux Options

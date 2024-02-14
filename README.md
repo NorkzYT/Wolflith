@@ -11,7 +11,7 @@
 
 </div>
 
-Wolflith is a comprehensive toolkit designed to automate the setup and management of homelabs and homeservers. It facilitates the rapid deployment of technologies such as Docker, Kubernetes, Ansible, and more, with an emphasis on modularity and ease of use. Whether you're a beginner or an experienced user, Wolflith aims to streamline the process of deploying various applications and services across your infrastructure.
+At its core, Wolflith harnesses the power of Ansible and Bash to offer an unparalleled level of control and flexibility, making it the backbone for deploying and managing your technological services. This Ansible-Bash-based toolkit simplifies complex tasks, ensuring that even those new to homelabs can achieve professional-grade setups. With Wolflith, you're not just building a server; you're crafting a fully customized, scalable digital environment tailored to your needs. It's the perfect blend of simplicity and sophistication for the modern tech enthusiast.
 
 
 Note: This repository is in BETA and still a work in progress, I welcome contributions to expand its capabilities and usability.

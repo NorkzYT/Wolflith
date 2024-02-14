@@ -14,21 +14,76 @@ default_node="pve"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Scripts/directory_location.txt")
 SELECTED_SERVICE=$(cat /tmp/selected_docker_service.txt)
+HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
+TARGET_HOST="$ANSIBLE_PLAYBOOK_TARGET"
+
+# Extract ansible_host (WAN IP), ansible_user (API user), and ansible_ssh_pass (API password)
+read api_host api_user api_password <<<$(awk -v target="$TARGET_HOST" '
+BEGIN {
+    RS=""; FS="\n"
+    host_found = 0; user = ""; pass = ""
+}
+$0 ~ "hosts:" {
+    split($0, lines, FS)
+    for (i in lines) {
+        line = lines[i]
+        if (line ~ target ":") {
+            host_found = 1
+        }
+        if (host_found) {
+            if (line ~ /ansible_host:/) {
+                gsub("ansible_host: ", "", line)
+                host = line
+            }
+            if (line ~ /ansible_user:/) {
+                gsub("ansible_user: ", "", line)
+                user = line
+            }
+            if (line ~ /ansible_ssh_pass:/) {
+                gsub("ansible_ssh_pass: ", "", line)
+                pass = line
+                break
+            }
+        }
+    }
+}
+END {
+    if (user == "" || pass == "") { # If not found in host specifics, use group vars
+        print host, "root", "xxx" # Fallback or adjust to retrieve from group vars if necessary
+    } else {
+        print host, user, pass
+    }
+}' "$HOSTS_FILE")
 
 # Use color functions to print headers and information
 blueprint "Configuration for Proxmox LXC Provisioning"
 
-# Prompt for Proxmox API details with defaults
-greenprint "Enter Proxmox VE API host (e.g, 24.156.99.202 [WAN IP]): "
-read api_host
+# If api_host is empty, fallback to user input
+if [ -z "$api_host" ]; then
+    greenprint "Enter Proxmox VE API host (e.g., 24.156.99.202 [WAN IP]): "
+    read api_host
+else
+    greenprint "Proxmox VE API host (WAN IP) extracted: $api_host"
+fi
 
-greenprint "Enter Proxmox VE API user (default: $default_api_user): "
-read api_user
-api_user=${api_user:-$default_api_user}
+# Prompt for API User if not extracted
+if [ -z "$api_user" ]; then
+    greenprint "Enter Proxmox VE API user (default: $default_api_user): "
+    read api_user
+    api_user=${api_user:-$default_api_user}
+    echo ""
+else
+    greenprint "Proxmox VE API user extracted: $api_user"
+fi
 
-greenprint "Enter Proxmox VE API password: "
-read -sp "" api_password
-echo ""
+# Prompt for API password if not extracted
+if [ -z "$api_password" ]; then
+    greenprint "Enter Proxmox VE API password: "
+    read -sp "" api_password
+    echo ""
+else
+    greenprint "Proxmox VE API password extracted"
+fi
 
 greenprint "Enter Proxmox VE node name (default: $default_node): "
 read node
@@ -57,9 +112,9 @@ greenprint "Enter the name of the storage that contains CT Templates (default: $
 read ct_storage
 ct_storage=${ct_storage:-$default_ct_storage}
 
-greenprint "Enter root password for LXC: "
-read -sp "" lxc_root_password
-echo ""
+# Generate and display root password for LXC
+lxc_root_password=$(openssl rand -base64 24)
+greenprint "Generated root password for LXC: $lxc_root_password"
 
 # Additional questions based on the Proxmox Ansible docs
 cyanprint "The default hostname will be the service you selected to install: $SELECTED_SERVICE"

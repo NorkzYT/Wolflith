@@ -8,7 +8,7 @@
 
 #####################################################################################################################################################################
 
-function proxmox_banner {
+function proxmox_banner() {
     # Display a banner with the text "Proxmox"
     cat <<"EOF"
 
@@ -28,23 +28,23 @@ EOF
 
 function proxmox_options() {
     printf "$Cyan"
-    printf "1) A. pveperf                      2) B. pvesubscription_get      3) C. vzdump"
+    printf "1) A. Provision Proxmox LXC with a Docker Service        2) B. pvesubscription_get      3) C. vzdump"
     printf "\n"
-    printf "4) D. pvecm_restart                5) E. pveversion               6) F. get_next_vm_id"
+    printf "4) D. pvecm_restart                                      5) E. pveversion               6) F. get_next_vm_id"
     printf "\n"
-    printf "7) G. sum_memory_allocated         8) H. sorted_list_vms          9) I. sorted_list_vm_ids"
+    printf "7) G. sum_memory_allocated                               8) H. sorted_list_vms          9) I. sorted_list_vm_ids"
     printf "\n"
-    printf "10) J. qm_list                     11) K. qm_config               12) L. qm_unlock"
+    printf "10) J. qm_list                                           11) K. qm_config               12) L. qm_unlock"
     printf "\n"
-    printf "13) M. qmrestore                   14) N. vzrestore               15) O. lxc_start"
+    printf "13) M. qmrestore                                         14) N. vzrestore               15) O. lxc_start"
     printf "\n"
-    printf "16) P. mount_lxc_disk              17) Q. unmount_lxc_disk        18) R. repair_lxc_disk"
+    printf "16) P. mount_lxc_disk                                    17) Q. unmount_lxc_disk        18) R. repair_lxc_disk"
     printf "\n"
-    printf "19) S. check_lxc_config            20) T. destroy_lxc             21) U. restore_lxc"
+    printf "19) S. check_lxc_config                                  20) T. destroy_lxc             21) U. restore_lxc"
     printf "\n"
-    printf "22) V. vzctl                       23) W. pvectl                  24) X. vztop"
+    printf "22) V. vzctl                                             23) W. pvectl                  24) X. vztop"
     printf "\n"
-    printf "25) Y. display_user_beancounters   26) Z. zlist"
+    printf "25) Y. display_user_beancounters                         26) Z. zlist"
     printf "\n"
     printf "$Color_Off"
     echo ""
@@ -58,48 +58,92 @@ function proxmox_options() {
 
 ####################################################
 
-function pveperf() {
-
-    printf "The pveperf command is a command-line tool for monitoring and analyzing the performance of a Proxmox VE cluster. It displays various performance metrics, such as CPU usage, memory usage, and network usage, for all nodes in the cluster.\n"
-    echo ""
-    read -p "Do you still want to run this command? (yes/no) " run_command
+function provision_docker_services_on_lxc() {
+    cyanprint "This option will guide you through provisioning Docker service(s) on a new LXC container within a Proxmox VE."
     echo ""
 
-    # Check the user's answer
-    if [ "$run_command" == "yes" ]; then
-        pveperf
-    else
-        printf "\n--------------------------------------------------------------------------------\n"
-        printf "\nThe command was not run.\n"
-    fi
-    printf "\n--------------------------------------------------------------------------------\n"
+    while true; do
+        cyanprint "Do you still want to run this command? (yes/no) "
+        read -p "" run_command
+        echo ""
 
-    # Done viewing function
-    # Ask the user if they are done viewing the current option
-    read -p "Are you done viewing this option? (yes/no) " done
+        if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
+            cyanprint "Enter the name of the machine you want to run the playbooks for:"
+            read -r ansible_playbook_targets
+            greenprint "Proceeding with the machine: $ansible_playbook_targets"
 
-    # Check the user's answer
-    if [[ "$done" == "yes" ]] || [[ "$done" == "y" ]] || [[ "$done" == "Yes" ]] || [[ "$done" == "Y" ]]; then
-        # Return to the main menu
-        clear
-        proxmox
+            # Before calling provision_lxc.sh, export the target as an environment variable
+            export ANSIBLE_PLAYBOOK_TARGET="$ansible_playbook_targets"
 
-    else
-        # Check the user's answer
-        if [[ "$done" == "no" ]] || [[ "$done" == "n" ]] || [[ "$done" == "No" ]] || [[ "$done" == "N" ]]; then
-            # Return to the main menu
+            # Run scripts with informative prompts
+            cyanprint "Selecting Docker service..."
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/select_service.sh"
+
+            cyanprint "Setting up Docker service..."
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/setup_service.sh"
+
+            cyanprint "Provisioning Docker service..."
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/provision_docker_service.sh"
+
+            cyanprint "Provisioning LXC container..."
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Proxmox/provision_lxc.sh"
+
+            cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
+            # Execute the Ansible playbook for the specified target(s), capturing output
+            if ! output=$(ansible-playbook $DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/provision-proxmox-lxc.yml -i "$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
+                redprint "An error occurred during playbook execution:"
+                echo "$output" # Display the captured error output
+
+                yellowprint "Error occurred, press 'x' to exit."
+                read -n 1 -r key
+                echo
+
+                if [[ $key =~ ^[Xx]$ ]]; then
+                    clear
+                    proxmox
+                    return
+                fi
+            else
+                greenprint "Playbook executed successfully."
+            fi
+
+            # Remove temporary files
+            rm -f /tmp/selected_docker_service.txt
+            rm -f /tmp/selected_docker_service_path.txt
+            rm -f /tmp/provisioning_docker_service_vars.yml
+            rm -f /tmp/env_vars_for_ansible.yml
+            rm -f /tmp/lxc_provisioning_vars.yml
+
+            # Prompt at the end
+            while true; do
+                cyanprint "Do you want to return to the main menu? [Y/y] or [X/x] to Exit."
+                read -n 1 -r user_choice
+                echo
+
+                if [[ $user_choice =~ ^[Yy]$ ]]; then
+                    clear
+                    return
+                elif [[ $user_choice =~ ^[Xx]$ ]]; then
+                    greenprint "Exiting..."
+                    exit 0
+                else
+                    yellowprint "Invalid choice, please choose [Y/y] to return or [X/x] to Exit."
+                fi
+            done
+
+        elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
+            magentaprint "Operation canceled. Returning to the main menu..."
             clear
-            proxmox_banner
-            pveperf
+            proxmox
+            return
         else
             # The user entered an invalid answer
             invalid_answer
             clear
             proxmox_banner
-            pveperf
+            provision_docker_services_on_lxc
         fi
-    fi
-
+    done
 }
 
 # --------------------------------------------------------------- #

@@ -31,9 +31,9 @@ EOF
 function docker_options() {
 
     printf "$Cyan"
-    printf "1) A. Install Docker                                   2) B. Manual Command"
+    printf "1) A. Install Docker                   2) B. Update Docker"
     printf "\n"
-    printf "3) C. Total Docker Container Memory Usage              4) D. Remove all unused Docker data"
+    printf "3) C. Provision Docker Service(s)"
     printf "$Color_Off"
     echo ""
 
@@ -49,50 +49,77 @@ function docker_options() {
 
 ####################################################
 
-# Define the function
-# Function to get total memory usage of all Docker containers
-function docker_memory_check() {
-
-    printf "This script displays the total memory usage of all Docker containers on the system. It first gets the total memory amount and the unit of measurement, calculates the total memory usage percentage and the total memory usage, and then calculates the difference between the total memory amount and the total memory usage. Finally, it displays the total memory amount, the total memory usage, the total memory usage percentage, and the difference between the total memory amount and the total memory usage.\n"
-    echo ""
-    read -p "Do you still want to run this command? (yes/no) " run_command
-
-    # Check the user's answer
-    if [ "$run_command" == "yes" ]; then
-        # Run the DockerContainerMem.sh script
-        bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Auto/DockerContainerMem.sh"
-    else
-        printf "\n--------------------------------------------------------------------------------\n"
-        printf "\nThe command was not run.\n"
-    fi
-
-    printf "\n--------------------------------------------------------------------------------"
+function docker_install() {
+    cyanprint "This option will guide you through installing Docker on machine(s)."
     echo ""
 
-    # Done viewing function
-    # Ask the user if they are done viewing the current option
-    read -p "Are you done viewing this option? (yes/no) " done
+    while true; do
+        cyanprint "Do you still want to run this command? (yes/no) "
+        read -p "" run_command
+        echo ""
 
-    # Check the user's answer
-    if [[ "$done" == "yes" ]] || [[ "$done" == "y" ]] || [[ "$done" == "Yes" ]] || [[ "$done" == "Y" ]]; then
-        # Return to the main menu
-        clear
-        docker
-    else
-        # Check the user's answer
-        if [[ "$done" == "no" ]] || [[ "$done" == "n" ]] || [[ "$done" == "No" ]] || [[ "$done" == "N" ]]; then
-            # Return to the main menu
+        if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
+            cyanprint "Do you want to run the playbook for all machines listed in hosts.yaml? (y/n)"
+            read -r run_for_all
+
+            if [[ "$run_for_all" =~ ^[Yy]$ ]]; then
+                ansible_playbook_targets="all"
+                greenprint "Proceeding with all machines..."
+            else
+                cyanprint "Enter the name of the machine you want to run the playbooks for:"
+                read -r ansible_playbook_targets
+                greenprint "Proceeding with the machine: $ansible_playbook_targets"
+            fi
+
+            cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
+            # Execute the Ansible playbook for the specified target(s), capturing output
+            if ! output=$(ansible-playbook $DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/docker.yml -i "$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
+                redprint "An error occurred during playbook execution:"
+                echo "$output" # Display the captured error output
+
+                yellowprint "Error occurred, press 'x' to exit."
+                read -n 1 -r key
+                echo
+
+                if [[ $key =~ ^[Xx]$ ]]; then
+                    clear
+                    docker
+                    return
+                fi
+            else
+                greenprint "Playbook executed successfully."
+            fi
+
+            # Prompt at the end
+            while true; do
+                cyanprint "Do you want to return to the main menu? [Y/y] or [X/x] to Exit."
+                read -n 1 -r user_choice
+                echo
+
+                if [[ $user_choice =~ ^[Yy]$ ]]; then
+                    clear
+                    return
+                elif [[ $user_choice =~ ^[Xx]$ ]]; then
+                    greenprint "Exiting..."
+                    exit 0
+                else
+                    yellowprint "Invalid choice, please choose [Y/y] to return or [X/x] to Exit."
+                fi
+            done
+
+        elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
+            magentaprint "Operation canceled. Returning to the main menu..."
             clear
-            docker_banner
-            docker_memory_check
+            docker
+            return
         else
             # The user entered an invalid answer
             invalid_answer
             clear
             docker_banner
-            docker_memory_check
+            docker_install
         fi
-    fi
+    done
 }
 
 # --------------------------------------------------------------- #
@@ -103,40 +130,69 @@ function docker_memory_check() {
 
 ####################################################
 
-function docker_install() {
-    printf "This script installs and configures Docker and Docker Compose on an Ubuntu system. It first checks if Docker and Docker Compose are already installed and, if they are, displays a message and the version of Docker. If either Docker or Docker Compose is not installed, the script updates the system and installs the required packages. It then prints the version of Docker and Docker Compose to confirm successful installation.\n"
+function docker_update() {
+    cyanprint "This option will guide you through updating Docker on machine(s)."
     echo ""
-    read -p "Do you still want to run this command? (yes/no) " run_command
 
-    # Check the user's answer
-    if [ "$run_command" == "yes" ]; then
-        # Run the DockerInstaller.sh script
-        bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Auto/DockerInstaller.sh"
-    else
-        printf "\n--------------------------------------------------------------------------------\n"
-        printf "\nThe command was not run.\n"
-    fi
+    while true; do
+        cyanprint "Do you still want to run this command? (yes/no) "
+        read -p "" run_command
+        echo ""
 
-    printf "\n--------------------------------------------------------------------------------\n"
-    echo ""
-    # Done viewing function
-    # Ask the user if they are done viewing the current option
-    read -p "Are you done viewing this option? (yes/no) " done
+        if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
+            cyanprint "Do you want to run the playbook for all machines listed in hosts.yaml? (y/n)"
+            read -r run_for_all
 
-    # Check the user's answer
-    if [[ "$done" == "yes" ]] || [[ "$done" == "y" ]] || [[ "$done" == "Yes" ]] || [[ "$done" == "Y" ]]; then
-        # Return to the main menu
-        clear
-        docker
-    else
+            if [[ "$run_for_all" =~ ^[Yy]$ ]]; then
+                ansible_playbook_targets="all"
+                greenprint "Proceeding with all machines..."
+            else
+                cyanprint "Enter the name of the machine you want to run the playbooks for:"
+                read -r ansible_playbook_targets
+                greenprint "Proceeding with the machine: $ansible_playbook_targets"
+            fi
 
-        # Check the user's answer
-        if [[ "$done" == "no" ]] || [[ "$done" == "n" ]] || [[ "$done" == "No" ]] || [[ "$done" == "N" ]]; then
-            # Return to the main menu
+            cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
+            # Execute the Ansible playbook for the specified target(s), capturing output
+            if ! output=$(ansible-playbook $DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/docker-update.yml -i "$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
+                redprint "An error occurred during playbook execution:"
+                echo "$output" # Display the captured error output
+
+                yellowprint "Error occurred, press 'x' to exit."
+                read -n 1 -r key
+                echo
+
+                if [[ $key =~ ^[Xx]$ ]]; then
+                    clear
+                    docker
+                    return
+                fi
+            else
+                greenprint "Playbook executed successfully."
+            fi
+
+            # Prompt at the end
+            while true; do
+                cyanprint "Do you want to return to the main menu? [Y/y] or [X/x] to Exit."
+                read -n 1 -r user_choice
+                echo
+
+                if [[ $user_choice =~ ^[Yy]$ ]]; then
+                    clear
+                    return
+                elif [[ $user_choice =~ ^[Xx]$ ]]; then
+                    greenprint "Exiting..."
+                    exit 0
+                else
+                    yellowprint "Invalid choice, please choose [Y/y] to return or [X/x] to Exit."
+                fi
+            done
+
+        elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
+            magentaprint "Operation canceled. Returning to the main menu..."
             clear
-            docker_banner
-            docker_install
-
+            docker
+            return
         else
             # The user entered an invalid answer
             invalid_answer
@@ -144,7 +200,7 @@ function docker_install() {
             docker_banner
             docker_install
         fi
-    fi
+    done
 }
 
 # --------------------------------------------------------------- #
@@ -155,98 +211,85 @@ function docker_install() {
 
 ####################################################
 
-# Define the function
-function run_docker_command() {
-    printf "This script checks if Docker and Docker Compose are installed on the system. If they are, it prompts the user for a Docker command to run and then executes it. If Docker and Docker Compose are not installed, it tells the user to install them first.\n"
+function provision_docker_compose_service() {
+    printf "This option will guide you through provisioning Docker service(s) on a Linux Machine."
     echo ""
-    read -p "Do you still want to run this command? (yes/no) " run_command
+    while true; do
+        read -p "Do you still want to run this command? (yes/no) " run_command
+        echo ""
 
-    # Check the user's answer
-    if [ "$run_command" == "yes" ]; then
-        # Run the DockerManualCommand.sh script
-        bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Auto/DockerManualCommand.sh"
-    else
-        printf "\n--------------------------------------------------------------------------------\n"
-        printf "\nThe command was not run.\n"
-    fi
+        if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
+            echo "Do you want to run the playbook for all machines listed in hosts.yaml? (y/n)"
+            read -r run_for_all
 
-    printf "\n--------------------------------------------------------------------------------\n"
-    echo ""
-    # Done viewing function
-    # Ask the user if they are done viewing the current option
-    read -p "Are you done viewing this option? (yes/no) " done
+            if [[ "$run_for_all" =~ ^[Yy]$ ]]; then
+                ansible_playbook_targets="all"
+            else
+                echo "Enter the name of the machine you want to run the playbooks for:"
+                read -r ansible_playbook_targets
+            fi
 
-    # Check the user's answer
-    if [[ "$done" == "yes" ]] || [[ "$done" == "y" ]] || [[ "$done" == "Yes" ]] || [[ "$done" == "Y" ]]; then
-        # Return to the main menu
-        clear
-        docker
-    else
+            # Run scripts
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/select_service.sh"
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/setup_service.sh"
+            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/provision_docker_service.sh"
 
-        # Check the user's answer
-        if [[ "$done" == "no" ]] || [[ "$done" == "n" ]] || [[ "$done" == "No" ]] || [[ "$done" == "N" ]]; then
-            # Return to the main menu
+            # Execute the Ansible playbook for the specified target(s), capturing output
+            if ! output=$(ansible-playbook $DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/provision-docker-service.yml -i "$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
+                redprint "An error occurred during playbook execution:"
+                echo "$output" # Display the captured error output
+
+                yellowprint "Error occurred, press 'x' to exit."
+                read -n 1 -r key
+                echo
+
+                if [[ $key =~ ^[Xx]$ ]]; then
+                    clear
+                    docker
+                    return
+                fi
+            else
+                greenprint "Playbook executed successfully."
+            fi
+
+            # Remove temporary files
+            rm -f /tmp/selected_docker_service.txt
+            rm -f /tmp/selected_docker_service_path.txt
+            rm -f /tmp/provisioning_docker_service_vars.yml
+            rm -f /tmp/env_vars_for_ansible.yml
+
+            # Prompt at the end
+            while true; do
+                echo "Do you want to return to the main menu? [Y/y] or [X/x] to Exit."
+                read -n 1 -r user_choice
+                echo
+
+                if [[ $user_choice =~ ^[Yy]$ ]]; then
+                    clear
+                    docker
+                    return
+                elif [[ $user_choice =~ ^[Xx]$ ]]; then
+                    echo "Exiting..."
+                    exit 0
+                else
+                    echo "Invalid choice, please choose [Y/y] to return or [X/x] to Exit."
+                fi
+            done
+
+            break
+        elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
+            # Immediately return to the main menu
             clear
-            docker_banner
-            run_docker_command
+            docker
+            return
         else
             # The user entered an invalid answer
             invalid_answer
             clear
             docker_banner
-            run_docker_command
+            provision_docker_compose_service
         fi
-    fi
-}
-
-# --------------------------------------------------------------- #
-
-####################################################
-
-### 4 ###
-
-####################################################
-
-# Define the function
-function rm_unused_resources() {
-    printf "\nThis command removes all unused Docker resources, including containers, images, and volumes.\n"
-    read -p "Do you still want to run this command? (yes/no) " run_command
-    echo ""
-    # Check the user's answer
-    if [ "$run_command" == "yes" ]; then
-        docker system prune -a --volumes
-    else
-        printf "\n--------------------------------------------------------------------------------\n"
-        printf "\nThe command was not run.\n"
-    fi
-
-    printf "\n--------------------------------------------------------------------------------\n"
-
-    # Done viewing function
-    # Ask the user if they are done viewing the current option
-    read -p "Are you done viewing this option? (yes/no) " done
-
-    # Check the user's answer
-    if [[ "$done" == "yes" ]] || [[ "$done" == "y" ]] || [[ "$done" == "Yes" ]] || [[ "$done" == "Y" ]]; then
-        # Return to the main menu
-        clear
-        docker
-    else
-
-        # Check the user's answer
-        if [[ "$done" == "no" ]] || [[ "$done" == "n" ]] || [[ "$done" == "No" ]] || [[ "$done" == "N" ]]; then
-            # Return to the main menu
-            clear
-            docker_banner
-            rm_unused_resources
-        else
-            # The user entered an invalid answer
-            invalid_answer
-            clear
-            docker_banner
-            rm_unused_resources
-        fi
-    fi
+    done
 }
 
 # --------------------------------------------------------------- #

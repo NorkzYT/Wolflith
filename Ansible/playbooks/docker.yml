@@ -6,6 +6,14 @@
       prompt: 'Enter the name of the user to add to the docker group:'
       private: no
   tasks:
+    - name: Gather the package facts
+      package_facts:
+        manager: auto
+
+    - name: Set distribution variable
+      set_fact:
+        distribution: "{{ ansible_facts['distribution'] | lower }}"
+
     - name: Uninstall old versions
       apt:
         name:
@@ -17,13 +25,15 @@
         state: absent
         autoremove: true
         update_cache: true
+      when: distribution == 'debian' or distribution == 'ubuntu'
 
     - name: Remove docker repository file
       file:
         path: /etc/apt/sources.list.d/docker.list
         state: absent
+      when: distribution == 'debian' or distribution == 'ubuntu'
 
-    - name: Install dependencies
+    - name: Install dependencies (Debian/Ubuntu)
       apt:
         name:
           - ca-certificates
@@ -32,18 +42,21 @@
           - lsb-release
         state: present
         update_cache: true
+      when: distribution == 'debian' or distribution == 'ubuntu'
 
-    - name: Add Docker GPG apt Key
+    - name: Add Docker GPG apt Key (Debian/Ubuntu)
       apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
+        url: https://download.docker.com/linux/{{ distribution }}/gpg
         state: present
+      when: distribution == 'debian' or distribution == 'ubuntu'
 
-    - name: Add Docker Repository
+    - name: Add Docker Repository (Debian/Ubuntu)
       apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        repo: "deb [arch=amd64] https://download.docker.com/linux/{{ distribution }} {{ ansible_facts['distribution_version'] }} stable"
         state: present
+      when: distribution == 'debian' or distribution == 'ubuntu'
 
-    - name: Install docker engine, containerd, and Docker Compose.
+    - name: Install docker engine, containerd, and Docker Compose (Debian/Ubuntu)
       apt:
         name:
           - docker-ce
@@ -52,6 +65,9 @@
           - docker-compose
         state: present
         update_cache: true
+      when: distribution == 'debian' or distribution == 'ubuntu'
+
+    # Add equivalent tasks for CentOS, Fedora, Raspbian etc., by checking distribution and using respective package managers (yum/dnf) and commands.
 
     - name: Test docker
       command: docker info
