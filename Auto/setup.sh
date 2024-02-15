@@ -43,7 +43,7 @@ configure_vault() {
 prompt_directory_location() {
     blueprint "Checking for saved directory location..."
     local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-    local saved_dir_location="$script_dir/../Scripts/directory_location.txt"
+    local saved_dir_location="$script_dir/../Temp/directory_location.txt"
 
     if [ -f "$saved_dir_location" ]; then
         directory_location=$(cat "$saved_dir_location")
@@ -61,7 +61,7 @@ prompt_directory_location() {
         exit 1
     fi
     greenprint "Directory validated: $directory_location"
-    echo "$directory_location" >"$directory_location/Wolflith/Scripts/directory_location.txt"
+    echo "$directory_location" >"$directory_location/Wolflith/Temp/directory_location.txt"
 }
 
 # Update execute permissions

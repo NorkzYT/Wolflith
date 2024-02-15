@@ -20,7 +20,7 @@ install_ansible() {
 # Function to install required Ansible collections
 install_ansible_required_collections() {
     local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-    local saved_dir_location="$script_dir/../Scripts/directory_location.txt"
+    local saved_dir_location="$script_dir/../Temp/directory_location.txt"
     directory_location=$(cat "$saved_dir_location")
     if ansible-galaxy collection install -r "$directory_location/Wolflith/Ansible/collections/requirements.yml"; then
         greenprint "Required collections installed successfully."

@@ -12,7 +12,7 @@ default_api_user="root"
 default_node="pve"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Scripts/directory_location.txt")
+DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Temp/directory_location.txt")
 SELECTED_SERVICE=$(cat /tmp/selected_docker_service.txt)
 HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
 TARGET_HOST="$ANSIBLE_PLAYBOOK_TARGET"
@@ -115,6 +115,11 @@ ct_storage=${ct_storage:-$default_ct_storage}
 # Generate and display root password for LXC
 lxc_root_password=$(openssl rand -base64 24)
 greenprint "Generated root password for LXC: $lxc_root_password"
+
+# Save the LXC root password with the hostname into an organized file
+PASSWORDS_FILE="$SCRIPT_DIR/../../../Temp/lxc_passwords.txt"
+echo "Hostname: $hostname - Root Password: $lxc_root_password" >>"$PASSWORDS_FILE"
+greenprint "LXC root password for $hostname saved to $PASSWORDS_FILE"
 
 # Additional questions based on the Proxmox Ansible docs
 cyanprint "The default hostname will be the service you selected to install: $SELECTED_SERVICE"

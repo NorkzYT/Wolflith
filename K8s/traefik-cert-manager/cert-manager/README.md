@@ -7,6 +7,6 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**certificates**](certificates)
-  - [**production**](certificates/production)
-  - [**staging**](certificates/staging)
+    - [**production**](certificates/production)
+    - [**staging**](certificates/staging)
 - [**issuers**](issuers)

@@ -7,7 +7,7 @@ default_network_name="proxy"
 default_appdata_location="/opt/appdata"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Scripts/directory_location.txt")
+DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Temp/directory_location.txt")
 SELECTED_SERVICE=$(cat /tmp/selected_docker_service.txt)
 SELECTED_SERVICE_PATH=$(cat /tmp/selected_docker_service_path.txt)
 

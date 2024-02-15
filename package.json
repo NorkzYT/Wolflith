@@ -1,7 +1,7 @@
 {
 	"name": "wolflith",
 	"description": "Streamline Your Tech Stack Deployment with One Command.",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"author": "NorkzYT",
 	"private": false,
 	"main": "Auto/setup.sh",
@@ -49,7 +49,6 @@
 		"husky": "^9.0.0",
 		"markdown-notes-tree": "^1.12.0",
 		"prettier": "3.2.5",
-		"prettier-plugin-organize-attributes": "^1.0.0",
 		"prettyjson": "^1.2.5"
 	},
 	"engines": {

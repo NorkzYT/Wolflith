@@ -7,8 +7,8 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**Shells**](Shells)
-  - [**INSTALL ZSH SHELL IN WSL / WSL2**](Shells/Powerlevel10k.md)
-  - [Shell info](Shells/ShellInfo.md)
+    - [**INSTALL ZSH SHELL IN WSL / WSL2**](Shells/Powerlevel10k.md)
+    - [Shell info](Shells/ShellInfo.md)
 - [**To create a new user account named username using the adduser command you would run:**](adduser.md)
 - [Auto Execute Commands/Scripts During Reboot or Startup](H-W-T-StartupScript.md)
 - [Chmod](permissions.md)

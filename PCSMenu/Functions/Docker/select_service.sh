@@ -3,7 +3,7 @@
 source Functions/PersonalizationFunctions.sh
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Scripts/directory_location.txt")
+DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Temp/directory_location.txt")
 DOCKER_FOLDER="$DIRECTORY_LOCATION/Wolflith/Docker"
 
 blueprint "Scanning for Docker services in $DOCKER_FOLDER..."

@@ -6,7 +6,5 @@
 
 <!-- optional markdown-notes-tree directory description ends here -->
 
-- [**Ansible**](Ansible)
-  - [**AlreadySetup**](Ansible/AlreadySetup)
-  - [**FirstTimeSetup**](Ansible/FirstTimeSetup)
-- [**DoNotTouch**](DoNotTouch)
+- [**Vault**](Vault)
+    - [**old**](Vault/old)

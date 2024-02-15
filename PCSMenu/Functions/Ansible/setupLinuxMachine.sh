@@ -3,7 +3,7 @@
 source Functions/PersonalizationFunctions.sh
 
 # Read the directory location from the directory_location.txt file
-DIRECTORY_LOCATION=$(cat ../Scripts/directory_location.txt)
+DIRECTORY_LOCATION=$(cat ../Temp/directory_location.txt)
 HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
 
 # Ensure the initial structure of the YAML file if not present

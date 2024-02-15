@@ -7,10 +7,10 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**cert-manager**](cert-manager)
-  - [**certificates**](cert-manager/certificates)
-    - [**production**](cert-manager/certificates/production)
-    - [**staging**](cert-manager/certificates/staging)
-  - [**issuers**](cert-manager/issuers)
+    - [**certificates**](cert-manager/certificates)
+        - [**production**](cert-manager/certificates/production)
+        - [**staging**](cert-manager/certificates/staging)
+    - [**issuers**](cert-manager/issuers)
 - [**nginx**](nginx)
 - [**traefik**](traefik)
-  - [**dashboard**](traefik/dashboard)
+    - [**dashboard**](traefik/dashboard)

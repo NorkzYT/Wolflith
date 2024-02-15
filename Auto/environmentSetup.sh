@@ -5,7 +5,7 @@ source PCSMenu/Functions/PersonalizationFunctions.sh
 
 # Navigate to the script's directory and retrieve the saved directory location
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-saved_dir_location="$script_dir/../Scripts/directory_location.txt"
+saved_dir_location="$script_dir/../Temp/directory_location.txt"
 directory_location=$(cat "$saved_dir_location")
 
 # Define the base directory to search within

@@ -37,8 +37,10 @@ yarn-error.log*
 
 # Specific Files
 1password-credentials.json
-directory_location.txt
 hosts.yaml
+
+# Temp Folder
+/Temp
 
 # OpenCommit commitlint config
 .opencommit-commitlint

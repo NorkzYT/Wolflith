@@ -2,7 +2,7 @@
 
 source Functions/PersonalizationFunctions.sh
 
-DIRECTORY_LOCATION=$(cat ../Scripts/directory_location.txt)
+DIRECTORY_LOCATION=$(cat ../Temp/directory_location.txt)
 HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
 SSH_KEY_DIR="/root/.ssh/ansible_keys"
 

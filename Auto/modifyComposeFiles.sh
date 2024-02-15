@@ -11,7 +11,7 @@ check_docker_compose_installed() {
 # Function to prompt for directory location
 prompt_directory_location() {
     local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-    local saved_dir_location="$script_dir/../Scripts/directory_location.txt"
+    local saved_dir_location="$script_dir/../Temp/directory_location.txt"
 
     if [ -f "$saved_dir_location" ]; then
         directory_location=$(cat "$saved_dir_location")
@@ -30,7 +30,7 @@ prompt_directory_location() {
     fi
     echo "Directory validated: $directory_location"
     # Save the directory location for future use
-    echo "$directory_location" >"$directory_location/Wolflith/Scripts/directory_location.txt"
+    echo "$directory_location" >"$directory_location/Wolflith/Temp/directory_location.txt"
 }
 
 # Function to change appdata location

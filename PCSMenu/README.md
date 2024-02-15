@@ -10,3 +10,7 @@ PCSMenu is an advanced, Bash-based Application Deployment tool, designed with an
 
 - [**Auto**](Auto)
 - [**Functions**](Functions)
+    - [**Ansible**](Functions/Ansible)
+    - [**Docker**](Functions/Docker)
+    - [**Proxmox**](Functions/Proxmox)
+    - [**Scripts**](Functions/Scripts)
