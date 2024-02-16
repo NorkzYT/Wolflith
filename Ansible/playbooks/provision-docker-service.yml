@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
     - name: Verify if target system is a Linux System
-      ansible.builtin.script: '../../PCSMenu/Functions/Scripts/check_linux.sh'
+      ansible.builtin.script: '../../PCSMenu/Functions/Scripts/checkLinux.sh'
       register: proxmox_check
       ignore_errors: yes
 
@@ -44,8 +44,8 @@
             mode: '0755'
           loop:
             - {
-                src: '{{ repo_path }}/PCSMenu/Functions/Docker/update_docker_compose_env.sh',
-                dest: '/tmp/update_docker_compose_env.sh',
+                src: '{{ repo_path }}/PCSMenu/Functions/Docker/updateDockerComposeEnv.sh',
+                dest: '/tmp/updateDockerComposeEnv.sh',
               }
             - {
                 src: '/tmp/provisioning_docker_service_vars.yml',
@@ -73,11 +73,11 @@
       block:
         - name: Set Execute Permission for the Script Inside LXC Container
           ansible.builtin.shell: |
-            chmod +x /tmp/update_docker_compose_env.sh
+            chmod +x /tmp/updateDockerComposeEnv.sh
 
         - name: Execute Script Inside LXC to Generate .env File
           ansible.builtin.shell: |
-            bash -c "cd /tmp && ./update_docker_compose_env.sh {{ selected_service }}"
+            bash -c "cd /tmp && ./updateDockerComposeEnv.sh {{ selected_service }}"
 
         - name: Deploy Docker Compose Service Inside LXC Container
           ansible.builtin.shell: |
@@ -90,6 +90,6 @@
             path: '{{ item }}'
             state: absent
           loop:
-            - '/tmp/update_docker_compose_env.sh'
+            - '/tmp/updateDockerComposeEnv.sh'
             - '/tmp/provisioning_docker_service_vars.yml'
             - '/tmp/env_vars_for_ansible.yml'

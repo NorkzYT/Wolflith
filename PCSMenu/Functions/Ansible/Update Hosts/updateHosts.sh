@@ -1,10 +1,52 @@
 #!/bin/bash
 
-source Functions/PersonalizationFunctions.sh
-
 DIRECTORY_LOCATION=$(cat ../Temp/directory_location.txt)
+source $DIRECTORY_LOCATION/Wolflith/PCSMenu/PCSFunc.sh
+
 HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
 SSH_KEY_DIR="/root/.ssh/ansible_keys"
+
+## ----------------------------------------------------------------------------------------------------------- ##
+
+function setup_hosts_add_machines() {
+    default_menu_screen
+    printf "This option allows you to add more machines to your Ansible 'hosts.yaml' file.\n"
+    echo ""
+    while true; do
+        read -p "Do you want to proceed with adding a new machine to the hosts file? (yes/no) " proceed
+        echo ""
+
+        if [[ "$proceed" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
+            updateHosts
+
+            echo ""
+            read -p "Do you want to add another machine? (yes/no) " add_more
+            if ! [[ "$add_more" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
+                break
+            fi
+            
+            # Prompt at the end
+            echo "Press any key to continue..."
+            read -n 1 -r
+            clear
+
+            # Call the ansible_menu function
+            ansible_menu
+
+            break
+        elif [[ "$proceed" =~ ^[Nn][Oo]?$ ]]; then
+            ansible_menu
+            return
+        else
+            invalid_answer
+            clear
+            menu_cover
+            setup_hosts_add_machines
+        fi
+    done
+}
+
+## ----------------------------------------------------------------------------------------------------------- ##
 
 initialize_yaml_structure() {
     if [ ! -f "$HOSTS_FILE" ]; then
@@ -59,7 +101,7 @@ append_group_with_vars() {
     fi
 }
 
-main() {
+updateHosts() {
     mkdir -p "$(dirname "$HOSTS_FILE")"
     initialize_yaml_structure
 
@@ -130,4 +172,4 @@ append_group_with_vars_logic() {
     append_group_with_vars "$group_name" "$ansible_user" "$auth_method" "$auth_value"
 }
 
-main
+setup_hosts_add_machines

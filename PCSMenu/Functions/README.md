@@ -7,6 +7,10 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**Ansible**](Ansible)
+    - [**Setup Linux Machine**](<Ansible/Setup Linux Machine>)
+    - [**Update Hosts**](<Ansible/Update Hosts>)
+- [**Bin**](Bin)
 - [**Docker**](Docker)
 - [**Proxmox**](Proxmox)
 - [**Scripts**](Scripts)
+- [**Tools**](Tools)

@@ -4,7 +4,7 @@ source Functions/PersonalizationFunctions.sh
 
 # Ensure the selected service and path are provided
 if [ ! -f "/tmp/selected_docker_service.txt" ] || [ ! -f "/tmp/selected_docker_service_path.txt" ]; then
-    redprint "Selected Docker service or path is missing. Please run select_service.sh first."
+    redprint "Selected Docker service or path is missing. Please run selectService.sh first."
     exit 1
 fi
 

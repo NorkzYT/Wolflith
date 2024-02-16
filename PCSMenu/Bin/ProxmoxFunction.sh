@@ -28,7 +28,7 @@ EOF
 
 function proxmox_options() {
     printf "$Cyan"
-    printf "1) A. Provision Proxmox LXC with a Docker Service        2) B. pvesubscription_get      3) C. vzdump"
+    printf "1) A.        2) B. pvesubscription_get      3) C. vzdump"
     printf "\n"
     printf "4) D. pvecm_restart                                      5) E. pveversion               6) F. get_next_vm_id"
     printf "\n"
@@ -58,93 +58,6 @@ function proxmox_options() {
 
 ####################################################
 
-function provision_docker_services_on_lxc() {
-    cyanprint "This option will guide you through provisioning Docker service(s) on a new LXC container within a Proxmox VE."
-    echo ""
-
-    while true; do
-        cyanprint "Do you still want to run this command? (yes/no) "
-        read -p "" run_command
-        echo ""
-
-        if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
-            cyanprint "Enter the name of the machine you want to run the playbooks for:"
-            read -r ansible_playbook_targets
-            greenprint "Proceeding with the machine: $ansible_playbook_targets"
-
-            # Before calling provision_lxc.sh, export the target as an environment variable
-            export ANSIBLE_PLAYBOOK_TARGET="$ansible_playbook_targets"
-
-            # Run scripts with informative prompts
-            cyanprint "Selecting Docker service..."
-            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/select_service.sh"
-
-            cyanprint "Setting up Docker service..."
-            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/setup_service.sh"
-
-            cyanprint "Provisioning Docker service..."
-            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Docker/provision_docker_service.sh"
-
-            cyanprint "Provisioning LXC container..."
-            bash "$DIRECTORY_LOCATION/Wolflith/PCSMenu/Functions/Proxmox/provision_lxc.sh"
-
-            cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
-            # Execute the Ansible playbook for the specified target(s), capturing output
-            if ! output=$(ansible-playbook $DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/provision-proxmox-lxc.yml -i "$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
-                redprint "An error occurred during playbook execution:"
-                echo "$output" # Display the captured error output
-
-                yellowprint "Error occurred, press 'x' to exit."
-                read -n 1 -r key
-                echo
-
-                if [[ $key =~ ^[Xx]$ ]]; then
-                    clear
-                    proxmox
-                    return
-                fi
-            else
-                greenprint "Playbook executed successfully."
-            fi
-
-            # Remove temporary files
-            rm -f /tmp/selected_docker_service.txt
-            rm -f /tmp/selected_docker_service_path.txt
-            rm -f /tmp/provisioning_docker_service_vars.yml
-            rm -f /tmp/env_vars_for_ansible.yml
-            rm -f /tmp/lxc_provisioning_vars.yml
-
-            # Prompt at the end
-            while true; do
-                cyanprint "Do you want to return to the main menu? [Y/y] or [X/x] to Exit."
-                read -n 1 -r user_choice
-                echo
-
-                if [[ $user_choice =~ ^[Yy]$ ]]; then
-                    clear
-                    return
-                elif [[ $user_choice =~ ^[Xx]$ ]]; then
-                    greenprint "Exiting..."
-                    exit 0
-                else
-                    yellowprint "Invalid choice, please choose [Y/y] to return or [X/x] to Exit."
-                fi
-            done
-
-        elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
-            magentaprint "Operation canceled. Returning to the main menu..."
-            clear
-            proxmox
-            return
-        else
-            # The user entered an invalid answer
-            invalid_answer
-            clear
-            proxmox_banner
-            provision_docker_services_on_lxc
-        fi
-    done
-}
 
 # --------------------------------------------------------------- #
 

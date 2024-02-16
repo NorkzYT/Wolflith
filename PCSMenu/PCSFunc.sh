@@ -1,5 +1,50 @@
 #!/bin/bash
 
+source "$(dirname "$0")/PersonalizationFunc.sh"
+
+function default_menu_screen() {
+    clear_screen
+    menu_cover
+    menu_bar
+
+}
+
+### Main Menu Cover ###
+
+function menu_cover() {
+    printf "$BRed
+  _____   _____  _____  _____ ____  _____  _____  ™
+ |  __ \ / ____|/ ____|/ ____/ __ \|  __ \|  __ \ 
+ | |__) | |    | (___ | |   | |  | | |__) | |__) |
+ |  ___/| |     \___ \| |   | |  | |  _  /|  ___/ 
+ | |    | |____ ____) | |___| |__| | | \ \| |     
+ |_|     \_____|_____/ \_____\____/|_|  \_\_|      Version: 0.0.1
+ 
+"
+    printf "$Color_Off"
+}
+
+function ansible_banner() {
+    printf "$White"
+    # Display a banner with the text "Ansible"
+    cat <<"EOF"
+
+     _              _ _     _      
+    / \   _ __  ___(_) |__ | | ___ 
+   / _ \ | '_ \/ __| | '_ \| |/ _ \
+  / ___ \| | | \__ \ | |_) | |  __/
+ /_/   \_\_| |_|___/_|_.__/|_|\___|
+                                   
+
+EOF
+    printf "$Color_Off"
+    printf "\n"
+}
+
+#####################################################################################################################################################################
+
+#!/bin/bash
+
 # PCSMenu MainFunctions.sh
 
 #####################################################################################################################################################################
@@ -60,7 +105,7 @@ function menu_bar() {
     printf " RAM free: $(memory)MB"
     echo "" # | echo - ne "" | Removes a line for code to be on the line before it.
     echo ""
-
+    printf "$Color_Off"
 }
 
 ### Main Menu Options ###
@@ -69,9 +114,7 @@ function main_options() {
     printf "$Cyan"
     printf "1) A. Linux        2) B. Proxmox   3) C. Docker"
     printf "\n"
-    printf "4) D. Ansible      5) E. Github    6) F. GitLab"
-    printf "\n"
-    printf "7) G. Tools"
+    printf "4) D. Ansible      5) E. Tools"
     printf "$Color_Off"
     echo ""
 
@@ -104,13 +147,11 @@ function go_back_menu() {
 ### Option number amount ###
 function option_number() {
     case $CURRENT_MENU in
-    "Main") printf "1-7" ;;
+    "Main") printf "1-5" ;;
     "Linux") printf "1-55" ;;
     "Proxmox") printf "1-26" ;;
     "Docker") printf "1-3" ;;
     "Ansible") printf "1-2" ;;
-    "GitHub") printf "1-1" ;;
-    "GitLab") printf "1-1" ;;
     "Tools") printf "1-1" ;;
     *) printf "1-6" ;;
     esac
@@ -176,3 +217,8 @@ function invalid_answer() {
 }
 
 #####################################################################################################################################################################
+
+function ansible_message() {
+    printf "\nConfigure "Ansible/inventory/hosts.yaml" with the second option before choosing any other options!\n\n"
+
+}

@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
     - name: Verify if target system is Proxmox VE
-      ansible.builtin.script: '../../PCSMenu/Functions/Proxmox/check_proxmox.sh'
+      ansible.builtin.script: '../../PCSMenu/Functions/Proxmox/Scripts/checkProxmox.sh'
       register: proxmox_check
       ignore_errors: yes
 
@@ -178,8 +178,8 @@
             mode: '0755'
           loop:
             - {
-                src: '{{ repo_path }}/PCSMenu/Functions/Docker/update_docker_compose_env.sh',
-                dest: '/tmp/update_docker_compose_env.sh',
+                src: '{{ repo_path }}/PCSMenu/Functions/Docker/updateDockerComposeEnv.sh',
+                dest: '/tmp/updateDockerComposeEnv.sh',
               }
             - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
             - {
@@ -206,10 +206,7 @@
           ansible.builtin.shell: |
             pct push {{ vmid }} {{ item.src }} {{ item.dest }}
           loop:
-            - {
-                src: '/tmp/update_docker_compose_env.sh',
-                dest: '/tmp/update_docker_compose_env.sh',
-              }
+            - { src: '/tmp/updateDockerComposeEnv.sh', dest: '/tmp/updateDockerComposeEnv.sh' }
             - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
             - {
                 src: '/tmp/provisioning_docker_service_vars.yml',
@@ -233,11 +230,11 @@
       block:
         - name: Set Execute Permission for the Script Inside LXC Container
           ansible.builtin.shell: |
-            pct exec {{ vmid }} -- chmod +x /tmp/update_docker_compose_env.sh
+            pct exec {{ vmid }} -- chmod +x /tmp/updateDockerComposeEnv.sh
 
         - name: Execute Script Inside LXC to Generate .env File
           ansible.builtin.shell: |
-            pct exec {{ vmid }} -- bash -c "cd /tmp && ./update_docker_compose_env.sh {{ selected_service }}"
+            pct exec {{ vmid }} -- bash -c "cd /tmp && ./updateDockerComposeEnv.sh {{ selected_service }}"
 
         - name: Deploy Docker Compose Service Inside LXC Container
           ansible.builtin.shell: |
@@ -250,7 +247,7 @@
             path: '{{ item }}'
             state: absent
           loop:
-            - '/tmp/update_docker_compose_env.sh'
+            - '/tmp/updateDockerComposeEnv.sh'
             - '/tmp/env_vars_for_ansible.yml'
             - '/tmp/docker'
 
@@ -258,6 +255,6 @@
           ansible.builtin.shell: |
             pct exec {{ vmid }} -- rm -f /tmp/{{ item }}
           loop:
-            - 'update_docker_compose_env.sh'
+            - 'updateDockerComposeEnv.sh'
             - 'env_vars_for_ansible.yml'
             - 'provisioning_docker_service_vars.yml'
