@@ -33,8 +33,8 @@ if [[ -n $1 ]]; then
 
 fi
 
-# Go back a directory
-cd ..
+# Go to directory
+cd $ifolder
 
 # Run Setup
 make setup
