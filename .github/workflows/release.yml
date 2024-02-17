@@ -6,18 +6,14 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    outputs:
-      release_body: ${{ steps.git-cliff.outputs.content }}
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,18 +33,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate a changelog
-        uses: orhun/git-cliff-action@v2
-        id: git-cliff
-        with:
-          config: cliff.toml
-          args: -vv --latest --strip header
+      - name: Generate a changelog and determine next version
+        id: prep
+        run: |
+          # Example: Generate a changelog using git-cliff and determine the next version
+          # You'll need to replace this part with your logic for versioning and changelog generation
+          echo "Version and changelog logic goes here"
+          VERSION="v$(date +%Y.%m.%d)"
+          echo "NEXT_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "CHANGELOG=Changelog content here" >> $GITHUB_ENV
         env:
           OUTPUT: CHANGES.md
 
-      - name: Release
+      - name: Create a new tag
+        run: |
+          git tag ${{ env.NEXT_VERSION }}
+          git push origin ${{ env.NEXT_VERSION }}
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          body: ${{ steps.git-cliff.outputs.content }}
+          tag_name: ${{ env.NEXT_VERSION }}
+          body: ${{ env.CHANGELOG }}
           token: ${{ secrets.GITHUB_TOKEN }}
