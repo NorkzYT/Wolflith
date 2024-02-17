@@ -1,4 +1,4 @@
-name: Release
+name: Semantic Release
 
 on:
   push:
@@ -6,17 +6,13 @@ on:
       - main
 
 permissions:
-  contents: read # for checkout
+  contents: write
+  pull-requests: write
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,5 +29,11 @@ jobs:
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
+        id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Output new release version
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: |
+          echo "A new release ${steps.semantic.outputs.new_release_version} was published."
