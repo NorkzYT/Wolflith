@@ -29,8 +29,8 @@ jobs:
 
       - name: Create Release Branch
         run: |
-          git checkout -b release-${GITHUB_RUN_ID}
-          git push origin release-${GITHUB_RUN_ID}
+          git checkout -b auto-release
+          git push origin auto-release
 
       - name: Release
         env:
