@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Tag Creation
+     - name: Tag Creation
         id: semantic_release
         run: |
           output=$(npx semantic-release 2>&1)
@@ -51,5 +51,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.semantic_release.outputs.tag }}
+          name: ${{ steps.semantic_release.outputs.tag }}
           body: ${{ steps.git-cliff.outputs.content }}
           token: ${{ secrets.GITHUB_TOKEN }}
