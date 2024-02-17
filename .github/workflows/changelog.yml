@@ -2,9 +2,7 @@ name: Generate Release Changelog
 run-name: Generate Changelog for Release ${{ github.event.release.tag_name }}
 
 on:
-  release:
-    types:
-      - published
+  workflow_dispatch:
 
 jobs:
   generate:
