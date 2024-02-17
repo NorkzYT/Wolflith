@@ -7,7 +7,7 @@ source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 install_ansible() {
     if ! command -v ansible &>/dev/null; then
         echo "Ansible is not installed. Installing Ansible..."
-        sudo apt-get update && sudo apt-get install -y ansible
+        python3 -m pip install --user ansible
         if [ $? -ne 0 ]; then
             echo "Failed to install Ansible. Please check your package manager settings."
             exit 1
@@ -143,9 +143,9 @@ END
 }
 
 # Main execution flow
+install_python
+install_python_dependencies
 install_ansible
 install_ansible_required_collections
 export ANSIBLE_CONFIG=/opt/wolflith/Ansible/inventory/ansible.cfg
-install_python
-install_python_dependencies
 install_go
