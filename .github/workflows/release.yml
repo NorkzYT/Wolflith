@@ -29,30 +29,27 @@ jobs:
         run: npm install
 
       - name: Tag Creation
-        run: npx semantic-release
+        id: semantic_release
+        run: |
+          output=$(npx semantic-release 2>&1)
+          echo "$output"
+          tag=$(echo "$output" | grep 'Created tag' | sed -E 's/.*Created tag ([^ ]+).*/\1/')
+          echo "::set-output name=tag::$tag"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate a changelog and determine next version
-        id: prep
-        run: |
-          # Example: Generate a changelog using git-cliff and determine the next version
-          # You'll need to replace this part with your logic for versioning and changelog generation
-          echo "Version and changelog logic goes here"
-          VERSION="v$(date +%Y.%m.%d)"
-          echo "NEXT_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "CHANGELOG=Changelog content here" >> $GITHUB_ENV
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v2
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: -vv --latest --strip header
         env:
           OUTPUT: CHANGES.md
 
-      - name: Create a new tag
-        run: |
-          git tag ${{ env.NEXT_VERSION }}
-          git push origin ${{ env.NEXT_VERSION }}
-
-      - name: Create GitHub Release
+      - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.NEXT_VERSION }}
-          body: ${{ env.CHANGELOG }}
+          tag_name: ${{ steps.semantic_release.outputs.tag }}
+          body: ${{ steps.git-cliff.outputs.content }}
           token: ${{ secrets.GITHUB_TOKEN }}
