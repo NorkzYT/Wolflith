@@ -66,4 +66,4 @@ else
 fi
 
 # Cleanup the initial PCSInstall
-rm -f /opt/wolflith/PCSInstall.sh
+rm -f /opt/PCSInstall.sh

@@ -19,9 +19,9 @@ Note: This repository is in BETA and still a work in progress, I welcome contrib
 
 ```bash
 mkdir -p /opt/wolflith
-wget -qO /opt/wolflith/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/wolflith/main/PCSMenu/PCSInstall.sh
-chmod +x /opt/wolflith/PCSInstall.sh
-sudo /opt/wolflith/PCSInstall.sh
+wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/wolflith/main/PCSMenu/PCSInstall.sh
+chmod +x /opt/PCSInstall.sh
+sudo /opt/PCSInstall.sh
 ```
 
 ## Contributing
