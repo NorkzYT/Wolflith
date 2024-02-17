@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source "$(dirname "$0")/PersonalizationFunc.sh"
+source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
 function default_menu_screen() {
     clear_screen

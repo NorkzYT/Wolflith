@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source PCSMenu/Functions/PersonalizationFunctions.sh
+source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Install all dependencies
 install_dependencies() {

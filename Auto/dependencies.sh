@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source PCSMenu/Functions/PersonalizationFunctions.sh
+source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Function to install Ansible
 install_ansible() {

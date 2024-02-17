@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source Functions/PersonalizationFunctions.sh
+source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
 DOCKER_FOLDER="/opt/wolflith/Docker"
 

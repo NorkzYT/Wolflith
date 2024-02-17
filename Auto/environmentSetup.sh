@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the color functions
-source PCSMenu/Functions/PersonalizationFunctions.sh
+source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
 
 # Define the base directory to search within

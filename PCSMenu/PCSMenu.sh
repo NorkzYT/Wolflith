@@ -6,7 +6,7 @@
 ######################################################################
 
 # Import the Personalization Functions for color and styling
-source "$(dirname "$0")/PCSFunc.sh"
+source /opt/wolflith/PCSMenu/PCSFunc.sh
 
 # Global Variables
 BASE_DIR="Functions"

@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source Functions/PersonalizationFunctions.sh
+source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Ensure the selected service and path are provided
 if [ ! -f "/tmp/selected_docker_service.txt" ] || [ ! -f "/tmp/selected_docker_service_path.txt" ]; then
