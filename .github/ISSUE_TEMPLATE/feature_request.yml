@@ -51,7 +51,7 @@ body:
     validations:
       required: false
   - type: checkboxes
-    id: terms
+    id: code-of-conduct
     attributes:
       label: Code of Conduct
       description: By submitting this issue, you agree to follow our [Code of Conduct](../blob/main/CODE_OF_CONDUCT.md)
