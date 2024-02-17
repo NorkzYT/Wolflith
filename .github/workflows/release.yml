@@ -45,7 +45,7 @@ jobs:
           config: cliff.toml
           args: -vv --latest --strip header
         env:
-          OUTPUT: CHANGES.md
+          OUTPUT: CHANGELOG.md
 
       - name: Release
         uses: softprops/action-gh-release@v1
