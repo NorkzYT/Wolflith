@@ -7,7 +7,6 @@
 
 # Create folder
 ifolder="/opt/wolflith"
-mkdir -p $ifolder
 
 # Update and install necessary packages
 apt update && apt install -y sudo curl git make nodejs
