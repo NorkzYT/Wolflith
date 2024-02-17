@@ -39,7 +39,7 @@ services:
 
   # # --- Redis
   linkace-redis:
-    image: redis:7.0.5
+    image: redis:7.2.4
     container_name: linkace-redis
     hostname: linkace-redis
     restart: unless-stopped
