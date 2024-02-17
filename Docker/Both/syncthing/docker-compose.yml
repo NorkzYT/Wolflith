@@ -9,8 +9,8 @@ services:
       - PGID=${SYNCTHING_PGID}
       - TZ=${SYNCTHING_TZ}
     volumes:
-      - /mnt/appdata/syncthing/config:/config
-      - /mnt/appdata/:/machine-appdata
+      - /opt/appdata/syncthing/config:/config
+      - /opt/appdata/:/machine-appdata
     ports:
       - 1020:8384
       - 1021:22000
@@ -18,8 +18,6 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

@@ -1,89 +1,79 @@
 #!/bin/bash
 
-# Install all Dependencies needed.
-./Auto/dependencies.sh
+# Source the PersonalizationFunctions for color support
+source PCSMenu/Functions/PersonalizationFunctions.sh
 
-echo ""
+# Install all dependencies
+install_dependencies() {
+    blueprint "Installing dependencies..."
+    ./Auto/dependencies.sh
+    greenprint "Dependencies installed."
+    echo ""
+}
 
-# Ask if the user has a Hashicorp Vault docker container setup
-read -p "Do you have a Hashicorp Vault docker container setup? (y/n): " vault_setup
-if [[ $vault_setup = "Y" ]] || [[ $vault_setup = "y" ]]; then
-    # Ask for the Vault server address
-    while true; do
-        read -p "What is the address of the Vault server? (Starts with https://): " vault_address
-        if [[ $vault_address = https://* ]]; then
-            break
-        else
-            echo "The address must start with https://. Please try again."
-        fi
+# Configure Hashicorp Vault
+configure_vault() {
+    blueprint "Configuring Hashicorp Vault..."
+    read -p "Do you have a Hashicorp Vault docker container setup? (y/n): " vault_setup
+    if [[ $vault_setup =~ ^[Yy]$ ]]; then
+        while true; do
+            read -p "What is the address of the Vault server? (Starts with https://): " vault_address
+            if [[ $vault_address =~ ^https:// ]]; then
+                break
+            else
+                redprint "The address must start with https://. Please try again."
+            fi
+        done
+
+        read -p "What is the secret name in the secret engine?: " secret_name
+
+        sed -i'' "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/vault-pull.go
+        sed -i'' "s/NAME/$secret_name/g" ./Scripts/Vault/vault-pull.go
+        sed -i'' "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/vault-push.go
+        sed -i'' "s/NAME/$secret_name/g" ./Scripts/Vault/vault-push.go
+
+        greenprint "Vault configuration updated."
+    else
+        yellowprint "Skipping Vault setup."
+    fi
+    echo ""
+}
+
+# Update execute permissions
+update_permissions() {
+    blueprint "Updating execute permissions for .sh files..."
+    local sh_files=$(find "/opt/wolflith" -name "*.sh")
+
+    for file in $sh_files; do
+        chmod +x "$file"
     done
 
-    # Ask for the secret name in the secret engine
-    read -p "What is the secret name that is in the secret engine?: " secret_name
+    greenprint "Execute permissions updated."
+}
 
-    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in vault-pull.go
-    sed -i'' "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/vault-pull.go
+# Modify Docker Compose files
+modifyComposeFiles() {
+    "/opt/wolflith/Auto/modifyComposeFiles.sh" "/opt"
+}
 
-    # Replace NAME with the user-provided secret name in vault-pull.go
-    sed -i'' "s/NAME/$secret_name/g" ./Scripts/Vault/vault-pull.go
+# Setup Docker Environment files
+dockerEnvSetup() {
+    "/opt/wolflith/Auto/environmentSetup.sh" "/opt"
+}
 
-    # Replace https://hashicorp-vault.domain.com with the user-provided Vault server address in vault-push.go
-    sed -i'' "s#https://hashicorp-vault.domain.com#$vault_address#g" ./Scripts/Vault/vault-push.go
-
-    # Replace NAME with the user-provided secret name in vault-push.go
-    sed -i'' "s/NAME/$secret_name/g" ./Scripts/Vault/vault-push.go
-
-    echo "vault-pull.go and vault-push.go has been updated with the new Vault server address and the secret name."
-
-else
-    echo "Skipping Vault setup."
+# Main function to coordinate the setup process
+main() {
+    cyanprint "Starting wolflith setup..."
+    install_dependencies
+    configure_vault
+    update_permissions
+    modifyComposeFiles
+    dockerEnvSetup
+    blueprint "Before provisioning any Docker services, you have the opportunity to customize the environment settings. This can be done by modifying the .env file located in the respective docker service's folder."
+    blueprint "Please ensure to review and adjust the .env file as needed to suit your specific configuration requirements prior to initiating the provisioning process."
     echo ""
-fi
+    greenprint "wolflith setup completed successfully."
+}
 
-# Prompt user for the directory location of the Launchpad GitHub repository
-read -p "Enter the directory location of the Launchpad repository: (e.g. /home/user)" directory_location
-
-# Validate the directory location
-if [ ! -d "$directory_location/Launchpad" ]; then
-    echo "Invalid directory location. Please provide an existing directory."
-    exit 1
-fi
-
-# Check if the location exists
-if ! [[ -d "$directory_location/Launchpad" ]]; then
-    echo "Directory '$directory_location/Launchpad' does not exist."
-    exit 1
-fi
-
-# Find all .sh files in the specified directory
-sh_files=$(find "$directory_location/Launchpad" -name "*.sh")
-
-# Iterate through each .sh file
-for file in $sh_files; do
-    # Add execute permission to the file
-    chmod +x "$file"
-done
-
-echo ""
-echo "Execute permissions have been granted to all .sh files in '$directory_location/Launchpad'."
-echo ""
-
-
-echo "Updating PCSMenu files with the new directory location."
-
-# Save the directory location
-echo "$directory_location" >$directory_location/Launchpad/Scripts/directory_location.txt
-
-# Update the Makefile with the new directory location
-sed -i'' "s#/home/user#$directory_location#g" Makefile
-
-echo "Makefile updated with the new directory location."
-
-# Replace /home/user with the user-provided directory location in all files in the PCSMenu folder
-find $directory_location/Launchpad/PCSMenu -type f -exec sed -i "s#/home/user#$directory_location#g" {} \;
-
-echo "PCSMenu files updated with the new directory location."
-
-echo ""
-
-"$directory_location/Launchpad/Auto/update_env_vars.sh" "$directory_location"
+# Invoke the main function to start the setup process
+main

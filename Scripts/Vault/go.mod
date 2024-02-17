@@ -1,4 +1,4 @@
-module github.com/norkz/launchpad-scripts-vault
+module github.com/norkz/wolflith-scripts-vault
 
 go 1.20
 

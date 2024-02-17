@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   vaultwarden:
     image: vaultwarden/server:1.30.3
@@ -11,8 +11,7 @@ services:
       # Enable WebSocket notifications.
       - WEBSOCKET_ENABLED=${VAULTWARDEN_WEBSOCKET_ENABLED}
     volumes:
-      - /mnt/appdata/vaultwarden:/data
-
+      - /opt/appdata/vaultwarden:/data
     restart: unless-stopped
     networks:
       - proxy

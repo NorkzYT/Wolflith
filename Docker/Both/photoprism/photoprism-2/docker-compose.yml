@@ -1,5 +1,3 @@
-version: '3.5'
-
 # Example Docker Compose config file for PhotoPrism (Linux / AMD64)
 #
 # Note:
@@ -26,6 +24,7 @@ version: '3.5'
 # All commands may have to be prefixed with "sudo" when not running as root.
 # This will point the home directory shortcut ~ to /root in volume mounts.
 
+version: '3.9'
 services:
   photoprism-2:
     ## Use photoprism/photoprism:preview for testing preview builds:
@@ -42,7 +41,7 @@ services:
       - seccomp:unconfined
       - apparmor:unconfined
     ports:
-      - 9643:2342   # HTTP port (host:container)
+      - 9643:2342 # HTTP port (host:container)
     environment:
       - PHOTOPRISM_ADMIN_USER=${PHOTOPRISM_2_PHOTOPRISM_ADMIN_USER}
       - PHOTOPRISM_ADMIN_PASSWORD=${PHOTOPRISM_2_PHOTOPRISM_ADMIN_PASSWORD}
@@ -73,19 +72,16 @@ services:
       - PHOTOPRISM_SITE_CAPTION=${PHOTOPRISM_2_PHOTOPRISM_SITE_CAPTION}
       - PHOTOPRISM_SITE_DESCRIPTION=${PHOTOPRISM_2_PHOTOPRISM_SITE_DESCRIPTION}
       - PHOTOPRISM_SITE_AUTHOR=${PHOTOPRISM_2_PHOTOPRISM_SITE_AUTHOR}
-    working_dir: /photoprism   # do not change or remove
+    working_dir: /photoprism # do not change or remove
     ## Storage Folders: "~" is a shortcut for your home directory, "." for the current directory
     volumes:
       # "/host/folder:/photoprism/folder"                # Example
-      - /mnt/appdata/photoprism/Pictures/2:/photoprism/originals                 # Original media files (DO NOT REMOVE)
+      - /opt/appdata/photoprism/Pictures/2:/photoprism/originals # Original media files (DO NOT REMOVE)
       # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-      - /mnt/appdata/photoprism/storage/2:/photoprism/storage                    # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - /opt/appdata/photoprism/storage/2:/photoprism/storage # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
     networks:
       - proxy
-
 
   ## Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
@@ -105,7 +101,7 @@ services:
       --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
     volumes:
-      - /mnt/appdata/photoprism-mariadb/2:/var/lib/mysql   # DO NOT REMOVE
+      - /opt/appdata/photoprism-mariadb/2:/var/lib/mysql # DO NOT REMOVE
     environment:
       - MARIADB_AUTO_UPGRADE=${PHOTOPRISM_MARIADB_2_MARIADB_AUTO_UPGRADE}
       - MARIADB_INITDB_SKIP_TZINFO=${PHOTOPRISM_MARIADB_2_MARIADB_INITDB_SKIP_TZINFO}
@@ -113,8 +109,6 @@ services:
       - MARIADB_USER=${PHOTOPRISM_MARIADB_2_MARIADB_USER}
       - MARIADB_PASSWORD=${PHOTOPRISM_MARIADB_2_MARIADB_PASSWORD}
       - MARIADB_ROOT_PASSWORD=${PHOTOPRISM_MARIADB_2_MARIADB_ROOT_PASSWORD}
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

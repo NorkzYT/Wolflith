@@ -8,5 +8,3 @@
         lv: ubuntu-lv
         size: +100%FREE
         resizefs: true
-## Install Ansible Galaxy community collection first. "ansible-galaxy collection install community.general"
-## https://galaxy.ansible.com/community/general

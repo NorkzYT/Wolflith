@@ -11,12 +11,10 @@ services:
       - TZ=${DOUBLECOMMANDER_TZ}
     volumes:
       - /:/media
-      - /mnt/appdata/doublecommander/config:/config
-      - /mnt/appdata/doublecommander/data:/data
+      - /opt/appdata/doublecommander/config:/config
+      - /opt/appdata/doublecommander/data:/data
     ports:
       - 5900:3000
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

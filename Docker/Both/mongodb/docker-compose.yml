@@ -5,7 +5,7 @@ services:
     hostname: mongodb
     image: mongo:7.0.5
     volumes:
-      - /mnt/appdata/mongodb/data:/data/db
+      - /opt/appdata/mongodb/data:/data/db
     ports:
       - 27018:27017
     restart: unless-stopped

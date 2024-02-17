@@ -1,10 +1,10 @@
-version: '2'
+version: '3.9'
 services:
   pwm:
     image: fjudith/pwm:1.9.1
     container_name: pwm
     volumes:
-      - /mnt/appdata/pwm:/usr/share/pwm
+      - /opt/appdata/pwm:/usr/share/pwm
     ports:
       - 9468:8080
     restart: unless-stopped

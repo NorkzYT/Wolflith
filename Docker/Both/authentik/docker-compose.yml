@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   authentik:
     image: beryju/authentik:2023.10
     container_name: authentik
@@ -19,10 +18,10 @@ services:
       - GEOIPUPDATE_ACCOUNT_ID=${AUTHENTIK_GEOIPUPDATE_ACCOUNT_ID}
       - GEOIPUPDATE_LICENSE_KEY=${AUTHENTIK_GEOIPUPDATE_LICENSE_KEY}
     volumes:
-      - /mnt/appdata/authentik/media:/media
-      - /mnt/appdata/authentik/custom-templates:/templates
+      - /opt/appdata/authentik/media:/media
+      - /opt/appdata/authentik/custom-templates:/templates
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/appdata/authentik/geoip:/geoip # Optional
+      - /opt/appdata/authentik/geoip:/geoip # Optional
     ports:
       - 9815:9000
       - 9816:9443
@@ -45,10 +44,10 @@ services:
       - AUTHENTIK_SECRET_KEY=${WORKER_AUTHENTIK_SECRET_KEY}
     user: root
     volumes:
-      - /mnt/appdata/authentik/media:/media
-      - /mnt/appdata/authentik/certs:/certs
+      - /opt/appdata/authentik/media:/media
+      - /opt/appdata/authentik/certs:/certs
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/appdata/authentik/custom-templates:/templates
+      - /opt/appdata/authentik/custom-templates:/templates
     networks:
       - proxy
 
@@ -57,7 +56,7 @@ services:
     container_name: geoipupdate
     hostname: geoipupdate
     volumes:
-      - /mnt/appdata/geoip:/usr/share/GeoIP
+      - /opt/appdata/geoip:/usr/share/GeoIP
     environment:
       - GEOIPUPDATE_ACCOUNT_ID=${GEOIPUPDATE_ACCOUNT_ID}
       - GEOIPUPDATE_LICENSE_KEY=${GEOIPUPDATE_LICENSE_KEY}
@@ -65,10 +64,10 @@ services:
       - GEOIPUPDATE_FREQUENCY=${GEOIPUPDATE_FREQUENCY}
       - GEOIPUPDATE_HOST=${GEOIPUPDATE_HOST}
     networks:
-      - proxy # ---------
+      - proxy
 
   postgresql-authentik:
-    image: postgres:16-bullseye # Only this version works with Authentik, if another version then the following will occur: `Postgres - REQUIRES 10 or up`
+    image: postgres:16-bullseye
     container_name: postgresql-authentik
     hostname: postgresql-authentik
     restart: unless-stopped

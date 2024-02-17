@@ -30,8 +30,6 @@ services:
       - /path/to/logs:/app/logs
       - /path/to/media/:/media
       - /path/to/temp/:/temp
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     deploy:
       resources:
         reservations:

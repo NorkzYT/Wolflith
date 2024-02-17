@@ -18,8 +18,8 @@ services:
       - INTERNAL_SUBNET=${WIREGUARD_INTERNAL_SUBNET}
       - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS}
     volumes:
-      - /mnt/appdata/wireguard/config:/config
-      - /mnt/appdata/wireguard/lib/modules:/lib/modules
+      - /opt/appdata/wireguard/config:/config
+      - /opt/appdata/wireguard/lib/modules:/lib/modules
     ports:
       - 1037:51820/udp
     sysctls:
@@ -29,6 +29,6 @@ services:
       - proxy
 
 networks:
-  proxy: # rename this to your custom docker network.
+  proxy:
     driver: bridge
     external: true

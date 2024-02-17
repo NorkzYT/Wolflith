@@ -35,4 +35,12 @@ yarn-error.log*
 # Packages
 *.gz
 
-double-check
+# Specific Files
+1password-credentials.json
+hosts.yaml
+
+# Temp Folder
+/Temp
+
+# OpenCommit commitlint config
+.opencommit-commitlint

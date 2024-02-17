@@ -1,0 +1,52 @@
+# Prettier configuration
+# Reference: https://prettier.io/docs/en/options.html
+
+# /**
+#  * https://prettier.io/docs/en/options.html#semicolons
+#  */
+semi: true # Use semicolons at the end of statements
+
+# /**
+#  * https://prettier.io/docs/en/options.html#trailing-commas
+#  */
+trailingComma: 'all' # Trailing commas where valid in ES5 (objects, arrays, etc.)
+
+# /**
+#  * https://prettier.io/docs/en/options.html#bracket-spacing
+#  */
+bracketSpacing: true # Spaces between brackets in object literals
+
+# /**
+#  * https://prettier.io/docs/en/options.html#tabs
+#  */
+useTabs: true # Use tabs for indentation
+
+# /**
+#  * https://prettier.io/docs/en/options.html#tab-width
+#  */
+tabWidth: 2 # Number of spaces per indentation-level
+
+# /**
+#  * https://prettier.io/docs/en/options.html#arrow-function-parentheses
+#  */
+arrowParens: 'always' # Always include parens in arrow function arguments
+
+# /**
+#  * https://prettier.io/docs/en/options.html#quotes
+#  */
+singleQuote: true # Use single quotes instead of double quotes
+
+# /**
+#  * https://prettier.io/docs/en/options.html#quote-props
+#  */
+quoteProps: 'as-needed' # Only quote object properties when required
+
+# /**
+#  * https://prettier.io/docs/en/options.html#end-of-line
+#  */
+endOfLine: 'lf' # Line Feed only (\n), common on Linux and macOS as well as inside git repos
+
+# /**
+#  * https://prettier.io/docs/en/options.html#print-width
+#  */
+printWidth: 100 # Specify the line length that the printer will wrap on

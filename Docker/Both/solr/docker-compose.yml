@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   solr:
     image: solr:9.5.0
     container_name: solr
@@ -8,12 +7,10 @@ services:
     ports:
       - 8626:8983
     volumes:
-      - /mnt/appdata/solr:/var/solr
+      - /opt/appdata/solr:/var/solr
     command:
       - solr-precreate
       - gettingstarted
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

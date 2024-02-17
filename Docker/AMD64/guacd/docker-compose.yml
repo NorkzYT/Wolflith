@@ -1,12 +1,12 @@
-version: '2.0'
+version: '3.9'
 services:
   guacd:
     container_name: guacd
     hostname: guacd
     image: guacamole/guacd:1.5.4
     volumes:
-      - /mnt/appdata/guacd/drive:/drive:rw
-      - /mnt/appdata/guacd/record:/record:rw
+      - /opt/appdata/guacd/drive:/drive:rw
+      - /opt/appdata/guacd/record:/record:rw
 
     restart: unless-stopped
     networks:

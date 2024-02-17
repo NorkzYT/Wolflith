@@ -1,11 +1,11 @@
-version: '3.3'
+version: '3.9'
 services:
   authelia:
     image: authelia/authelia:4.37
     container_name: authelia
     hostname: authelia
     volumes:
-      - /mnt/appdata/authelia:/config
+      - ./config:/config
     ports:
       - 9091:9091
     restart: unless-stopped

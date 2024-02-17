@@ -63,7 +63,7 @@ func main() {
 	fmt.Println("\nLogged in!")
 	fmt.Println("")
 
-	dockerPath := filepath.Join(repoLocation, "Launchpad/Docker")
+	dockerPath := filepath.Join(repoLocation, "wolflith/Docker")
 
 	err = filepath.Walk(dockerPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {

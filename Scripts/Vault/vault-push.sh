@@ -12,11 +12,11 @@
 # ------------------------------------------------------------------------------------------------------ #
 
 # Ask for the repository location
-echo "Please enter the Launchpad repository location: (E.g. /home/user/github)"
+echo "Please enter the wolflith repository location: (E.g. /home/user/github)"
 read repo_location
 
 # Change to the repository location
-cd $repo_location/Launchpad/Docker
+cd $repo_location/wolflith/Docker
 
 # This command will find all .env.example files in the current directory and its subdirectories,
 # and for each file it will check if a .env file with the same name already exists. If it doesn't,
@@ -24,7 +24,7 @@ cd $repo_location/Launchpad/Docker
 # If the .env file does exist, it will skip it and move on to the next file.
 find . -name "*.env.example" -exec sh -c 'for file; do if [ ! -e "${file%.env.example}.env" ]; then cp "$file" "${file%.env.example}.env"; fi; done' sh {} +
 
-cd $repo_location/Launchpad/Scripts/Vault
+cd $repo_location/wolflith/Scripts/Vault
 
 go run vault-push.go $repo_location
 

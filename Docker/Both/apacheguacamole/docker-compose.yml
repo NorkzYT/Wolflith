@@ -14,9 +14,7 @@ services:
       - POSTGRES_PASSWORD=${GUACAMOLE_POSTGRES_PASSWORD}
       - POSTGRES_USER=${GUACAMOLE_POSTGRES_USER}
     volumes:
-      - /mnt/appdata/guacamole:/config
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - /opt/appdata/guacamole:/config
     restart: unless-stopped
     networks:
       - proxy

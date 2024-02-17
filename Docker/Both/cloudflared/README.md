@@ -6,4 +6,4 @@
 
 <!-- optional markdown-notes-tree directory description ends here -->
 
-- [**data**](data)
+- [**config**](config)

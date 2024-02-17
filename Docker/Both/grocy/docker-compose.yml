@@ -13,12 +13,10 @@ services:
       - PGID=${GROCY_PGID}
       - TZ=${GROCY_TZ}
     volumes:
-      - /mnt/appdata/grocy/data:/config
+      - /opt/appdata/grocy/data:/config
     ports:
       - 9283:80
     restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

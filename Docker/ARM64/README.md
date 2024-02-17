@@ -7,3 +7,4 @@
 <!-- optional markdown-notes-tree directory description ends here -->
 
 - [**GitLab Repo Sync (Mirror)**](gitlab)
+- [**squid-auth**](squid-auth)

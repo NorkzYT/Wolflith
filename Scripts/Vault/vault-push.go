@@ -65,7 +65,7 @@ func main() {
 
 	secretData := make(map[string]interface{})
 
-	dockerPath := filepath.Join(repoLocation, "Launchpad/Docker")
+	dockerPath := filepath.Join(repoLocation, "wolflith/Docker")
 
 	err = filepath.Walk(dockerPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {

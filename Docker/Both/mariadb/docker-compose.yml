@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.9'
 services:
   mariadb:
     image: linuxserver/mariadb:10.11.6
@@ -13,11 +13,10 @@ services:
       - MYSQL_USER=${MARIADB_MYSQL_USER}
       - MYSQL_PASSWORD=${MARIADB_MYSQL_PASSWORD}
     volumes:
-      - /mnt/appdata/mariadb:/config
+      - /opt/appdata/mariadb:/config
     ports:
       - 3306:3306
     restart: unless-stopped
-
     networks:
       - proxy
 

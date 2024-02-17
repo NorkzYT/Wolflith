@@ -1,0 +1,13 @@
+all:
+  children:
+    ProxmoxVE:
+      hosts:
+        machine1:
+          ansible_host: IP_ADDRESS
+          ansible_port: PORT
+      vars:
+        ansible_user: xxx
+        ansible_connection: ssh
+        host_key_checking: False
+        ansible_ssh_pass: xxx
+        ansible_become_pass: xxx

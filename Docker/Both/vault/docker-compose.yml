@@ -7,15 +7,13 @@ services:
     ports:
       - 1031:8200
     volumes:
-      - /mnt/appdata/vault/config:/vault/config # Config
-      - /mnt/appdata/vault/file:/vault/file # Data of file storage with Policies, Data, and Logs.
+      - ./config:/vault/config # Config
+      - /opt/appdata/vault/file:/vault/file # Data of file storage with Policies, Data, and Logs.
     environment:
       - VAULT_ADDR=${HASHICORP_VAULT_SERVER_VAULT_ADDR}
       - VAULT_API_ADDR=${HASHICORP_VAULT_SERVER_VAULT_API_ADDR}
       - VAULT_ADDRESS=${HASHICORP_VAULT_SERVER_VAULT_ADDRESS}
     command: vault server -config=/vault/config/config.hcl
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     cap_add:
       - IPC_LOCK
     restart: unless-stopped

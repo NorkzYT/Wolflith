@@ -4,20 +4,17 @@ services:
     image: lissy93/dashy:2.1.1
     container_name: Dashy
     hostname: Dashy
-
     # Pass in your config file below, by specifying the path on your host machine
     volumes:
-      - /mnt/appdata/dashy/my-config.yml:/app/public/conf.yml
+      - /opt/appdata/dashy/my-config.yml:/app/public/conf.yml
     ports:
       - 4000:80
-
     # Set any environmental variables
     environment:
       - NODE_ENV=${DASHY_NODE_ENV}
       - UID=${DASHY_UID}
       - GID=${DASHY_GID}
     restart: unless-stopped
-
     # Configure healthchecks
     healthcheck:
       test: [CMD, node, /app/services/healthcheck]
@@ -25,7 +22,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
     networks:
       - proxy
 

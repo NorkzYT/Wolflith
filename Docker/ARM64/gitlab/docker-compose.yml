@@ -12,11 +12,9 @@ services:
       - 1012:80
       - 1013:443
     volumes:
-      - /mnt/appdata/gitlab/config:/etc/gitlab:z
-      - /mnt/appdata/gitlab/logs:/var/log/gitlab:z
-      - /mnt/appdata/gitlab/data:/var/opt/gitlab:z
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - /opt/appdata/gitlab/config:/etc/gitlab:z
+      - /opt/appdata/gitlab/logs:/var/log/gitlab:z
+      - /opt/appdata/gitlab/data:/var/opt/gitlab:z
     restart: unless-stopped
     networks:
       - proxy

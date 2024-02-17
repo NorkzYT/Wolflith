@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   node-red:
     image: nodered/node-red:2.2.3-12
     container_name: node-red
@@ -11,9 +10,7 @@ services:
     ports:
       - 1880:1880
     volumes:
-      - /mnt/appdata/node-red/data:/data
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - /opt/appdata/node-red/data:/data
     networks:
       - proxy
 
@@ -21,9 +18,3 @@ networks:
   proxy:
     driver: bridge
     external: true
-
-
-
-# Run the following command to be able to give `node-red` file permission so it can work.
-# sudo chmod -R 775 /mnt/appdata/node-red   #(VOLUME FOLDER)
-

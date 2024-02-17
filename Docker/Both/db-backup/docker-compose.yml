@@ -1,15 +1,13 @@
 version: '3.9'
 services:
-
   db-backup:
     image: tiredofit/db-backup:4.0.35
     container_name: db-backup
     hostname: db-backup
-
     volumes:
       - /mnt/backups/databases/db-backup:/backup
       #- ./post-script.sh:/assets/custom-scripts/post-script.sh
-    environment:                                                  # https://github.com/tiredofit/docker-db-backup#environment-variables
+    environment: # https://github.com/tiredofit/docker-db-backup#environment-variables
       - MODE=${DB_BACKUP_MODE}
       - BACKUP_LOCATION=${DB_BACKUP_BACKUP_LOCATION}
       - SPLIT_DB=${DB_BACKUP_SPLIT_DB}

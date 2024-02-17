@@ -5,17 +5,15 @@ services:
     container_name: floatplane-downloader
     hostname: floatplane-downloader
     volumes:
-      - /mnt/appdata/floatplanedownloader/db:/fp/db
-      - /mnt/appdata/media:/fp/videos
-    tty: true           # To be able to reply to interactive prompts.
-    stdin_open: true    # For interactive flag.
+      - /opt/appdata/floatplanedownloader/db:/fp/db
+      - /opt/appdata/media:/fp/videos
+    tty: true # To be able to reply to interactive prompts.
+    stdin_open: true # For interactive flag.
     restart: unless-stopped
     environment:
       - headless=${FLOATPLANE_DOWNLOADER_headless}
       - PUID=${FLOATPLANE_DOWNLOADER_PUID}
       - PGID=${FLOATPLANE_DOWNLOADER_PGID}
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     networks:
       - proxy
 

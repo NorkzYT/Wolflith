@@ -1,16 +1,15 @@
 {
-	"name": "launchpad",
-	"description": "Launchpad",
-	"version": "1.0.0",
-	"author": "Norkz",
+	"name": "wolflith",
+	"description": "Streamline Your Tech Stack Deployment with One Command.",
+	"version": "0.0.1",
+	"author": "NorkzYT",
 	"private": false,
-	"main": "none",
+	"main": "Auto/setup.sh",
 	"scripts": {
-		"clean:install": "rm -rf node_modules/ && rm -rf pnpm-lock.yml && pnpm i",
-		"check-style:prettier": "prettier --check ./Ansible ./Docker ./K8s ./Scripts",
-		"make-style:prettier": "prettier --write ./Ansible ./Docker ./K8s ./Scripts",
-		"watch-global-sass": "sass --watch styles/style.scss styles/style.css",
-		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore CONTRIBUTING.md",
+		"clean:install": "rm -rf node_modules/ && rm -rf bun.lockb && bun i",
+		"prettier:check": "prettier --check .",
+		"prettier:format": "prettier --write .",
+		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore DEVELOPERS.md",
 		"preinstall": "husky install"
 	},
 	"husky": {
@@ -44,21 +43,18 @@
 			"reference-transaction": "echo \"[Husky] reference-transaction\""
 		}
 	},
-	"lint-staged": {
-		"**/*": "prettier --write --ignore-unknown"
-	},
-	"dependencies": {
-		"prettier-plugin-organize-attributes": "^1.0.0",
-		"prettyjson": "^1.2.5"
-	},
 	"devDependencies": {
-		"alex": "^11.0.0",
+		"@commitlint/cli": "^18.4.4",
+		"@commitlint/config-conventional": "^18.4.4",
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/git": "^10.0.1",
+		"semantic-release": "^23.0.2",
 		"husky": "^9.0.0",
 		"markdown-notes-tree": "^1.12.0",
-		"prettier": "3.2.5"
+		"prettier": "3.2.5",
+		"prettyjson": "^1.2.5"
 	},
 	"engines": {
-		"pnpm": ">=7.17.0",
 		"npm": ">=7.10.0",
 		"node": ">=16.0.0"
 	}

@@ -1,21 +1,21 @@
-version: '3'
+version: '3.9'
 services:
   meshcentral:
     container_name: meshcentral
     hostname: meshcentral
     image: typhonragewind/meshcentral:1.1.20
     ports:
-      - 8089:443 #MeshCentral will moan and try everything not to use port 80, but you can also use it if you so desire, just change the config.json according to your needs.
+      - 8089:443
     environment:
-      - HOSTNAME=${MESHCENTRAL_HOSTNAME}  #Your hostname.
-      - REVERSE_PROXY=${MESHCENTRAL_REVERSE_PROXY}    #Set to your reverse proxy IP if you want to put meshcentral behind a reverse proxy.
+      - HOSTNAME=${MESHCENTRAL_HOSTNAME}
+      - REVERSE_PROXY=${MESHCENTRAL_REVERSE_PROXY}
       - REVERSE_PROXY_TLS_PORT=${MESHCENTRAL_REVERSE_PROXY_TLS_PORT}
       - IFRAME=${MESHCENTRAL_IFRAME}
       - ALLOW_NEW_ACCOUNTS=${MESHCENTRAL_ALLOW_NEW_ACCOUNTS}
       - WEBRTC=${MESHCENTRAL_WEBRTC}
     volumes:
-      - /mnt/appdata/meshcentral/data:/opt/meshcentral/meshcentral-data #config.json and other important files live here. A must for data persistence.
-      - /mnt/appdata/meshcentral/user_files:/opt/meshcentral/meshcentral-files #Where file uploads for users live.
+      - /opt/appdata/meshcentral/data:/opt/meshcentral/meshcentral-data
+      - /opt/appdata/meshcentral/user_files:/opt/meshcentral/meshcentral-files
     restart: unless-stopped
     networks:
       - proxy

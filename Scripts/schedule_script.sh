@@ -7,7 +7,7 @@ echo "Running Schedule Script"
 time="05:00" # (5:00 GMT | 21:00 PST | 24:00 EST)
 
 # Set the path to the script that should be run
-script_path="/home/user/Launchpad/example.sh"
+script_path="/home/user/wolflith/example.sh"
 
 # Schedule the script to be run at the specified time
 echo "$script_path" | at "$time"

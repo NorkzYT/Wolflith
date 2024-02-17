@@ -1,0 +1,11 @@
+- name: Run and display output of a specified Linux command
+  hosts: all
+  become: yes
+  tasks:
+    - name: Execute the specified command
+      ansible.builtin.command: '{{ command_to_run }}'
+      register: command_output
+
+    - name: Display the command output
+      ansible.builtin.debug:
+        msg: '{{ command_output.stdout_lines }}'

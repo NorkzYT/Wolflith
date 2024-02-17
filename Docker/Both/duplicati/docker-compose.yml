@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.9'
 services:
   duplicati:
     container_name: duplicati
@@ -10,9 +10,9 @@ services:
       - TZ=${DUPLICATI_TZ}
       #- CLI_ARGS=${DUPLICATI_CLI_ARGS}  #optional
     volumes:
-      - /mnt/appdata/duplicati:/config
-      - /mnt/appdata/duplicati/backups:/backups
-      - /mnt/appdata/duplicati/source:/source
+      - /opt/appdata/duplicati:/config
+      - /opt/appdata/duplicati/backups:/backups
+      - /opt/appdata/duplicati/source:/source
     ports:
       - 3415:8200
     restart: unless-stopped

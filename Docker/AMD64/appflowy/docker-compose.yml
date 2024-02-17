@@ -11,9 +11,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev/dri:/dev/dri
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
-      - /mnt/appdata/appflowy_client:/home/appflowy
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - /opt/appdata/appflowy_client:/home/appflowy
     restart: unless-stopped
     networks:
       - proxy

@@ -1,12 +1,11 @@
-version: '3.3'
-
+version: '3.9'
 services:
   speedtest:
     container_name: speedtest
     image: henrywhitaker3/speedtest-tracker:dev-arm
     hostname: speedtest
     volumes:
-      - /mnt/appdata/speedtest:/config
+      - /opt/appdata/speedtest:/config
     environment:
       - TZ=${SPEEDTEST_TZ}
       - PGID=${SPEEDTEST_PGID}

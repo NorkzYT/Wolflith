@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   squid:
     image: ubuntu/squid:5.7-23.04_edge
     container_name: squid
@@ -8,12 +7,10 @@ services:
     environment:
       - TZ=${SQUID_TZ}
     volumes:
-      - /mnt/appdata/squid/logs:/var/log/squid # Volume to store squid logs.
-      - /mnt/appdata/squid/data:/var/spool/squid # Volume to store the squid cache.
+      - /opt/appdata/squid/logs:/var/log/squid # Volume to store squid logs.
+      - /opt/appdata/squid/data:/var/spool/squid # Volume to store the squid cache.
     ports:
       - 1019:3128
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
     restart: unless-stopped
     networks:
       - proxy

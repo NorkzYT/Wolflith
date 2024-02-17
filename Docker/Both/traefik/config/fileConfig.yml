@@ -1,0 +1,153 @@
+http:
+  routers:
+    ###############################################################################################################################################################################
+
+    ## EXTERNAL ROUTING ##
+    traefik:
+      entryPoints:
+        - https
+      rule: 'Host(`traefik.$DOMAIN`)'
+      service: traefik
+      middlewares:
+        - 'securityHeaders'
+        # - 'authentik-auth'
+
+    #Authentik auth routing
+    authentik:
+      entryPoints:
+        - https
+      rule: 'Host(`auth.$DOMAIN`)'
+      service: authentik-auth
+      middlewares:
+        - 'securityHeaders'
+
+    #VSCode routing
+    vscode:
+      entryPoints:
+        - https
+      rule: 'Host(`vscode.$DOMAIN`)'
+      service: vscode
+      middlewares:
+        - 'securityHeaders'
+        # - 'authentik-auth'
+
+    #Pterodactyl-panel routing
+    pterodactyl-panel:
+      entryPoints:
+        - https
+      rule: 'Host(`pterodactyl-panel.$DOMAIN`)'
+      service: pterodactyl-panel
+      middlewares:
+        - 'securityHeaders'
+        - 'corsAll@file'
+
+    #Pterodactyl-wings/node routing
+    pterodactyl-wing:
+      entryPoints:
+        - https
+      rule: 'Host(`pterodactyl-wings.$DOMAIN`)'
+      service: pterodactyl-wings
+      middlewares:
+        - 'securityHeaders'
+        - 'corsAll@file'
+
+  ########################################################################################################################################################################
+
+  ## SERVICES ##
+  services:
+    # Traefik service
+    traefik:
+      loadBalancer:
+        servers:
+          - url: http://traefik:8080
+
+    # Authentic auth service
+    authentik-auth:
+      loadbalancer:
+        servers:
+          - url: http://authentik:9000
+
+    # VSCode service
+    vscode:
+      loadbalancer:
+        servers:
+          - url: http://hostname:1431
+
+    #Pterodactyl-panel routing
+    pterodactyl-panel:
+      loadbalancer:
+        servers:
+          - url: http://hostname:8025
+
+    #Pterodactyl-wings/node  routing
+    pterodactyl-wings:
+      loadbalancer:
+        servers:
+          - url: http://hostname:8026
+
+  ###############################################################################################################################################################################
+
+  ## MIDDLEWARES ##
+  middlewares:
+    # Authentik guard
+    authentik-auth:
+      forwardauth:
+        address: http://authentik:9000/outpost.goauthentik.io/auth/traefik
+        trustForwardHeader: true
+        authResponseHeaders:
+          - X-authentik-username
+          - X-authentik-groups
+          - X-authentik-email
+          - X-authentik-name
+          - X-authentik-uid
+          - X-authentik-jwt
+          - X-authentik-meta-jwks
+          - X-authentik-meta-outpost
+          - X-authentik-meta-provider
+          - X-authentik-meta-app
+          - X-authentik-meta-version
+
+    # Pterodactyl corsALL
+    corsAll:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: 'https'
+        customResponseHeaders:
+          X-Forwarded-Proto: 'https'
+        accessControlAllowMethods:
+          - OPTION
+          - POST
+          - GET
+          - PUT
+          - DELETE
+        accessControlAllowHeaders:
+          - '*'
+        accessControlAllowOriginList:
+          - '*'
+        accessControlMaxAge: 100
+        addVaryHeader: true
+
+    # Security headers
+    securityHeaders:
+      headers:
+        customResponseHeaders:
+          X-Robots-Tag: 'none,noarchive,nosnippet,notranslate,noimageindex'
+          server: ''
+        sslProxyHeaders:
+          X-Forwarded-Proto: https
+        referrerPolicy: 'same-origin'
+        hostsProxyHeaders:
+          - 'X-Forwarded-Host'
+        customRequestHeaders:
+          X-Forwarded-Proto: 'https'
+        contentTypeNosniff: true
+        browserXssFilter: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsSeconds: 63072000
+        stsPreload: true
+
+    traefik-real-ip:
+      plugin:
+        traefik-real-ip:
+          excludednets: 1.1.1.1/24
