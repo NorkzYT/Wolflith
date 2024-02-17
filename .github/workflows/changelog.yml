@@ -1,0 +1,26 @@
+name: Generate Release Changelog
+run-name: Generate Changelog for Release ${{ github.event.release.tag_name }}
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup git-cliff
+        uses: kenji-miyake/setup-git-cliff@v2
+      - name: Generate and Post Changelog
+        run: >-
+          curl -L
+          -X PATCH
+          -H "Accept: application/vnd.github+json"
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+          "https://api.github.com/repos/${{ github.repository }}/releases/${{ github.event.release.id }}"
+          -d "{\"body\": \"$(git-cliff --latest | awk '{ printf "%s\\n", $0 }')\"}"
