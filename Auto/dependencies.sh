@@ -17,11 +17,19 @@ install_ansible() {
         # Re-evaluate if Ansible is operational after installation/fix
         if ansible --version &>/dev/null; then
             echo "Ansible installed/fixed successfully."
-            # Ensure ~/.local/bin is in PATH for the session
+
+            # Add ~/.local/bin to PATH for the current session
             PATH="$HOME/.local/bin:$PATH"
             export PATH
+
+            # Add ~/.local/bin to PATH for all future sessions
+            if ! grep -q 'PATH="$HOME/.local/bin:$PATH"' ~/.bashrc; then
+                echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
+                echo "Added /root/.local/bin to PATH in ~/.bashrc for future sessions."
+            fi
+
         else
-            echo "Failed to install/fix Ansible. Please check your package manager settings."
+            echo "Failed to install/fix Ansible. Please check your package manager settings or Python environment."
             exit 1
         fi
     fi

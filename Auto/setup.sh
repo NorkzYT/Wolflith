@@ -39,18 +39,6 @@ configure_vault() {
     echo ""
 }
 
-# Update execute permissions
-update_permissions() {
-    blueprint "Updating execute permissions for .sh files..."
-    local sh_files=$(find "/opt/wolflith" -name "*.sh")
-
-    for file in $sh_files; do
-        chmod +x "$file"
-    done
-
-    greenprint "Execute permissions updated."
-}
-
 # Modify Docker Compose files
 modifyComposeFiles() {
     "/opt/wolflith/Auto/modifyComposeFiles.sh" "/opt"
@@ -66,7 +54,6 @@ main() {
     cyanprint "Starting wolflith setup..."
     install_dependencies
     configure_vault
-    update_permissions
     modifyComposeFiles
     dockerEnvSetup
     blueprint "Before provisioning any Docker services, you have the opportunity to customize the environment settings. This can be done by modifying the .env file located in the respective docker service's folder."
