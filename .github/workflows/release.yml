@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-     - name: Tag Creation
+      - name: Tag Creation
         id: semantic_release
         run: |
           output=$(npx semantic-release 2>&1)
