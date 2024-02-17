@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   kasmweb-discord:
-    image: kasmweb/discord:1.14.0-rolling
+    image: kasmweb/discord:1.15.0-rolling
     hostname: kasmweb-discord
     container_name: kasmweb-discord
     restart: unless-stopped
