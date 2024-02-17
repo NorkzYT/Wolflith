@@ -49,6 +49,5 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ github.ref }}
           body: ${{ steps.git-cliff.outputs.content }}
           token: ${{ secrets.GITHUB_TOKEN }}
