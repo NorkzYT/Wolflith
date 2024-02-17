@@ -47,8 +47,8 @@ jobs:
           OUTPUT: CHANGES.md
 
       - name: Release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref }}
           body: ${{ steps.git-cliff.outputs.content }}
           token: ${{ secrets.GITHUB_TOKEN }}
