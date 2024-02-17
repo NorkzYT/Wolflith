@@ -3,13 +3,9 @@
 # Source the color functions
 source PCSMenu/Functions/PersonalizationFunctions.sh
 
-# Navigate to the script's directory and retrieve the saved directory location
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-saved_dir_location="$script_dir/../Temp/directory_location.txt"
-directory_location=$(cat "$saved_dir_location")
 
 # Define the base directory to search within
-base_dir="$directory_location/Wolflith/Docker"
+base_dir="/opt/wolflith/Docker"
 
 # Check if base directory exists
 if [ ! -d "$base_dir" ]; then

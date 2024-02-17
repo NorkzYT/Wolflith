@@ -1,9 +1,13 @@
 #!/bin/bash
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
-DIRECTORY_LOCATION=$(cat ../Temp/directory_location.txt)
-source $DIRECTORY_LOCATION/Wolflith/PCSMenu/PCSFunc.sh
+source /opt/wolflith/PCSMenu/PCSFunc.sh
 
-HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
+HOSTS_FILE="/opt/wolflith/Ansible/inventory/hosts.yaml"
 SSH_KEY_DIR="/root/.ssh/ansible_keys"
 
 ## ----------------------------------------------------------------------------------------------------------- ##
@@ -24,7 +28,7 @@ function setup_hosts_add_machines() {
             if ! [[ "$add_more" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
                 break
             fi
-            
+
             # Prompt at the end
             echo "Press any key to continue..."
             read -n 1 -r

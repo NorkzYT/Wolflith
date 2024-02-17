@@ -1,10 +1,13 @@
 #!/bin/bash
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
 source Functions/PersonalizationFunctions.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Temp/directory_location.txt")
-DOCKER_FOLDER="$DIRECTORY_LOCATION/Wolflith/Docker"
+DOCKER_FOLDER="/opt/wolflith/Docker"
 
 blueprint "Scanning for Docker services in $DOCKER_FOLDER..."
 

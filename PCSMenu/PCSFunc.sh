@@ -1,4 +1,9 @@
 #!/bin/bash
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
 source "$(dirname "$0")/PersonalizationFunc.sh"
 
@@ -10,53 +15,58 @@ function default_menu_screen() {
 }
 
 ### Main Menu Cover ###
-
 function menu_cover() {
-    printf "$BRed
+    # Fetch the latest version from GitHub releases
+    latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    printf "$BCyan
   _____   _____  _____  _____ ____  _____  _____  ™
  |  __ \ / ____|/ ____|/ ____/ __ \|  __ \|  __ \ 
  | |__) | |    | (___ | |   | |  | | |__) | |__) |
  |  ___/| |     \___ \| |   | |  | |  _  /|  ___/ 
  | |    | |____ ____) | |___| |__| | | \ \| |     
- |_|     \_____|_____/ \_____\____/|_|  \_\_|      Version: 0.0.1
+ |_|     \_____|_____/ \_____\____/|_|  \_\_|      Version: $latest_version
  
 "
     printf "$Color_Off"
 }
 
-function ansible_banner() {
-    printf "$White"
-    # Display a banner with the text "Ansible"
-    cat <<"EOF"
+# check if pcsmenu is up-to-date
+check_update() {
+    local last_checked_file="/opt/wolflith/last_checked"
+    local current_date=$(date +%Y-%m-%d)
+    local last_checked=$(cat "$last_checked_file" 2>/dev/null)
 
-     _              _ _     _      
-    / \   _ __  ___(_) |__ | | ___ 
-   / _ \ | '_ \/ __| | '_ \| |/ _ \
-  / ___ \| | | \__ \ | |_) | |  __/
- /_/   \_\_| |_|___/_|_.__/|_|\___|
-                                   
-
-EOF
-    printf "$Color_Off"
-    printf "\n"
+    if [[ "$last_checked" != "$current_date" ]]; then
+        echo $current_date >"$last_checked_file"
+        current_version=$(grep 'Version:' "/opt/wolflith/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
+        latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        if [ "$current_version" != "$latest_version" ]; then
+            blueprint "Your PCSMenu is not up-to-date. Use 'pcsupdate' to update."
+        fi
+    fi
 }
-
-#####################################################################################################################################################################
-
-#!/bin/bash
-
-# PCSMenu MainFunctions.sh
-
-#####################################################################################################################################################################
-
-### Main Functions ###
-
-#####################################################################################################################################################################
 
 function os_release() {
     (
-        . /etc/os-release
-        printf "${RED}$PRETTY_NAME"
+        if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            dist=$NAME
+            release=$VERSION_ID
+        elif type lsb_release >/dev/null 2>&1; then
+            dist=$(lsb_release -si)
+            release=$(lsb_release -sr)
+        elif [ -f /etc/lsb-release ]; then
+            . /etc/lsb-release
+            dist=$DISTRIB_ID
+            release=$DISTRIB_RELEASE
+        elif [ -f /etc/debian_version ]; then
+            dist=Debian
+            release=$(cat /etc/debian_version)
+        else
+            dist=$(uname -s)
+            release=$(uname -r)
+        fi
+        printf "$PRETTY_NAME"
     )
 }
 
@@ -90,12 +100,9 @@ function date_time() {
     date +"%D %T"
 }
 
-function github_version() {
-    printf "0.0.1"
-}
-
 ### Modified Menu_Bar ###
 function menu_bar() {
+    printf "$BCyan"
     os_release
     printf " |"
     printf " Cpu Threads: $(threads_pc)"
@@ -142,19 +149,6 @@ function go_back_menu() {
     printf "B) Go Back to the Main Menu"
     printf "$Color_Off"
 
-}
-
-### Option number amount ###
-function option_number() {
-    case $CURRENT_MENU in
-    "Main") printf "1-5" ;;
-    "Linux") printf "1-55" ;;
-    "Proxmox") printf "1-26" ;;
-    "Docker") printf "1-3" ;;
-    "Ansible") printf "1-2" ;;
-    "Tools") printf "1-1" ;;
-    *) printf "1-6" ;;
-    esac
 }
 
 ### Exit Function for main ###

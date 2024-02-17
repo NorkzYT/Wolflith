@@ -1,6 +1,9 @@
 #!/bin/bash
-
-DIRECTORY_LOCATION=$(cat ../Temp/directory_location.txt)
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
 function provision_docker_services_on_lxc() {
     default_menu_screen
@@ -35,7 +38,7 @@ function provision_docker_services_on_lxc() {
 
             cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
             # Execute the Ansible playbook for the specified target(s), capturing output
-            if ! output=$(ansible-playbook $DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/provision-proxmox-lxc.yml -i "$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
+            if ! output=$(ansible-playbook /opt/wolflith/Ansible/playbooks/provision-proxmox-lxc.yml -i "/opt/wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
                 redprint "An error occurred during playbook execution:"
                 echo "$output" # Display the captured error output
 

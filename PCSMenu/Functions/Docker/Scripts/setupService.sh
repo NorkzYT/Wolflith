@@ -1,4 +1,9 @@
 #!/bin/bash
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
 source Functions/PersonalizationFunctions.sh
 

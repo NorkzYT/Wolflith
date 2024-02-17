@@ -1,9 +1,13 @@
 #!/bin/bash
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
-DIRECTORY_LOCATION=$(cat ../Temp/directory_location.txt)
-source $DIRECTORY_LOCATION/Wolflith/PCSMenu/PCSFunc.sh
+source /opt/wolflith/PCSMenu/PCSFunc.sh
 
-HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
+HOSTS_FILE="/opt/wolflith/Ansible/inventory/hosts.yaml"
 
 ## ----------------------------------------------------------------------------------------------------------- ##
 
@@ -96,7 +100,7 @@ execute_ansible_playbooks() {
     run_playbook() {
         local playbook=$1
         blueprint "Running playbook: $playbook"
-        if ! ansible-playbook "$DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/$playbook.yml" -i "$HOSTS_FILE" $LIMIT_OPTION; then
+        if ! ansible-playbook "/opt/wolflith/Ansible/playbooks/$playbook.yml" -i "$HOSTS_FILE" $LIMIT_OPTION; then
             redprint "Failed to execute playbook: $playbook"
             return 1
         fi

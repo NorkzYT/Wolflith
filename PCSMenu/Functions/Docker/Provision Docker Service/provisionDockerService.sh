@@ -1,6 +1,9 @@
 #!/bin/bash
-
-DIRECTORY_LOCATION=$(cat ../Temp/directory_location.txt)
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
 function provision_docker_compose_service() {
     default_menu_screen
@@ -22,7 +25,7 @@ function provision_docker_compose_service() {
             fi
 
             # Execute the Ansible playbook for the specified target(s), capturing output
-            if ! output=$(ansible-playbook $DIRECTORY_LOCATION/Wolflith/Ansible/playbooks/run-custom-command.yml -i "$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='sudo lshw -c display'" 2>&1); then
+            if ! output=$(ansible-playbook /opt/wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='sudo lshw -c display'" 2>&1); then
                 redprint "An error occurred during playbook execution:"
                 echo "$output" # Display the captured error output
 

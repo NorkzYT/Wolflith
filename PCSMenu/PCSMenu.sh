@@ -1,11 +1,11 @@
 #!/bin/bash
-
 ######################################################################
-# Title   : PCSCORPMenu
+# Title   : PCSMenu
 # By      : NorkzYT
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
+# Import the Personalization Functions for color and styling
 source "$(dirname "$0")/PCSFunc.sh"
 
 # Global Variables
@@ -16,10 +16,12 @@ SELECTION=""
 declare -a DIRECTORIES
 declare -a FILES
 
+# Clear the screen
 clear_screen() {
     clear
 }
 
+# Run a selected script
 run_script() {
     local script_path="$1"
     if [[ -f "$script_path" ]]; then
@@ -27,21 +29,22 @@ run_script() {
         if type main &>/dev/null; then
             main
         else
-            echo "No 'main' function found in $script_path" >&2
+            redprint "No 'main' function found in $script_path"
         fi
     else
-        echo "Script not found: $script_path" >&2
+        redprint "Script not found: $script_path"
     fi
 }
 
+# List directories and files in the current directory
 list_directories_and_files() {
     local dir="$1"
-    DIRECTORIES=() # Reset DIRECTORIES array before listing
-    FILES=()       # Reset FILES array before listing
+    DIRECTORIES=() # Reset DIRECTORIES array
+    FILES=()       # Reset FILES array
     local content_found=false
-    local blacklist="Scripts" # Define the directory to be excluded
+    local blacklist="Scripts" # Directory to exclude
 
-    # Check for subdirectories
+    # Listing subdirectories
     while IFS= read -r line; do
         if [[ "$(basename "$line")" != "$blacklist" ]]; then
             DIRECTORIES+=("$line")
@@ -49,7 +52,7 @@ list_directories_and_files() {
         fi
     done < <(find "$dir" -maxdepth 1 -mindepth 1 -type d | sort)
 
-    # If no subdirectories are found, check for scripts directly under the directory
+    # Listing scripts if no subdirectories found
     if ! $content_found; then
         while IFS= read -r line; do
             FILES+=("$line")
@@ -57,7 +60,7 @@ list_directories_and_files() {
         done < <(find "$dir" -maxdepth 1 -type f -name "*.sh" | sort)
     fi
 
-    # If exactly one script is found in the directory, run it
+    # Automatically run a script if it's the only file in the directory
     if [[ ${#FILES[@]} -eq 1 ]]; then
         run_script "${FILES[0]}"
         FILES=()
@@ -65,17 +68,18 @@ list_directories_and_files() {
     fi
 }
 
+# Display the menu options horizontally
 display_menu() {
     local i=1
-    echo "Enter a number to select an option:"
     for dir in "${DIRECTORIES[@]}"; do
-        echo "$i) $(basename "$dir")"
+        echo -n $(yellowprint "$i) $(basename "$dir")  ")
         ((i++))
     done
-    echo "B) Back"
-    echo "X) Exit"
+    echo -n $(magentaprint "  B) Back  ")
+    echo $(cyanprint "X) Exit")
 }
 
+# Navigate through the menu
 navigate() {
     if [[ "$SELECTION" =~ ^[0-9]+$ ]]; then
         local index=$((SELECTION - 1))
@@ -84,7 +88,7 @@ navigate() {
             CURRENT_DIR="${DIRECTORIES[$index]}"
             list_directories_and_files "$CURRENT_DIR"
         else
-            echo "Invalid selection." >&2
+            redprint "Invalid selection."
             return
         fi
     elif [[ "$SELECTION" == "B" || "$SELECTION" == "b" ]]; then
@@ -93,53 +97,54 @@ navigate() {
             PARENT_DIR=$(dirname "$PARENT_DIR")
         fi
     elif [[ "$SELECTION" == "X" || "$SELECTION" == "x" ]]; then
-        echo "Exiting..."
-        clear
+        greenprint "Exiting..."
+        clear_screen
         exit 0
     else
-        echo "Invalid selection." >&2
+        redprint "Invalid selection."
         return
     fi
-} 
+}
 
+# Reset navigation state to a specific directory
 reset_navigation_state() {
     CURRENT_DIR="$1"
     PARENT_DIR="$2"
 }
 
+# Specific menu functions for different categories
 ansible_menu() {
     reset_navigation_state "$BASE_DIR/Ansible" "$BASE_DIR"
     list_directories_and_files "$CURRENT_DIR"
 }
-
 docker_menu() {
     reset_navigation_state "$BASE_DIR/Docker" "$BASE_DIR"
     list_directories_and_files "$CURRENT_DIR"
 }
-
 proxmox_menu() {
     reset_navigation_state "$BASE_DIR/Proxmox" "$BASE_DIR"
     list_directories_and_files "$CURRENT_DIR"
 }
-
 tools_menu() {
     reset_navigation_state "$BASE_DIR/Tools" "$BASE_DIR"
     list_directories_and_files "$CURRENT_DIR"
 }
 
+# Main loop for the menu
 main() {
+    check_update
     while true; do
         default_menu_screen
         list_directories_and_files "$CURRENT_DIR"
         if [[ ${#DIRECTORIES[@]} -eq 0 && ${#FILES[@]} -eq 0 ]]; then
-            echo "No options available."
+            redprint "No options available."
             display_menu # To show Back and Exit options
         else
             display_menu
         fi
+        echo ""
         read -rp "Enter 1-${#DIRECTORIES[@]}, B for going back up a level or X for Exit: " SELECTION
         navigate
     done
 }
-
 main

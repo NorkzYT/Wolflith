@@ -1,4 +1,9 @@
 #!/bin/bash
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
 # Script to update docker-compose.yml with appdata_location and network_name from provisioning_docker_service_vars.yml
 

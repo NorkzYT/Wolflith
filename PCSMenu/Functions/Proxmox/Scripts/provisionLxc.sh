@@ -1,4 +1,9 @@
 #!/bin/bash
+######################################################################
+# Title   : PCSMenu
+# By      : NorkzYT
+# License : General Public License GPL-3.0-or-later
+######################################################################
 
 source Functions/PersonalizationFunctions.sh
 
@@ -11,10 +16,8 @@ default_ct_storage="local"
 default_api_user="root"
 default_node="pve"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-DIRECTORY_LOCATION=$(cat "$SCRIPT_DIR/../../../Temp/directory_location.txt")
 SELECTED_SERVICE=$(cat /tmp/selected_docker_service.txt)
-HOSTS_FILE="$DIRECTORY_LOCATION/Wolflith/Ansible/inventory/hosts.yaml"
+HOSTS_FILE="/opt/wolflith/Ansible/inventory/hosts.yaml"
 TARGET_HOST="$ANSIBLE_PLAYBOOK_TARGET"
 
 # Extract ansible_host (WAN IP), ansible_user (API user), and ansible_ssh_pass (API password)

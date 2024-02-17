@@ -1,6 +1,6 @@
-# Developing Wolflith
+# Developing wolflith
 
-- [Developing Wolflith](#developing-wolflith)
+- [Developing wolflith](#developing-wolflith)
   - [Getting started](#getting-started)
     - [Install dependencies](#install-dependencies)
   - [Local development](#local-development)
@@ -13,53 +13,41 @@
 
 ## Getting started
 
-Thank you for your interest in Wolflith and your willingness to contribute!
+Thank you for your interest in wolflith and your willingness to contribute!
 
-We encourage you to explore the existing [issues](https://github.com/NorkzYT/Wolflith/issues) to see how you can make a meaningful impact. This document will help you setup your development environment.
+We encourage you to explore the existing [issues](https://github.com/NorkzYT/wolflith/issues) to see how you can make a meaningful impact. This document will help you setup your development environment.
 
 ### Install dependencies
 
 You will need to install and configure the following dependencies on your linux machine:
 
 - [Git](http://git-scm.com/)
-- [Node.js v18.x (LTS)](http://nodejs.org)
-- [npm](https://www.npmjs.com/) latest
-- [Bun](https://bun.sh/) latest (Install with `npm install -g bun`)
-- [GNU Make](https://www.gnu.org/software/make/) latest (Install with `sudo apt-get install make -y`).
-- [OpenCommit](https://github.com/di-sukharev/opencommit) latest (Install with `npm install -g opencommit` [OPTIONAL] ).
+- [Node.js v18.x (LTS)](http://nodejs.org) (`AUTO-INSTALLED`)
+- [npm](https://www.npmjs.com/) latest (`AUTO-INSTALLED`)
+- [Bun](https://bun.sh/) latest (`AUTO-INSTALLED`)
+- [GNU Make](https://www.gnu.org/software/make/) latest (`AUTO-INSTALLED`).
+- [OpenCommit](https://github.com/di-sukharev/opencommit) latest (`AUTO-INSTALLED`).
 
 ## Local development
 
 ### Fork the repo
 
-To contribute code, you must fork the [Wolflith repo](https://github.com/NorkzYT/Wolflith).
+To contribute code, you must fork the [wolflith repo](https://github.com/NorkzYT/wolflith).
 
-### Clone the repo
+### Auto Setup
 
 1. Clone your GitHub forked repo:
 
-   ```sh
-   git clone https://github.com/<github_username>/Wolflith.git
+   ```bash
+   mkdir -p /opt/wolflith
+   wget -qO /opt/wolflith/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/wolflith/main/PCSMenu/PCSInstall.sh
+   chmod +x /opt/wolflith/PCSInstall.sh
+   sudo /opt/wolflith/PCSInstall.sh
    ```
 
-2. Go to the Wolflith directory:
+2. Go to the wolflith directory:
    ```sh
-   cd Wolflith
-   ```
-
-### Install dependencies
-
-1. Install the dependencies in the root of the repo.
-
-   ```sh
-   bun run clean:install # install dependencies
-   ```
-
-#### Get Started
-
-1. Run the following command to setup all environments.
-   ```sh
-   make setup # setup all environments
+   cd /opt/wolflith
    ```
 
 ## Create a pull request
