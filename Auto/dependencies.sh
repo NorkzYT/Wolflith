@@ -5,11 +5,28 @@ source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Function to install Ansible
 install_ansible() {
+    # Check if Ansible command exists
     if ! command -v ansible &>/dev/null; then
         echo "Ansible is not installed. Installing Ansible..."
+
+        # Install Ansible using pip
         python3 -m pip install --user ansible
+
+        # Check if pip install command was successful
         if [ $? -ne 0 ]; then
             echo "Failed to install Ansible. Please check your package manager settings."
+            exit 1
+        fi
+
+        # Ensure ~/.local/bin is in PATH for the session
+        PATH="$HOME/.local/bin:$PATH"
+        export PATH
+
+        # Verify Ansible installation by checking its version
+        if ansible --version &>/dev/null; then
+            echo "Ansible installed successfully."
+        else
+            echo "Ansible installation failed or Ansible is not in the PATH."
             exit 1
         fi
     else
