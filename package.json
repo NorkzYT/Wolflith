@@ -9,7 +9,7 @@
 		"clean:install": "rm -rf node_modules/ && rm -rf bun.lockb && bun i",
 		"prettier:check": "prettier --check .",
 		"prettier:format": "prettier --write .",
-		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore CONTRIBUTING.md",
+		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore DEVELOPERS.md",
 		"preinstall": "husky install"
 	},
 	"husky": {
