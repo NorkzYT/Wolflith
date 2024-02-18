@@ -7,6 +7,11 @@
 
 source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
+# Clear the screen
+clear_screen() {
+    clear
+}
+
 function default_menu_screen() {
     clear_screen
     menu_cover

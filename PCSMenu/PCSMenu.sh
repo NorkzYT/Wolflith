@@ -16,11 +16,6 @@ SELECTION=""
 declare -a DIRECTORIES
 declare -a FILES
 
-# Clear the screen
-clear_screen() {
-    clear
-}
-
 # Run a selected script
 run_script() {
     local script_path="$1"

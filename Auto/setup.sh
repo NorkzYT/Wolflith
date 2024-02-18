@@ -41,12 +41,12 @@ configure_vault() {
 
 # Modify Docker Compose files
 modifyComposeFiles() {
-    "/opt/wolflith/Auto/modifyComposeFiles.sh" "/opt"
+    "/opt/wolflith/Auto/modifyComposeFiles.sh" "/opt/wolflith"
 }
 
 # Setup Docker Environment files
 dockerEnvSetup() {
-    "/opt/wolflith/Auto/environmentSetup.sh" "/opt"
+    "/opt/wolflith/Auto/environmentSetup.sh" "/opt/wolflith"
 }
 
 # Main function to coordinate the setup process

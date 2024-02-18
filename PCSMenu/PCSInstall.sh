@@ -47,7 +47,7 @@ sudo chmod +x /etc/profile.d/PCSMenu.sh /etc/profile.d/PCSUpdate.sh
 # Source PCSFunc if available
 [[ -f /opt/wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/wolflith/PCSMenu/PCSFunc.sh
 [[ -f /opt/wolflith/PCSMenu/PersonalizationFunc.sh ]] && source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
-[[ -f /opt/wolflith/PCSMenu/PCSFunc.sh ]] && menu_cover
+[[ -f /opt/wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
 
 if [[ -n $1 ]]; then
     cyanprint "Type 'pcsmenu' to launch PCSMENU"
