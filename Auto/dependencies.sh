@@ -160,6 +160,12 @@ END
     fi
 }
 
+# Function to install package dependencies
+install_package_dependencies() {
+    cd /opt/wolflith
+    bun install
+}
+
 # Main execution flow
 install_python
 install_python_dependencies
@@ -167,3 +173,4 @@ install_ansible
 install_ansible_required_collections
 export ANSIBLE_CONFIG=/opt/wolflith/Ansible/inventory/ansible.cfg
 install_go
+install_package_dependencies
