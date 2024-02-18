@@ -39,6 +39,14 @@ function menu_cover() {
 check_update() {
     local last_checked_file="/opt/wolflith/Temp/last_checked.txt"
     local current_date=$(date +%Y-%m-%d)
+
+    # Check if the last_checked_file exists, create it if not
+    if [ ! -f "$last_checked_file" ]; then
+        echo "Creating $last_checked_file and setting last checked date to $current_date"
+        mkdir -p "$(dirname "$last_checked_file")" # Ensure the directory exists
+        echo $current_date >"$last_checked_file"
+    fi
+
     local last_checked=$(cat "$last_checked_file" 2>/dev/null)
 
     if [[ "$last_checked" != "$current_date" ]]; then
