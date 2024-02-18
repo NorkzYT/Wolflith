@@ -28,7 +28,7 @@ fi
 
 # Clone wolflith
 echo "Cloning wolflith..."
-if git clone -b main --single-branch https://github.com/NorkzYT/wolflith.git $ifolder; then
+if git clone https://github.com/NorkzYT/wolflith.git $ifolder; then
     echo "Successfully cloned wolflith."
 else
     echo "Failed to clone wolflith. Please check the git clone command's output for details."

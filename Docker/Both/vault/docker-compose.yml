@@ -3,7 +3,7 @@ services:
   hashicorp-vault-server:
     container_name: hashicorp-vault-server
     hostname: hashicorp-vault-server
-    image: vault:1.13.3
+    image: hashicorp/vault:1.15
     ports:
       - 1031:8200
     volumes:
