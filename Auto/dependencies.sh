@@ -74,8 +74,10 @@ install_python_dependencies() {
 
 # Function to install Go with user-specified architecture
 install_go() {
-    if command -v go &>/dev/null; then
-        echo "Go is already installed."
+
+    # Use the full path to check if Go is installed
+    if /usr/local/go/bin/go version &>/dev/null; then
+        echo "Go is already installed and operational."
         return
     fi
 

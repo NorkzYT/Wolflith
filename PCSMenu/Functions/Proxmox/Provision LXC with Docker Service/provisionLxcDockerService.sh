@@ -63,9 +63,15 @@ function provision_docker_services_on_lxc() {
             rm -f /tmp/lxc_provisioning_vars.yml
 
             # Prompt at the end
-            echo "Press any key to continue..."
-            read -n 1 -r
-            clear
+            echo "Press 'c' to continue..."
+            while read -r -n 1 key; do
+                if [[ $key == c ]]; then
+                    echo "Key 'c' pressed. Continuing..."
+                    break
+                else
+                    echo "Press 'c' to continue..."
+                fi
+            done
 
             # Call the proxmox_menu function
             proxmox_menu

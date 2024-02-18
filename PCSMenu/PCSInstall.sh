@@ -60,6 +60,16 @@ else
     exit 1
 fi
 
+echo "Press 'c' to continue..."
+while read -r -n 1 key; do
+    if [[ $key == c ]]; then
+        echo "Key 'c' pressed. Continuing..."
+        break
+    else
+        echo "Press 'c' to continue..."
+    fi
+done
+
 default_menu_screen
 cyanprint "Type 'pcsmenu' to launch PCSMENU"
 cyanprint "Type 'pcsupdate' to update"
