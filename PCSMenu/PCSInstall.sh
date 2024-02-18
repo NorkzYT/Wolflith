@@ -49,11 +49,6 @@ sudo chmod +x /etc/profile.d/PCSMenu.sh /etc/profile.d/PCSUpdate.sh
 [[ -f /opt/wolflith/PCSMenu/PersonalizationFunc.sh ]] && source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 [[ -f /opt/wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
 
-if [[ -n $1 ]]; then
-    cyanprint "Type 'pcsmenu' to launch PCSMENU"
-    cyanprint "Type 'pcsupdate' to update"
-fi
-
 # Go to directory
 cd $ifolder
 
@@ -64,6 +59,10 @@ else
     echo "Setup failed. Please check the output for details."
     exit 1
 fi
+
+default_menu_screen
+cyanprint "Type 'pcsmenu' to launch PCSMENU"
+cyanprint "Type 'pcsupdate' to update"
 
 # Cleanup the initial PCSInstall
 rm -f /opt/PCSInstall.sh

@@ -37,13 +37,13 @@ function menu_cover() {
 
 # check if pcsmenu is up-to-date
 check_update() {
-    local last_checked_file="/opt/wolflith/last_checked"
+    local last_checked_file="/opt/wolflith/Temp/last_checked.txt"
     local current_date=$(date +%Y-%m-%d)
     local last_checked=$(cat "$last_checked_file" 2>/dev/null)
 
     if [[ "$last_checked" != "$current_date" ]]; then
         echo $current_date >"$last_checked_file"
-        current_version=$(grep 'Version:' "/opt/wolflith/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
+        current_version=$(grep 'Version:' "/opt/wolflith/PCSMenu/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
         latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ "$current_version" != "$latest_version" ]; then
             blueprint "Your PCSMenu is not up-to-date. Use 'pcsupdate' to update."
