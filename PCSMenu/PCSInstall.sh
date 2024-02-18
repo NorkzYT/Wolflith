@@ -11,8 +11,8 @@ ifolder="/opt/wolflith"
 # Update and install necessary packages
 apt update && apt install -y sudo curl git make nodejs
 
-# Install global npm packages
-npm install -g bun opencommit
+# Install bun globally
+npm install -g bun
 
 # Check if git is installed
 if ! command -v git &>/dev/null; then
