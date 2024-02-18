@@ -9,7 +9,7 @@
 source /opt/wolflith/PCSMenu/PCSFunc.sh
 
 # Global Variables
-BASE_DIR="Functions"
+BASE_DIR="/opt/wolflith/PCSMenu/Functions"
 CURRENT_DIR="$BASE_DIR"
 PARENT_DIR=""
 SELECTION=""
