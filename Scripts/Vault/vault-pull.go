@@ -7,44 +7,49 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"syscall"
+	"github.com/joho/godotenv"
 
 	vault "github.com/hashicorp/vault/api"
-	"golang.org/x/crypto/ssh/terminal"
 )
 
 func main() {
-	// Check if repository location is passed as an argument
-	if len(os.Args) < 2 {
-		log.Fatal("Repository location not provided. Usage: go run main.go <repository location>")
+
+	envPath := "/opt/wolflith/.env"
+	if err := godotenv.Load(envPath); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
 	}
+	
+    vaultAddress := os.Getenv("HASHICORP_VAULT_ADDRESS")
+    if vaultAddress == "" {
+        log.Fatal("HASHICORP_VAULT_ADDRESS not set in .env file")
+    }
 
-	repoLocation := os.Args[1] // Get the repository location
+    username := os.Getenv("HASHICORP_USER_NAME")
+    if username == "" {
+        log.Fatal("HASHICORP_USER_NAME not set in .env file")
+    }
 
-	config := vault.DefaultConfig()
-	config.Address = "https://hashicorp-vault.domain.com"
+    password := os.Getenv("HASHICORP_PASSWORD")
+    if password == "" {
+        log.Fatal("HASHICORP_PASSWORD not set in .env file")
+    } 
 
-	client, err := vault.NewClient(config)
-	if err != nil {
-		log.Fatalf("Unable to initialize Vault client: %v", err)
-	}
+	// Setting the repository location to '/opt/wolflith' directly
+	repoLocation := "/opt/wolflith"
 
-	fmt.Println("")
-	fmt.Println("Input username and password of your Hashicorp Vault")
-	fmt.Print("Enter Username: ")
-	var username string
-	fmt.Scanln(&username)
+    config := vault.DefaultConfig()
+    config.Address = vaultAddress  
 
-	fmt.Print("Enter Password: ")
-	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
-	if err != nil {
-		log.Fatalf("Error reading password: %v", err)
-	}
-	password := string(bytePassword)
+    client, err := vault.NewClient(config)
+    if err != nil {
+        log.Fatalf("Unable to initialize Vault client: %v", err)
+    }
 
-	options := map[string]interface{}{
-		"password": password,
-	}
+    fmt.Println("\nAttempting to log in...")
+
+    options := map[string]interface{}{
+        "password": password,
+    }
 
 	path := fmt.Sprintf("auth/userpass/login/%s", username)
 
@@ -63,7 +68,7 @@ func main() {
 	fmt.Println("\nLogged in!")
 	fmt.Println("")
 
-	dockerPath := filepath.Join(repoLocation, "wolflith/Docker")
+	dockerPath := filepath.Join(repoLocation, "Docker")
 
 	err = filepath.Walk(dockerPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -88,41 +93,41 @@ func main() {
 func replaceSecrets(filename string, client *vault.Client) {
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.Fatalf("Failed to open file: %v", err)
+		log.Printf("Failed to open file: %v", err)
+		return
 	}
 
 	lines := strings.Split(string(data), "\n")
-
 	for i, line := range lines {
-		if strings.Contains(line, "${") && strings.Contains(line, "}") {
-			start := strings.Index(line, "${") + 2
-			end := strings.Index(line, "}")
-			secretName := line[start:end]
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) == 2 {
+			varName := strings.TrimSpace(parts[0])
 
-			secretValues, err := client.Logical().Read(fmt.Sprintf("kv/data/NAME"))
+			secretValues, err := client.Logical().Read("kv/data/wolflith")
 			if err != nil {
-				log.Fatalf("Unable to get secret: %v", err)
+				log.Printf("Unable to get secret for %v: %v", varName, err)
+				continue
 			}
 
 			if secretValues != nil && secretValues.Data != nil {
 				secretData, ok := secretValues.Data["data"].(map[string]interface{})
 				if !ok {
-					log.Fatalf("Unable to convert secret data to map")
+					log.Printf("Invalid secret data format for: %s", varName)
+					continue
 				}
 
-				value, ok := secretData[secretName].(string)
-				if ok {
-					lines[i] = secretName + "=" + value
+				if value, ok := secretData[varName]; ok {
+					valueStr, ok := value.(string)
+					if !ok {
+						log.Printf("Invalid type for %s: got %T, want string", varName, value)
+						continue
+					}
 
-					// Print the secret key
+					lines[i] = varName + "=" + valueStr
 					fmt.Println(strings.Repeat("-", 100))
-					log.Println(secretName+" has been pulled.")
+					log.Println(varName + " has been pulled.")
 					fmt.Println(strings.Repeat("-", 100))
-				} else {
-					log.Fatalf("Value type assertion failed: %T %#v", secretData[secretName], secretData[secretName])
 				}
-			} else {
-				log.Fatalf("Secret not found at the specified path: %s", secretName)
 			}
 		}
 	}
@@ -130,7 +135,6 @@ func replaceSecrets(filename string, client *vault.Client) {
 	output := strings.Join(lines, "\n")
 	err = ioutil.WriteFile(filename, []byte(output), 0644)
 	if err != nil {
-		log.Fatalf("Failed to write to file: %v", err)
+		log.Printf("Failed to write to file: %v", err)
 	}
-
 }

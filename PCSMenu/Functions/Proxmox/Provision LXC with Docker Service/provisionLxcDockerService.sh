@@ -12,7 +12,7 @@ function provision_docker_services_on_lxc() {
 
     while true; do
         cyanprint "Do you still want to run this command? (yes/no) "
-        read -p "" run_command
+        read -rp "" run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then

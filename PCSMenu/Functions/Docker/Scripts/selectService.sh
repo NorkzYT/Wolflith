@@ -74,7 +74,7 @@ fi
 
 echo ""
 cyanprint "Select the Docker service to install (number): "
-read -p "" selection
+read -rp "" selection
 if ! [[ "$selection" =~ ^[0-9]+$ ]] || [ "$selection" -lt 1 ] || [ "$selection" -gt ${#services[@]} ]; then
     redprint "Invalid selection. Exiting."
     exit 2

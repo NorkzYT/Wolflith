@@ -10,7 +10,7 @@ function provision_docker_compose_service() {
     printf "This option will ask you which Linux command you want to run that returns an output."
     echo ""
     while true; do
-        read -p "Do you still want to run this command? (yes/no) " run_command
+        read -rp "Do you still want to run this command? (yes/no) " run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then

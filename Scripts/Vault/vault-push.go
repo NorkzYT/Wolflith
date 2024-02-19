@@ -7,44 +7,49 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"syscall"
+	"github.com/joho/godotenv"
 
 	vault "github.com/hashicorp/vault/api"
-	"golang.org/x/crypto/ssh/terminal"
 )
 
 func main() {
-	// Check if repository location is passed as an argument
-	if len(os.Args) < 2 {
-		log.Fatal("Repository location not provided. Usage: go run vault-push.go <repository location>")
+
+	envPath := "/opt/wolflith/.env"
+	if err := godotenv.Load(envPath); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
 	}
+	
+    vaultAddress := os.Getenv("HASHICORP_VAULT_ADDRESS")
+    if vaultAddress == "" {
+        log.Fatal("HASHICORP_VAULT_ADDRESS not set in .env file")
+    }
 
-	repoLocation := os.Args[1] // Get the repository location
+    username := os.Getenv("HASHICORP_USER_NAME")
+    if username == "" {
+        log.Fatal("HASHICORP_USER_NAME not set in .env file")
+    }
 
-	config := vault.DefaultConfig()
-	config.Address = "https://hashicorp-vault.domain.com"
+    password := os.Getenv("HASHICORP_PASSWORD")
+    if password == "" {
+        log.Fatal("HASHICORP_PASSWORD not set in .env file")
+    } 
 
-	client, err := vault.NewClient(config)
-	if err != nil {
-		log.Fatalf("Unable to initialize Vault client: %v", err)
-	}
+	// Setting the repository location to '/opt/wolflith' directly
+	repoLocation := "/opt/wolflith"
 
-	fmt.Println("")
-	fmt.Println("Input username and password of your Hashicorp Vault")
-	fmt.Print("Enter Username: ")
-	var username string
-	fmt.Scanln(&username)
+    config := vault.DefaultConfig()
+    config.Address = vaultAddress  
 
-	fmt.Print("Enter Password: ")
-	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
-	if err != nil {
-		log.Fatalf("Error reading password: %v", err)
-	}
-	password := string(bytePassword)
+    client, err := vault.NewClient(config)
+    if err != nil {
+        log.Fatalf("Unable to initialize Vault client: %v", err)
+    }
 
-	options := map[string]interface{}{
-		"password": password,
-	}
+    fmt.Println("\nAttempting to log in...")
+
+    options := map[string]interface{}{
+        "password": password,
+    }
 
 	path := fmt.Sprintf("auth/userpass/login/%s", username)
 
@@ -65,7 +70,7 @@ func main() {
 
 	secretData := make(map[string]interface{})
 
-	dockerPath := filepath.Join(repoLocation, "wolflith/Docker")
+	dockerPath := filepath.Join(repoLocation, "Docker")
 
 	err = filepath.Walk(dockerPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -83,7 +88,7 @@ func main() {
 		log.Printf("Error walking the path %v: %v\n", dockerPath, err)
 	}
 
-	_, err = client.Logical().Write("kv/data/NAME", map[string]interface{}{"data": secretData})
+	_, err = client.Logical().Write("kv/data/wolflith", map[string]interface{}{"data": secretData})
 	if err != nil {
 		log.Fatalf("Unable to push secret: %v", err)
 	}

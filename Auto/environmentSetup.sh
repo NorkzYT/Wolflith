@@ -3,6 +3,24 @@
 # Source the color functions
 source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
 
+# Base Wolflith directory
+wolflith_dir="/opt/wolflith"
+
+# Copy the .env.example to .env if it doesn't exist
+env_example_file="$wolflith_dir/.env.example"
+env_file="$wolflith_dir/.env"
+
+if [ -f "$env_example_file" ]; then
+    if [ ! -f "$env_file" ]; then
+        greenprint "Creating $env_file from $env_example_file"
+        cp "$env_example_file" "$env_file"
+    else
+        yellowprint "Notice: $env_file already exists, skipping."
+    fi
+else
+    redprint "Error: $env_example_file does not exist."
+    exit 1
+fi
 
 # Define the base directory to search within
 base_dir="/opt/wolflith/Docker"

@@ -9,11 +9,11 @@ function execute_linux_command_via_ansible() {
     default_menu_screen
     printf "This option will ask you which Linux command you want to run that returns an output. (e.g., lshw -c display)\n"
     while true; do
-        read -p "Do you still want to run this command? (yes/no) " run_command
+        read -rp "Do you still want to run this command? (yes/no) " run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
-            read -p "Please enter the Linux command you wish to run: " user_command
+            read -rp "Please enter the Linux command you wish to run: " user_command
             echo "Do you want to run the playbook for all machines listed in hosts.yaml? (y/n)"
             read -r run_for_all
 

@@ -3,6 +3,7 @@
 		"esbenp.prettier-vscode", // Prettier - Code formatter
 		"foxundermoon.shell-format", // shell-format - Code formatter
 		"ms-python.black-formatter", // Black Formatter - Code formatter
+		"timonwong.shellcheck", // ShellCheck - Shell Linter
 		"eamodio.gitlens", // GitLens — Git supercharged
 		"aaron-bond.better-comments", // Better Comments
 		"oderwat.indent-rainbow", // Indent Rainbow

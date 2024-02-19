@@ -16,19 +16,19 @@ SELECTED_SERVICE_PATH=$(cat /tmp/selected_docker_service_path.txt)
 
 provision_docker_service() {
     cyanprint "Change Docker Network name from default 'proxy'? [y/N] "
-    read -p "" change_network_name
+    read -rp "" change_network_name
     if [[ "$change_network_name" =~ ^[Yy] ]]; then
         cyanprint "Enter new Docker Network name: "
-        read -p "" network_name
+        read -rp "" network_name
     else
         network_name=$default_network_name
     fi
 
     cyanprint "Change appdata location from default '$default_appdata_location'? [y/N] "
-    read -p "" change_appdata_location
+    read -rp "" change_appdata_location
     if [[ "$change_appdata_location" =~ ^[Yy] ]]; then
         cyanprint "Enter new appdata location: "
-        read -p "" appdata_location
+        read -rp "" appdata_location
     else
         appdata_location=$default_appdata_location
     fi
