@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
 	"github.com/joho/godotenv"
 
 	vault "github.com/hashicorp/vault/api"

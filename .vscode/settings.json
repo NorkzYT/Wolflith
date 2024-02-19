@@ -14,5 +14,11 @@
 	},
 	"[python]": {
 		"editor.defaultFormatter": "ms-python.black-formatter"
+	},
+	"[go]": {
+		"editor.defaultFormatter": "golang.go"
+	},
+	"[dockerfile]": {
+		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
 	}
 }

@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
 	"github.com/joho/godotenv"
 
 	vault "github.com/hashicorp/vault/api"
@@ -18,38 +19,38 @@ func main() {
 	if err := godotenv.Load(envPath); err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
-	
-    vaultAddress := os.Getenv("HASHICORP_VAULT_ADDRESS")
-    if vaultAddress == "" {
-        log.Fatal("HASHICORP_VAULT_ADDRESS not set in .env file")
-    }
 
-    username := os.Getenv("HASHICORP_USER_NAME")
-    if username == "" {
-        log.Fatal("HASHICORP_USER_NAME not set in .env file")
-    }
+	vaultAddress := os.Getenv("HASHICORP_VAULT_ADDRESS")
+	if vaultAddress == "" {
+		log.Fatal("HASHICORP_VAULT_ADDRESS not set in .env file")
+	}
 
-    password := os.Getenv("HASHICORP_PASSWORD")
-    if password == "" {
-        log.Fatal("HASHICORP_PASSWORD not set in .env file")
-    } 
+	username := os.Getenv("HASHICORP_USER_NAME")
+	if username == "" {
+		log.Fatal("HASHICORP_USER_NAME not set in .env file")
+	}
+
+	password := os.Getenv("HASHICORP_PASSWORD")
+	if password == "" {
+		log.Fatal("HASHICORP_PASSWORD not set in .env file")
+	}
 
 	// Setting the repository location to '/opt/wolflith' directly
 	repoLocation := "/opt/wolflith"
 
-    config := vault.DefaultConfig()
-    config.Address = vaultAddress  
+	config := vault.DefaultConfig()
+	config.Address = vaultAddress
 
-    client, err := vault.NewClient(config)
-    if err != nil {
-        log.Fatalf("Unable to initialize Vault client: %v", err)
-    }
+	client, err := vault.NewClient(config)
+	if err != nil {
+		log.Fatalf("Unable to initialize Vault client: %v", err)
+	}
 
-    fmt.Println("\nAttempting to log in...")
+	fmt.Println("\nAttempting to log in...")
 
-    options := map[string]interface{}{
-        "password": password,
-    }
+	options := map[string]interface{}{
+		"password": password,
+	}
 
 	path := fmt.Sprintf("auth/userpass/login/%s", username)
 
