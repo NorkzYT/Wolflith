@@ -9,24 +9,34 @@
 #Outputs the value of "name" to a file called env_var_names.txt.
 #Prints a message indicating that the script has finished running.
 
-#Find all .env files
-for env_file in $(find . -name "*.env"); do
+echo "Starting to process .env files..."
+
+# Ensure the Temp directory exists
+mkdir -p Temp
+
+# Initialize the output file to ensure it's empty at the start.
+>Temp/env_var_names.txt
+
+# Find all .env files
+find . -type f -name "*.env" | while read -r env_file; do
+    echo "Processing file: $env_file"
 
     # Read .env file into an array, filtering out comments and empty lines
-    mapfile -t env_vars < <(grep -v '^#\|^$' "$env_file")
+    mapfile -t env_vars < <(grep -vE '^#|^$' "$env_file")
 
-    # Loop through array of environment variables
-    for env_var in "${env_vars[@]}"; do
-        # Split input string into array
-        IFS="=" read -ra parts <<<"$env_var"
+    # Check if env_vars is empty
+    if [ ${#env_vars[@]} -eq 0 ]; then
+        echo "No valid environment variables found in $env_file"
+    else
+        # Loop through array of environment variables
+        for env_var in "${env_vars[@]}"; do
+            # Extract the name of the environment variable
+            name="${env_var%%=*}"
 
-        # Assign values to variables
-        name=$(echo "$env_var" | cut -d '=' -f 1)
-
-        # Output variable name to file
-        echo "$name" >>env_var_names.txt
-    done
+            # Output variable name to file
+            echo "$name" >>Temp/env_var_names.txt
+        done
+    fi
 done
 
-# Print message indicating that the script has finished running
-echo "Finished outputting environment variable names to env_var_names.txt"
+echo "Finished outputting environment variable names to Temp/env_var_names.txt."

@@ -72,6 +72,20 @@ configure_vault() {
         fi
 
         greenprint "Vault configuration updated in .env file."
+
+        # Pull environmental variables from Vault
+        read -rp "Do you want to pull environmental variables from the Vault now? (y/n): " pull_vars
+        if [[ $pull_vars =~ ^[Yy]$ ]]; then
+            # Navigate to the script's directory and run the Go script
+            (cd /opt/wolflith/Scripts/Vault && go run vault-pull.go)
+            if [ $? -eq 0 ]; then
+                greenprint "Successfully pulled environmental variables from Vault."
+            else
+                redprint "Failed to pull environmental variables from Vault."
+            fi
+        else
+            yellowprint "Skipping pulling environmental variables from Vault."
+        fi
     else
         yellowprint "Skipping Vault setup."
     fi
