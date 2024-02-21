@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Function to install Ansible
 install_ansible() {
@@ -38,7 +38,7 @@ install_ansible() {
 # Function to install required Ansible collections
 install_ansible_required_collections() {
     local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-    if ansible-galaxy collection install -r "/opt/wolflith/Ansible/collections/requirements.yml"; then
+    if ansible-galaxy collection install -r "/opt/Wolflith/Ansible/collections/requirements.yml"; then
         greenprint "Required collections installed successfully."
     else
         redprint "Failed to install required collections."
@@ -164,7 +164,7 @@ END
 
 # Function to install package dependencies
 install_package_dependencies() {
-    cd /opt/wolflith
+    cd /opt/Wolflith
     bun install
 }
 
@@ -173,6 +173,6 @@ install_python
 install_python_dependencies
 install_ansible
 install_ansible_required_collections
-export ANSIBLE_CONFIG=/opt/wolflith/Ansible/inventory/ansible.cfg
+export ANSIBLE_CONFIG=/opt/Wolflith/Ansible/inventory/ansible.cfg
 install_go
 install_package_dependencies

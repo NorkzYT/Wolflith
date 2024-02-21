@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Default values
 default_network_name="proxy"
@@ -39,7 +39,7 @@ network_name: "$network_name"
 appdata_location: "$appdata_location"
 selected_service: "$SELECTED_SERVICE"
 selected_service_path: "$SELECTED_SERVICE_PATH"
-repo_path: "/opt/wolflith"
+repo_path: "/opt/Wolflith"
 EOF
 
     greenprint "Provisioning variables saved to /tmp/provisioning_docker_service_vars.yml."

@@ -5,9 +5,9 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/wolflith/PCSMenu/PCSFunc.sh
+source /opt/Wolflith/PCSMenu/PCSFunc.sh
 
-HOSTS_FILE="/opt/wolflith/Ansible/inventory/hosts.yaml"
+HOSTS_FILE="/opt/Wolflith/Ansible/inventory/hosts.yaml"
 SSH_KEY_DIR="/root/.ssh/ansible_keys"
 
 ## ----------------------------------------------------------------------------------------------------------- ##

@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Ensure the selected service and path are provided
 if [ ! -f "/tmp/selected_docker_service.txt" ] || [ ! -f "/tmp/selected_docker_service_path.txt" ]; then
@@ -14,7 +14,7 @@ if [ ! -f "/tmp/selected_docker_service.txt" ] || [ ! -f "/tmp/selected_docker_s
 fi
 
 cyanprint "Do you want to set up the environment variables? [y/N]: "
-read -p "" setup_env
+read -rp "" setup_env
 
 if [[ $setup_env =~ ^[Yy]$ ]]; then
     selected_service=$(cat /tmp/selected_docker_service.txt)
@@ -30,7 +30,7 @@ if [[ $setup_env =~ ^[Yy]$ ]]; then
             if [[ "$line" =~ ^[A-Z_]+="'xxx'"$ ]] || [[ "$line" =~ ^[A-Z_]+=xxx$ ]]; then
                 var_name=$(echo "$line" | cut -d '=' -f1)
                 cyanprint "Please enter value for $var_name: "
-                read value </dev/tty
+                read -r value </dev/tty
 
                 if [ -n "$value" ]; then
                     echo "$var_name='$value'" >>"$env_file"

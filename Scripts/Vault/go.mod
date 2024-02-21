@@ -1,6 +1,11 @@
-module github.com/norkz/wolflith-scripts-vault
+replace github.com/NorkzYT/Wolflith/Scripts/Vault/vaultCommon => ./vaultCommon
 
 go 1.20
+
+require (
+	github.com/hashicorp/vault/api v1.9.2
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	github.com/cenkalti/backoff/v3 v3.0.0 // indirect
@@ -14,15 +19,13 @@ require (
 	github.com/hashicorp/go-secure-stdlib/strutil v0.1.2 // indirect
 	github.com/hashicorp/go-sockaddr v1.0.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hashicorp/vault/api v1.9.2 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sys v0.8.0 // indirect
-	golang.org/x/term v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect
 )
+
+module github.com/NorkzYT/Wolflith/Scripts/Vault

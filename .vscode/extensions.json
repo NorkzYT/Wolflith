@@ -17,6 +17,7 @@
 		"SonarSource.sonarlint-vscode", // SonarLint
 		"mechatroner.rainbow-csv", // Rainbow CSV
 		"PKief.material-icon-theme", // Material Icon Theme
-		"ahmadawais.shades-of-purple" // Shades of Purple
+		"ahmadawais.shades-of-purple", // Shades of Purple
+		"WakaTime.vscode-wakatime" // WakaTime
 	]
 }

@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   vscode:
-    image: wolflith/vscode:latest
+    image: Wolflith/vscode:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,8 +20,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/appdata/vscode/config:/config
-      - ./wolflith.code-workspace:/config/workspace/wolflith.code-workspace
-      - ../../../:/wolflith
+      - ./Wolflith.code-workspace:/config/workspace/Wolflith.code-workspace
+      - ../../../:/Wolflith
       - /mnt:/mnt
       - /home:/home
     ports:

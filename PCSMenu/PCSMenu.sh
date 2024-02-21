@@ -6,10 +6,10 @@
 ######################################################################
 
 # Import the Personalization Functions for color and styling
-source /opt/wolflith/PCSMenu/PCSFunc.sh
+source /opt/Wolflith/PCSMenu/PCSFunc.sh
 
 # Global Variables
-BASE_DIR="/opt/wolflith/PCSMenu/Functions"
+BASE_DIR="/opt/Wolflith/PCSMenu/Functions"
 CURRENT_DIR="$BASE_DIR"
 PARENT_DIR=""
 SELECTION=""

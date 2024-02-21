@@ -25,7 +25,7 @@ function execute_linux_command_via_ansible() {
             fi
 
             # Execute the Ansible playbook for the specified target(s), capturing output
-            output=$(ansible-playbook /opt/wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='$user_command'" 2>&1)
+            output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='$user_command'" 2>&1)
 
             # Always display the output, regardless of playbook execution status
             echo "$output"

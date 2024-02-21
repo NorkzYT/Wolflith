@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Clear the screen
 clear_screen() {
@@ -22,7 +22,7 @@ function default_menu_screen() {
 ### Main Menu Cover ###
 function menu_cover() {
     # Fetch the latest version from GitHub releases
-    latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     printf "$BCyan
   _____   _____  _____  _____ ____  _____  _____  ™
  |  __ \ / ____|/ ____|/ ____/ __ \|  __ \|  __ \ 
@@ -37,7 +37,7 @@ function menu_cover() {
 
 # check if pcsmenu is up-to-date
 check_update() {
-    local last_checked_file="/opt/wolflith/Temp/last_checked.txt"
+    local last_checked_file="/opt/Wolflith/Temp/last_checked.txt"
     local current_date=$(date +%Y-%m-%d)
 
     # Check if the last_checked_file exists, create it if not
@@ -51,8 +51,8 @@ check_update() {
 
     if [[ "$last_checked" != "$current_date" ]]; then
         echo $current_date >"$last_checked_file"
-        current_version=$(grep 'Version:' "/opt/wolflith/PCSMenu/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
-        latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        current_version=$(grep 'Version:' "/opt/Wolflith/PCSMenu/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
+        latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ "$current_version" != "$latest_version" ]; then
             blueprint "Your PCSMenu is not up-to-date. Use 'pcsupdate' to update."
         fi

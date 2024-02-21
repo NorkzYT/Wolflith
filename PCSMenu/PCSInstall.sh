@@ -6,7 +6,7 @@
 ######################################################################
 
 # Create folder
-ifolder="/opt/wolflith"
+ifolder="/opt/Wolflith"
 
 # Update and install necessary packages
 apt update && apt install -y sudo curl git make nodejs
@@ -26,28 +26,28 @@ if ! ping -c 1 github.com &>/dev/null; then
     exit 1
 fi
 
-# Clone wolflith
-echo "Cloning wolflith..."
-if git clone https://github.com/NorkzYT/wolflith.git $ifolder; then
-    echo "Successfully cloned wolflith."
+# Clone Wolflith
+echo "Cloning Wolflith..."
+if git clone https://github.com/NorkzYT/Wolflith.git $ifolder; then
+    echo "Successfully cloned Wolflith."
 else
-    echo "Failed to clone wolflith. Please check the git clone command's output for details."
+    echo "Failed to clone Wolflith. Please check the git clone command's output for details."
     exit 1
 fi
 
 find $ifolder -type f -iname "*.sh" -exec chmod +x {} \;
 
 # Create aliases in a new script within /etc/profile.d/
-echo "alias pcsmenu='sudo /opt/wolflith/PCSMenu/PCSMenu.sh'" | sudo tee /etc/profile.d/PCSMenu.sh >/dev/null
-echo "alias pcsupdate='sudo /opt/wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee /etc/profile.d/PCSUpdate.sh >/dev/null
+echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee /etc/profile.d/PCSMenu.sh >/dev/null
+echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee /etc/profile.d/PCSUpdate.sh >/dev/null
 
 # Make sure the new alias scripts are executable
 sudo chmod +x /etc/profile.d/PCSMenu.sh /etc/profile.d/PCSUpdate.sh
 
 # Source PCSFunc if available
-[[ -f /opt/wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/wolflith/PCSMenu/PCSFunc.sh
-[[ -f /opt/wolflith/PCSMenu/PersonalizationFunc.sh ]] && source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
-[[ -f /opt/wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
+[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/PCSFunc.sh
+[[ -f /opt/Wolflith/PCSMenu/PersonalizationFunc.sh ]] && source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
 
 # Go to directory
 cd $ifolder

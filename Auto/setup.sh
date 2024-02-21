@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Install all dependencies
 install_dependencies() {
@@ -16,7 +16,7 @@ configure_vault() {
     blueprint "Configuring Hashicorp Vault..."
     read -rp "Do you have and want to use a Hashicorp Vault server? (y/n): " vault_setup
     if [[ $vault_setup =~ ^[Yy]$ ]]; then
-        env_file="/opt/wolflith/.env"
+        env_file="/opt/Wolflith/.env"
 
         # Check if the Vault address is already set
         if grep -q "^HASHICORP_VAULT_ADDRESS='https://" "$env_file"; then
@@ -77,7 +77,7 @@ configure_vault() {
         read -rp "Do you want to pull environmental variables from the Vault now? (y/n): " pull_vars
         if [[ $pull_vars =~ ^[Yy]$ ]]; then
             # Navigate to the script's directory and run the Go script
-            (cd /opt/wolflith/Scripts/Vault && go run vault-pull.go)
+            (cd /opt/Wolflith/Scripts/Vault && go run main.go -action pull)
             if [ $? -eq 0 ]; then
                 greenprint "Successfully pulled environmental variables from Vault."
             else
@@ -94,17 +94,17 @@ configure_vault() {
 
 # Modify Docker Compose files
 modifyComposeFiles() {
-    "/opt/wolflith/Auto/modifyComposeFiles.sh" "/opt/wolflith"
+    "/opt/Wolflith/Auto/modifyComposeFiles.sh" "/opt/Wolflith"
 }
 
 # Setup Environment files
 EnvSetup() {
-    "/opt/wolflith/Auto/environmentSetup.sh" "/opt/wolflith"
+    "/opt/Wolflith/Auto/environmentSetup.sh" "/opt/Wolflith"
 }
 
 # Main function to coordinate the setup process
 main() {
-    cyanprint "Starting wolflith setup..."
+    cyanprint "Starting Wolflith setup..."
     install_dependencies
     EnvSetup
     configure_vault
@@ -112,7 +112,7 @@ main() {
     blueprint "Before provisioning any Docker services, you have the opportunity to customize the environment settings. This can be done by modifying the .env file located in the respective docker service's folder."
     blueprint "Please ensure to review and adjust the .env file as needed to suit your specific configuration requirements prior to initiating the provisioning process."
     echo ""
-    greenprint "wolflith setup completed successfully."
+    greenprint "Wolflith setup completed successfully."
 }
 
 # Invoke the main function to start the setup process

@@ -5,9 +5,9 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
-DOCKER_FOLDER="/opt/wolflith/Docker"
+DOCKER_FOLDER="/opt/Wolflith/Docker"
 
 blueprint "Scanning for Docker services in $DOCKER_FOLDER..."
 

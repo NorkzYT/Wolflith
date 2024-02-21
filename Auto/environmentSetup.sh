@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Source the color functions
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Base Wolflith directory
-wolflith_dir="/opt/wolflith"
+wolflith_dir="/opt/Wolflith"
 
 # Copy the .env.example to .env if it doesn't exist
 env_example_file="$wolflith_dir/.env.example"
@@ -23,7 +23,7 @@ else
 fi
 
 # Define the base directory to search within
-base_dir="/opt/wolflith/Docker"
+base_dir="/opt/Wolflith/Docker"
 
 # Check if base directory exists
 if [ ! -d "$base_dir" ]; then
