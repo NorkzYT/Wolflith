@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   vscode:
-    image: Wolflith/vscode:latest
+    image: wolflith/vscode:latest
     build:
       context: .
       dockerfile: Dockerfile
