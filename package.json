@@ -1,61 +1,59 @@
 {
-	"name": "Wolflith",
-	"description": "Streamline Your Tech Stack Deployment with One Command.",
-	"version": "1.0.0",
-	"author": "NorkzYT",
-	"private": false,
-	"main": "Auto/setup.sh",
-	"scripts": {
-		"clean:install": "rm -rf node_modules/ && rm -rf bun.lockb && bun i",
-		"prettier:check": "prettier --check .",
-		"prettier:format": "prettier --write .",
-		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore DEVELOPERS.md",
-		"preinstall": "husky install"
-	},
-	"husky": {
-		"hooks": {
-			"applypatch-msg": "echo \"[Husky] applypatch-msg\"",
-			"pre-applypatch": "echo \"[Husky] pre-applypatch\"",
-			"post-applypatch": "echo \"[Husky] post-applypatch\"",
-			"pre-commit": "echo \"[Husky] pre-commit\"",
-			"pre-merge-commit": "echo \"[Husky] pre-merge-commit\"",
-			"prepare-commit-msg": "echo \"[Husky] prepare-commit-msg\"",
-			"commit-msg": "echo \"[Husky] commit-msg\"",
-			"post-commit": "echo \"[Husky] post-commit\"",
-			"pre-rebase": "echo \"[Husky] pre-rebase\"",
-			"post-checkout": "echo \"[Husky] post-checkout\"",
-			"post-merge": "echo \"[Husky] post-merge\"",
-			"pre-push": "echo \"[Husky] pre-push\"",
-			"pre-receive": "echo \"[Husky] pre-receive\"",
-			"update": "echo \"[Husky] update\"",
-			"post-receive": "echo \"[Husky] post-receive\"",
-			"post-update": "echo \"[Husky] post-update\"",
-			"push-to-checkout": "echo \"[Husky] push-to-checkout\"",
-			"pre-auto-gc": "echo \"[Husky] pre-auto-gc\"",
-			"post-rewrite": "echo \"[Husky] post-rewrite\"",
-			"sendemail-validate": "echo \"[Husky] sendemail-validate\"",
-			"fsmonitor-watchman": "echo \"[Husky] fsmonitor-watchman\"",
-			"p4-pre-submit": "echo \"[Husky] p4-pre-submit\"",
-			"post-index-change": "echo \"[Husky] post-index-change\"",
-			"p4-changelist": "echo \"[Husky] p4-changelist\"",
-			"p4-post-changelist": "echo \"[Husky] p4-post-changelist\"",
-			"p4-prepare-changelist": "echo \"[Husky] p4-prepare-changelist\"",
-			"reference-transaction": "echo \"[Husky] reference-transaction\""
-		}
-	},
-	"devDependencies": {
-		"@commitlint/cli": "^18.4.4",
-		"@commitlint/config-conventional": "^18.4.4",
-		"@semantic-release/git": "^10.0.1",
-		"husky": "^9.0.0",
-		"markdown-notes-tree": "^1.12.0",
-		"opencommit": "^3.0.4",
-		"prettier": "3.2.5",
-		"prettyjson": "^1.2.5",
-		"semantic-release": "^23.0.2"
-	},
-	"engines": {
-		"npm": ">=7.10.0",
-		"node": ">=16.0.0"
-	}
+  "name": "Wolflith",
+  "description": "Streamline Your Tech Stack Deployment with One Command.",
+  "version": "1.0.0",
+  "author": "NorkzYT",
+  "private": false,
+  "main": "Auto/setup.sh",
+  "scripts": {
+    "clean:install": "rm -rf node_modules/ && rm -rf bun.lockb && bun i",
+    "prettier:check": "prettier --check .",
+    "prettier:format": "prettier --write .",
+    "preinstall": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "applypatch-msg": "echo \"[Husky] applypatch-msg\"",
+      "pre-applypatch": "echo \"[Husky] pre-applypatch\"",
+      "post-applypatch": "echo \"[Husky] post-applypatch\"",
+      "pre-commit": "echo \"[Husky] pre-commit\"",
+      "pre-merge-commit": "echo \"[Husky] pre-merge-commit\"",
+      "prepare-commit-msg": "echo \"[Husky] prepare-commit-msg\"",
+      "commit-msg": "echo \"[Husky] commit-msg\"",
+      "post-commit": "echo \"[Husky] post-commit\"",
+      "pre-rebase": "echo \"[Husky] pre-rebase\"",
+      "post-checkout": "echo \"[Husky] post-checkout\"",
+      "post-merge": "echo \"[Husky] post-merge\"",
+      "pre-push": "echo \"[Husky] pre-push\"",
+      "pre-receive": "echo \"[Husky] pre-receive\"",
+      "update": "echo \"[Husky] update\"",
+      "post-receive": "echo \"[Husky] post-receive\"",
+      "post-update": "echo \"[Husky] post-update\"",
+      "push-to-checkout": "echo \"[Husky] push-to-checkout\"",
+      "pre-auto-gc": "echo \"[Husky] pre-auto-gc\"",
+      "post-rewrite": "echo \"[Husky] post-rewrite\"",
+      "sendemail-validate": "echo \"[Husky] sendemail-validate\"",
+      "fsmonitor-watchman": "echo \"[Husky] fsmonitor-watchman\"",
+      "p4-pre-submit": "echo \"[Husky] p4-pre-submit\"",
+      "post-index-change": "echo \"[Husky] post-index-change\"",
+      "p4-changelist": "echo \"[Husky] p4-changelist\"",
+      "p4-post-changelist": "echo \"[Husky] p4-post-changelist\"",
+      "p4-prepare-changelist": "echo \"[Husky] p4-prepare-changelist\"",
+      "reference-transaction": "echo \"[Husky] reference-transaction\""
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
+    "@semantic-release/git": "^10.0.1",
+    "husky": "^9.0.0",
+    "opencommit": "^3.0.4",
+    "prettier": "3.2.5",
+    "prettyjson": "^1.2.5",
+    "semantic-release": "^23.0.2"
+  },
+  "engines": {
+    "npm": ">=7.10.0",
+    "node": ">=16.0.0"
+  }
 }
