@@ -34,8 +34,8 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 COPY --from=nodejs /usr/local/bin /usr/local/bin
 COPY --from=nodejs /usr/local/lib/node_modules /usr/local/lib/node_modules
 
-# Install OpenCommit globally using the installed Node.js
-RUN npm install -g opencommit
+# Install Bun and OpenCommit globally using the installed Node.js
+RUN npm install -g bun opencommit
 
 # Set work directory
 RUN mkdir -p /opt/app

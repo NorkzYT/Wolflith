@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/NorkzYT/Wolflith/Scripts/Vault/vaultPull"
-	"github.com/NorkzYT/Wolflith/Scripts/Vault/vaultPush"
+	vaultpull "github.com/NorkzYT/Wolflith/Scripts/Vault/vaultPull"
+	vaultpush "github.com/NorkzYT/Wolflith/Scripts/Vault/vaultPush"
 )
 
 func main() {

@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/NorkzYT/Wolflith/Scripts/Vault/vaultCommon"
+	vaultcommon "github.com/NorkzYT/Wolflith/Scripts/Vault/vaultCommon"
 	vault "github.com/hashicorp/vault/api"
 )
 
