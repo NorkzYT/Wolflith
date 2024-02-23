@@ -8,19 +8,20 @@
 source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Ensure the selected service and path are provided
-if [ ! -f "/tmp/selected_docker_service.txt" ] || [ ! -f "/tmp/selected_docker_service_path.txt" ]; then
+if [ ! -f "/opt/Wolflith/Temp/selected_docker_service.txt" ] || [ ! -f "/opt/Wolflith/Temp/selected_docker_service_path.txt" ]; then
     redprint "Selected Docker service or path is missing. Please run selectService.sh first."
     exit 1
 fi
+
+env_file="/opt/Wolflith/Temp/env_vars_for_ansible.yml"
 
 cyanprint "Do you want to set up the environment variables? [y/N]: "
 read -rp "" setup_env
 
 if [[ $setup_env =~ ^[Yy]$ ]]; then
-    selected_service=$(cat /tmp/selected_docker_service.txt)
-    selected_service_path=$(cat /tmp/selected_docker_service_path.txt)
+    selected_service=$(cat /opt/Wolflith/Temp/selected_docker_service.txt)
+    selected_service_path=$(cat /opt/Wolflith/Temp/selected_docker_service_path.txt)
     env_example_path="$selected_service_path/.env"
-    env_file="/tmp/env_vars_for_ansible.yml"
 
     if [ -f "$env_example_path" ]; then
         greenprint "Preparing environment variables for $selected_service based on .env..."
@@ -47,9 +48,9 @@ if [[ $setup_env =~ ^[Yy]$ ]]; then
         greenprint "$selected_service environment variables saved to $env_file."
     else
         yellowprint "No .env file found for $selected_service. Skipping environment variable configuration."
+        >"$env_file"
     fi
 else
-    env_file="/tmp/env_vars_for_ansible.yml"
     yellowprint "Skipping environment variable setup."
     >"$env_file"
     greenprint "Environment variable setup file cleared."

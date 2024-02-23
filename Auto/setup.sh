@@ -104,6 +104,8 @@ EnvSetup() {
 
 # Main function to coordinate the setup process
 main() {
+    # Ensure the Temp directory exists
+    mkdir -p Temp
     cyanprint "Starting Wolflith setup..."
     install_dependencies
     EnvSetup

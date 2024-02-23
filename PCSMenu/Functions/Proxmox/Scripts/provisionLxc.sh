@@ -16,7 +16,7 @@ default_ct_storage="local"
 default_api_user="root"
 default_node="pve"
 
-SELECTED_SERVICE=$(cat /tmp/selected_docker_service.txt)
+SELECTED_SERVICE=$(cat /opt/Wolflith/Temp/selected_docker_service.txt)
 HOSTS_FILE="/opt/Wolflith/Ansible/inventory/hosts.yaml"
 TARGET_HOST="$ANSIBLE_PLAYBOOK_TARGET"
 
@@ -115,15 +115,6 @@ greenprint "Enter the name of the storage that contains CT Templates (default: $
 read -r ct_storage
 ct_storage=${ct_storage:-$default_ct_storage}
 
-# Generate and display root password for LXC
-lxc_root_password=$(openssl rand -base64 24)
-greenprint "Generated root password for LXC: $lxc_root_password"
-
-# Save the LXC root password with the hostname into an organized file
-PASSWORDS_FILE="$SCRIPT_DIR/../../../Temp/lxc_passwords.txt"
-echo "Hostname: $hostname - Root Password: $lxc_root_password" >>"$PASSWORDS_FILE"
-greenprint "LXC root password for $hostname saved to $PASSWORDS_FILE"
-
 # Additional questions based on the Proxmox Ansible docs
 cyanprint "The default hostname will be the service you selected to install: $SELECTED_SERVICE"
 greenprint "Would you like to define a custom hostname suffix or leave empty to use default? [Enter suffix or leave blank]: "
@@ -134,6 +125,19 @@ else
     hostname="${SELECTED_SERVICE}${hostname_suffix}"
 fi
 hostname=$(echo "$hostname" | tr '[:upper:]' '[:lower:]') # Convert to lowercase
+
+# Generate and display root password for LXC
+lxc_root_password=$(openssl rand -base64 24)
+greenprint "Generated root password for LXC: $lxc_root_password"
+
+# Generate and display user password for LXC
+lxc_user_password=$(openssl rand -base64 24)
+greenprint "Generated user: $hostname password for LXC: $lxc_user_password"
+
+# Save the LXC root password with the hostname into an organized file
+PASSWORDS_FILE="/opt/Wolflith/Temp/lxc_passwords.txt"
+echo "Hostname: $hostname - Root Password: $lxc_root_password" >>"$PASSWORDS_FILE"
+greenprint "LXC root password for $hostname saved to $PASSWORDS_FILE"
 
 cyanprint "Network interface configuration:"
 ip_config="dhcp"
@@ -150,7 +154,7 @@ else
 fi
 
 # Create a YAML file with all the variables to pass to the Ansible playbook
-cat <<EOF >/tmp/lxc_provisioning_vars.yml
+cat <<EOF >/opt/Wolflith/Temp/lxc_provisioning_vars.yml
 api_host: "$api_host"
 api_password: "$api_password"
 api_user: "${api_user}@pam"
@@ -161,8 +165,9 @@ RAM: $RAM
 lxc_storage_amount: $lxc_storage_amount
 lxc_storage_name: "$lxc_storage_name"
 lxc_root_password: "$lxc_root_password"
+lxc_user_password: "$lxc_user_password"
 ct_storage: "$ct_storage"
 netif: "$ip_config"
 EOF
 
-yellowprint "Provisioning variables saved to /tmp/lxc_provisioning_vars.yml."
+yellowprint "Provisioning variables saved to /opt/Wolflith/Temp/lxc_provisioning_vars.yml."

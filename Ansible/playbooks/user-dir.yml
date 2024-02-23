@@ -10,6 +10,12 @@
       private: yes
 
   tasks:
+    - name: Ensure sudo is installed
+      apt:
+        name: sudo
+        state: present
+        update_cache: yes
+
     - name: Get Linux machine name
       shell: hostname
       register: hostname_result
@@ -25,4 +31,11 @@
         shell: /bin/bash
         password: "{{ newuser_password | password_hash('sha512','00C0A6220') }}"
         update_password: on_create
-        group: sudo
+      register: user_created
+
+    - name: Add new user to sudo group
+      user:
+        name: '{{ new_username }}'
+        groups: sudo
+        append: yes
+      when: user_created is changed

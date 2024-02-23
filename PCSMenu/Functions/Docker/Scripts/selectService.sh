@@ -84,5 +84,5 @@ selected_service="${services[$selection - 1]}"
 selected_service_basename=$(basename "$selected_service")
 selected_service_path="$DOCKER_FOLDER/${selected_service}"
 greenprint "You selected: $selected_service"
-echo "$selected_service_basename" >/tmp/selected_docker_service.txt
-echo "$selected_service_path" >/tmp/selected_docker_service_path.txt
+echo "$selected_service_basename" >/opt/Wolflith/Temp/selected_docker_service.txt
+echo "$selected_service_path" >/opt/Wolflith/Temp/selected_docker_service_path.txt

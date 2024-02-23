@@ -11,9 +11,6 @@
 
 echo "Starting to process .env files..."
 
-# Ensure the Temp directory exists
-mkdir -p Temp
-
 # Initialize the output file to ensure it's empty at the start.
 >Temp/env_var_names.txt
 

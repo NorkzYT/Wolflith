@@ -1,0 +1,115 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Update apt cache and Install Zsh, fzf, git, and curl
+      apt:
+        name:
+          - zsh
+          - fzf
+          - git
+          - curl
+        state: latest
+        update_cache: yes
+
+    - name: Find user directories in /home/
+      ansible.builtin.find:
+        paths: /home
+        file_type: directory
+      register: found_users
+
+    - name: Set user directories variable excluding root
+      set_fact:
+        user_dirs: "{{ found_users.files | map(attribute='path') | list }}"
+
+    - name: Check if .oh-my-zsh exists for each user
+      ansible.builtin.stat:
+        path: '{{ item }}/.oh-my-zsh'
+      loop: '{{ user_dirs }}'
+      register: oh_my_zsh_check
+
+    - name: Install Oh-My-Zsh for each user excluding root
+      ansible.builtin.shell: |
+        sudo -u {{ item.item | regex_replace('^/home/', '') }} sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      loop: '{{ oh_my_zsh_check.results }}'
+      when: item.stat.exists == false
+      args:
+        creates: '{{ item.item }}/.oh-my-zsh'
+
+    - name: Check if Powerlevel10k theme directory exists for each user
+      ansible.builtin.stat:
+        path: '{{ item }}/.oh-my-zsh/custom/themes/powerlevel10k'
+      loop: '{{ user_dirs }}'
+      register: p10k_stat_check
+
+    - name: Clone Powerlevel10k theme into Oh-My-Zsh custom themes folder for each user
+      ansible.builtin.git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: '{{ item.item }}/.oh-my-zsh/custom/themes/powerlevel10k'
+        version: master
+      loop: '{{ p10k_stat_check.results }}'
+      when: not item.stat.exists
+
+    - name: Set ZSH_THEME to powerlevel10k/powerlevel10k in .zshrc for each user
+      ansible.builtin.lineinfile:
+        path: '{{ item }}/.zshrc'
+        regexp: '^ZSH_THEME="[^"]*"'
+        line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
+        state: present
+      loop: '{{ user_dirs }}'
+
+    - name: Check if zsh-autosuggestions plugin exists for each user
+      ansible.builtin.stat:
+        path: '{{ item }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+      loop: '{{ user_dirs }}'
+      register: zsh_autosuggestions_check
+      become: true
+
+    - name: Clone zsh-autosuggestions plugin for each user
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: '{{ item.item }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+        version: master
+      loop: '{{ zsh_autosuggestions_check.results }}'
+      when: not item.stat.exists
+
+    - name: Check if zsh-syntax-highlighting plugin exists for each user
+      ansible.builtin.stat:
+        path: '{{ item }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+      loop: '{{ user_dirs }}'
+      register: zsh_syntax_highlighting_check
+      become: true
+
+    - name: Clone Powerlevel10k theme into Oh-My-Zsh custom themes folder for each user excluding root
+      ansible.builtin.git:
+        repo: 'https://github.com/romkatv/powerlevel10k.git'
+        dest: '{{ item.item }}/.oh-my-zsh/custom/themes/powerlevel10k'
+        version: 'master'
+      loop: '{{ p10k_stat_check.results }}'
+      when: not item.stat.exists
+      become: true
+      become_user: "{{ item.item | regex_replace('(^/home/)', '') }}"
+      ignore_errors: yes
+
+    - name: Enable additional plugins in .zshrc for each user
+      ansible.builtin.lineinfile:
+        path: '{{ item }}/.zshrc'
+        regexp: '^(plugins=\()'
+        line: 'plugins=(git zsh-autosuggestions zsh-interactive-cd zsh-syntax-highlighting)'
+        backrefs: yes
+      loop: '{{ user_dirs }}'
+
+    - name: Change default shell to Zsh for each user excluding root
+      ansible.builtin.user:
+        name: "{{ item | regex_replace('(^/home/)', '') }}"
+        shell: /bin/zsh
+      loop: '{{ user_dirs }}'
+      when: "'/root' not in item"
+
+    - name: Uncomment desired segments in .p10k.zsh for each user
+      ansible.builtin.replace:
+        path: '{{ item }}/.p10k.zsh'
+        regexp: '^\s*# (vpn_ip|load|disk_usage|ram|swap|cpu_arch|ip|public_ip|proxy|battery|wifi)'
+        replace: '    \1'
+      loop: '{{ user_dirs }}'
+      ignore_errors: yes

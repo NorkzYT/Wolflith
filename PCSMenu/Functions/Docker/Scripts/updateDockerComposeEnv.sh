@@ -14,15 +14,13 @@ if [ -z "$1" ]; then
 fi
 
 # Define paths
-env_example_path="/home/docker/$1/.env"
-env_vars_path="/tmp/env_vars_for_ansible.yml"
-output_env_path="/home/docker/$1/.env"
-provisioning_vars_path="/tmp/provisioning_docker_service_vars.yml"
+env_vars_path="/opt/Wolflith/Temp/env_vars_for_ansible.yml"
+provisioning_vars_path="/opt/Wolflith/Temp/provisioning_docker_service_vars.yml"
 docker_compose_path="/home/docker/$1/docker-compose.yml"
 
 # Check if required files exist
-if [ ! -f "$env_example_path" ] || [ ! -f "$env_vars_path" ]; then
-    echo "Required files are missing. Ensure both .env and env_vars_for_ansible.yml are present."
+if [ ! -f "$env_vars_path" ]; then
+    echo "Required files are missing. Ensure env_vars_for_ansible.yml is present."
     exit 1
 fi
 

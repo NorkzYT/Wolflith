@@ -41,7 +41,7 @@
   hosts: all
   become: yes
   vars_files:
-    - /tmp/lxc_provisioning_vars.yml
+    - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
   tasks:
     - name: Check for Debian 12 Template Presence and Install if Missing
       community.general.proxmox_template:
@@ -57,7 +57,7 @@
   hosts: all
   become: yes
   vars_files:
-    - /tmp/lxc_provisioning_vars.yml
+    - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
   tasks:
     - name: Provision LXC Container with Debian 12 Template
       community.general.proxmox:
@@ -89,7 +89,7 @@
 
     - name: Update VMID in Local Configuration File
       ansible.builtin.lineinfile:
-        path: /tmp/lxc_provisioning_vars.yml
+        path: /opt/Wolflith/Temp/lxc_provisioning_vars.yml
         regexp: '^vmid:.*$'
         line: 'vmid: {{ vmid }}'
         backrefs: yes
@@ -100,7 +100,7 @@
   hosts: all
   become: yes
   vars_files:
-    - /tmp/lxc_provisioning_vars.yml
+    - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
   tasks:
     - name: Start LXC Container Before Docker Setup
       community.general.proxmox:
@@ -148,14 +148,28 @@
   hosts: all
   become: yes
   vars_files:
-    - /tmp/provisioning_docker_service_vars.yml
-    - /tmp/lxc_provisioning_vars.yml
+    - /opt/Wolflith/Temp/provisioning_docker_service_vars.yml
+    - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
   tasks:
     - name: Docker Network and Directory Setup
       block:
         - name: Create Docker Network in the LXC Container
           ansible.builtin.shell: |
             pct exec {{ vmid }} -- docker network create {{ network_name }}
+          ignore_errors: yes
+
+        - name: Install sudo and add a new user with sudo privileges in the LXC Container
+          block:
+            - name: Ensure sudo is installed in the LXC Container
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- apt-get update &&
+                pct exec {{ vmid }} -- apt-get install -y sudo
+
+            - name: Create a new user with specified username and add to the sudo group
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- useradd -m {{ selected_service }} -s /bin/bash &&
+                pct exec {{ vmid }} -- bash -c "echo '{{ selected_service }}:{{ lxc_user_password }}' | chpasswd" &&
+                pct exec {{ vmid }} -- usermod -aG sudo {{ selected_service }}
           ignore_errors: yes
 
         - name: Ensure Host Destination Directory Exists
@@ -169,8 +183,17 @@
             pct exec {{ vmid }} -- mkdir -p /home/docker/{{ selected_service }}
             pct exec {{ vmid }} -- mkdir -p /tmp
 
-    - name: File Transfers to Proxmox Host and LXC Container
-      block:
+        - name: Check if .env file exists for docker service
+          ansible.builtin.stat:
+            path: '{{ selected_service_path }}/.env'
+          register: env_file_stat
+          delegate_to: localhost
+
+        - name: Set flag for .env file existence
+          set_fact:
+            env_file_exists: '{{ env_file_stat.stat.exists }}'
+          delegate_to: localhost
+
         - name: Transfer Scripts and Configuration Files to Proxmox Host
           ansible.builtin.copy:
             src: '{{ item.src }}'
@@ -178,29 +201,36 @@
             mode: '0755'
           loop:
             - {
-                src: '{{ repo_path }}/PCSMenu/Functions/Docker/updateDockerComposeEnv.sh',
+                src: '/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
                 dest: '/tmp/updateDockerComposeEnv.sh',
               }
-            - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
             - {
-                src: '/tmp/provisioning_docker_service_vars.yml',
+                src: '/opt/Wolflith/Temp/env_vars_for_ansible.yml',
+                dest: '/tmp/env_vars_for_ansible.yml',
+              }
+            - {
+                src: '/opt/Wolflith/Temp/provisioning_docker_service_vars.yml',
                 dest: '/tmp/provisioning_docker_service_vars.yml',
               }
             - {
                 src: '{{ selected_service_path }}/docker-compose.yml',
                 dest: '/tmp/docker/{{ selected_service }}/docker-compose.yml',
               }
-            - {
-                src: '{{ selected_service_path }}/.env',
-                dest: '/tmp/docker/{{ selected_service }}/.env',
-              }
+
+        - name: Transfer .env file to Proxmox Host if it exists
+          ansible.builtin.copy:
+            src: '{{ selected_service_path }}/.env'
+            dest: '/tmp/docker/{{ selected_service }}/.env'
+            mode: '0755'
+          when: env_file_exists
 
         - name: Transfer Config Folder to Proxmox Host
           ansible.builtin.copy:
             src: '{{ selected_service_path }}/config'
             dest: '/tmp/docker/{{ selected_service }}/config'
             mode: '0755'
-          when: '"config" in lookup("ansible.builtin.fileglob", "{{ selected_service_path }}/config/*", wantlist=True)'
+          when: >-
+            lookup('ansible.builtin.fileglob', selected_service_path + '/config/*', wantlist=True)|length > 0
 
         - name: Push Files into the LXC Container
           ansible.builtin.shell: |
@@ -216,45 +246,47 @@
                 src: '/tmp/docker/{{ selected_service }}/docker-compose.yml',
                 dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
               }
-            - {
-                src: '/tmp/docker/{{ selected_service }}/.env',
-                dest: '/home/docker/{{ selected_service }}/.env',
-              }
+
+        - name: Push .env file into the LXC Container if it exists
+          ansible.builtin.shell:
+            cmd: "pct push {{ vmid }} '/tmp/docker/{{ selected_service }}/.env' '/home/docker/{{ selected_service }}/.env'"
+          when: env_file_exists
 
         - name: Push Config Folder into the LXC Container
           ansible.builtin.shell: |
             pct push {{ vmid }} '/tmp/docker/{{ selected_service }}/config' '/home/docker/{{ selected_service }}/config'
-          when: '"config" in lookup("ansible.builtin.fileglob", "{{ selected_service_path }}/config/*", wantlist=True)'
+          when: >-
+            lookup('ansible.builtin.fileglob', selected_service_path + '/config/*', wantlist=True)|length > 0
 
-    - name: Script Execution and Docker Service Deployment
-      block:
-        - name: Set Execute Permission for the Script Inside LXC Container
-          ansible.builtin.shell: |
-            pct exec {{ vmid }} -- chmod +x /tmp/updateDockerComposeEnv.sh
+        - name: Script Execution and Docker Service Deployment
+          block:
+            - name: Set Execute Permission for the Script Inside LXC Container
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- chmod +x /tmp/updateDockerComposeEnv.sh
 
-        - name: Execute Script Inside LXC to Generate .env File
-          ansible.builtin.shell: |
-            pct exec {{ vmid }} -- bash -c "cd /tmp && ./updateDockerComposeEnv.sh {{ selected_service }}"
+            - name: Execute Script Inside LXC to Generate .env File
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- bash -c "cd /tmp && ./updateDockerComposeEnv.sh {{ selected_service }}"
 
-        - name: Deploy Docker Compose Service Inside LXC Container
-          ansible.builtin.shell: |
-            pct exec {{ vmid }} -- bash -c "cd /home/docker/{{ selected_service }} && docker compose up -d"
+            - name: Deploy Docker Compose Service Inside LXC Container
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- bash -c "cd /home/docker/{{ selected_service }} && docker compose up -d"
 
-    - name: Cleanup Temporary Files and Directories
-      block:
-        - name: Remove Temporary Files from Proxmox Host
-          ansible.builtin.file:
-            path: '{{ item }}'
-            state: absent
-          loop:
-            - '/tmp/updateDockerComposeEnv.sh'
-            - '/tmp/env_vars_for_ansible.yml'
-            - '/tmp/docker'
+        - name: Cleanup Temporary Files and Directories
+          block:
+            - name: Remove Temporary Files from Proxmox Host
+              ansible.builtin.file:
+                path: '{{ item }}'
+                state: absent
+              loop:
+                - '/tmp/updateDockerComposeEnv.sh'
+                - '/tmp/env_vars_for_ansible.yml'
+                - '/tmp/docker'
 
-        - name: Remove Temporary Files from LXC Container
-          ansible.builtin.shell: |
-            pct exec {{ vmid }} -- rm -f /tmp/{{ item }}
-          loop:
-            - 'updateDockerComposeEnv.sh'
-            - 'env_vars_for_ansible.yml'
-            - 'provisioning_docker_service_vars.yml'
+            - name: Remove Temporary Files from LXC Container
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- rm -f /tmp/{{ item }}
+              loop:
+                - 'updateDockerComposeEnv.sh'
+                - 'env_vars_for_ansible.yml'
+                - 'provisioning_docker_service_vars.yml'
