@@ -4,10 +4,9 @@
   - [Getting started](#getting-started)
     - [Install dependencies](#install-dependencies)
   - [Local development](#local-development)
-    - [Fork the repo](#fork-the-repo)
-    - [Clone the repo](#clone-the-repo)
+    - [Fork the repo](#auto-setup)
+    - [Auto Setup](#clone-the-repo)
     - [Install dependencies](#install-dependencies)
-    - [Get Started](#get-started)
   - [Create a pull request](#create-a-pull-request)
   - [Issue assignment](#issue-assignment)
 
