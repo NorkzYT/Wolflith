@@ -12,7 +12,7 @@ import (
 func main() {
 	// Define a flag to specify the action
 	action := flag.String("action", "", "Specify 'pull' to pull secrets, or 'push' to push secrets to Hashicorp Vault.")
-	flag.Parse() // Parse the flags
+	flag.Parse()
 
 	// Check if an action was provided
 	if *action == "" {
@@ -20,7 +20,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Assume repoLocation is the path where your Docker configs or .env files are located.
 	repoLocation := "/opt/Wolflith"
 
 	switch *action {

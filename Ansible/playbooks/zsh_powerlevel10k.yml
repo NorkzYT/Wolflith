@@ -42,13 +42,16 @@
       loop: '{{ user_dirs }}'
       register: p10k_stat_check
 
-    - name: Clone Powerlevel10k theme into Oh-My-Zsh custom themes folder for each user
+    - name: Clone Powerlevel10k theme into Oh-My-Zsh custom themes folder for each user excluding root
       ansible.builtin.git:
-        repo: https://github.com/romkatv/powerlevel10k.git
+        repo: 'https://github.com/romkatv/powerlevel10k.git'
         dest: '{{ item.item }}/.oh-my-zsh/custom/themes/powerlevel10k'
-        version: master
+        version: 'master'
       loop: '{{ p10k_stat_check.results }}'
       when: not item.stat.exists
+      become: true
+      become_user: "{{ item.item | regex_replace('(^/home/)', '') }}"
+      ignore_errors: yes
 
     - name: Set ZSH_THEME to powerlevel10k/powerlevel10k in .zshrc for each user
       ansible.builtin.lineinfile:
@@ -80,22 +83,34 @@
       register: zsh_syntax_highlighting_check
       become: true
 
-    - name: Clone Powerlevel10k theme into Oh-My-Zsh custom themes folder for each user excluding root
+    - name: Clone zsh-syntax-highlighting plugin for each user
       ansible.builtin.git:
-        repo: 'https://github.com/romkatv/powerlevel10k.git'
-        dest: '{{ item.item }}/.oh-my-zsh/custom/themes/powerlevel10k'
-        version: 'master'
-      loop: '{{ p10k_stat_check.results }}'
+        repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+        dest: '{{ item.item }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+        version: master
+      loop: '{{ zsh_syntax_highlighting_check.results }}'
       when: not item.stat.exists
+
+    - name: Check if zsh-history-substring-search plugin exists for each user
+      ansible.builtin.stat:
+        path: '{{ item }}/.oh-my-zsh/custom/plugins/zsh-history-substring-search'
+      loop: '{{ user_dirs }}'
+      register: zsh_history_substring_search_check
       become: true
-      become_user: "{{ item.item | regex_replace('(^/home/)', '') }}"
-      ignore_errors: yes
+
+    - name: Clone zsh-history-substring-search plugin for each user
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-history-substring-search.git'
+        dest: '{{ item.item }}/.oh-my-zsh/custom/plugins/zsh-history-substring-search'
+        version: master
+      loop: '{{ zsh_history_substring_search_check.results }}'
+      when: not item.stat.exists
 
     - name: Enable additional plugins in .zshrc for each user
       ansible.builtin.lineinfile:
         path: '{{ item }}/.zshrc'
         regexp: '^(plugins=\()'
-        line: 'plugins=(git zsh-autosuggestions zsh-interactive-cd zsh-syntax-highlighting)'
+        line: 'plugins=(git zsh-autosuggestions zsh-interactive-cd zsh-syntax-highlighting zsh-history-substring-search)'
         backrefs: yes
       loop: '{{ user_dirs }}'
 
