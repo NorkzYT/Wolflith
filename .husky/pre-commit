@@ -6,6 +6,3 @@ bun run repoTree
 
 # Format all Python files with Prettier once
 bun run prettier:format
-
-# Stage all changes, including new, modified, and deleted files
-git add .
