@@ -52,10 +52,6 @@
                 dest: '/tmp/provisioning_docker_service_vars.yml',
               }
             - {
-                src: '/opt/Wolflith/Temp/env_vars_for_ansible.yml',
-                dest: '/tmp/env_vars_for_ansible.yml',
-              }
-            - {
                 src: '{{ selected_service_path }}/docker-compose.yml',
                 dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
               }
@@ -95,4 +91,3 @@
           loop:
             - '/tmp/updateDockerComposeEnv.sh'
             - '/tmp/provisioning_docker_service_vars.yml'
-            - '/tmp/env_vars_for_ansible.yml'

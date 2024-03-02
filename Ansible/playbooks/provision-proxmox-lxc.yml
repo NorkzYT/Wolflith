@@ -205,10 +205,6 @@
                 dest: '/tmp/updateDockerComposeEnv.sh',
               }
             - {
-                src: '/opt/Wolflith/Temp/env_vars_for_ansible.yml',
-                dest: '/tmp/env_vars_for_ansible.yml',
-              }
-            - {
                 src: '/opt/Wolflith/Temp/provisioning_docker_service_vars.yml',
                 dest: '/tmp/provisioning_docker_service_vars.yml',
               }
@@ -237,7 +233,6 @@
             pct push {{ vmid }} {{ item.src }} {{ item.dest }}
           loop:
             - { src: '/tmp/updateDockerComposeEnv.sh', dest: '/tmp/updateDockerComposeEnv.sh' }
-            - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
             - {
                 src: '/tmp/provisioning_docker_service_vars.yml',
                 dest: '/tmp/provisioning_docker_service_vars.yml',
@@ -280,7 +275,6 @@
                 state: absent
               loop:
                 - '/tmp/updateDockerComposeEnv.sh'
-                - '/tmp/env_vars_for_ansible.yml'
                 - '/tmp/docker'
 
             - name: Remove Temporary Files from LXC Container
@@ -288,5 +282,4 @@
                 pct exec {{ vmid }} -- rm -f /tmp/{{ item }}
               loop:
                 - 'updateDockerComposeEnv.sh'
-                - 'env_vars_for_ansible.yml'
                 - 'provisioning_docker_service_vars.yml'
