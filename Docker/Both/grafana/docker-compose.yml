@@ -1,9 +1,9 @@
+# Installation: https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/
 version: '3.9'
 services:
   grafana:
     image: grafana/grafana:10.3.3
     container_name: grafana
-    hostname: grafana
     ports:
       - 1001:3000
     environment:

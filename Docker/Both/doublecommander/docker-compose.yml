@@ -1,20 +1,21 @@
+# Installation: https://hub.docker.com/r/linuxserver/doublecommander
 version: '3.9'
 services:
   doublecommander:
-    image: linuxserver/doublecommander
+    image: linuxserver/doublecommander:17e51aac-ls191
     container_name: doublecommander
-    hostname: doublecommander
     privileged: true
     environment:
-      - PUID=${DOUBLECOMMANDER_PUID}
-      - PGID=${DOUBLECOMMANDER_PGID}
-      - TZ=${DOUBLECOMMANDER_TZ}
+      - PUID=${DOUBLE_COMMANDER_PUID}
+      - PGID=${DOUBLE_COMMANDER_PGID}
+      - TZ=${DOUBLE_COMMANDER_TZ}
     volumes:
       - /:/media
       - /opt/appdata/doublecommander/config:/config
       - /opt/appdata/doublecommander/data:/data
     ports:
       - 5900:3000
+      - 5901:3001
     restart: unless-stopped
     networks:
       - proxy

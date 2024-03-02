@@ -1,8 +1,8 @@
+# Installation: https://github.com/sickcodes/Docker-OSX
 version: '3.9'
 services:
   docker-osx:
     image: sickcodes/docker-osx:monterey
-    hostname: docker-osx
     container_name: docker-osx
     privileged: true
     cap_add:

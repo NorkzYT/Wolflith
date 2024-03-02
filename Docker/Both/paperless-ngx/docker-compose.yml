@@ -1,81 +1,52 @@
-# docker-compose file for running paperless from the Docker Hub.
-# This file contains everything paperless needs to run.
-# Paperless supports amd64, arm and arm64 hardware.
-#
-# All compose files of paperless configure paperless in the following way:
-#
-# - Paperless is (re)started on system boot, if it was running before shutdown.
-# - Docker volumes for storing data are managed by Docker.
-# - Folders for importing and exporting files are created in the same directory
-#   as this file and mounted to the correct folders inside the container.
-# - Paperless listens on port 8000.
-#
-# In addition to that, this docker-compose file adds the following optional
-# configurations:
-#
-# - Instead of SQLite (default), PostgreSQL is used as the database server.
-#
-# To install and update paperless with this file, do the following:
-#
-# - Copy this file as 'docker-compose.yml' and the files 'docker-compose.env'
-#   and '.env' into a folder.
-# - Run 'docker-compose pull'.
-# - Run 'docker-compose run --rm webserver createsuperuser' to create a user.
-# - Run 'docker-compose up -d'.
-#
-# For more extensive installation and update instructions, refer to the
-# documentation.
-#
-# https://github.com/paperless-ngx/paperless-ngx/blob/main/docker/compose/docker-compose.postgres.yml
-#
+# Installation: https://github.com/paperless-ngx/paperless-ngx/blob/main/docker/compose/docker-compose.postgres.yml
 
 version: '3.9'
 services:
-  paperless-ngx-redis:
-    image: docker.io/library/redis:7
-    container_name: paperless-ngx-redis
-    restart: unless-stopped
-    volumes:
-      - /opt/appdata/paperless-ngx/redisdata:/data
-    networks:
-      - proxy
-
-  paperless-ngx-db:
-    image: docker.io/library/postgres:16
-    container_name: paperless-ngx-db
-    restart: unless-stopped
-    volumes:
-      - /opt/appdata/paperless-ngx/pgdata:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=paperless
-      - POSTGRES_USER=paperless
-      - POSTGRES_PASSWORD=paperless
-    networks:
-      - proxy
-
   paperless-ngx:
-    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.5.4
     container_name: paperless-ngx
     restart: unless-stopped
-    depends_on:
-      - paperless-ngx-db
-      - paperless-ngx-redis
     ports:
       - '4357:8000'
-    healthcheck:
-      test: ['CMD', 'curl', '-fs', '-S', '--max-time', '2', 'http://localhost:8000']
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    env_file: .env
+    environment:
+      - PAPERLESS_REDIS='redis://paperless-ngx-redis:6379'
+      - PAPERLESS_DBHOST='paperless-ngx-db'
     volumes:
       - /opt/appdata/paperless-ngx/main/data:/usr/src/paperless/data
       - /opt/appdata/paperless-ngx/main/media:/usr/src/paperless/media
       - /opt/appdata/paperless-ngx/main/export:/usr/src/paperless/export
       - /opt/appdata/paperless-ngx/main/consume:/usr/src/paperless/consume
-    env_file: docker-compose.env
+    healthcheck:
+      test: ['CMD', 'curl', '-fs', '-S', '--max-time', '2', 'http://localhost:8000']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      - paperless-ngx-db
+      - paperless-ngx-redis
+    networks:
+      - proxy
+
+  paperless-ngx-redis:
+    image: redis:7.2.4
+    container_name: paperless-ngx-redis
+    restart: unless-stopped
+    volumes:
+      - /opt/appdata/paperless-ngx/redis:/data
+    networks:
+      - proxy
+
+  paperless-ngx-db:
+    image: postgres:16
+    container_name: paperless-ngx-db
+    restart: unless-stopped
+    volumes:
+      - /opt/appdata/paperless-ngx/pgdata:/var/lib/postgresql/data
     environment:
-      - PAPERLESS_REDIS=redis://paperless-ngx-redis:6379
-      - PAPERLESS_DBHOST=paperless-ngx-db
+      - POSTGRES_DB='paperless'
+      - POSTGRES_USER='paperless'
+      - POSTGRES_PASSWORD='paperless'
     networks:
       - proxy
 

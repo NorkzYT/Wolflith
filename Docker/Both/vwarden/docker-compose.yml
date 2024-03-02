@@ -1,12 +1,13 @@
+# Installation: https://hub.docker.com/r/vaultwarden/server
+
 version: '3.9'
 services:
   vaultwarden:
     image: vaultwarden/server:1.30.3
-    hostname: vaultwarden
     container_name: vaultwarden
     ports:
       # Port for WebSocket notifications
-      - 3012:3012
+      - 3012:80
     environment:
       # Enable WebSocket notifications.
       - WEBSOCKET_ENABLED=${VAULTWARDEN_WEBSOCKET_ENABLED}

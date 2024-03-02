@@ -1,15 +1,16 @@
+# Installation: https://hub.docker.com/r/abhinavsingh/proxy.py
+
 version: '3.9'
 services:
   proxy.py:
-    image: abhinavsingh/proxy.py:v2.4.4rc3.dev7
-    hostname: proxy.py
+    image: abhinavsingh/proxy.py:v2.4.4rc5.dev4.g3899f7d
     container_name: proxy.py
     restart: unless-stopped
+    command: --basic-auth ${PROXY_PY_BASIC_AUTH} --hostname 0.0.0.0
     ports:
-      - 9899:8899
+      - 8899:8899
     networks:
       - proxy
-    command: --basic-auth ${AUTH} --hostname 0.0.0.0
 
 networks:
   proxy:

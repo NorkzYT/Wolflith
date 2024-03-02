@@ -1,10 +1,12 @@
+# Installation: https://hub.docker.com/r/tonistiigi/binfmt
+
 version: '3.9'
 services:
-  binfmt-command-runner:
-    image: binfmt-command-runner:1.0
-    container_name: binfmt-command-runner
-    hostname: binfmt-command-runner
-    #tty: true
+  binfmt:
+    image: tonistiigi/binfmt:latest
+    container_name: binfmt
+    command: --install all
+    privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
@@ -15,5 +17,3 @@ networks:
   proxy:
     driver: bridge
     external: true
-# I wanted to automatically start the emulator when the system restarted because the emulator is inoperable when the system restarts unless you manually run the command.
-# When ran, the container will be automatically stopped and its restart policy is ignored until the Docker daemon restarts or the container is manually restarted.

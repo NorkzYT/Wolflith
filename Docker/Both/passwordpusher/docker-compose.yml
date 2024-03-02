@@ -1,0 +1,37 @@
+# Installation: https://hub.docker.com/r/pglombardo/pwpush
+
+version: '3.9'
+services:
+  pwpush:
+    image: pglombardo/pwpush:1
+    container_name: pwpush
+    environment:
+      - DATABASE_URL=${PWPUSH_DATABASE_URL}
+    ports:
+      - 5100:5100
+    volumes:
+      - /opt/appdata/passwordpusher:/opt/PasswordPusher/storage:rw
+    restart: unless-stopped
+    depends_on:
+      - pwpush-postgres
+    networks:
+      - proxy
+
+  pwpush-postgres:
+    image: postgres:16
+    container_name: pwpush-postgres
+    volumes:
+      - /opt/appdata/passwordpusher/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${PWPUSH_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PWPUSH_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${PWPUSH_POSTGRES_DB}
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

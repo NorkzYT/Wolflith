@@ -1,16 +1,29 @@
+# Installation: https://github.com/cupcakearmy/cryptgeon
 version: '3.9'
-
 services:
   cryptgeon:
     image: cupcakearmy/cryptgeon:2
     container_name: cryptgeon
     environment:
+      - REDIS=${CRYPTGEON_REDIS}
       - SIZE_LIMIT=${CRYPTGEON_SIZE_LIMIT}
     ports:
       - 5800:5000
+    restart: unless-stopped
+    depends_on:
+      - cryptgeon-redis
     networks:
       - proxy
+
+  cryptgeon-redis:
+    image: redis:7-alpine
+    container_name: cryptgeon-redis
+    # Set a size limit. See link below on how to customise.
+    # https://redis.io/docs/manual/eviction/
+    # command: redis-server --maxmemory 1gb --maxmemory-policy allkeys-lru
     restart: unless-stopped
+    networks:
+      - proxy
 
 networks:
   proxy:

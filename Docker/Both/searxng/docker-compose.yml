@@ -1,9 +1,10 @@
+# Installation: https://hub.docker.com/r/searxng/searxng
+
 version: '3.9'
 services:
   searxng:
+    image: searxng/searxng:2024.3.1-858b2071d
     container_name: searxng
-    image: searxng/searxng:2023.5.22-b2d0b743
-    hostname: searxng
     volumes:
       - /opt/appdata/searxng:/etc/searxng
     environment:

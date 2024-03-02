@@ -1,23 +1,23 @@
+# Installation: https://hub.docker.com/r/linuxserver/syncthing
+
 version: '3.9'
 services:
   syncthing:
     image: linuxserver/syncthing:1.27.3
     container_name: syncthing
-    hostname: syncthing
     environment:
       - PUID=${SYNCTHING_PUID}
       - PGID=${SYNCTHING_PGID}
       - TZ=${SYNCTHING_TZ}
     volumes:
-      - /opt/appdata/syncthing/config:/config
+      - /opt/appdata/syncthing:/config
       - /opt/appdata/:/machine-appdata
     ports:
-      - 1020:8384
-      - 1021:22000
-      - 1022:21027/udp
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
     networks:
       - proxy
 

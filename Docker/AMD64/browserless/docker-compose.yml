@@ -1,9 +1,9 @@
+# Installation: https://www.browserless.io/docs/docker-quickstart
 version: '3.9'
 services:
   browserless:
     image: browserless/chrome:1-puppeteer-1.20.0
     container_name: browserless
-    hostname: browserless
     environment:
       - DEBUG=${BROWSERLESS_DEBUG}
       - MAX_CONCURRENT_SESSIONS=${BROWSERLESS_MAX_CONCURRENT_SESSIONS}

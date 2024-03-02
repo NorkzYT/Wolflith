@@ -1,9 +1,9 @@
+# Installation: https://hub.docker.com/r/binhex/arch-krusader
 version: '3.9'
 services:
   krusader:
     container_name: krusader
     image: binhex/arch-krusader:2.7.2-4-01
-    hostname: krusader
     privileged: true
     ports:
       - 5900:5900

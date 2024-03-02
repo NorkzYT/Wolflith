@@ -1,17 +1,18 @@
+# Installation: https://hub.docker.com/r/jlesage/putty
+
 version: '3.9'
 services:
   putty:
-    container_name: putty
     image: jlesage/putty:v24.01.1
-    hostname: putty
+    container_name: putty
     environment:
       - TZ=${PUTTY_TZ}
       - DISPLAY_WIDTH=${PUTTY_DISPLAY_WIDTH}
       - DISPLAY_HEIGHT=${PUTTY_DISPLAY_HEIGHT}
       - SECURE_CONNECTION=${PUTTY_SECURE_CONNECTION}
       - ENABLE_CJK_FONT=${PUTTY_ENABLE_CJK_FONT}
-      - PUID=${PUTTY_PUID}
-      - PGID=${PUTTY_PGID}
+      - USER_ID=${PUTTY_USER_ID}
+      - GROUP_ID=${PUTTY_GROUP_ID}
       - UMASK=${PUTTY_UMASK}
     ports:
       - 7818:5800

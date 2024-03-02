@@ -1,13 +1,11 @@
+# Installation: https://hub.docker.com/r/amir20/dozzle
 version: '3.9'
 services:
   dozzle:
     container_name: dozzle
-    image: amir20/dozzle:v6.2.4
-    hostname: dozzle
+    image: amir20/dozzle:v6.2.5
     environment:
-      - DOZZLE_USERNAME=${DOZZLE_USERNAME}
-      - DOZZLE_PASSWORD=${DOZZLE_PASSWORD}
-      - DOZZLE_KEY=${DOZZLE_KEY}
+      - DOZZLE_HOSTNAME=${DOZZLE_HOSTNAME}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:

@@ -1,9 +1,9 @@
+# Installation: https://dashy.to/docs/deployment#using-docker-compose
 version: '3.9'
 services:
   dashy:
     image: lissy93/dashy:2.1.1
     container_name: Dashy
-    hostname: Dashy
     # Pass in your config file below, by specifying the path on your host machine
     volumes:
       - /opt/appdata/dashy/my-config.yml:/app/public/conf.yml

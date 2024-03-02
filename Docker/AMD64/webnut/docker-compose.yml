@@ -1,9 +1,9 @@
+# Installation: https://github.com/rshipp/webNUT
 version: '3.9'
 services:
   nut:
     image: teknologist/webnut
     container_name: webnut
-    hostname: nut
     environment:
       - UPS_HOST=${NUT_UPS_HOST}
       - UPS_PORT=${NUT_UPS_PORT}

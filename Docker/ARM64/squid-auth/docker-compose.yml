@@ -1,9 +1,9 @@
+# Installation: https://hub.docker.com/r/robhaswell/squid-authenticated
 version: '3.9'
 services:
   squid:
     image: robhaswell/squid-authenticated
     container_name: squid-auth
-    hostname: squid-auth
     environment:
       - SQUID_USERNAME=${SQUID_USERNAME}
       - SQUID_PASSWORD=${SQUID_PASSWORD}

@@ -1,8 +1,9 @@
+# Installation: https://github.com/zekroTJA/shinpuru
 version: '3.9'
-
 services:
   minio-shinpuru:
     image: minio/minio:latest
+    container_name: minio-shinpuru
     expose:
       - '9000'
     volumes:
@@ -18,6 +19,7 @@ services:
 
   redis-shinpuru:
     image: redis:latest
+    container_name: redis-shinpuru
     expose:
       - '6379'
     restart: always
@@ -26,6 +28,7 @@ services:
 
   mysql-shinpuru:
     image: mariadb:latest
+    container_name: mysql-shinpuru
     expose:
       - '3306'
     environment:
@@ -40,6 +43,7 @@ services:
 
   shinpuru:
     image: ghcr.io/zekrotja/shinpuru:latest
+    container_name: shinpuru
     volumes:
       - /opt/appdata/shinpuru/config:/etc/config
       - /opt/appdata/shinpuru/cert:/etc/cert

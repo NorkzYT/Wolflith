@@ -1,0 +1,24 @@
+# Installation: https://hub.docker.com/r/linuxserver/kasm
+
+version: '3.9'
+services:
+  kasm:
+    image: linuxserver/kasm:1.15.0
+    container_name: kasm
+    privileged: true
+    environment:
+      - KASM_PORT='443'
+    volumes:
+      - /opt/appdata/kasm/data:/opt
+      - /opt/appdata/kasm/profiles:/profiles # Optionally specify a path for persistent profile storage.
+    ports:
+      - 3000:3000
+      - 443:443
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
