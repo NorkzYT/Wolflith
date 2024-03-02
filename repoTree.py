@@ -44,13 +44,13 @@ def print_tree(path, indent, tree_lines, ignore_list, root_path):
             continue
         if os.path.isdir(entry_path):
             tree_lines.append(
-                f"{indent}- [**{entry}**](./{os.path.relpath(entry_path, root_path).replace(os.sep, '/')})"
+                f"{indent}- [**{entry}**](./{os.path.relpath(entry_path, root_path).replace(os.sep, '/').replace(' ', '%20')})"
             )
             new_indent = indent + "  "
             print_tree(entry_path, new_indent, tree_lines, ignore_list, root_path)
         else:
             tree_lines.append(
-                f"{indent}- [{entry}](./{os.path.relpath(entry_path, root_path).replace(os.sep, '/')})"
+                f"{indent}- [{entry}](./{os.path.relpath(entry_path, root_path).replace(os.sep, '/').replace(' ', '%20')})"
             )
 
 
