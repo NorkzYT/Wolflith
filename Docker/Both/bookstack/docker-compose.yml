@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   bookstack:
-    image: linuxserver/bookstack:23.12.3
+    image: linuxserver/bookstack:24.02.20240304
     container_name: bookstack
     environment:
       - PUID=${BOOKSTACK_PUID}
