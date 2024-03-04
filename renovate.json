@@ -1,8 +1,10 @@
 {
+	"assignees": ["NorkzYT"],
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:base", ":dependencyDashboard"],
+	"extends": ["config:base", ":dependencyDashboard", ":rebaseStalePrs"],
 	"timezone": "America/New_York",
 	"schedule": ["after 10pm and before 5am every weekday", "every weekend"],
+	"labels": ["dependencies", "renovate"],
 	"kubernetes": {
 		"fileMatch": ["k8s/.+\\.yaml$"]
 	},
@@ -11,6 +13,18 @@
 			"matchDatasources": ["docker"],
 			"automerge": true,
 			"autoApprove": true
+		},
+		{
+			"matchDepTypes": ["devDependencies"],
+			"matchPackagePatterns": ["lint", "prettier"],
+			"automerge": true
+		},
+		{
+			"matchUpdateTypes": ["minor", "patch"],
+			"matchCurrentVersion": "!/^0/",
+			"labels": ["minor", "dependencies", "renovate"],
+			"internalChecksFilter": "strict",
+			"minimumReleaseAge": "3 days"
 		}
 	]
 }
