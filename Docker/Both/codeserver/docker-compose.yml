@@ -8,6 +8,7 @@ services:
       context: .
       dockerfile: dockerfile
     container_name: codeserver
+    hostname: codeserver
     environment:
       - PUID=${CODE_SERVER_PUID}
       - PGID=${CODE_SERVER_PGID}
