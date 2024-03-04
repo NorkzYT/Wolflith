@@ -9,7 +9,7 @@
 ifolder="/opt/Wolflith"
 
 # Update and install necessary packages
-apt update && apt install -y sudo curl git make nodejs
+apt update && apt install -y sudo curl git make nodejs npm
 
 # Install bun globally
 npm install -g bun
@@ -26,8 +26,12 @@ if ! ping -c 1 github.com &>/dev/null; then
     exit 1
 fi
 
-# Clone Wolflith
-branch=${1:-main} # Default to main if no argument provided
+# Parse branch argument correctly
+branch="main" # Default branch
+if [[ "$1" == "--branch="* ]]; then
+    branch="${1#*=}" # Extract branch name after "="
+fi
+
 echo "Cloning Wolflith from branch $branch..."
 if git clone --branch "$branch" https://github.com/NorkzYT/Wolflith.git $ifolder; then
     echo "Successfully cloned Wolflith from branch $branch."

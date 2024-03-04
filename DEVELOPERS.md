@@ -39,9 +39,9 @@ To contribute code, you must fork the [Wolflith repo](https://github.com/NorkzYT
 
    ```bash
    mkdir -p /opt/Wolflith
-   wget -qO /opt/Wolflith/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/Wolflith/main/PCSMenu/PCSInstall.sh --branch="main"
-   chmod +x /opt/Wolflith/PCSInstall.sh
-   sudo /opt/Wolflith/PCSInstall.sh
+   wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/Wolflith/main/PCSMenu/PCSInstall.sh
+   chmod +x /opt/PCSInstall.sh
+   sudo /opt/PCSInstall.sh --branch="main"
    ```
 
 2. Go to the Wolflith directory:
