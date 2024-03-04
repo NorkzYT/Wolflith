@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   nginx-proxy-manager:
-    image: jc21/nginx-proxy-manager:2
+    image: jc21/nginx-proxy-manager:v3
     container_name: nginx-proxy-manager
     restart: unless-stopped
     ports:
