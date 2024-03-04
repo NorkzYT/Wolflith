@@ -28,7 +28,7 @@ function provision_docker_services_on_lxc() {
             bash "/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/selectService.sh"
 
             cyanprint "Setting up Docker service..."
-            bash "/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/setupService.sh"
+            bash "/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/setupService.sh" --return-menu
 
             cyanprint "Provisioning Docker service..."
             bash "/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/provisionDockerService.sh"
@@ -71,6 +71,7 @@ function provision_docker_services_on_lxc() {
 
         elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
             magentaprint "Operation canceled. Returning to the main menu..."
+            sleep 1
             proxmox_menu
             return
         else

@@ -1,5 +1,5 @@
 # Installation: https://docs.firefly-iii.org/how-to/firefly-iii/installation/docker/
-#TODO - Add Documentation links to every Docker Service of Installation - As well as change the .env.example to be the official values.
+
 version: '3.9'
 services:
   fireflyiii:

@@ -128,18 +128,6 @@ function menu_bar() {
     printf "$Color_Off"
 }
 
-### Main Menu Options ###
-function main_options() {
-
-    printf "$Cyan"
-    printf "1) A. Linux        2) B. Proxmox   3) C. Docker"
-    printf "\n"
-    printf "4) D. Ansible      5) E. Tools"
-    printf "$Color_Off"
-    echo ""
-
-}
-
 ### Cursor placement/Main ###
 function move_cursor() { # With color
 
@@ -219,13 +207,6 @@ function invalid_input() {
 ### Invalid key ###
 function invalid_answer() {
     echo "Invalid answer. Please enter 'yes' or 'no'."
-    sleep 2
+    sleep 1
     clear
-}
-
-#####################################################################################################################################################################
-
-function ansible_message() {
-    printf "\nConfigure "Ansible/inventory/hosts.yaml" with the second option before choosing any other options!\n\n"
-
 }

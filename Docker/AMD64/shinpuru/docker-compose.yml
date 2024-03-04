@@ -1,4 +1,5 @@
 # Installation: https://github.com/zekroTJA/shinpuru
+
 version: '3.9'
 services:
   minio-shinpuru:

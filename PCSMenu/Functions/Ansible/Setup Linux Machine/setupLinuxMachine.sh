@@ -106,7 +106,7 @@ execute_ansible_playbooks() {
     run_playbook() {
         local playbook=$1
         blueprint "Running playbook: $playbook"
-        if ! ansible-playbook "/opt/Wolflith/Ansible/playbooks/$playbook.yml" -i "$HOSTS_FILE" $LIMIT_OPTION; then
+        if ! ansible-playbook "/opt/Wolflith/Ansible/playbooks/$playbook.yml" -i "$HOSTS_FILE" "$LIMIT_OPTION"; then
             redprint "Failed to execute playbook: $playbook"
             return 1
         fi

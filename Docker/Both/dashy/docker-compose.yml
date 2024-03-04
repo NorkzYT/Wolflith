@@ -1,4 +1,5 @@
 # Installation: https://dashy.to/docs/deployment#using-docker-compose
+
 version: '3.9'
 services:
   dashy:

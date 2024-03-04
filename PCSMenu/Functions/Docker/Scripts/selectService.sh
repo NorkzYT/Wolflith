@@ -18,8 +18,8 @@ declare -a both_services
 
 # Populate arrays based on architecture
 while IFS= read -r -d '' file; do
-    relative_path="${file#$DOCKER_FOLDER/}"  # Get the relative path from DOCKER_FOLDER
-    relative_dir=$(dirname "$relative_path") # Get the directory path without the filename
+    relative_path="${file#"$DOCKER_FOLDER"/}" # Get the relative path from DOCKER_FOLDER
+    relative_dir=$(dirname "$relative_path")  # Get the directory path without the filename
     if [[ "$file" == *"/AMD64/"* ]]; then
         amd64_services+=("$relative_dir")
     elif [[ "$file" == *"/ARM64/"* ]]; then
@@ -29,11 +29,10 @@ while IFS= read -r -d '' file; do
     fi
 done < <(find "$DOCKER_FOLDER" -mindepth 3 -type f -name 'docker-compose.yml' -print0)
 
-# Sort the arrays alphabetically
-IFS=$'\n' amd64_services=($(sort -u <<<"${amd64_services[*]}")) # -u to remove duplicates
-IFS=$'\n' arm64_services=($(sort -u <<<"${arm64_services[*]}"))
-IFS=$'\n' both_services=($(sort -u <<<"${both_services[*]}"))
-unset IFS
+# Sort the arrays alphabetically and remove duplicates
+mapfile -t amd64_services < <(printf '%s\n' "${amd64_services[@]}" | sort -u)
+mapfile -t arm64_services < <(printf '%s\n' "${arm64_services[@]}" | sort -u)
+mapfile -t both_services < <(printf '%s\n' "${both_services[@]}" | sort -u)
 
 # Combine arrays
 services=("${amd64_services[@]}" "${arm64_services[@]}" "${both_services[@]}")
@@ -61,7 +60,7 @@ for i in "${!services[@]}"; do
     ((current_column++))
 
     # Check if we need to move to a new line
-    if [ $current_column -eq $max_columns ]; then
+    if [ "$current_column" -eq $max_columns ]; then
         echo ""          # Move to a new line
         current_column=0 # Reset column count
     fi

@@ -1,4 +1,5 @@
 # Installation: https://kasmweb.com/docs/latest/guide/custom_images.html
+
 version: '3.9'
 services:
   kasmweb-discord:

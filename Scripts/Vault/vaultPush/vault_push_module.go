@@ -2,7 +2,6 @@ package vaultpush
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -50,7 +49,7 @@ func PushSecrets(repoLocation string) {
 
 // pushSecrets processes a single .env file, adding its contents to a map for later pushing to Vault.
 func pushSecrets(filename string, client *vault.Client, secretData map[string]interface{}) {
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		log.Printf("Failed to open file: %v", err)
 		return

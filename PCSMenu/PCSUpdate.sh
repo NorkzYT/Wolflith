@@ -8,7 +8,7 @@
 source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Go to specific directory
-cd "/opt/Wolflith"
+cd "/opt/Wolflith" || exit
 
 # Fetch the latest changes from the main branch
 git fetch origin main

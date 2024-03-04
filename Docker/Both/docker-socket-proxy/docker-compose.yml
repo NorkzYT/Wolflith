@@ -1,16 +1,15 @@
-# Installation: https://hub.docker.com/r/amir20/dozzle
+# Installation: https://hub.docker.com/r/tecnativa/docker-socket-proxy
 
 version: '3.9'
 services:
-  dozzle:
-    container_name: dozzle
-    image: amir20/dozzle:v6.2.5
-    environment:
-      - DOZZLE_HOSTNAME=${DOZZLE_HOSTNAME}
+  dockersocket:
+    image: tecnativa/docker-socket-proxy
+    container_name: dockersocket
+    privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 2123:8080
+      - 2375:2375
     restart: unless-stopped
     networks:
       - proxy

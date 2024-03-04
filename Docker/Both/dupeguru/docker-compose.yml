@@ -1,4 +1,5 @@
 # Installation: https://github.com/jlesage/docker-dupeguru
+
 version: '3.9'
 services:
   dupeguru:

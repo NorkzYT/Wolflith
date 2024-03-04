@@ -1,4 +1,5 @@
 # Installation: https://hub.docker.com/r/linuxserver/bookstack
+
 version: '3.9'
 services:
   bookstack:

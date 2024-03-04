@@ -1,4 +1,5 @@
 # Installation: https://www.browserless.io/docs/docker-quickstart
+
 version: '3.9'
 services:
   browserless:

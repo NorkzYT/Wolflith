@@ -46,11 +46,10 @@ sudo chmod +x /etc/profile.d/PCSMenu.sh /etc/profile.d/PCSUpdate.sh
 
 # Source PCSFunc if available
 [[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/PCSFunc.sh
-[[ -f /opt/Wolflith/PCSMenu/PersonalizationFunc.sh ]] && source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 [[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
 
 # Go to directory
-cd $ifolder
+cd $ifolder || exit
 
 # Run Setup
 if make setup; then

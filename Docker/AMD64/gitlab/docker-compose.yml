@@ -1,4 +1,5 @@
 # Installation: https://docs.gitlab.com/ee/install/docker.html
+
 version: '3.9'
 services:
   gitlab:

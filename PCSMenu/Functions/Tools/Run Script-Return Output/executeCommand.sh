@@ -25,13 +25,9 @@ function execute_linux_command_via_ansible() {
             fi
 
             # Execute the Ansible playbook for the specified target(s), capturing output
-            output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='$user_command'" 2>&1)
-
-            # Always display the output, regardless of playbook execution status
-            echo "$output"
-
-            if [[ $? -ne 0 ]]; then
-                redprint "An error occurred during playbook execution."
+            if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='$user_command'" 2>&1); then
+                redprint "An error occurred during playbook execution:"
+                echo "$output" # Display the captured error output
 
                 yellowprint "Error occurred, press 'x' to exit."
                 read -n 1 -r key

@@ -63,6 +63,7 @@ function docker_update() {
 
         elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
             magentaprint "Operation canceled. Returning to the main menu..."
+            sleep 1
             docker_menu
             return
         else

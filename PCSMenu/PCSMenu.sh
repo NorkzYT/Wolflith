@@ -67,11 +67,11 @@ list_directories_and_files() {
 display_menu() {
     local i=1
     for dir in "${DIRECTORIES[@]}"; do
-        echo -n $(yellowprint "$i) $(basename "$dir")  ")
+        echo -n "$(yellowprint "$i) $(basename "$dir") ")"
         ((i++))
     done
-    echo -n $(magentaprint "  B) Back  ")
-    echo $(cyanprint "X) Exit")
+    echo -n "$(magentaprint "  B) Back  ")"
+    cyanprint "X) Exit"
 }
 
 # Navigate through the menu

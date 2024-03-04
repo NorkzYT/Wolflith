@@ -76,7 +76,8 @@ append_machine_to_existing_group() {
     local ip_address=$3
     local port=$4
 
-    local last_host_line=$(awk "/    $group_name:/,/      vars:|  children:/{if(/        [a-zA-Z0-9_]+:/) last=NR} END {print last}" "$HOSTS_FILE")
+    local last_host_line
+    last_host_line=$(awk "/    $group_name:/,/      vars:|  children:/{if(/        [a-zA-Z0-9_]+:/) last=NR} END {print last}" "$HOSTS_FILE")
 
     if [ -n "$last_host_line" ] && [[ "$last_host_line" -gt 0 ]]; then
         greenprint "Adding $machine_name to $group_name..."
@@ -94,21 +95,24 @@ append_group_with_vars() {
     local auth_value=$4
 
     greenprint "Appending new group $group_name with vars..."
-    echo "    $group_name:" >>"$HOSTS_FILE"
-    echo "      hosts:" >>"$HOSTS_FILE"
-    echo "        $machine_name:" >>"$HOSTS_FILE"
-    echo "          ansible_host: $ip_address" >>"$HOSTS_FILE"
-    echo "          ansible_port: $port" >>"$HOSTS_FILE"
-    echo "      vars:" >>"$HOSTS_FILE"
-    echo "        ansible_user: $ansible_user" >>"$HOSTS_FILE"
-    echo "        ansible_connection: ssh" >>"$HOSTS_FILE"
-    echo "        host_key_checking: False" >>"$HOSTS_FILE"
-    if [ "$auth_method" == "ssh" ]; then
-        echo "        ansible_ssh_private_key_file: $auth_value" >>"$HOSTS_FILE"
-    elif [ "$auth_method" == "password" ]; then
-        echo "        ansible_ssh_pass: $auth_value" >>"$HOSTS_FILE"
-        echo "        ansible_become_pass: $auth_value" >>"$HOSTS_FILE"
-    fi
+
+    {
+        echo "    $group_name:"
+        echo "      hosts:"
+        echo "        $machine_name:"
+        echo "          ansible_host: $ip_address"
+        echo "          ansible_port: $port"
+        echo "      vars:"
+        echo "        ansible_user: $ansible_user"
+        echo "        ansible_connection: ssh"
+        echo "        host_key_checking: False"
+        if [ "$auth_method" == "ssh" ]; then
+            echo "        ansible_ssh_private_key_file: $auth_value"
+        elif [ "$auth_method" == "password" ]; then
+            echo "        ansible_ssh_pass: $auth_value"
+            echo "        ansible_become_pass: $auth_value"
+        fi
+    } >>"$HOSTS_FILE"
 }
 
 updateHosts() {

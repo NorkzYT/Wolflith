@@ -2,7 +2,6 @@ package vaultpull
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -43,7 +42,7 @@ func PullSecrets(repoLocation string) {
 
 // replaceSecrets reads a .env file, replaces secrets with values from Vault, and writes the changes back to the file.
 func replaceSecrets(filename string, client *vault.Client) {
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		log.Printf("Failed to open file: %v", err)
 		return
@@ -85,7 +84,7 @@ func replaceSecrets(filename string, client *vault.Client) {
 	}
 
 	output := strings.Join(lines, "\n")
-	err = ioutil.WriteFile(filename, []byte(output), 0644)
+	err = os.WriteFile(filename, []byte(output), 0644)
 	if err != nil {
 		log.Printf("Failed to write to file: %v", err)
 	}

@@ -21,7 +21,7 @@ HOSTS_FILE="/opt/Wolflith/Ansible/inventory/hosts.yaml"
 TARGET_HOST="$ANSIBLE_PLAYBOOK_TARGET"
 
 # Extract ansible_host (WAN IP), ansible_user (API user), and ansible_ssh_pass (API password)
-read -r api_host api_user api_password <<<$(awk -v target="$TARGET_HOST" '
+read -r api_host api_user api_password <<<"$(awk -v target="$TARGET_HOST" '
 BEGIN {
     RS=""; FS="\n"
     host_found = 0; user = ""; pass = ""
@@ -56,7 +56,7 @@ END {
     } else {
         print host, user, pass
     }
-}' "$HOSTS_FILE")
+}' "$HOSTS_FILE")"
 
 # Use color functions to print headers and information
 blueprint "Configuration for Proxmox LXC Provisioning"
