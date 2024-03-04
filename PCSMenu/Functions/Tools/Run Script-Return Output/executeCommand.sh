@@ -9,11 +9,11 @@ function execute_linux_command_via_ansible() {
     default_menu_screen
     printf "This option will ask you which Linux command you want to run that returns an output. (e.g., lshw -c display)\n"
     while true; do
-        read -p "Do you still want to run this command? (yes/no) " run_command
+        read -rp "Do you still want to run this command? (yes/no) " run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
-            read -p "Please enter the Linux command you wish to run: " user_command
+            read -rp "Please enter the Linux command you wish to run: " user_command
             echo "Do you want to run the playbook for all machines listed in hosts.yaml? (y/n)"
             read -r run_for_all
 
@@ -25,13 +25,9 @@ function execute_linux_command_via_ansible() {
             fi
 
             # Execute the Ansible playbook for the specified target(s), capturing output
-            output=$(ansible-playbook /opt/wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='$user_command'" 2>&1)
-
-            # Always display the output, regardless of playbook execution status
-            echo "$output"
-
-            if [[ $? -ne 0 ]]; then
-                redprint "An error occurred during playbook execution."
+            if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='$user_command'" 2>&1); then
+                redprint "An error occurred during playbook execution:"
+                echo "$output" # Display the captured error output
 
                 yellowprint "Error occurred, press 'x' to exit."
                 read -n 1 -r key

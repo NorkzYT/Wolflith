@@ -1,17 +1,18 @@
+# Installation: https://github.com/pterodactyl/panel
+# Info:
+# chmod -R 600 /opt/appdata/pterodactyl-panel/game.data/config.yml -- IF Panel changes configuration and breaks the node.
+
 version: '3.9'
 services:
   pterodactyl-panel:
     image: ccarney16/pterodactyl-panel:v1.11.5
     container_name: pterodactyl-panel
-    hostname: pterodactyl-panel
     ports:
       - 8025:80
-    # chmod -R 600 /opt/appdata/pterodactyl/panel/game.data/config.yml -- IF Panel changes configuration and breaks the node.
     volumes:
-      - /opt/appdata/pterodactyl-panel/appdata/:/data #Appdata
-      - /opt/appdata/pterodactyl-wings:/etc/pterodactyl #Where config.yml goes into. #Appdata
-      - /opt/appdata/pterodactyl-wings/data:/opt/appdata/pterodactyl-wings/data #Shared data between Panel and Wings.
-      - /opt/appdata/pterodactyl-panel/nginx/:/etc/nginx/conf.d/ #Nginx Config
+      - /opt/appdata/pterodactyl-panel/:/app/var/ # Appdata
+      - /opt/appdata/pterodactyl-wings:/etc/pterodactyl # Where config.yml goes into. # Appdata
+      - /opt/appdata/pterodactyl-wings/data:/opt/appdata/pterodactyl-wings/data # Shared data between Panel and Wings.
     environment:
       - APP_ENV=${PTERODACTYL_PANEL_APP_ENV}
       - APP_ENVIRONMENT_ONLY=${PTERODACTYL_PANEL_APP_ENVIRONMENT_ONLY}
@@ -39,6 +40,43 @@ services:
       - DB_USER=${PTERODACTYL_PANEL_DB_USER}
       - DB_PASSWORD=${PTERODACTYL_PANEL_DB_PASSWORD}
       - DB_DATABASE=${PTERODACTYL_PANEL_DB_DATABASE}
+    restart: unless-stopped
+    depends_on:
+      - pterodactyl-redis
+      - pterodactyl-mariadb
+    networks:
+      - proxy
+
+  pterodactyl-redis:
+    image: redis:7.2.4
+    container_name: pterodactyl-redis
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: [CMD-SHELL, redis-cli ping | grep PONG]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  pterodactyl-mariadb:
+    image: linuxserver/mariadb:10.11.6
+    container_name: pterodactyl-mariadb
+    environment:
+      - PUID=${PTERODACTYL_MARIADB_PUID}
+      - PGID=${PTERODACTYL_MARIADB_PGID}
+      - MYSQL_ROOT_PASSWORD=${PTERODACTYL_MARIADB_PASSWORD}
+      - TZ=${PTERODACTYL_MARIADB_TZ}
+      - MYSQL_DATABASE=${PTERODACTYL_MARIADB_DATABASE}
+      - MYSQL_USER=${PTERODACTYL_MARIADB_USER}
+      - MYSQL_PASSWORD=${PTERODACTYL_MARIADB_PASSWORD}
+    volumes:
+      - /opt/appdata/pterodactyl-panel/mariadb:/config
+    ports:
+      - 3306:3306
     restart: unless-stopped
     networks:
       - proxy

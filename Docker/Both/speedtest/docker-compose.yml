@@ -1,9 +1,10 @@
+# Installation: https://hub.docker.com/r/henrywhitaker3/speedtest-tracker
+
 version: '3.9'
 services:
   speedtest:
+    image: henrywhitaker3/speedtest-tracker:dev
     container_name: speedtest
-    image: henrywhitaker3/speedtest-tracker:dev-arm
-    hostname: speedtest
     volumes:
       - /opt/appdata/speedtest:/config
     environment:

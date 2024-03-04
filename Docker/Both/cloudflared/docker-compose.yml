@@ -1,3 +1,5 @@
+# Installation: https://hub.docker.com/r/cloudflare/cloudflared
+
 version: '3.9'
 services:
   cloudflared:
@@ -5,12 +7,17 @@ services:
     container_name: cloudflared
     restart: unless-stopped
     network_mode: host
-    command: tunnel run --token ${CLOUDFLARED_TUNNEL_TOKEN}
-    environment:
-      - PUID=${CLOUDFLARED_PUID}
-      - PGID=${CLOUDFLARED_PGID}
-      - TUNNEL_TOKEN=${CLOUDFLARED_TUNNEL_TOKEN}
+    command: tunnel run --config /etc/cloudflared/config.yml --token ${CLOUDFLARED_TUNNEL_TOKEN}
     volumes:
       - ./config/:/etc/cloudflared/
+    networks:
+      - proxy
 #    extra_hosts:
-#      - "vps.domain.com:127.0.0.1"                  # Only necessary on some VPS machines if Cloudflared does not connect properly.
+#      - "vps.domain.com:127.0.0.1"
+
+# ^ Only necessary on some VPS machines if Cloudflared does not connect properly.
+# (domain/sub domain that contains the same tunnelID)
+networks:
+  proxy:
+    driver: bridge
+    external: true

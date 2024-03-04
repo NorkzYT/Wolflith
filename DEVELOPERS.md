@@ -1,21 +1,20 @@
-# Developing wolflith
+# Developing Wolflith
 
-- [Developing wolflith](#developing-wolflith)
+- [Developing Wolflith](#developing-Wolflith)
   - [Getting started](#getting-started)
     - [Install dependencies](#install-dependencies)
   - [Local development](#local-development)
-    - [Fork the repo](#fork-the-repo)
-    - [Clone the repo](#clone-the-repo)
+    - [Fork the repo](#auto-setup)
+    - [Auto Setup](#clone-the-repo)
     - [Install dependencies](#install-dependencies)
-    - [Get Started](#get-started)
   - [Create a pull request](#create-a-pull-request)
   - [Issue assignment](#issue-assignment)
 
 ## Getting started
 
-Thank you for your interest in wolflith and your willingness to contribute!
+Thank you for your interest in Wolflith and your willingness to contribute!
 
-We encourage you to explore the existing [issues](https://github.com/NorkzYT/wolflith/issues) to see how you can make a meaningful impact. This document will help you setup your development environment.
+We encourage you to explore the existing [issues](https://github.com/NorkzYT/Wolflith/issues) to see how you can make a meaningful impact. This document will help you setup your development environment.
 
 ### Install dependencies
 
@@ -32,22 +31,22 @@ You will need to install and configure the following dependencies on your linux 
 
 ### Fork the repo
 
-To contribute code, you must fork the [wolflith repo](https://github.com/NorkzYT/wolflith).
+To contribute code, you must fork the [Wolflith repo](https://github.com/NorkzYT/Wolflith).
 
 ### Auto Setup
 
 1. Clone your GitHub forked repo:
 
    ```bash
-   mkdir -p /opt/wolflith
-   wget -qO /opt/wolflith/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/wolflith/main/PCSMenu/PCSInstall.sh
-   chmod +x /opt/wolflith/PCSInstall.sh
-   sudo /opt/wolflith/PCSInstall.sh
+   mkdir -p /opt/Wolflith
+   wget -qO /opt/Wolflith/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/Wolflith/main/PCSMenu/PCSInstall.sh
+   chmod +x /opt/Wolflith/PCSInstall.sh
+   sudo /opt/Wolflith/PCSInstall.sh
    ```
 
-2. Go to the wolflith directory:
+2. Go to the Wolflith directory:
    ```sh
-   cd /opt/wolflith
+   cd /opt/Wolflith
    ```
 
 ## Create a pull request

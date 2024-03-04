@@ -1,9 +1,10 @@
+# Installation: https://github.com/laurent22/joplin/blob/dev/packages/server/README.md
+
 version: '3.9'
 services:
   joplin:
     container_name: joplin
     image: etechonomy/joplin-server:2.14.2
-    hostname: joplin
     environment:
       - APP_PORT=${JOPLIN_APP_PORT}
       - APP_BASE_URL=${JOPLIN_APP_BASE_URL}
@@ -30,16 +31,15 @@ services:
   joplin-postgres:
     image: postgres:16.2
     container_name: joplin-postgres
-    hostname: joplin-postgres
     volumes:
-      - /opt/appdata/joplin-postgres:/var/lib/postgresql/data
+      - /opt/appdata/joplin/postgres:/var/lib/postgresql/data
     ports:
       - 5255:5432
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=${JOPLIN_POSTGRES_POSTGRES_PASSWORD}
-      - POSTGRES_USER=${JOPLIN_POSTGRES_POSTGRES_USER}
-      - POSTGRES_DB=${JOPLIN_POSTGRES_POSTGRES_DB}
+      - POSTGRES_PASSWORD=${JOPLIN_POSTGRES_PASSWORD}
+      - POSTGRES_USER=${JOPLIN_POSTGRES_USER}
+      - POSTGRES_DB=${JOPLIN_POSTGRES_DATABASE}
     networks:
       - proxy
 

@@ -1,9 +1,11 @@
+# Installation: https://github.com/tubearchivist/tubearchivist
+
 version: '3.9'
 services:
   tubearchivist:
+    image: bbilly1/tubearchivist:v0.4.6
     container_name: tubearchivist
     restart: unless-stopped
-    image: bbilly1/tubearchivist
     ports:
       - 8953:8000
     volumes:
@@ -48,7 +50,6 @@ services:
       - ES_JAVA_OPTS=${ARCHIVIST_ES_ES_JAVA_OPTS}
       - xpack.security.enabled=${ARCHIVIST_ES_xpack.security.enabled}
       - discovery.type=${ARCHIVIST_ES_discovery.type}
-      - bootstrap.memory_lock=${ARCHIVIST_ES_bootstrap.memory_lock}
       - path.repo=${ARCHIVIST_ES_path.repo}
     volumes:
       - /opt/appdata/tubearchivist-es:/usr/share/elasticsearch/data

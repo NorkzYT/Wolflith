@@ -3,6 +3,9 @@
 		"esbenp.prettier-vscode", // Prettier - Code formatter
 		"foxundermoon.shell-format", // shell-format - Code formatter
 		"ms-python.black-formatter", // Black Formatter - Code formatter
+		"golang.go", // Go - Code formatter
+		"timonwong.shellcheck", // ShellCheck - Shell Linter
+		"ms-azuretools.vscode-docker", // Docker
 		"eamodio.gitlens", // GitLens — Git supercharged
 		"aaron-bond.better-comments", // Better Comments
 		"oderwat.indent-rainbow", // Indent Rainbow
@@ -14,6 +17,7 @@
 		"SonarSource.sonarlint-vscode", // SonarLint
 		"mechatroner.rainbow-csv", // Rainbow CSV
 		"PKief.material-icon-theme", // Material Icon Theme
-		"ahmadawais.shades-of-purple" // Shades of Purple
+		"ahmadawais.shades-of-purple", // Shades of Purple
+		"WakaTime.vscode-wakatime" // WakaTime
 	]
 }

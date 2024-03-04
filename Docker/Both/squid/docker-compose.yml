@@ -1,16 +1,18 @@
+# Installation: https://hub.docker.com/r/ubuntu/squid
+
 version: '3.9'
 services:
   squid:
     image: ubuntu/squid:5.7-23.04_edge
     container_name: squid
-    hostname: squid
     environment:
       - TZ=${SQUID_TZ}
     volumes:
       - /opt/appdata/squid/logs:/var/log/squid # Volume to store squid logs.
       - /opt/appdata/squid/data:/var/spool/squid # Volume to store the squid cache.
+      - /opt/appdata/squid/config:/etc/squid/squid.conf # Main squid configuration file.
     ports:
-      - 1019:3128
+      - 3128:3128
     restart: unless-stopped
     networks:
       - proxy

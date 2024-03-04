@@ -1,15 +1,16 @@
+# Installation: https://github.com/Forceu/Gokapi
+
 version: '3.9'
 services:
   adminer:
     image: f0rc3/gokapi:v1.8.0
     container_name: gokapi
-    hostname: gokapi
     restart: unless-stopped
     ports:
       - 53842:53842
     volumes:
-      - /opt/appdata/gokapi-data:/app/data
-      - /opt/appdata/gokapi-config:/app/config
+      - /opt/appdata/gokapi/data:/app/data
+      - /opt/appdata/gokapi/config:/app/config
     networks:
       - proxy
 

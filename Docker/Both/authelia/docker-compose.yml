@@ -1,15 +1,18 @@
+# Installation: https://hub.docker.com/r/authelia/authelia
+# https://github.com/authelia/authelia/blob/master/examples/compose/local/docker-compose.yml
+
 version: '3.9'
 services:
   authelia:
     image: authelia/authelia:4.37
     container_name: authelia
-    hostname: authelia
     volumes:
       - ./config:/config
     ports:
       - 9091:9091
     restart: unless-stopped
     healthcheck:
+      ## In production the healthcheck section should be commented.
       disable: true
     environment:
       - TZ=${AUTHELIA_TZ}

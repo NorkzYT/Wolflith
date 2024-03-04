@@ -1,3 +1,5 @@
+# Installation: https://hub.docker.com/r/linuxserver/duplicati
+
 version: '3.9'
 services:
   duplicati:
@@ -10,7 +12,7 @@ services:
       - TZ=${DUPLICATI_TZ}
       #- CLI_ARGS=${DUPLICATI_CLI_ARGS}  #optional
     volumes:
-      - /opt/appdata/duplicati:/config
+      - /opt/appdata/duplicati/config:/config
       - /opt/appdata/duplicati/backups:/backups
       - /opt/appdata/duplicati/source:/source
     ports:

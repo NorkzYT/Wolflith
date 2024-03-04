@@ -1,9 +1,17 @@
+# Installation: https://hub.docker.com/r/hashicorp/vault
+
+# “core: seal configuration missing, not initialized” error -
+# Usually this error is shown when the Vault’s storage backend is not initialized. -
+# You can initialize it with `vault operator init`.
+
+# https://www.misterpki.com/vault-docker/
+# https://www.bogotobogo.com/DevOps/Docker/Docker-Vault-Consul-B.php
+
 version: '3.9'
 services:
   hashicorp-vault-server:
+    image: hashicorp/vault:1.15
     container_name: hashicorp-vault-server
-    hostname: hashicorp-vault-server
-    image: vault:1.13.3
     ports:
       - 1031:8200
     volumes:
@@ -24,9 +32,3 @@ networks:
   proxy:
     driver: bridge
     external: true
-# “core: seal configuration missing, not initialized” error -
-# Usually this error is shown when the Vault’s storage backend is not initialized. -
-# You can initialize it with `vault operator init`.
-
-# https://www.misterpki.com/vault-docker/
-# https://www.bogotobogo.com/DevOps/Docker/Docker-Vault-Consul-B.php

@@ -10,7 +10,7 @@ function provision_docker_compose_service() {
     printf "This option will ask you which Linux command you want to run that returns an output."
     echo ""
     while true; do
-        read -p "Do you still want to run this command? (yes/no) " run_command
+        read -rp "Do you still want to run this command? (yes/no) " run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
@@ -25,7 +25,7 @@ function provision_docker_compose_service() {
             fi
 
             # Execute the Ansible playbook for the specified target(s), capturing output
-            if ! output=$(ansible-playbook /opt/wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='sudo lshw -c display'" 2>&1); then
+            if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='sudo lshw -c display'" 2>&1); then
                 redprint "An error occurred during playbook execution:"
                 echo "$output" # Display the captured error output
 

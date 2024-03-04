@@ -1,0 +1,39 @@
+# Installation: https://github.com/TwiN/gatus#docker
+
+version: '3.9'
+services:
+  gatus:
+    image: twinproduction/gatus:v5.7.0
+    container_name: gatus
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./config:/config
+    environment:
+      - POSTGRES_DB=${GATUS_POSTGRES_DB}
+      - POSTGRES_USER=${GATUS_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${GATUS_POSTGRES_PASSWORD}
+    restart: unless-stopped
+    depends_on:
+      - gatus-postgres
+    networks:
+      - proxy
+
+  gatus-postgres:
+    image: postgres:12-alpine3.19
+    container_name: gatus-postgres
+    volumes:
+      - /opt/appdata/gatus-postgres/data/db:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=${GATUS_POSTGRES_DB}
+      - POSTGRES_USER=${GATUS_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${GATUS_POSTGRES_PASSWORD}
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

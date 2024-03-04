@@ -1,9 +1,10 @@
+# Installation: https://hub.docker.com/r/beryju/authentik
+
 version: '3.9'
 services:
-  authentik:
+  server:
     image: beryju/authentik:2024.2
     container_name: authentik
-    hostname: authentik
     restart: unless-stopped
     command: server
     environment:
@@ -14,9 +15,6 @@ services:
       - AUTHENTIK_POSTGRESQL__PASSWORD=${AUTHENTIK_POSTGRESQL__PASSWORD}
       - AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING__ENABLED}
       - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
-      - AUTHENTIK_AUTHENTIK__GEOIP=${AUTHENTIK_AUTHENTIK__GEOIP}
-      - GEOIPUPDATE_ACCOUNT_ID=${AUTHENTIK_GEOIPUPDATE_ACCOUNT_ID}
-      - GEOIPUPDATE_LICENSE_KEY=${AUTHENTIK_GEOIPUPDATE_LICENSE_KEY}
     volumes:
       - /opt/appdata/authentik/media:/media
       - /opt/appdata/authentik/custom-templates:/templates
@@ -25,58 +23,78 @@ services:
     ports:
       - 9815:9000
       - 9816:9443
+    depends_on:
+      - postgresql-authentik
+      - redis-authentik
     networks:
       - proxy
 
   worker:
     image: beryju/authentik:2024.2
     container_name: authentik_worker
-    hostname: authentik_worker
     restart: unless-stopped
     command: worker
     environment:
-      - AUTHENTIK_REDIS__HOST=${WORKER_AUTHENTIK_REDIS__HOST}
-      - AUTHENTIK_POSTGRESQL__HOST=${WORKER_AUTHENTIK_POSTGRESQL__HOST}
-      - AUTHENTIK_POSTGRESQL__USER=${WORKER_AUTHENTIK_POSTGRESQL__USER}
-      - AUTHENTIK_POSTGRESQL__NAME=${WORKER_AUTHENTIK_POSTGRESQL__NAME}
-      - AUTHENTIK_POSTGRESQL__PASSWORD=${WORKER_AUTHENTIK_POSTGRESQL__PASSWORD}
-      - AUTHENTIK_ERROR_REPORTING__ENABLED=${WORKER_AUTHENTIK_ERROR_REPORTING__ENABLED}
-      - AUTHENTIK_SECRET_KEY=${WORKER_AUTHENTIK_SECRET_KEY}
+      - AUTHENTIK_REDIS__HOST=${AUTHENTIK_REDIS__HOST}
+      - AUTHENTIK_POSTGRESQL__HOST=${AUTHENTIK_POSTGRESQL__HOST}
+      - AUTHENTIK_POSTGRESQL__USER=${AUTHENTIK_POSTGRESQL__USER}
+      - AUTHENTIK_POSTGRESQL__NAME=${AUTHENTIK_POSTGRESQL__NAME}
+      - AUTHENTIK_POSTGRESQL__PASSWORD=${AUTHENTIK_POSTGRESQL__PASSWORD}
+      - AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING__ENABLED}
+      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
+    # `user: root` and the docker socket volume are optional.
+    # See more for the docker socket integration here:
+    # https://goauthentik.io/docs/outposts/integrations/docker
+    # Removing `user: root` also prevents the worker from fixing the permissions
+    # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
+    # (1000:1000 by default)
     user: root
     volumes:
       - /opt/appdata/authentik/media:/media
       - /opt/appdata/authentik/certs:/certs
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/appdata/authentik/custom-templates:/templates
-    networks:
-      - proxy
-
-  geoipupdate: # Optional
-    image: maxmindinc/geoipupdate:v6.1
-    container_name: geoipupdate
-    hostname: geoipupdate
-    volumes:
-      - /opt/appdata/geoip:/usr/share/GeoIP
-    environment:
-      - GEOIPUPDATE_ACCOUNT_ID=${GEOIPUPDATE_ACCOUNT_ID}
-      - GEOIPUPDATE_LICENSE_KEY=${GEOIPUPDATE_LICENSE_KEY}
-      - GEOIPUPDATE_EDITION_IDS=${GEOIPUPDATE_EDITION_IDS}
-      - GEOIPUPDATE_FREQUENCY=${GEOIPUPDATE_FREQUENCY}
-      - GEOIPUPDATE_HOST=${GEOIPUPDATE_HOST}
+    depends_on:
+      - postgresql-authentik
+      - redis-authentik
     networks:
       - proxy
 
   postgresql-authentik:
-    image: postgres:16-bullseye
+    image: postgres:12-alpine3.19
     container_name: postgresql-authentik
-    hostname: postgresql-authentik
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD=${POSTGRES_AUTHENTIK_PASSWORD}
+      - POSTGRES_USER=${AUTHENTIK_POSTGRESQL__USER}
+      - POSTGRES_DB=${AUTHENTIK_POSTGRESQL__NAME}
+      - POSTGRES_PASSWORD=${AUTHENTIK_POSTGRESQL__PASSWORD:?database password required}
+    volumes:
+      - /opt/appdata/authentik/postgresql:/var/lib/postgresql/data
     ports:
       - 5432:8080
+    networks:
+      - proxy
+
+  redis-authentik:
+    image: redis:alpine3.19
+    container_name: postgresql-authentik
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - /opt/appdata/authentik/redis:/data
+    ports:
+      - 6379:6379
     networks:
       - proxy
 

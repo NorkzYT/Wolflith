@@ -1,47 +1,47 @@
+# Installation: https://www.linkace.org/docs/v1/setup/setup-with-docker/advanced/
+
 version: '3.9'
 services:
   linkace:
-    image: linkace/linkace:simple # linkace/linkace:v1.10.5
+    image: linkace/linkace:v1.14.1
     container_name: linkace
-    hostname: linkace
     restart: unless-stopped
-    depends_on:
-      - linkace-mariadb
-      - linkace-redis
+    environment:
+      - APP_KEY=${LINKACE_APP_KEY}
+      - SETUP_COMPLETED=${LINKACE_SETUP_COMPLETED}
+      - DB_HOST=${LINKACE_DB_HOST}
+      - DB_DATABASE=${LINKACE_MARIADB_DATABASE}
+      - DB_USERNAME=${LINKACE_MARIADB_USER}
+      - DB_PASSWORD=${LINKACE_MARIADB_PASSWORD}
     ports:
       - 8255:80
     volumes:
-      - ./.env:/app/.env
       - /opt/appdata/linkace/backups:/app/storage/app/backups
       - /opt/appdata/linkace:/app/storage/logs
-      # Remove the hash of the following line if you want to use HTTPS for this container
-      #- ./nginx-ssl.conf:/etc/nginx/conf.d/default.conf:ro
-      #- /path/to/your/ssl/certificates:/certs:ro
+    depends_on:
+      - linkace-mariadb
+      - linkace-redis
     networks:
       - proxy
 
-  # --- MariaDB
   linkace-mariadb:
     image: mariadb:11.2
     container_name: linkace-mariadb
-    hostname: linkace-mariadb
     restart: unless-stopped
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     environment:
-      - MYSQL_ROOT_PASSWORD=${LINKACE_MARIADB_MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${LINKACE_MARIADB_MYSQL_USER}
-      - MYSQL_PASSWORD=${LINKACE_MARIADB_MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${LINKACE_MARIADB_MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${LINKACE_MARIADB_PASSWORD}
+      - MYSQL_USER=${LINKACE_MARIADB_USER}
+      - MYSQL_PASSWORD=${LINKACE_MARIADB_PASSWORD}
+      - MYSQL_DATABASE=${LINKACE_MARIADB_DATABASE}
     volumes:
       - /opt/appdata/linkace-mariadb:/var/lib/mysql
     networks:
       - proxy
 
-  # # --- Redis
   linkace-redis:
-    image: redis:7.2.4
+    image: bitnami/redis:7.2.4
     container_name: linkace-redis
-    hostname: linkace-redis
     restart: unless-stopped
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}

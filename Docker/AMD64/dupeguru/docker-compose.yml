@@ -1,9 +1,10 @@
+# Installation: https://github.com/jlesage/docker-dupeguru
+
 version: '3.9'
 services:
   dupeguru:
     container_name: dupeguru
     image: jlesage/dupeguru:v24.01.1
-    hostname: dupeguru
     environment:
       - TZ=${DUPEGURU_TZ}
       - DISPLAY_WIDTH=${DUPEGURU_DISPLAY_WIDTH}

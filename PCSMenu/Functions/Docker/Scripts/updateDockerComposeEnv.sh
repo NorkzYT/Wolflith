@@ -14,37 +14,8 @@ if [ -z "$1" ]; then
 fi
 
 # Define paths
-env_example_path="/home/docker/$1/.env"
-env_vars_path="/tmp/env_vars_for_ansible.yml"
-output_env_path="/home/docker/$1/.env"
-provisioning_vars_path="/tmp/provisioning_docker_service_vars.yml"
+provisioning_vars_path="/opt/Wolflith/Temp/provisioning_docker_service_vars.yml"
 docker_compose_path="/home/docker/$1/docker-compose.yml"
-
-# Check if required files exist
-if [ ! -f "$env_example_path" ] || [ ! -f "$env_vars_path" ]; then
-    echo "Required files are missing. Ensure both .env and env_vars_for_ansible.yml are present."
-    exit 1
-fi
-
-# Backup the current .env file
-cp "$env_path" "${env_path}.bak"
-
-# Iterate through each line in env_vars_for_ansible.yml
-while IFS= read -r line; do
-    # Extract the key and value, trimming quotes from the value
-    key=$(echo "$line" | cut -d '=' -f 1)
-    value=$(echo "$line" | cut -d '=' -f 2-)
-
-    # Check if key exists in .env and its value is 'xxx', then replace it
-    if grep -q "^$key='xxx'$" "$env_path"; then
-        sed -i "s|^$key='xxx'$|$key=$value|g" "$env_path"
-    elif ! grep -q "^$key=" "$env_path"; then
-        # If the key does not exist in .env, add it
-        echo "$key=$value" >>"$env_path"
-    fi
-done <"$env_vars_path"
-
-echo ".env file updated successfully."
 
 # Read variables from provisioning_docker_service_vars.yml
 network_name=$(awk '/network_name:/ {print $2}' "$provisioning_vars_path" | tr -d '"')

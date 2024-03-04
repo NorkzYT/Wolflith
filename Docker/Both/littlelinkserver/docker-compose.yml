@@ -1,9 +1,10 @@
+# Installation: https://github.com/techno-tim/littlelink-server
+
 version: '3.9'
 services:
   littlelink-server:
     image: timothystewart6/littlelink-server:latest
     container_name: littlelink-server
-    hostname: littlelink-server
     environment:
       - META_TITLE=${LITTLELINK_SERVER_META_TITLE}
       - META_DESCRIPTION=${LITTLELINK_SERVER_META_DESCRIPTION}

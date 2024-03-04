@@ -1,0 +1,41 @@
+---
+- hosts: all
+  become: true
+  vars_prompt:
+    - name: 'new_username'
+      prompt: 'Enter the username to add'
+      private: no
+    - name: 'newuser_password'
+      prompt: 'Enter the password for the new user'
+      private: yes
+
+  tasks:
+    - name: Ensure sudo is installed
+      apt:
+        name: sudo
+        state: present
+        update_cache: yes
+
+    - name: Get Linux machine name
+      shell: hostname
+      register: hostname_result
+
+    - name: Print Linux machine name
+      debug:
+        var: hostname_result.stdout
+
+    - name: Create new user
+      user:
+        name: '{{ new_username }}'
+        state: present
+        shell: /bin/bash
+        password: "{{ newuser_password | password_hash('sha512','00C0A6220') }}"
+        update_password: on_create
+      register: user_created
+
+    - name: Add new user to sudo group
+      user:
+        name: '{{ new_username }}'
+        groups: sudo
+        append: yes
+      when: user_created is changed

@@ -1,11 +1,14 @@
+# Installation: https://hub.docker.com/r/cturra/ntp
+
 version: '3.9'
 services:
   ntp:
     image: cturra/ntp:latest
     container_name: ntp
-    hostname: ntp
     environment:
       - NTP_SERVERS=${NTP_SERVERS}
+      - ENABLE_NTS='true'
+      - TZ=${NTP_TZ}
     restart: unless-stopped
     ports:
       - 1016:123/udp
