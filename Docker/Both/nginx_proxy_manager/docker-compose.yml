@@ -1,9 +1,10 @@
+# Installation: https://nginxproxymanager.com/setup/
+
 version: '3.9'
 services:
   nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:2
     container_name: nginx-proxy-manager
-    hostname: nginx-proxy-manager
-    image: jc21/nginx-proxy-manager
     restart: unless-stopped
     ports:
       # Public HTTP Port:
@@ -12,13 +13,17 @@ services:
       - 443:443
       # Admin Web Port:
       - 81:81
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
     environment:
+      # Mysql/Maria connection parameters:
+      - DB_MYSQL_HOST=${NGINX_PROXY_MANAGER_DB_MYSQL_HOST}
+      - DB_MYSQL_PORT=${NGINX_PROXY_MANAGER_DB_MYSQL_PORT}
+      - DB_MYSQL_USER=${NGINX_PROXY_MANAGER_DB_MYSQL_USER}
+      - DB_MYSQL_PASSWORD=${NGINX_PROXY_MANAGER_DB_MYSQL_PASSWORD}
+      - DB_MYSQL_NAME=${NGINX_PROXY_MANAGER_DB_MYSQL_NAME}
       # Uncomment this if IPv6 is not enabled on your host
-      - DISABLE_IPV6=${NGINX_PROXY_MANAGER_DISABLE_IPV6}
-      - MYSQL_ROOT_PASSWORD=${NGINX_PROXY_MANAGER_MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${NGINX_PROXY_MANAGER_MYSQL_DATABASE}
-      - MYSQL_USER=${NGINX_PROXY_MANAGER_MYSQL_USER}
-      - MYSQL_PASSWORD=${NGINX_PROXY_MANAGER_MYSQL_PASSWORD}
+      - DISABLE_IPV6='true'
     volumes:
       # Make sure this config.json file exists as per instructions above:
       - /opt/appdata/nginx-proxy-manager/config.json:/app/config/production.json
@@ -28,6 +33,25 @@ services:
       test: [CMD, /bin/check-health]
       interval: 10s
       timeout: 3s
+    depends_on:
+      - npm-mariadb
+    networks:
+      - proxy
+
+  npm-mariadb:
+    image: jc21/mariadb-aria:10.11.5
+    container_name: npm-mariadb
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${NGINX_PROXY_MANAGER_DB_MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${NGINX_PROXY_MANAGER_DB_MYSQL_NAME}
+      - MYSQL_USER=${NGINX_PROXY_MANAGER_DB_MYSQL_USER}
+      - MYSQL_PASSWORD=${NGINX_PROXY_MANAGER_DB_MYSQL_PASSWORD}
+      - MARIADB_AUTO_UPGRADE='1'
+    volumes:
+      - /opt/appdata/npm-mariadb/mysql:/var/lib/mysql
+    ports:
+      - 5201:3306
     networks:
       - proxy
 

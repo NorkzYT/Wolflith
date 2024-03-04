@@ -1,0 +1,26 @@
+# Installation: https://github.com/SuperioOne/nut_webgui
+
+version: '3.9'
+services:
+  nutweb:
+    image: ghcr.io/superioone/nut_webgui:0.1.1
+    container_name: nutweb
+    ports:
+      - 80:1234
+    environment:
+      - POLL_FREQ=${NUTWEB_POLL_FREQ}
+      - UPSD_ADDR=${NUTWEB_UPSD_ADDR}
+      - UPSD_PORT=${NUTWEB_UPSD_PORT}
+      - UPSD_USER=${NUTWEB_UPSD_USER}
+      - UPSD_PASS=${NUTWEB_UPSD_PASS}
+      - LISTEN=${NUTWEB_LISTEN}
+      - PORT=${NUTWEB_PORT}
+      - LOG_LEVEL=${NUTWEB_LOG_LEVEL}
+    restart: always
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

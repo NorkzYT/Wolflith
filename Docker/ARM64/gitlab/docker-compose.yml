@@ -1,11 +1,13 @@
+# Installation: https://hub.docker.com/r/yrzr/gitlab-ce-arm64v8
+
 version: '3.9'
 services:
   gitlab:
     image: yrzr/gitlab-ce-arm64v8:16.9.0-ce.0
-    hostname: gitlab-ce
     container_name: gitlab-ce
     privileged: true
     environment:
+      - GITLAB_ROOT_PASSWORD=${GITLAB_ROOT_PASSWORD}
       - GITLAB_OMNIBUS_CONFIG=${GITLAB_OMNIBUS_CONFIG}
     ports:
       - 1011:22

@@ -5,9 +5,9 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/wolflith/PCSMenu/PCSFunc.sh
+source /opt/Wolflith/PCSMenu/PCSFunc.sh
 
-HOSTS_FILE="/opt/wolflith/Ansible/inventory/hosts.yaml"
+HOSTS_FILE="/opt/Wolflith/Ansible/inventory/hosts.yaml"
 
 ## ----------------------------------------------------------------------------------------------------------- ##
 
@@ -16,7 +16,7 @@ function new_machine_setup() {
     printf "This script is an automation tool that runs several Ansible playbooks in order to set up a new Linux Machine. The playbooks perform various tasks such as updating the package cache and installed packages, configuring time synchronization, installing and configuring the fail2ban package, creating a user on the host machine, and setting up Oh-My-Zsh on the host machine.\n"
     echo ""
     while true; do
-        read -p "Do you still want to run this command? (yes/no) " run_command
+        read -rp "Do you still want to run this command? (yes/no) " run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
@@ -106,7 +106,7 @@ execute_ansible_playbooks() {
     run_playbook() {
         local playbook=$1
         blueprint "Running playbook: $playbook"
-        if ! ansible-playbook "/opt/wolflith/Ansible/playbooks/$playbook.yml" -i "$HOSTS_FILE" $LIMIT_OPTION; then
+        if ! ansible-playbook "/opt/Wolflith/Ansible/playbooks/$playbook.yml" -i "$HOSTS_FILE" "$LIMIT_OPTION"; then
             redprint "Failed to execute playbook: $playbook"
             return 1
         fi

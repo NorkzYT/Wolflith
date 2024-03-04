@@ -18,11 +18,11 @@
         apt-get update &&
         apt-get upgrade -y
 
-- name: Final Configuration and Cleanup
+- name: Configuration and Cleanup
   hosts: all
   become: yes
   vars_files:
-    - /tmp/provisioning_docker_service_vars.yml
+    - /opt/Wolflith/Temp/provisioning_docker_service_vars.yml
   tasks:
     - name: Docker Network and Directory Setup
       block:
@@ -44,14 +44,13 @@
             mode: '0755'
           loop:
             - {
-                src: '{{ repo_path }}/PCSMenu/Functions/Docker/updateDockerComposeEnv.sh',
+                src: '/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
                 dest: '/tmp/updateDockerComposeEnv.sh',
               }
             - {
-                src: '/tmp/provisioning_docker_service_vars.yml',
+                src: '/opt/Wolflith/Temp/provisioning_docker_service_vars.yml',
                 dest: '/tmp/provisioning_docker_service_vars.yml',
               }
-            - { src: '/tmp/env_vars_for_ansible.yml', dest: '/tmp/env_vars_for_ansible.yml' }
             - {
                 src: '{{ selected_service_path }}/docker-compose.yml',
                 dest: '/home/docker/{{ selected_service }}/docker-compose.yml',
@@ -92,4 +91,3 @@
           loop:
             - '/tmp/updateDockerComposeEnv.sh'
             - '/tmp/provisioning_docker_service_vars.yml'
-            - '/tmp/env_vars_for_ansible.yml'

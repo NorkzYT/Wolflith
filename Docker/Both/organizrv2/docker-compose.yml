@@ -1,13 +1,13 @@
+# Installation: https://github.com/causefx/Organizr/
+
 version: '3.9'
 services:
   organizr:
     image: organizr/organizr:latest
     container_name: organizr
-    hostname: organizr
     environment:
       - PUID=${ORGANIZR_PUID}
       - PGID=${ORGANIZR_PGID}
-      - TZ=${ORGANIZR_TZ}
     volumes:
       - /opt/appdata/organizrv2:/config
     ports:

@@ -1,9 +1,13 @@
+# Installation: https://hub.docker.com/_/mongo
+
 version: '3.9'
 services:
   mongo:
-    container_name: mongodb
-    hostname: mongodb
     image: mongo:7.0.5
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - /opt/appdata/mongodb/data:/data/db
     ports:

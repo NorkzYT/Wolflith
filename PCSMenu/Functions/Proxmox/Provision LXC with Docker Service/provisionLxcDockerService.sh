@@ -12,7 +12,7 @@ function provision_docker_services_on_lxc() {
 
     while true; do
         cyanprint "Do you still want to run this command? (yes/no) "
-        read -p "" run_command
+        read -rp "" run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
@@ -25,20 +25,20 @@ function provision_docker_services_on_lxc() {
 
             # Run scripts with informative prompts
             cyanprint "Selecting Docker service..."
-            bash "../../Docker/Scripts/selectService.sh"
+            bash "/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/selectService.sh"
 
             cyanprint "Setting up Docker service..."
-            bash "../../Docker/Scripts/setupService.sh"
+            bash "/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/setupService.sh" --return-menu
 
             cyanprint "Provisioning Docker service..."
-            bash "../../Docker/Scripts/provisionDockerService.sh"
+            bash "/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/provisionDockerService.sh"
 
             cyanprint "Provisioning LXC container..."
-            bash "../Scripts/provisionLxc.sh"
+            bash "/opt/Wolflith/PCSMenu/Functions/Proxmox/Scripts/provisionLxc.sh"
 
             cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
             # Execute the Ansible playbook for the specified target(s), capturing output
-            if ! output=$(ansible-playbook /opt/wolflith/Ansible/playbooks/provision-proxmox-lxc.yml -i "/opt/wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
+            if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/provision-proxmox-lxc.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
                 redprint "An error occurred during playbook execution:"
                 echo "$output" # Display the captured error output
 
@@ -48,19 +48,12 @@ function provision_docker_services_on_lxc() {
 
                 if [[ $key =~ ^[Xx]$ ]]; then
                     clear
-                    docker_menu
+                    proxmox_menu
                     return
                 fi
             else
                 greenprint "Playbook executed successfully."
             fi
-
-            # Remove temporary files
-            rm -f /tmp/selected_docker_service.txt
-            rm -f /tmp/selected_docker_service_path.txt
-            rm -f /tmp/provisioning_docker_service_vars.yml
-            rm -f /tmp/env_vars_for_ansible.yml
-            rm -f /tmp/lxc_provisioning_vars.yml
 
             # Prompt at the end
             echo "Press 'c' to continue..."
@@ -78,6 +71,7 @@ function provision_docker_services_on_lxc() {
 
         elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
             magentaprint "Operation canceled. Returning to the main menu..."
+            sleep 1
             proxmox_menu
             return
         else

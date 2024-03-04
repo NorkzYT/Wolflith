@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Function to install Ansible
 install_ansible() {
@@ -35,10 +35,13 @@ install_ansible() {
     fi
 }
 
+export_ansible_config() {
+    export ANSIBLE_CONFIG=/opt/Wolflith/Ansible/inventory/ansible.cfg
+}
+
 # Function to install required Ansible collections
 install_ansible_required_collections() {
-    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-    if ansible-galaxy collection install -r "/opt/wolflith/Ansible/collections/requirements.yml"; then
+    if ansible-galaxy collection install -r "/opt/Wolflith/Ansible/collections/requirements.yml"; then
         greenprint "Required collections installed successfully."
     else
         redprint "Failed to install required collections."
@@ -63,7 +66,7 @@ install_python() {
 # Function to install Python dependencies from requirements.txt
 install_python_dependencies() {
     echo "Installing Python dependencies..."
-    pip3 install -r Auto/requirements.txt
+    pip3 install -r ./Auto/requirements.txt
     if [ $? -ne 0 ]; then
         echo "Failed to install Python dependencies. Please check your Python environment."
         exit 1
@@ -164,15 +167,20 @@ END
 
 # Function to install package dependencies
 install_package_dependencies() {
-    cd /opt/wolflith
+    cd /opt/Wolflith
     bun install
+}
+
+install_ubuntu_dependencies() {
+    sudo apt-get install sshpass
 }
 
 # Main execution flow
 install_python
 install_python_dependencies
 install_ansible
+export_ansible_config
 install_ansible_required_collections
-export ANSIBLE_CONFIG=/opt/wolflith/Ansible/inventory/ansible.cfg
 install_go
 install_package_dependencies
+install_ubuntu_dependencies

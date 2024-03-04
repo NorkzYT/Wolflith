@@ -1,3 +1,5 @@
+# Installation: https://hub.docker.com/r/synzen/monitorss
+
 version: '3.9'
 services:
   mrss-bot:
@@ -5,36 +7,63 @@ services:
     restart: unless-stopped
     image: synzen/monitorss:latest
     environment:
-      - DRSS_START=${MRSS_BOT_DRSS_START}
-      - DRSS_BOT_TOKEN=${MRSS_BOT_DRSS_BOT_TOKEN}
-      - DRSS_DATABASE_URI=${MRSS_BOT_DRSS_DATABASE_URI}
-      - DRSS_FEEDS_TIMEZONE=${MRSS_BOT_DRSS_FEEDS_TIMEZONE}
-      - TZ=${MRSS_BOT_TZ}
-      - HOST_HOSTNAME=${MRSS_BOT_HOST_HOSTNAME}
-      - HOST_CONTAINERNAME=${MRSS_BOT_HOST_CONTAINERNAME}
+      - DRSS_START=${MRSS_DRSS_START}
+      - DRSS_BOT_TOKEN=${MRSS_DRSS_BOT_TOKEN}
+      - HOST_HOSTNAME=${MRSS_HOST_HOSTNAME}
+      - DRSS_DATABASE_URI=${MRSS_RSS_DATABASE_URI}
+      - DRSS_FEEDS_TIMEZONE=${MRSS_TZ}
+      - TZ=${MRSS_TZ}
+      - HOST_CONTAINERNAME=${MRSS_HOST_CONTAINERNAME}
       - DRSS_FEEDS_REFRESHRATEMINUTES=${MRSS_BOT_DRSS_FEEDS_REFRESHRATEMINUTES}
     networks:
       - proxy
 
   mrss-web:
     container_name: mrss-web
-    hostname: mrss-web
     image: synzen/monitorss
     restart: unless-stopped
     ports:
       - 8519:8081
     environment:
-      - DRSS_START=${MRSS_WEB_DRSS_START}
+      - DRSS_START=${MRSS_DRSS_START}
+      - HOST_HOSTNAME=${MRSS_HOST_HOSTNAME}
       - DRSSWEB_DATABASE_REDIS=${MRSS_WEB_DRSSWEB_DATABASE_REDIS}
-      - DRSSWEB_DATABASE_URI=${MRSS_WEB_DRSSWEB_DATABASE_URI}
+      - DRSSWEB_DATABASE_URI=${MRSS_RSS_DATABASE_URI}
       - DRSSWEB_BOT_REDIRECTURI=${MRSS_WEB_DRSSWEB_BOT_REDIRECTURI}
       - DRSSWEB_BOT_CLIENTID=${MRSS_WEB_DRSSWEB_BOT_CLIENTID}
       - DRSSWEB_BOT_CLIENTSECRET=${MRSS_WEB_DRSSWEB_BOT_CLIENTSECRET}
-      - DRSSWEB_BOT_TOKEN=${MRSS_WEB_DRSSWEB_BOT_TOKEN}
-      - TZ=${MRSS_WEB_TZ}
-      - HOST_CONTAINERNAME=${MRSS_WEB_HOST_CONTAINERNAME}
-      - DRSS_BOT_TOKEN=${MRSS_WEB_DRSS_BOT_TOKEN}
-      - HOST_HOSTNAME=${MRSS_WEB_HOST_HOSTNAME}
+      - DRSS_BOT_TOKEN=${MRSS_DRSS_BOT_TOKEN}
+      - TZ=${MRSS_TZ}
+      - HOST_CONTAINERNAME=${MRSS_HOST_CONTAINERNAME}
+    networks:
+      - proxy
+
+  mrss-mongodb:
+    image: mongo:7.0.5
+    container_name: mrss-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - /opt/appdata/mrss-mongodb/data:/data/db
+    ports:
+      - 27018:27017
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  mrss-redis:
+    image: redis:7.2.4
+    container_name: mrss-redis
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: [CMD-SHELL, redis-cli ping | grep PONG]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    restart: unless-stopped
     networks:
       - proxy
 

@@ -1,4 +1,3 @@
-# yamllint disable rule:line-length
 ---
 ###############################################################
 #                         Users Database                      #
@@ -6,13 +5,13 @@
 
 # This file can be used if you do not have an LDAP set up.
 
+# List of users
 users:
-  authelia:
-    displayname: 'Test User'
-    password: '$argon2id$v=19$m=32768,t=1,p=8$eUhVT1dQa082YVk2VUhDMQ$E8QI4jHbUBt3EdsU1NFDu4Bq5jObKNx7nBKSn1EYQxk' # Password is 'authelia'
-    email: admin@domain.com
+  <USERNAME>:
+    disabled: false
+    displayname: '<DISPLAYNAME>'
+    password: '<PASSWORD>'
+    email: <USERNAME>@example.com
     groups:
       - admins
       - dev
----
-# yamllint enable rule:line-length

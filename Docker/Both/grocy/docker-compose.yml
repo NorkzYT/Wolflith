@@ -1,19 +1,16 @@
-#
-# https://github.com/linuxserver/docker-grocy
-# https://github.com/grocy/grocy-docker/blob/main/docker-compose.yml
-#
+# Installation: https://hub.docker.com/r/linuxserver/grocy
 
 version: '3.9'
 services:
   grocy:
-    image: lscr.io/linuxserver/grocy:latest
+    image: linuxserver/grocy:4.1.0
     container_name: grocy
     environment:
       - PUID=${GROCY_PUID}
       - PGID=${GROCY_PGID}
       - TZ=${GROCY_TZ}
     volumes:
-      - /opt/appdata/grocy/data:/config
+      - /opt/appdata/grocy:/config
     ports:
       - 9283:80
     restart: unless-stopped

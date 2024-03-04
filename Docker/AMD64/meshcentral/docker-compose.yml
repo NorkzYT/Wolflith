@@ -1,8 +1,9 @@
+# Installation: https://hub.docker.com/r/typhonragewind/meshcentral
+
 version: '3.9'
 services:
   meshcentral:
     container_name: meshcentral
-    hostname: meshcentral
     image: typhonragewind/meshcentral:1.1.20
     ports:
       - 8089:443

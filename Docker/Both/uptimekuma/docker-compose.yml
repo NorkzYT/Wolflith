@@ -1,11 +1,12 @@
+# Installation: https://hub.docker.com/r/louislam/uptime-kuma
+
 version: '3.9'
 services:
-  uptime_kuma:
-    container_name: uptime_kuma
+  uptime-kuma:
     image: louislam/uptime-kuma:1.23.11
-    hostname: uptime_kuma
+    container_name: uptime-kuma
     volumes:
-      - /opt/appdata/uptime_kuma:/app/data
+      - /opt/appdata/uptime-kuma:/app/data
     ports:
       - 3001:3001
     restart: unless-stopped

@@ -1,9 +1,10 @@
+# Installation: https://hub.docker.com/r/linuxserver/wireguard
+
 version: '3.9'
 services:
   wireguard:
     image: linuxserver/wireguard:1.0.20210914
     container_name: wireguard
-    hostname: wireguard
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -17,6 +18,7 @@ services:
       - PEERDNS=${WIREGUARD_PEERDNS}
       - INTERNAL_SUBNET=${WIREGUARD_INTERNAL_SUBNET}
       - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS}
+      - LOG_CONFS='true'
     volumes:
       - /opt/appdata/wireguard/config:/config
       - /opt/appdata/wireguard/lib/modules:/lib/modules

@@ -1,5 +1,5 @@
 {
-	"name": "wolflith",
+	"name": "Wolflith",
 	"description": "Streamline Your Tech Stack Deployment with One Command.",
 	"version": "1.0.0",
 	"author": "NorkzYT",
@@ -9,7 +9,7 @@
 		"clean:install": "rm -rf node_modules/ && rm -rf bun.lockb && bun i",
 		"prettier:check": "prettier --check .",
 		"prettier:format": "prettier --write .",
-		"markdown-notes-tree": "npx markdown-notes-tree --ignore **/LICENSE --ignore node_modules/ --ignore README.md --ignore DEVELOPERS.md",
+		"repoTree": "python3 repoTree.py",
 		"preinstall": "husky install"
 	},
 	"husky": {
@@ -48,7 +48,6 @@
 		"@commitlint/config-conventional": "^18.4.4",
 		"@semantic-release/git": "^10.0.1",
 		"husky": "^9.0.0",
-		"markdown-notes-tree": "^1.12.0",
 		"opencommit": "^3.0.4",
 		"prettier": "3.2.5",
 		"prettyjson": "^1.2.5",

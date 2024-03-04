@@ -6,10 +6,10 @@
 ######################################################################
 
 # Import the Personalization Functions for color and styling
-source /opt/wolflith/PCSMenu/PCSFunc.sh
+source /opt/Wolflith/PCSMenu/PCSFunc.sh
 
 # Global Variables
-BASE_DIR="/opt/wolflith/PCSMenu/Functions"
+BASE_DIR="/opt/Wolflith/PCSMenu/Functions"
 CURRENT_DIR="$BASE_DIR"
 PARENT_DIR=""
 SELECTION=""
@@ -67,11 +67,11 @@ list_directories_and_files() {
 display_menu() {
     local i=1
     for dir in "${DIRECTORIES[@]}"; do
-        echo -n $(yellowprint "$i) $(basename "$dir")  ")
+        echo -n "$(yellowprint "$i) $(basename "$dir") ")"
         ((i++))
     done
-    echo -n $(magentaprint "  B) Back  ")
-    echo $(cyanprint "X) Exit")
+    echo -n "$(magentaprint "  B) Back  ")"
+    cyanprint "X) Exit"
 }
 
 # Navigate through the menu

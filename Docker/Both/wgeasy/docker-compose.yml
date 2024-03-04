@@ -1,20 +1,21 @@
+# Installation: https://github.com/wg-easy/wg-easy
+
 version: '3.9'
 services:
   wg-easy:
-    image: weejewel/wg-easy
+    image: ghcr.io/wg-easy/wg-easy:11
     container_name: wg-easy
-    hostname: wg-easy
     environment:
-      - WG_HOST=${WG_EASY_WG_HOST}
+      - WG_HOST=${WG_HOST}
       - PASSWORD=${WG_EASY_PASSWORD}
-      - WG_PORT=${WG_EASY_WG_PORT}
-      - WG_DEFAULT_ADDRESS=${WG_EASY_WG_DEFAULT_ADDRESS}
-      - WG_DEFAULT_DNS=${WG_EASY_WG_DEFAULT_DNS}
+      - WG_PORT=${WG_PORT}
+      - WG_DEFAULT_ADDRESS=${WG_DEFAULT_ADDRESS}
+      - WG_DEFAULT_DNS=${WG_DEFAULT_DNS}
     volumes:
-      - .:/etc/wireguard
+      - /opt/appdata/wg-easy:/etc/wireguard
     ports:
-      - 1034:51820/udp
-      - 1035:51821/tcp
+      - 51820:51820/udp
+      - 51821:51821/tcp
     restart: unless-stopped
     cap_add:
       - NET_ADMIN

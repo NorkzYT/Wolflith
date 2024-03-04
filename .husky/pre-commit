@@ -1,12 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Get a list of staged Python files and iterate over them
-git diff --name-only --cached --diff-filter=d | grep '\.py$' | while IFS= read -r file; do
+# Generates Repo Tree once
+bun run repoTree
 
-    # Format each file with Prettier
-    bun run prettier:format
-
-    # Stage the newly-formatted file
-    git add "$file"
-done
+# Format all Python files with Prettier once
+bun run prettier:format

@@ -1,15 +1,14 @@
+# Installation: https://hub.docker.com/r/kasmweb/core-ubuntu-bionic
+
 version: '3.9'
 services:
   core-ubuntu-bionic:
     image: kasmweb/core-ubuntu-bionic:1.15.0-rolling
-    hostname: core-ubuntu-bionic
     container_name: core-ubuntu-bionic
     restart: unless-stopped
     shm_size: 2048m
     environment:
       - VNC_PW=${CORE_UBUNTU_BIONIC_VNC_PW}
-    volumes:
-      - /opt/appdata/ubuntu-vnc/dev/shm:/dev/shm
     ports:
       - 1038:6901
     networks:

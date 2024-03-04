@@ -1,22 +1,24 @@
+# Installation: https://hub.docker.com/r/linuxserver/webtop
+
 version: '3.9'
 services:
   webtop:
-    image: linuxserver/webtop:ubuntu-mate #choose your flavor
-    hostname: webtop
+    image: linuxserver/webtop:ubuntu-mate-875ca4dd-ls145 #choose your flavor
     container_name: webtop
     #privileged: true #optional but not needed unless you are running kde or i3 or other tools.
     environment:
       - PUID=${WEBTOP_PUID}
       - PGID=${WEBTOP_PGID}
       - TZ=${WEBTOP_TZ}
-      - FILE__PASSWORD=${WEBTOP_FILE__PASSWORD}
+      - PASSWORD=${WEBTOP_PASSWORD}
+      - TITLE='Webtop'
     volumes:
-      - ./../../:/mnt/share #This will mount the relative path to the path in the container.
-      - /opt/appdata/webtop:/config #All Container Directory directory.
-      - /var/run/docker.sock:/var/run/docker.sock #optional only if you need access to docker within this container.
+      - ./../../:/mnt/share # This will mount the relative path to the path in the container.
+      - /opt/appdata/webtop:/config # All Container Directory directory.
+      - /var/run/docker.sock:/var/run/docker.sock # Optional only if you need access to docker within this container.
     ports:
       - 3050:3000
-    shm_size: 8gb #optional but set to 1GB or higher to prevent browser crashes
+    shm_size: 8gb # Optional but set to 1GB or higher to prevent browser crashes
     restart: unless-stopped
     networks:
       - proxy

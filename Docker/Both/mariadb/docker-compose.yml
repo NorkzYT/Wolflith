@@ -1,17 +1,18 @@
+# Installation: https://hub.docker.com/r/linuxserver/mariadb
+
 version: '3.9'
 services:
   mariadb:
     image: linuxserver/mariadb:10.11.6
     container_name: mariadb
-    hostname: mariadb
     environment:
       - PUID=${MARIADB_PUID}
       - PGID=${MARIADB_PGID}
-      - MYSQL_ROOT_PASSWORD=${MARIADB_MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_PASSWORD}
       - TZ=${MARIADB_TZ}
-      - MYSQL_DATABASE=${MARIADB_MYSQL_DATABASE}
-      - MYSQL_USER=${MARIADB_MYSQL_USER}
-      - MYSQL_PASSWORD=${MARIADB_MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MARIADB_DATABASE}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
     volumes:
       - /opt/appdata/mariadb:/config
     ports:

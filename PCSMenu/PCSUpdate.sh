@@ -5,10 +5,10 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Go to specific directory
-cd "/opt/wolflith"
+cd "/opt/Wolflith" || exit
 
 # Fetch the latest changes from the main branch
 git fetch origin main

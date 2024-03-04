@@ -1,5 +1,5 @@
 DOCKER_USERNAME ?= norkz
-APPLICATION_NAME ?= wolflith
+APPLICATION_NAME ?= Wolflith
 GIT_HASH ?= $(shell git log --format="%h" -n 1)
 
 ### Help Section ###
@@ -43,7 +43,7 @@ menu:
 ### Ansible Commands ###
 
 ansible-1password ansible-upgrade ansible-apt ansible-oh-my-zsh ansible-ssh-get-key ansible-zsh:
-	@ansible-playbook "/opt/wolflith/Ansible/playbooks/$(@).yml" -i "/opt/wolflith/Ansible/inventory/hosts.yaml" $(if $(findstring zsh,$@),-l "proxmoxve",)
+	@ansible-playbook "/opt/Wolflith/Ansible/playbooks/$(@).yml" -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" $(if $(findstring zsh,$@),-l "proxmoxve",)
 
 ### Vault Commands ###
 

@@ -1,27 +1,25 @@
+# Installation: https://hub.docker.com/r/linuxserver/code-server
+
 version: '3.9'
 services:
-  vscode:
+  codeserver:
     image: wolflith/vscode:latest
     build:
       context: .
       dockerfile: dockerfile
-    container_name: vscode
-    hostname: vscode
+    container_name: codeserver
+    hostname: codeserver
     environment:
-      - PUID=0
-      - PGID=0
-      - UMASK=022
-      - TZ=${TZ:?error}
-      # - CONNECTION_TOKEN=${OPENVSCODE_SERVER_CONNECTION_TOKEN}       #optional
-      # - CONNECTION_SECRET=${OPENVSCODE_SERVER_CONNECTION_SECRET}     #optional
-      - SUDO_PASSWORD=${OPENVSCODE_SERVER_SUDO_PASSWORD}
-      # - SUDO_PASSWORD_HASH=${OPENVSCODE_SERVER_SUDO_PASSWORD_HASH}   #optional
-      - DEFAULT_WORKSPACE=${OPENVSCODE_SERVER_DEFAULT_WORKSPACE}
+      - PUID=${CODE_SERVER_PUID}
+      - PGID=${CODE_SERVER_PGID}
+      - TZ=${CODE_SERVER_TZ}
+      - SUDO_PASSWORD=${CODE_SERVER_SUDO_PASSWORD:?error}
+      - DEFAULT_WORKSPACE=${CODE_SERVER_SERVER_DEFAULT_WORKSPACE}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/appdata/vscode/config:/config
-      - ./wolflith.code-workspace:/config/workspace/wolflith.code-workspace
-      - ../../../:/wolflith
+      - /opt/appdata/codeserver/config:/config
+      - ./Wolflith.code-workspace:/config/workspace/Wolflith.code-workspace
+      - /opt:/repos
       - /mnt:/mnt
       - /home:/home
     ports:
@@ -34,7 +32,6 @@ services:
 
   dockersocketvscode:
     container_name: dockersocketvscode
-    hostname: dockersocketvscode
     image: tecnativa/docker-socket-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

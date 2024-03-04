@@ -1,8 +1,11 @@
+# Installation:
+# https://hub.docker.com/r/1password/connect-api
+# https://hub.docker.com/r/1password/connect-sync
+
 version: '3.9'
 services:
   op-connect-api:
     image: 1password/connect-api:1.7
-    hostname: op-connect-api
     container_name: op-connect-api
     restart: unless-stopped
     ports:
@@ -15,7 +18,6 @@ services:
 
   op-connect-sync:
     image: 1password/connect-sync:1.7
-    hostname: op-connect-sync
     container_name: op-connect-sync
     ports:
       - 6152:8080

@@ -1,3 +1,5 @@
+# Installation: https://github.com/pterodactyl/wings
+
 version: '3.9'
 services:
   wings:
@@ -10,15 +12,15 @@ services:
       - 2022:2022
       - 8026:8443
     environment:
-      - TZ=${WINGS_TZ}
-      - WINGS_UID=${WINGS_UID}
-      - WINGS_GID=${WINGS_GID}
-      - WINGS_USERNAME=${WINGS_USERNAME}
+      - TZ=${PTERODACTYL_WINGS_TZ}
+      - WINGS_UID=${PTERODACTYL_WINGS_UID}
+      - WINGS_GID=${PTERODACTYL_WINGS_GID}
+      - WINGS_USERNAME=${PTERODACTYL_WINGS_USERNAME}
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock #docker.sock
-      - /opt/appdata/pterodactyl-wings/data:/opt/appdata/pterodactyl-wings/data #Shared data between Panel and Wings.
-      - /opt/appdata/pterodactyl-wings:/etc/pterodactyl #Appdata - #Where config.yml goes into.
-      - /opt/appdata/pterodactyl-wings/tmp:/tmp/pterodactyl #tmp
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/appdata/pterodactyl-wings/data:/opt/appdata/pterodactyl-wings/data # Shared data between Panel and Wings.
+      - /opt/appdata/pterodactyl-wings:/etc/pterodactyl # Appdata - #Where config.yml goes into.
+      - /opt/appdata/pterodactyl-wings/tmp:/tmp/pterodactyl # Tmp
     restart: unless-stopped
     networks:
       - proxy

@@ -1,16 +1,17 @@
+# Installation: https://nodered.org/docs/getting-started/docker
+
 version: '3.9'
 services:
   node-red:
     image: nodered/node-red:2.2.3-12
     container_name: node-red
-    hostname: node-red
     environment:
       - TZ=${NODE_RED_TZ}
     restart: unless-stopped
     ports:
       - 1880:1880
     volumes:
-      - /opt/appdata/node-red/data:/data
+      - /opt/appdata/node-red:/data
     networks:
       - proxy
 

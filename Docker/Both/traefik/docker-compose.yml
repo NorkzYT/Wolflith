@@ -1,21 +1,22 @@
+# Installation: https://hub.docker.com/_/traefik
+
 version: '3.9'
 services:
   traefik:
-    container_name: traefik
-    hostname: traefik
     image: traefik:2.11.0
+    container_name: traefik
     ports:
       - 8001:80
       - 44301:443
       - 8181:8080
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/:/etc/traefik/
     environment:
       - CF_DNS_API_TOKEN=${TRAEFIK_CF_DNS_API_TOKEN}
       - CLOUDFLARE_EMAIL=${TRAEFIK_CLOUDFLARE_EMAIL}
       - DOMAIN=${TRAEFIK_DOMAIN}
       - DOCKER_NETWORK=${DOCKER_NETWORK}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/:/etc/traefik/
     restart: unless-stopped
     depends_on:
       - dockersocket
