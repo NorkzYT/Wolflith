@@ -19,7 +19,7 @@ Note: This repository is in BETA and still a work in progress, I welcome contrib
 
 ```bash
 mkdir -p /opt/Wolflith
-wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolflith/main/PCSMenu/PCSInstall.sh
+wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolflith/main/PCSMenu/PCSInstall.sh --branch="main"
 chmod +x /opt/PCSInstall.sh
 sudo /opt/PCSInstall.sh
 ```

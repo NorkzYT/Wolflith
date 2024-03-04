@@ -27,9 +27,10 @@ if ! ping -c 1 github.com &>/dev/null; then
 fi
 
 # Clone Wolflith
-echo "Cloning Wolflith..."
-if git clone https://github.com/NorkzYT/Wolflith.git $ifolder; then
-    echo "Successfully cloned Wolflith."
+branch=${1:-main} # Default to main if no argument provided
+echo "Cloning Wolflith from branch $branch..."
+if git clone --branch "$branch" https://github.com/NorkzYT/Wolflith.git $ifolder; then
+    echo "Successfully cloned Wolflith from branch $branch."
 else
     echo "Failed to clone Wolflith. Please check the git clone command's output for details."
     exit 1
