@@ -7,6 +7,13 @@
 
 source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
+# Global variables for cache files and their lifetimes
+CACHE_DIR="/opt/Wolflith/Temp/PCSMenuCache"
+PUBLIC_IP_CACHE="$CACHE_DIR/public_ip.cache"
+CACHE_LIFETIME=3600 # 1 hour in seconds
+
+mkdir -p "$CACHE_DIR"
+
 # Clear the screen
 clear_screen() {
     clear
@@ -16,14 +23,14 @@ function default_menu_screen() {
     clear_screen
     menu_cover
     menu_bar
-
 }
 
 ### Main Menu Cover ###
 function menu_cover() {
     # Fetch the latest version from GitHub releases
     latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-    printf "$BCyan
+    printf "$BCyan"
+    echo "
   _____   _____  _____  _____ ____  _____  _____  ™
  |  __ \ / ____|/ ____|/ ____/ __ \|  __ \|  __ \ 
  | |__) | |    | (___ | |   | |  | | |__) | |__) |
@@ -32,25 +39,27 @@ function menu_cover() {
  |_|     \_____|_____/ \_____\____/|_|  \_\_|      Version: $latest_version
  
 "
-    printf "$Color_Off"
+    printf "${Color_Off}"
 }
 
 # check if pcsmenu is up-to-date
 check_update() {
     local last_checked_file="/opt/Wolflith/Temp/last_checked.txt"
-    local current_date=$(date +%Y-%m-%d)
+    local current_date
+    current_date=$(date +%Y-%m-%d)
 
     # Check if the last_checked_file exists, create it if not
     if [ ! -f "$last_checked_file" ]; then
         echo "Creating $last_checked_file and setting last checked date to $current_date"
         mkdir -p "$(dirname "$last_checked_file")" # Ensure the directory exists
-        echo $current_date >"$last_checked_file"
+        echo "$current_date" >"$last_checked_file"
     fi
 
-    local last_checked=$(cat "$last_checked_file" 2>/dev/null)
+    local last_checked
+    last_checked=$(cat "$last_checked_file" 2>/dev/null)
 
     if [[ "$last_checked" != "$current_date" ]]; then
-        echo $current_date >"$last_checked_file"
+        echo "$current_date" >"$last_checked_file"
         current_version=$(grep 'Version:' "/opt/Wolflith/PCSMenu/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
         latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ "$current_version" != "$latest_version" ]; then
@@ -60,27 +69,39 @@ check_update() {
 }
 
 function os_release() {
-    (
-        if [ -f /etc/os-release ]; then
-            . /etc/os-release
-            dist=$NAME
-            release=$VERSION_ID
-        elif type lsb_release >/dev/null 2>&1; then
-            dist=$(lsb_release -si)
-            release=$(lsb_release -sr)
-        elif [ -f /etc/lsb-release ]; then
-            . /etc/lsb-release
-            dist=$DISTRIB_ID
-            release=$DISTRIB_RELEASE
-        elif [ -f /etc/debian_version ]; then
-            dist=Debian
-            release=$(cat /etc/debian_version)
-        else
-            dist=$(uname -s)
-            release=$(uname -r)
-        fi
-        printf "$PRETTY_NAME"
-    )
+    local dist=""
+    local release=""
+    local pretty_name=""
+
+    if [ -f /etc/os-release ]; then
+        # Source the os-release file
+        . /etc/os-release
+        pretty_name=$PRETTY_NAME
+    elif type lsb_release >/dev/null 2>&1; then
+        # Fallback to lsb_release if os-release is not available
+        dist=$(lsb_release -si)
+        release=$(lsb_release -sr)
+        pretty_name="${dist} ${release}"
+    elif [ -f /etc/lsb-release ]; then
+        # Fallback to sourcing lsb-release
+        . /etc/lsb-release
+        dist=$DISTRIB_ID
+        release=$DISTRIB_RELEASE
+        pretty_name="${dist} ${release}"
+    elif [ -f /etc/debian_version ]; then
+        # Specific fallback for Debian to identify the version
+        dist="Debian"
+        release=$(cat /etc/debian_version)
+        pretty_name="${dist} ${release}"
+    else
+        # Generic fallback to system information
+        dist=$(uname -s)
+        release=$(uname -r)
+        pretty_name="${dist} ${release}"
+    fi
+
+    # Print the pretty name of the OS if available or construct it from dist and release
+    printf "%s" "${pretty_name}"
 }
 
 # Define the function
@@ -100,13 +121,31 @@ function memory() {
     free -m | awk 'FNR == 2 {print $7/1024}'
 }
 
-# Function to show the public IP address of the device
-show_ip() {
-    # Get the public IP address
-    ip_address=$(dig +short myip.opendns.com @resolver1.opendns.com)
+# Function to get or update the cached public IP
+get_or_update_public_ip() {
+    local current_time
+    current_time=$(date +%s)
+    local update_cache=1
 
-    # Display the public IP address
-    echo "${ip_address}"
+    # Check if the cache file exists and its timestamp
+    if [[ -f "$PUBLIC_IP_CACHE" ]]; then
+        local last_update
+        last_update=$(stat -c %Y "$PUBLIC_IP_CACHE")
+        local age=$((current_time - last_update))
+
+        if [[ $age -lt $CACHE_LIFETIME ]]; then
+            update_cache=0
+        fi
+    fi
+
+    if [[ $update_cache -eq 1 ]]; then
+        # Update cache with new IP
+        local new_ip
+        new_ip=$(curl -s https://api.ipify.org)
+        echo "$new_ip" >"$PUBLIC_IP_CACHE"
+    fi
+
+    cat "$PUBLIC_IP_CACHE"
 }
 
 function date_time() {
@@ -115,14 +154,37 @@ function date_time() {
 
 ### Modified Menu_Bar ###
 function menu_bar() {
+
+    # Extract the first IPv4 address (assuming it's the first one listed by `hostname -I`)
+    ipv4=$(hostname -I | awk '{print $1}')
+
+    # Search for a Tailscale IP address in the `100.x.y.z` range
+    tailscale_ip=$(hostname -I | grep -oP '100\.\d+\.\d+\.\d+')
+
+    # Get or update the public IP from the cache
+    public_ip=$(get_or_update_public_ip)
+
+    # Assuming the rest of the data doesn't change frequently either, consider caching if necessary
+    cpu_s=$(lscpu | grep "CPU(s):" | tail +1 | head -1 | awk '{print $2}')
+    cpu_threads=$(threads_pc)
+    ram_free=$(memory)
+
     printf "$BCyan"
     os_release
     printf " |"
-    printf " Cpu Threads: $(threads_pc)"
+    printf "%s" " CPU(s): $cpu_s"
     printf " |"
-    printf " IP: $(show_ip)"
+    printf "%s" " CPU Threads: $cpu_threads"
     printf " |"
-    printf " RAM free: $(memory)MB"
+    printf "%s" " IPv4: $ipv4"
+    printf " |"
+    printf "%s" " Public IP: $public_ip"
+    if [[ -n "$tailscale_ip" ]]; then
+        printf " |"
+        printf "%s" " Tailscale IP: $tailscale_ip"
+    fi
+    printf " |"
+    printf "%s" " RAM free: ${ram_free} GB"
     echo "" # | echo - ne "" | Removes a line for code to be on the line before it.
     echo ""
     printf "$Color_Off"
