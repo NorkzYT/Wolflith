@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   vaultwarden:
-    image: vaultwarden/server:1.30.3
+    image: vaultwarden/server:1.30.5
     container_name: vaultwarden
     ports:
       # Port for WebSocket notifications
