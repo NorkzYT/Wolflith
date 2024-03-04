@@ -20,7 +20,7 @@ services:
       - proxy
 
   gatus-postgres:
-    image: postgres:12-alpine3.19
+    image: postgres:16-alpine3.19
     container_name: gatus-postgres
     volumes:
       - /opt/appdata/gatus-postgres/data/db:/var/lib/postgresql/data
