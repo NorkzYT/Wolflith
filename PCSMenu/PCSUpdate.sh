@@ -13,9 +13,6 @@ cd "/opt/Wolflith" || exit
 # Fetch the latest changes
 git fetch origin
 
-# Hard reset to the latest commit
-git reset --hard origin
-
 # Pull the latest changes
 git pull origin
 
