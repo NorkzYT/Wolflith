@@ -10,13 +10,13 @@ source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 # Go to specific directory
 cd "/opt/Wolflith" || exit
 
-# Fetch the latest changes from the main branch
-git fetch origin main
+# Fetch the latest changes
+git fetch origin
 
-# Hard reset to the latest commit on the main branch
-git reset --hard origin/main
+# Hard reset to the latest commit
+git reset --hard origin
 
 # Pull the latest changes
-git pull origin main
+git pull origin
 
 cyanprint "PCSMenu has been updated to the latest version."
