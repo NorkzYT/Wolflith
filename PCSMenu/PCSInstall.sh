@@ -55,6 +55,7 @@ if command -v zsh &>/dev/null; then
             echo "Updating $zshrc with new aliases."
             echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" >>"$zshrc"
             echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" >>"$zshrc"
+            echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
         else
             echo "$zshrc does not exist."
         fi
