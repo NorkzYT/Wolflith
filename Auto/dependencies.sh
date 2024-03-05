@@ -63,6 +63,20 @@ install_python() {
     fi
 }
 
+# Function to install pip3 for Python3
+install_pip3() {
+    if ! command -v pip3 &>/dev/null; then
+        echo "pip3 is not installed. Installing pip3..."
+        sudo apt update && sudo apt install -y python3-pip
+        if [ $? -ne 0 ]; then
+            echo "Failed to install pip3. Please check your package manager settings."
+            exit 1
+        fi
+    else
+        echo "pip3 is already installed."
+    fi
+}
+
 # Function to install Python dependencies from requirements.txt
 install_python_dependencies() {
     echo "Installing Python dependencies..."
@@ -177,6 +191,7 @@ install_ubuntu_dependencies() {
 
 # Main execution flow
 install_python
+install_pip3
 install_python_dependencies
 install_ansible
 export_ansible_config
