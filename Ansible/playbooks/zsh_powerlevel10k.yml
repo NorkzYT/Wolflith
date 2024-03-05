@@ -53,6 +53,14 @@
       become_user: "{{ item.item | regex_replace('(^/home/)', '') }}"
       ignore_errors: yes
 
+    - name: Ensure .zshrc exists for each user
+      ansible.builtin.file:
+        path: '{{ item }}/.zshrc'
+        state: touch
+        owner: "{{ item | regex_replace('(^/home/)', '') }}"
+        group: "{{ item | regex_replace('(^/home/)', '') }}"
+      loop: '{{ user_dirs }}'
+
     - name: Set ZSH_THEME to powerlevel10k/powerlevel10k in .zshrc for each user
       ansible.builtin.lineinfile:
         path: '{{ item }}/.zshrc'
