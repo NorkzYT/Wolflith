@@ -99,6 +99,8 @@ Created by NorkzYT with 💛
     - [user-creation.yml](./Ansible/playbooks/user-creation.yml)
     - [zsh.yml](./Ansible/playbooks/zsh.yml)
     - [zsh_powerlevel10k.yml](./Ansible/playbooks/zsh_powerlevel10k.yml)
+  - [**static**](./Ansible/static)
+    - [.p10k.zsh](./Ansible/static/.p10k.zsh)
   - [**templates**](./Ansible/templates)
     - [timesyncd.conf](./Ansible/templates/timesyncd.conf)
 - [**Auto**](./Auto)
