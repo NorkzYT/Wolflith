@@ -47,12 +47,20 @@ alias_file="/etc/profile.d/PCSMenu_aliases.sh"
 echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee $alias_file >/dev/null
 echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $alias_file >/dev/null
 
-# If using zsh, append aliases to global zshrc for all users
+# Check if zsh is installed and echo a message for debugging
 if command -v zsh &>/dev/null; then
+    echo "Zsh is installed, proceeding with updates to .zshrc files."
     for zshrc in /home/*/.zshrc; do
-        echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" >>"$zshrc"
-        echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" >>"$zshrc"
+        if [ -f "$zshrc" ]; then
+            echo "Updating $zshrc with new aliases."
+            echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" >>"$zshrc"
+            echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" >>"$zshrc"
+        else
+            echo "$zshrc does not exist."
+        fi
     done
+else
+    echo "Zsh is not installed, skipping updates to .zshrc files."
 fi
 
 # Make sure the new alias script is executable
