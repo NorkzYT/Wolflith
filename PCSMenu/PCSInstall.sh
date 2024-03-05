@@ -47,11 +47,17 @@ alias_file="/etc/profile.d/PCSMenu_aliases.sh"
 echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee $alias_file >/dev/null
 echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $alias_file >/dev/null
 
+# If using zsh, append aliases to .zshrc for users that login with zsh
+if command -v zsh &>/dev/null; then
+    echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" >>"$zshrc"
+    echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" >>"$zshrc"
+fi
+
 # If using zsh, append aliases to global zshrc for all users
 if command -v zsh &>/dev/null; then
     for zshrc in /home/*/.zshrc; do
-        echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee -a $zshrc >/dev/null
-        echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $zshrc >/dev/null
+        echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" >>"$zshrc"
+        echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" >>"$zshrc"
     done
 fi
 
