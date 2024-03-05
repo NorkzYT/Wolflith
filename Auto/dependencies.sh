@@ -3,33 +3,33 @@
 # Source the PersonalizationFunctions for color support
 source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
-install_pipx() {
-    if ! command -v pipx &>/dev/null; then
-        echo "pipx is not installed. Installing pipx via apt..."
-        sudo apt update && sudo apt install -y pipx
-        if [ $? -ne 0 ]; then
-            echo "Failed to install pipx via apt. Please check your package manager settings."
-            exit 1
-        else
-            echo "Successfully installed pipx."
-        fi
-    else
-        echo "pipx is already installed."
-    fi
-}
-
 # Function to install Ansible
 install_ansible() {
+    # Attempt to verify Ansible operation rather than just command existence
     if ansible --version &>/dev/null; then
         echo "Ansible is already installed and operational."
     else
-        echo "Ansible is not operational. Installing or fixing Ansible with pipx..."
-        pipx install ansible
+        echo "Ansible is not operational. Installing or fixing Ansible..."
 
+        # Install or attempt to fix Ansible using pip
+        python3 -m pip install --user ansible
+
+        # Re-evaluate if Ansible is operational after installation/fix
         if ansible --version &>/dev/null; then
-            echo "Ansible installed/fixed successfully with pipx."
+            echo "Ansible installed/fixed successfully."
+
+            # Add ~/.local/bin to PATH for the current session
+            PATH="$HOME/.local/bin:$PATH"
+            export PATH
+
+            # Add ~/.local/bin to PATH for all future sessions
+            if ! grep -q 'PATH="$HOME/.local/bin:$PATH"' ~/.bashrc; then
+                echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
+                echo "Added /root/.local/bin to PATH in ~/.bashrc for future sessions."
+            fi
+
         else
-            echo "Failed to install/fix Ansible with pipx. Please check your Python environment."
+            echo "Failed to install/fix Ansible. Please check your package manager settings or Python environment."
             exit 1
         fi
     fi
@@ -77,47 +77,11 @@ install_pip3() {
     fi
 }
 
-# Ensure python3-venv is installed
-install_python_venv() {
-    if ! dpkg -s python3-venv &>/dev/null; then
-        echo "python3-venv is not installed. Installing python3-venv..."
-        sudo apt update && sudo apt install -y python3-venv
-        if [ $? -ne 0 ]; then
-            echo "Failed to install python3-venv. Please check your package manager settings."
-            exit 1
-        fi
-    else
-        echo "python3-venv is already installed."
-    fi
-}
-
-# Function to install Python dependencies from requirements.txt within a virtual environment
-install_python_dependencies() {
-    local venv_dir="/opt/Wolflith/venv"
-    echo "Preparing virtual environment for Python dependencies..."
-
-    # Create virtual environment if it doesn't exist
-    [[ -d "$venv_dir" ]] || python3 -m venv "$venv_dir"
-    if [ $? -ne 0 ]; then
-        echo "Failed to create a virtual environment. Please check your Python environment."
-        exit 1
-    fi
-
-    # Activate the virtual environment
-    source "$venv_dir/bin/activate"
-
-    echo "Installing Python dependencies in the virtual environment..."
-    pip install -r ./Auto/requirements.txt
-    if [ $? -ne 0 ]; then
-        echo "Failed to install Python dependencies. Please check your Python environment."
-        deactivate
-        exit 1
-    fi
-
-    echo "Python dependencies installed successfully in the virtual environment."
-
-    # Deactivate the virtual environment
-    deactivate
+# Function to install Python dependencies directly using pip3
+install_python_dependencies_directly() {
+    echo "Installing Python dependencies directly using apt..."
+    sudo apt-get install -y python3-requests python3-proxmoxer python3-bs4
+    echo "Python dependencies installed successfully."
 }
 
 # Function to install Go with user-specified architecture
@@ -150,8 +114,7 @@ install_go() {
         local url="https://go.dev/dl/"
 
         # Use Python to scrape the webpage and extract the latest URL for the specified architecture
-        local latest_url
-        latest_url=$(
+        local latest_url=$(
             python3 - <<END
 import requests
 from bs4 import BeautifulSoup
@@ -213,7 +176,7 @@ END
 
 # Function to install package dependencies
 install_package_dependencies() {
-    cd /opt/Wolflith || exit
+    cd /opt/Wolflith
     bun install
 }
 
@@ -224,8 +187,6 @@ install_ubuntu_dependencies() {
 # Main execution flow
 install_python
 install_pip3
-install_pipx
-install_python_venv
 install_python_dependencies
 install_ansible
 export_ansible_config
