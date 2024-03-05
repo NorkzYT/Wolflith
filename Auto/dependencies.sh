@@ -7,10 +7,26 @@ source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 install_pipx() {
     if ! command -v pipx &>/dev/null; then
         echo "pipx is not installed. Installing pipx..."
+
+        # Install pipx using pip
         python3 -m pip install --user pipx
-        python3 -m pipx ensurepath
-        if [ $? -ne 0 ]; then
-            echo "Failed to install pipx. Please check your Python environment."
+
+        # Ensure the PATH is updated to include pipx's installation directory
+        if [ -d "$HOME/.local/bin" ]; then
+            # Temporarily add ~/.local/bin to PATH for the current session
+            PATH="$HOME/.local/bin:$PATH"
+            export PATH
+
+            # Attempt to ensure pipx is correctly setup
+            python3 -m pipx ensurepath
+
+            # Check again if pipx is now available
+            if ! command -v pipx &>/dev/null; then
+                echo "Failed to install pipx via pip. Please check your Python environment."
+                exit 1
+            fi
+        else
+            echo "pipx installation directory not found. Please check your Python environment."
             exit 1
         fi
     else
@@ -150,7 +166,8 @@ install_go() {
         local url="https://go.dev/dl/"
 
         # Use Python to scrape the webpage and extract the latest URL for the specified architecture
-        local latest_url=$(
+        local latest_url
+        latest_url=$(
             python3 - <<END
 import requests
 from bs4 import BeautifulSoup
@@ -212,7 +229,7 @@ END
 
 # Function to install package dependencies
 install_package_dependencies() {
-    cd /opt/Wolflith
+    cd /opt/Wolflith || exit
     bun install
 }
 
