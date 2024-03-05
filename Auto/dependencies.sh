@@ -78,19 +78,25 @@ install_go() {
     fi
 
     echo "Go is not installed. Proceeding with the installation."
-    # Define valid architectures
-    valid_archs=("armv6l" "arm64" "amd64")
-    echo "Select the Go architecture to install: "
-    select arch in "${valid_archs[@]}"; do
-        case $arch in
-        armv6l | arm64 | amd64)
-            break
-            ;;
-        *)
-            echo "Invalid selection. Please try again."
-            ;;
-        esac
-    done
+
+    # Automatically determine the architecture
+    case $(uname -m) in
+    x86_64)
+        arch="amd64"
+        ;;
+    armv6l)
+        arch="armv6l"
+        ;;
+    aarch64)
+        arch="arm64"
+        ;;
+    *)
+        echo "Unsupported architecture."
+        exit 1
+        ;;
+    esac
+
+    echo "Detected architecture: $arch"
 
     # Function to fetch the latest Go archive URL for the specified architecture
     get_latest_url() {
@@ -98,7 +104,8 @@ install_go() {
         local url="https://go.dev/dl/"
 
         # Use Python to scrape the webpage and extract the latest URL for the specified architecture
-        local latest_url=$(
+        local latest_url
+        latest_url=$(
             python3 - <<END
 import requests
 from bs4 import BeautifulSoup
