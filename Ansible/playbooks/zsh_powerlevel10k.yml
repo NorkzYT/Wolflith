@@ -128,3 +128,41 @@
         replace: '    \1'
       loop: '{{ user_dirs }}'
       ignore_errors: yes
+
+    - name: Fetch the latest lsd release version
+      uri:
+        url: https://api.github.com/repos/lsd-rs/lsd/releases/latest
+        method: GET
+        return_content: yes
+        headers:
+          Accept: application/vnd.github.v3+json
+      register: latest_lsd_release
+      # Ensure the task fails gracefully if the API rate limit is exceeded or other issues occur
+      ignore_errors: yes
+
+    - name: Set the latest lsd version as a fact
+      set_fact:
+        lsd_version: '{{ (latest_lsd_release.content | from_json).tag_name }}'
+      when: latest_lsd_release is succeeded
+
+    - name: Determine architecture
+      set_fact:
+        architecture: "{{ 'x86_64' if ansible_architecture == 'x86_64' else 'aarch64' }}"
+
+    - name: Download lsd binary based on architecture and version
+      ansible.builtin.get_url:
+        url: 'https://github.com/lsd-rs/lsd/releases/download/{{ lsd_version }}/lsd-{{ lsd_version }}-{{ architecture }}-unknown-linux-gnu.tar.gz'
+        dest: '/tmp/lsd-{{ lsd_version }}-{{ architecture }}-unknown-linux-gnu.tar.gz'
+      when: lsd_version is defined
+
+    - name: Extract lsd tarball
+      ansible.builtin.unarchive:
+        src: '/tmp/lsd-{{ lsd_version }}-{{ architecture }}-unknown-linux-gnu.tar.gz'
+        dest: '/tmp/'
+        remote_src: yes
+      when: lsd_version is defined
+
+    - name: Move lsd binary to /usr/bin
+      ansible.builtin.command:
+        cmd: 'mv /tmp/lsd-{{ lsd_version }}-{{ architecture }}-unknown-linux-gnu/lsd /usr/bin/'
+      when: lsd_version is defined
