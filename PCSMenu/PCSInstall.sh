@@ -53,15 +53,18 @@ if command -v zsh &>/dev/null; then
     for zshrc in /home/*/.zshrc; do
         if [ -f "$zshrc" ]; then
             echo "Updating $zshrc with new aliases."
-            echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" >>"$zshrc"
-            echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" >>"$zshrc"
+            {
+                echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'"
+                echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'"
+            } >>"$zshrc"
             echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
         else
             echo "$zshrc does not exist."
         fi
     done
 else
-    echo "Zsh is not installed, skipping updates to .zshrc files."
+    echo "Zsh is not installed, updating bash for compatibility."
+    echo "Please run 'source ~/.profile' or start a new shell session to use the new aliases."
 fi
 
 # Make sure the new alias script is executable

@@ -150,10 +150,10 @@ END
 
         # Determine the shell and append the PATH update to the appropriate configuration file
         if [ "$SHELL" = "/bin/zsh" ]; then
-            echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.zshrc
+            echo "export PATH=$PATH:/usr/local/go/bin" >>~/.zshrc
             echo "Please run 'source ~/.zshrc' or restart your terminal to apply changes."
         else
-            echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.profile
+            echo "export PATH=$PATH:/usr/local/go/bin" >>~/.profile
             echo "Please run 'source ~/.profile' or restart your terminal to apply changes."
         fi
 
@@ -167,7 +167,7 @@ END
 
 # Function to install package dependencies
 install_package_dependencies() {
-    cd /opt/Wolflith
+    cd /opt/Wolflith || exit
     bun install
 }
 
