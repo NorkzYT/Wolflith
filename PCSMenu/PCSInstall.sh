@@ -48,10 +48,11 @@ echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee $alias_f
 echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $alias_file >/dev/null
 
 # If using zsh, append aliases to global zshrc for all users
-zshrc_global="/etc/zsh/zshrc"
 if command -v zsh &>/dev/null; then
-    echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee -a $zshrc_global >/dev/null
-    echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $zshrc_global >/dev/null
+    for zshrc in /home/*/.zshrc; do
+        echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee -a $zshrc >/dev/null
+        echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $zshrc >/dev/null
+    done
 fi
 
 # Make sure the new alias script is executable
