@@ -77,16 +77,47 @@ install_pip3() {
     fi
 }
 
-# Function to install Python dependencies from requirements.txt
+# Ensure python3-venv is installed
+install_python_venv() {
+    if ! dpkg -s python3-venv &>/dev/null; then
+        echo "python3-venv is not installed. Installing python3-venv..."
+        sudo apt update && sudo apt install -y python3-venv
+        if [ $? -ne 0 ]; then
+            echo "Failed to install python3-venv. Please check your package manager settings."
+            exit 1
+        fi
+    else
+        echo "python3-venv is already installed."
+    fi
+}
+
+# Function to install Python dependencies from requirements.txt within a virtual environment
 install_python_dependencies() {
-    echo "Installing Python dependencies..."
-    pip3 install -r ./Auto/requirements.txt
+    local venv_dir="/opt/Wolflith/venv"
+    echo "Preparing virtual environment for Python dependencies..."
+
+    # Create virtual environment if it doesn't exist
+    [[ -d "$venv_dir" ]] || python3 -m venv "$venv_dir"
     if [ $? -ne 0 ]; then
-        echo "Failed to install Python dependencies. Please check your Python environment."
+        echo "Failed to create a virtual environment. Please check your Python environment."
         exit 1
     fi
 
-    echo "Python dependencies installed successfully."
+    # Activate the virtual environment
+    source "$venv_dir/bin/activate"
+
+    echo "Installing Python dependencies in the virtual environment..."
+    pip install -r ./Auto/requirements.txt
+    if [ $? -ne 0 ]; then
+        echo "Failed to install Python dependencies. Please check your Python environment."
+        deactivate
+        exit 1
+    fi
+
+    echo "Python dependencies installed successfully in the virtual environment."
+
+    # Deactivate the virtual environment
+    deactivate
 }
 
 # Function to install Go with user-specified architecture
@@ -192,6 +223,7 @@ install_ubuntu_dependencies() {
 # Main execution flow
 install_python
 install_pip3
+install_python_venv
 install_python_dependencies
 install_ansible
 export_ansible_config
