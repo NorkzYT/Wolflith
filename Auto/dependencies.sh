@@ -3,31 +3,15 @@
 # Source the PersonalizationFunctions for color support
 source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
-# Ensure pipx is installed
 install_pipx() {
     if ! command -v pipx &>/dev/null; then
-        echo "pipx is not installed. Installing pipx..."
-
-        # Install pipx using pip
-        python3 -m pip install --user pipx
-
-        # Ensure the PATH is updated to include pipx's installation directory
-        if [ -d "$HOME/.local/bin" ]; then
-            # Temporarily add ~/.local/bin to PATH for the current session
-            PATH="$HOME/.local/bin:$PATH"
-            export PATH
-
-            # Attempt to ensure pipx is correctly setup
-            python3 -m pipx ensurepath
-
-            # Check again if pipx is now available
-            if ! command -v pipx &>/dev/null; then
-                echo "Failed to install pipx via pip. Please check your Python environment."
-                exit 1
-            fi
-        else
-            echo "pipx installation directory not found. Please check your Python environment."
+        echo "pipx is not installed. Installing pipx via apt..."
+        sudo apt update && sudo apt install -y pipx
+        if [ $? -ne 0 ]; then
+            echo "Failed to install pipx via apt. Please check your package manager settings."
             exit 1
+        else
+            echo "Successfully installed pipx."
         fi
     else
         echo "pipx is already installed."
