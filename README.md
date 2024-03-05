@@ -18,9 +18,9 @@ Note: This repository is in BETA and still a work in progress, I welcome contrib
 ## How to Install
 
 ```bash
-mkdir -p /opt/Wolflith
-wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolflith/main/PCSMenu/PCSInstall.sh
-chmod +x /opt/PCSInstall.sh
+sudo mkdir -p /opt/Wolflith
+sudo wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolflith/main/PCSMenu/PCSInstall.sh
+sudo chmod +x /opt/PCSInstall.sh
 sudo /opt/PCSInstall.sh --branch="main"
 ```
 
