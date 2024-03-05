@@ -3,33 +3,33 @@
 # Source the PersonalizationFunctions for color support
 source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
+# Ensure pipx is installed
+install_pipx() {
+    if ! command -v pipx &>/dev/null; then
+        echo "pipx is not installed. Installing pipx..."
+        python3 -m pip install --user pipx
+        python3 -m pipx ensurepath
+        if [ $? -ne 0 ]; then
+            echo "Failed to install pipx. Please check your Python environment."
+            exit 1
+        fi
+    else
+        echo "pipx is already installed."
+    fi
+}
+
 # Function to install Ansible
 install_ansible() {
-    # Attempt to verify Ansible operation rather than just command existence
     if ansible --version &>/dev/null; then
         echo "Ansible is already installed and operational."
     else
-        echo "Ansible is not operational. Installing or fixing Ansible..."
+        echo "Ansible is not operational. Installing or fixing Ansible with pipx..."
+        pipx install ansible
 
-        # Install or attempt to fix Ansible using pip
-        python3 -m pip install --user ansible
-
-        # Re-evaluate if Ansible is operational after installation/fix
         if ansible --version &>/dev/null; then
-            echo "Ansible installed/fixed successfully."
-
-            # Add ~/.local/bin to PATH for the current session
-            PATH="$HOME/.local/bin:$PATH"
-            export PATH
-
-            # Add ~/.local/bin to PATH for all future sessions
-            if ! grep -q 'PATH="$HOME/.local/bin:$PATH"' ~/.bashrc; then
-                echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
-                echo "Added /root/.local/bin to PATH in ~/.bashrc for future sessions."
-            fi
-
+            echo "Ansible installed/fixed successfully with pipx."
         else
-            echo "Failed to install/fix Ansible. Please check your package manager settings or Python environment."
+            echo "Failed to install/fix Ansible with pipx. Please check your Python environment."
             exit 1
         fi
     fi
@@ -223,6 +223,7 @@ install_ubuntu_dependencies() {
 # Main execution flow
 install_python
 install_pip3
+install_pipx
 install_python_venv
 install_python_dependencies
 install_ansible
