@@ -5,31 +5,15 @@ source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
 
 # Function to install Ansible
 install_ansible() {
-    # Attempt to verify Ansible operation rather than just command existence
     if ansible --version &>/dev/null; then
         echo "Ansible is already installed and operational."
     else
-        echo "Ansible is not operational. Installing or fixing Ansible..."
-
-        # Install or attempt to fix Ansible using pip
-        python3 -m pip install --user ansible
-
-        # Re-evaluate if Ansible is operational after installation/fix
+        echo "Ansible is not operational. Installing Ansible..."
+        sudo apt-get update && sudo apt-get install -y ansible
         if ansible --version &>/dev/null; then
-            echo "Ansible installed/fixed successfully."
-
-            # Add ~/.local/bin to PATH for the current session
-            PATH="$HOME/.local/bin:$PATH"
-            export PATH
-
-            # Add ~/.local/bin to PATH for all future sessions
-            if ! grep -q 'PATH="$HOME/.local/bin:$PATH"' ~/.bashrc; then
-                echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
-                echo "Added /root/.local/bin to PATH in ~/.bashrc for future sessions."
-            fi
-
+            echo "Ansible installed successfully."
         else
-            echo "Failed to install/fix Ansible. Please check your package manager settings or Python environment."
+            echo "Failed to install Ansible. Please check your package manager settings."
             exit 1
         fi
     fi
@@ -187,7 +171,7 @@ install_ubuntu_dependencies() {
 # Main execution flow
 install_python
 install_pip3
-install_python_dependencies
+install_python_dependencies_directly
 install_ansible
 export_ansible_config
 install_ansible_required_collections
