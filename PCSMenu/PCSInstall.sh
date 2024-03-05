@@ -9,7 +9,16 @@
 ifolder="/opt/Wolflith"
 
 # Update and install necessary packages
-apt update && apt install -y sudo curl git make nodejs npm
+apt update && apt install -y sudo curl git make
+
+# Install nodejs which includes npm in recent versions
+apt install -y nodejs
+
+# Check if npm is installed, if not install it
+if ! command -v npm &>/dev/null; then
+    echo "npm could not be found, installing..."
+    apt install npm -y
+fi
 
 # Install bun globally
 npm install -g bun
