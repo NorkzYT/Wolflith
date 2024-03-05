@@ -42,12 +42,19 @@ fi
 
 find $ifolder -type f -iname "*.sh" -exec chmod +x {} \;
 
-# Create aliases in a new script within /etc/profile.d/
-echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee /etc/profile.d/PCSMenu.sh >/dev/null
-echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee /etc/profile.d/PCSUpdate.sh >/dev/null
+# Create aliases for both bash and zsh shells
+alias_file="/etc/profile.d/PCSMenu_aliases.sh"
+echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee $alias_file >/dev/null
+echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $alias_file >/dev/null
 
-# Make sure the new alias scripts are executable
-sudo chmod +x /etc/profile.d/PCSMenu.sh /etc/profile.d/PCSUpdate.sh
+# If using zsh, append aliases to .zshrc for users that login with zsh
+if command -v zsh &>/dev/null; then
+    echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee -a /etc/zsh/zshrc >/dev/null
+    echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a /etc/zsh/zshrc >/dev/null
+fi
+
+# Make sure the new alias script is executable
+sudo chmod +x $alias_file
 
 # Source PCSFunc if available
 [[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/PCSFunc.sh
