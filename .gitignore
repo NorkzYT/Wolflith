@@ -44,3 +44,6 @@ hosts.yaml
 
 # OpenCommit commitlint config
 .opencommit-commitlint
+
+# Rust
+target/

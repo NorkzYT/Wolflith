@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSRustMenu/src/PersonalizationFunc.sh
 
 # Global variables for cache files and their lifetimes
 CACHE_DIR="/opt/Wolflith/Temp/PCSMenuCache"
@@ -37,6 +37,7 @@ function menu_cover() {
  |  ___/| |     \___ \| |   | |  | |  _  /|  ___/ 
  | |    | |____ ____) | |___| |__| | | \ \| |     
  |_|     \_____|_____/ \_____\____/|_|  \_\_|      Version: $latest_version
+ 
 "
     printf "${Color_Off}"
 }
@@ -59,7 +60,7 @@ check_update() {
 
     if [[ "$last_checked" != "$current_date" ]]; then
         echo "$current_date" >"$last_checked_file"
-        current_version=$(grep 'Version:' "/opt/Wolflith/PCSMenu/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
+        current_version=$(grep 'Version:' "/opt/Wolflith/PCSRustMenu/src/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
         latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ "$current_version" != "$latest_version" ]; then
             blueprint "Your PCSMenu is not up-to-date. Use 'pcsupdate' to update."
