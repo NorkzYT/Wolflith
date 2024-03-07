@@ -1,11 +1,11 @@
+use chrono::{DateTime, Duration, Utc};
+use get_if_addrs::{get_if_addrs, IfAddr};
+use lazy_static::lazy_static;
 use serde_json::Value;
-use std::sync::Mutex;
-use lazy_static::lazy_static; 
-use chrono::{DateTime, Utc, Duration};
 use std::io::Write;
+use std::sync::Mutex;
 use sysinfo::System;
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
-use get_if_addrs::{get_if_addrs, IfAddr};
 
 pub fn clear_screen() {
     print!("\x1B[2J\x1B[1;1H");
@@ -13,7 +13,7 @@ pub fn clear_screen() {
 
 pub fn default_menu_screen() {
     clear_screen();
-    main_cover(); 
+    main_cover();
     menu_bar();
 }
 
@@ -65,7 +65,7 @@ fn get_ipv4() -> String {
                     if !v4_addr.is_loopback() {
                         return v4_addr.ip.to_string();
                     }
-                },
+                }
                 _ => continue,
             }
         }
@@ -94,18 +94,18 @@ struct CachedIP {
 // Using lazy_static to safely create a static mutable variable
 lazy_static! {
     static ref IP_CACHE: Mutex<Option<CachedIP>> = Mutex::new(None);
-} 
+}
 
 // Function to get the public IP, updating it every 3 hours if needed
 fn get_public_ip() -> String {
     let mut ip_cache = IP_CACHE.lock().unwrap();
     let now = Utc::now();
-    
+
     match &*ip_cache {
         Some(cached_ip) if now - cached_ip.last_update < Duration::try_hours(3).unwrap() => {
             // Cached IP is still fresh
             cached_ip.ip.clone()
-        },
+        }
         _ => {
             // Cache is empty or IP is old, fetch new IP and update cache
             match reqwest::blocking::get("https://api.ipify.org") {
@@ -118,23 +118,23 @@ fn get_public_ip() -> String {
                                     last_update: now,
                                 });
                                 ip
-                            },
+                            }
                             Err(_) => "Error fetching IP".to_string(),
                         }
                     } else {
                         "API request failed".to_string()
                     }
-                },
+                }
                 Err(_) => "Network request failed".to_string(),
             }
-        },
+        }
     }
 }
 
 fn get_cpu_info() -> usize {
     let mut system = System::new_all();
     system.refresh_all();
-    system.cpus().len()  // This retrieves the number of logical CPUs.
+    system.cpus().len() // This retrieves the number of logical CPUs.
 }
 
 fn get_ram_info() -> String {
@@ -147,14 +147,16 @@ fn get_ram_info() -> String {
     format!("{:.4} GB", free_memory_gb) // Format the output to 4 decimal places
 }
 
-
 pub fn os_release() -> String {
     // Example implementation using sysinfo crate
     let mut system = System::new_all();
     system.refresh_all();
-    format!("{} {}", sysinfo::System::name().unwrap_or_default(), sysinfo::System::os_version().unwrap_or_default())
+    format!(
+        "{} {}",
+        sysinfo::System::name().unwrap_or_default(),
+        sysinfo::System::os_version().unwrap_or_default()
+    )
 }
-
 
 pub fn menu_bar() {
     let ipv4 = get_ipv4();
@@ -166,10 +168,18 @@ pub fn menu_bar() {
 
     let os_release = os_release(); // Implement os_release based on your needs
 
-    print_color_bold(&format!("OS: {} | CPU(s): {} | CPU Threads: {} | IPv4: {} | Public IP: {} | {} | RAM free: {}\n", 
-        os_release, cpu_s, cpu_threads, ipv4, public_ip, 
-        tailscale_ip.map_or_else(|| "".to_string(), |ip| format!("Tailscale IP: {}", ip)), 
-        ram_free), Color::Cyan, true);
+    // Conditional inclusion of Tailscale IP
+    let tailscale_ip_info =
+        tailscale_ip.map_or_else(|| "".to_string(), |ip| format!(" | Tailscale IP: {}", ip));
+
+    print_color_bold(
+        &format!(
+            "OS: {} | CPU(s): {} | CPU Threads: {} | IPv4: {} | Public IP: {}{} | RAM free: {}\n",
+            os_release, cpu_s, cpu_threads, ipv4, public_ip, tailscale_ip_info, ram_free
+        ),
+        Color::Cyan,
+        true,
+    );
 }
 
 // pub fn print_color(text: &str, color: Color) {

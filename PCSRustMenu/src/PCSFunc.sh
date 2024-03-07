@@ -37,7 +37,6 @@ function menu_cover() {
  |  ___/| |     \___ \| |   | |  | |  _  /|  ___/ 
  | |    | |____ ____) | |___| |__| | | \ \| |     
  |_|     \_____|_____/ \_____\____/|_|  \_\_|      Version: $latest_version
- 
 "
     printf "${Color_Off}"
 }
@@ -168,9 +167,10 @@ function menu_bar() {
     cpu_s=$(lscpu | grep "CPU(s):" | tail +1 | head -1 | awk '{print $2}')
     cpu_threads=$(threads_pc)
     ram_free=$(memory)
+    os_info=$(os_release)
 
     printf "$BCyan"
-    os_release
+    printf "%s" " OS: $os_info"
     printf " |"
     printf "%s" " CPU(s): $cpu_s"
     printf " |"
