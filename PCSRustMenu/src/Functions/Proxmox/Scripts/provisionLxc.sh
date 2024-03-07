@@ -162,6 +162,7 @@ hostname: "$hostname"
 node: "$node"
 vCPU: $vCPU
 RAM: $RAM
+vmid: ""
 lxc_storage_amount: $lxc_storage_amount
 lxc_storage_name: "$lxc_storage_name"
 lxc_root_password: "$lxc_root_password"

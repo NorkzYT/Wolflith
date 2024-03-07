@@ -30,6 +30,8 @@ function docker_update() {
                 greenprint "Proceeding with the machine: $ansible_playbook_targets"
             fi
 
+            export ANSIBLE_CONFIG=/opt/Wolflith/Ansible/inventory/ansible.cfg
+
             cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
             # Execute the Ansible playbook for the specified target(s), capturing output
             if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/docker-update.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then

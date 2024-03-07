@@ -104,6 +104,8 @@ execute_ansible_playbooks() {
         LIMIT_OPTION="--limit $machine_name" # Limit to the selected machine
     fi
 
+    export ANSIBLE_CONFIG=/opt/Wolflith/Ansible/inventory/ansible.cfg
+
     # Define a function to run ansible playbooks with limit option if applicable
     run_playbook() {
         local playbook=$1

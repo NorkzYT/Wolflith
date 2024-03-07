@@ -14,13 +14,12 @@ if [ -z "$1" ]; then
 fi
 
 # Define paths
-provisioning_vars_path="/opt/Wolflith/Temp/provisioning_docker_service_vars.yml"
+provisioning_vars_path="/tmp/provisioning_docker_service_vars.yml"
 docker_compose_path="/home/docker/$1/docker-compose.yml"
 
 # Read variables from provisioning_docker_service_vars.yml
 network_name=$(awk '/network_name:/ {print $2}' "$provisioning_vars_path" | tr -d '"')
-appdata_location=$(awk '/appdata_location:/ {print $2}' "$provisioning_vars_path" | tr -d '"/"')
-selected_service=$(awk '/selected_service:/ {print $2}' "$provisioning_vars_path" | tr -d '"')
+appdata_location=$(awk '/appdata_location:/ {print $2}' "$provisioning_vars_path" | tr -d '"')
 
 # Update docker-compose.yml with the new network_name and appdata_location
 if [ -n "$network_name" ] && [ -n "$appdata_location" ]; then
@@ -35,7 +34,7 @@ if [ -n "$network_name" ] && [ -n "$appdata_location" ]; then
 
     # Replace /opt/appdata with the actual appdata_location in volumes
     # This command targets the specific volume path for the configuration
-    sed -i "s|/opt/appdata/webtop|$appdata_location/$selected_service|g" "$docker_compose_path"
+    sed -i "s|/opt/appdata|${appdata_location}|g" "$docker_compose_path"
 
     echo "docker-compose.yml updated successfully."
 else

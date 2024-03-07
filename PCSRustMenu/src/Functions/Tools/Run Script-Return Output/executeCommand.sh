@@ -26,6 +26,8 @@ function execute_linux_command_via_ansible() {
                 read -r ansible_playbook_targets
             fi
 
+            export ANSIBLE_CONFIG=/opt/Wolflith/Ansible/inventory/ansible.cfg
+
             # Execute the Ansible playbook for the specified target(s), capturing output
             if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='$user_command'" 2>&1); then
                 redprint "An error occurred during playbook execution:"

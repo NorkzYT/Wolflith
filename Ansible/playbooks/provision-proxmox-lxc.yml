@@ -155,7 +155,7 @@
 
         - name: Add a bind mount of the share to the LXC config
           ansible.builtin.lineinfile:
-            path: '/etc/pve/lxc/{{ cifs_share_details.vmid }}.conf'
+            path: '/etc/pve/lxc/{{ vmid }}.conf'
             line: 'mp0: /mnt/lxc_shares/{{ cifs_share_details.folder_name }},mp=/mnt/{{ cifs_share_details.folder_name }},shared=1'
             create: yes
       when: cifs_setup_required
@@ -265,7 +265,7 @@
             mode: '0755'
           loop:
             - {
-                src: '/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
+                src: '/opt/Wolflith/PCSRustMenu/src/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
                 dest: '/tmp/updateDockerComposeEnv.sh',
               }
             - {
@@ -323,7 +323,7 @@
               ansible.builtin.shell: |
                 pct exec {{ vmid }} -- chmod +x /tmp/updateDockerComposeEnv.sh
 
-            - name: Execute Script Inside LXC to Generate .env File
+            - name: Execute Script Inside LXC to update Docker Compose file
               ansible.builtin.shell: |
                 pct exec {{ vmid }} -- bash -c "cd /tmp && ./updateDockerComposeEnv.sh {{ selected_service }}"
 
