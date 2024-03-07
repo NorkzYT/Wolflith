@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSRustMenu/src/PersonalizationFunc.sh
 
 # Global variables for cache files and their lifetimes
 CACHE_DIR="/opt/Wolflith/Temp/PCSMenuCache"
@@ -59,7 +59,7 @@ check_update() {
 
     if [[ "$last_checked" != "$current_date" ]]; then
         echo "$current_date" >"$last_checked_file"
-        current_version=$(grep 'Version:' "/opt/Wolflith/PCSMenu/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
+        current_version=$(grep 'Version:' "/opt/Wolflith/PCSRustMenu/src/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
         latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ "$current_version" != "$latest_version" ]; then
             blueprint "Your PCSMenu is not up-to-date. Use 'pcsupdate' to update."
@@ -167,9 +167,10 @@ function menu_bar() {
     cpu_s=$(lscpu | grep "CPU(s):" | tail +1 | head -1 | awk '{print $2}')
     cpu_threads=$(threads_pc)
     ram_free=$(memory)
+    os_info=$(os_release)
 
     printf "$BCyan"
-    os_release
+    printf "%s" " OS: $os_info"
     printf " |"
     printf "%s" " CPU(s): $cpu_s"
     printf " |"
