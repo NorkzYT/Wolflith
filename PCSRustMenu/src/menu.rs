@@ -104,26 +104,30 @@ fn navigate(current_dir: &mut PathBuf, selection: &str) -> bool {
         }
         _ => {
             if let Ok(index) = selection.parse::<usize>() {
-                let mut entries = fs::read_dir(current_dir)
-                    .unwrap()
-                    .filter_map(|e| e.ok())
-                    .filter(|e| {
-                        e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
-                            || e.path().is_file()
-                                && e.path().extension().map_or(false, |ext| ext == "sh")
-                    })
-                    .collect::<Vec<_>>();
+                let entries_result = fs::read_dir(&*current_dir); // Use &* to borrow current_dir
+                if let Ok(entries) = entries_result {
+                    let mut entries_vec = entries
+                        .filter_map(Result::ok)
+                        .filter(|e| {
+                            e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
+                                || e.path().is_file()
+                                    && e.path().extension().map_or(false, |ext| ext == "sh")
+                        })
+                        .collect::<Vec<_>>();
 
-                // Sort entries alphabetically by file name
-                entries.sort_by_key(|entry| entry.file_name());
+                    // Sort entries alphabetically by file name
+                    entries_vec.sort_by_key(|entry| entry.file_name());
 
-                if index <= entries.len() {
-                    let new_path = entries[index - 1].path();
-                    if new_path.is_dir() {
-                        *current_dir = new_path;
-                    } else {
-                        // Execute the script directly if it is a file
-                        run_script(&new_path, current_dir);
+                    if index <= entries_vec.len() {
+                        let new_path = entries_vec[index - 1].path();
+                        if new_path.is_dir() {
+                            *current_dir = new_path;
+                        } else {
+                            // Temporarily clone current_dir to avoid move
+                            let _current_dir_clone = current_dir.clone();
+                            // Execute the script directly if it is a file
+                            run_script(&new_path, current_dir);
+                        }
                     }
                 }
             }
