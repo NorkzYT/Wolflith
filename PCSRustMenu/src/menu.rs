@@ -47,13 +47,16 @@ pub fn main() {
 }
 
 fn display_menu(current_dir: &Path) -> io::Result<usize> {
-    let entries = fs::read_dir(current_dir)?
+    let mut entries = fs::read_dir(current_dir)?
         .filter_map(|e| e.ok())
         .filter(|e| {
             e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
                 || e.path().is_file() && e.path().extension().map_or(false, |ext| ext == "sh")
         })
         .collect::<Vec<_>>();
+
+    // Sort entries alphabetically by file name
+    entries.sort_by_key(|entry| entry.file_name());
 
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
 
