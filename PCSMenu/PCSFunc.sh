@@ -170,7 +170,7 @@ function menu_bar() {
     os_info=$(os_release)
 
     printf "$BCyan"
-    printf "%s" " OS: $os_info"
+    printf "%s" "OS: $os_info"
     printf " |"
     printf "%s" " CPU(s): $cpu_s"
     printf " |"

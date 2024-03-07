@@ -104,23 +104,26 @@ fn navigate(current_dir: &mut PathBuf, selection: &str) -> bool {
         }
         _ => {
             if let Ok(index) = selection.parse::<usize>() {
-                if let Ok(entries) = fs::read_dir(&current_dir) {
-                    let entries: Vec<_> = entries
-                        .filter_map(|e| e.ok())
-                        .filter(|e| {
-                            e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
-                                || e.path().is_file()
-                                    && e.path().extension().map_or(false, |ext| ext == "sh")
-                        })
-                        .collect();
-                    if index <= entries.len() {
-                        let new_path = entries[index - 1].path();
-                        if new_path.is_dir() {
-                            *current_dir = new_path.clone();
-                        } else {
-                            // Execute the script directly if it is a file
-                            run_script(&new_path, current_dir);
-                        }
+                let mut entries = fs::read_dir(current_dir)
+                    .unwrap()
+                    .filter_map(|e| e.ok())
+                    .filter(|e| {
+                        e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
+                            || e.path().is_file()
+                                && e.path().extension().map_or(false, |ext| ext == "sh")
+                    })
+                    .collect::<Vec<_>>();
+
+                // Sort entries alphabetically by file name
+                entries.sort_by_key(|entry| entry.file_name());
+
+                if index <= entries.len() {
+                    let new_path = entries[index - 1].path();
+                    if new_path.is_dir() {
+                        *current_dir = new_path;
+                    } else {
+                        // Execute the script directly if it is a file
+                        run_script(&new_path, current_dir);
                     }
                 }
             }
