@@ -57,6 +57,12 @@ function provision_docker_services_on_lxc() {
             cyanprint "Provisioning LXC container..."
             bash "/opt/Wolflith/PCSRustMenu/src/Functions/Proxmox/Scripts/provisionLxc.sh"
 
+            # Check appdata_location and run revised proxmox-lxc-cifs-share.sh script
+            appdata_location=$(grep "appdata_location" /opt/Wolflith/Temp/provisioning_docker_service_vars.yml | cut -d '"' -f 2)
+            if [[ "$appdata_location" == /mnt* ]]; then
+                bash "/opt/Wolflith/PCSRustMenu/src/Functions/Proxmox/Scripts/proxmoxLxcCifsShare.sh"
+            fi
+
             cyanprint "Executing Playbook... (Please be patient, may take more than 10 minutes to complete)"
             # Execute the Ansible playbook for the specified target(s), capturing output
             if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/provision-proxmox-lxc.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
