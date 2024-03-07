@@ -62,7 +62,7 @@ fn display_menu(current_dir: &Path) -> io::Result<usize> {
 
     for (i, entry) in entries.iter().enumerate() {
         stdout
-            .set_color(ColorSpec::new().set_fg(Some(Color::Blue)))
+            .set_color(ColorSpec::new().set_fg(Some(Color::Green)))
             .unwrap();
         write!(
             stdout,
@@ -81,7 +81,7 @@ fn display_menu(current_dir: &Path) -> io::Result<usize> {
     stdout
         .set_color(ColorSpec::new().set_fg(Some(Color::Red)))
         .unwrap();
-    write!(stdout, "  X) Exit").unwrap();
+    write!(stdout, " X) Exit").unwrap();
 
     stdout.reset().unwrap();
     println!(); // Move to the next line after the menu options

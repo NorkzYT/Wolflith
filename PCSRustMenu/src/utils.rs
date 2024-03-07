@@ -2,6 +2,8 @@ use chrono::{DateTime, Duration, Utc};
 use get_if_addrs::{get_if_addrs, IfAddr};
 use lazy_static::lazy_static;
 use serde_json::Value;
+use std::collections::HashMap;
+use std::fs;
 use std::io::Write;
 use std::sync::Mutex;
 use sysinfo::System;
@@ -148,14 +150,32 @@ fn get_ram_info() -> String {
 }
 
 pub fn os_release() -> String {
-    // Example implementation using sysinfo crate
-    let mut system = System::new_all();
-    system.refresh_all();
-    format!(
-        "{} {}",
-        sysinfo::System::name().unwrap_or_default(),
-        sysinfo::System::os_version().unwrap_or_default()
-    )
+    let path = "/etc/os-release";
+    let content = fs::read_to_string(path);
+
+    match content {
+        Ok(content) => {
+            let entries = content
+                .lines()
+                .filter_map(|line| {
+                    let mut parts = line.splitn(2, '=');
+                    match (parts.next(), parts.next()) {
+                        (Some(key), Some(value)) => Some((key.trim(), value.trim_matches('"'))),
+                        _ => None,
+                    }
+                })
+                .collect::<HashMap<_, _>>();
+
+            entries
+                .get("PRETTY_NAME")
+                .map(|s| s.to_string())
+                .unwrap_or_else(|| "Unknown OS".to_string())
+        }
+        Err(_) => {
+            // Implement fallbacks as needed
+            "Error reading /etc/os-release".to_string()
+        }
+    }
 }
 
 pub fn menu_bar() {
