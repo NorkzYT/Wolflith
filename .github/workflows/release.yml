@@ -48,7 +48,7 @@ jobs:
           OUTPUT: CHANGELOG.md
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.semantic_release.outputs.tag }}
           name: ${{ steps.semantic_release.outputs.tag }}
