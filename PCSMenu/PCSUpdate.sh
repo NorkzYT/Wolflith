@@ -5,7 +5,7 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/src/Color.sh
 
 # Go to specific directory
 cd "/opt/Wolflith" || exit

@@ -115,6 +115,25 @@
   tasks:
     - name: Configure LXC and PVE for CIFS share
       block:
+        - name: Start LXC Container
+          community.general.proxmox:
+            api_user: '{{ api_user }}'
+            api_password: '{{ api_password }}'
+            api_host: '{{ api_host }}'
+            node: '{{ node }}'
+            vmid: '{{ vmid }}'
+            unprivileged: true
+            state: started
+
+        - name: Creating group 'lxc_shares' with GID=110000 in LXC
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- groupadd -g 110000 lxc_shares
+          ignore_errors: yes
+
+        - name: Adding user to group 'lxc_shares' in LXC
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- usermod -aG lxc_shares {{ cifs_share_details.lxc_username }}
+
         - name: Ensure CIFS utilities are installed on the Proxmox host
           ansible.builtin.package:
             name: cifs-utils
@@ -128,9 +147,8 @@
         - name: Add CIFS share to /etc/fstab with nobrl option
           ansible.builtin.lineinfile:
             path: /etc/fstab
-            line: '//{{ cifs_share_details.cifs_host }}/{{ cifs_share_details.share_name }} /mnt/lxc_shares/{{ cifs_share_details.folder_name }} cifs _netdev,x-systemd.automount,noatime,nobrl,uid=100000,gid=100000,dir_mode=0770,file_mode=0770,credentials=/etc/cifs-{{ cifs_share_details.folder_name }}.cred 0 0'
+            line: '//{{ cifs_share_details.cifs_host }}/{{ cifs_share_details.share_name }} /mnt/lxc_shares/{{ cifs_share_details.folder_name }} cifs _netdev,x-systemd.automount,noatime,nobrl,uid=100000,gid=110000,dir_mode=0770,file_mode=0770,credentials=/etc/cifs-{{ cifs_share_details.folder_name }}.cred 0 0'
             create: yes
-
         - name: Create CIFS credentials file
           ansible.builtin.copy:
             content: |
@@ -265,7 +283,7 @@
             mode: '0755'
           loop:
             - {
-                src: '/opt/Wolflith/PCSRustMenu/src/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
+                src: '/opt/Wolflith/PCSMenu/src/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
                 dest: '/tmp/updateDockerComposeEnv.sh',
               }
             - {

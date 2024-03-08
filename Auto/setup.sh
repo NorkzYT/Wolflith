@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/src/Color.sh
 
 # Install all dependencies
 install_dependencies() {
@@ -97,6 +97,20 @@ modifyComposeFiles() {
     "/opt/Wolflith/Auto/modifyComposeFiles.sh" "/opt/Wolflith"
 }
 
+# Build PCSMenu with Cargo
+build_PCSMenu() {
+    blueprint "Building PCSMenu with Cargo..."
+    pushd /opt/Wolflith/PCSMenu || exit
+    if cargo build --release; then
+        greenprint "PCSMenu built successfully."
+    else
+        redprint "Failed to build PCSMenu."
+        exit 1
+    fi
+    popd || exit
+    echo ""
+}
+
 # Setup Environment files
 EnvSetup() {
     "/opt/Wolflith/Auto/environmentSetup.sh" "/opt/Wolflith"
@@ -109,6 +123,7 @@ main() {
     cyanprint "Starting Wolflith setup..."
     install_dependencies
     EnvSetup
+    build_PCSMenu
     configure_vault
     modifyComposeFiles
     blueprint "Before provisioning any Docker services, you have the opportunity to customize the environment settings. This can be done by modifying the .env file located in the respective docker service's folder."

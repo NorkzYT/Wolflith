@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/src/Color.sh
 
 # Function to install Ansible
 install_ansible() {
@@ -165,6 +165,25 @@ END
     fi
 }
 
+# Function to install Rust programming language and dependencies using rustup
+install_rust() {
+    if command -v rustc &>/dev/null; then
+        echo "Rust is already installed."
+    else
+        echo "Rust is not installed. Installing Rust using rustup..."
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+        source "$HOME/.cargo/env"
+
+        if command -v rustc &>/dev/null; then
+            echo "Rust installed successfully."
+        else
+            echo "Failed to install Rust. Please check the installation logs and try again."
+            exit 1
+        fi
+    fi
+}
+
 # Function to install package dependencies
 install_package_dependencies() {
     cd /opt/Wolflith || exit
@@ -172,7 +191,7 @@ install_package_dependencies() {
 }
 
 install_ubuntu_dependencies() {
-    sudo apt-get install sshpass
+    sudo apt-get install sshpass libssl-dev pkg-config
 }
 
 # Main execution flow
@@ -183,5 +202,6 @@ install_ansible
 export_ansible_config
 install_ansible_required_collections
 install_go
+install_rust
 install_package_dependencies
 install_ubuntu_dependencies

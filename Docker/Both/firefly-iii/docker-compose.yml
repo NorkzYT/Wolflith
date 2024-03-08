@@ -40,6 +40,9 @@ services:
       - POSTGRES_USER=${FIREFLYIII_DB_USERNAME}
       - POSTGRES_PASSWORD=${FIREFLYIII_DB_PASSWORD}
       - POSTGRES_DB=${FIREFLYIII_DB_DATABASE}
+    volumes:
+      - /opt/appdata/firefly-iii/postgresql:/var/lib/postgresql/data
+      - /etc/passwd:/etc/passwd:ro
     ports:
       - 5432:5432
     restart: unless-stopped

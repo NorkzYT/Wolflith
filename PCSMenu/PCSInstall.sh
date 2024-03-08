@@ -53,7 +53,7 @@ find $ifolder -type f -iname "*.sh" -exec chmod +x {} \;
 
 # Create aliases for both bash and zsh shells
 alias_file="/etc/profile.d/PCSMenu_aliases.sh"
-echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee $alias_file >/dev/null
+echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'" | sudo tee $alias_file >/dev/null
 echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $alias_file >/dev/null
 
 # Check if zsh is installed and echo a message for debugging
