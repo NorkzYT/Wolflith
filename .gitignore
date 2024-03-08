@@ -35,6 +35,9 @@ yarn-error.log*
 # Packages
 *.gz
 
+# PCSMenu version file
+version
+
 # Specific Files
 1password-credentials.json
 hosts.yaml
