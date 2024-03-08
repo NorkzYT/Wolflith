@@ -107,7 +107,6 @@ Created by NorkzYT with 💛
   - [dependencies.sh](./Auto/dependencies.sh)
   - [environmentSetup.sh](./Auto/environmentSetup.sh)
   - [modifyComposeFiles.sh](./Auto/modifyComposeFiles.sh)
-  - [requirements.txt](./Auto/requirements.txt)
   - [setup.sh](./Auto/setup.sh)
 - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
 - [DEVELOPERS.md](./DEVELOPERS.md)
