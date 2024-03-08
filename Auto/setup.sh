@@ -101,7 +101,7 @@ modifyComposeFiles() {
 build_PCSMenu() {
     blueprint "Building PCSMenu with Cargo..."
     pushd /opt/Wolflith/PCSMenu || exit
-    if cargo build --release; then
+    if sudo cargo build --release; then
         greenprint "PCSMenu built successfully."
     else
         redprint "Failed to build PCSMenu."
