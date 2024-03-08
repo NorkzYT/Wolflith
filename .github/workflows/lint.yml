@@ -2,7 +2,7 @@ name: ansible-lint
 
 on:
   pull_request:
-    branches: ['main']
+    branches: ['staging']
 
 jobs:
   build:
@@ -10,5 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install ansible
+        run: pip install ansible
+      - name: Install required ansible collections
+        run: ansible-galaxy collection install community.general
+      - name: Install required ansible roles
+        run: ansible-galaxy role install gantsign.oh-my-zsh
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v24
