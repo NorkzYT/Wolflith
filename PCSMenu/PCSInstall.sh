@@ -56,7 +56,6 @@ find $ifolder -type f -iname "*.sh" -exec chmod +x {} \;
 # Create aliases for both bash and zsh shells
 alias_file="/etc/profile.d/PCSMenu_aliases.sh"
 echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'" | sudo tee $alias_file >/dev/null
-echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $alias_file >/dev/null
 
 # Check if zsh is installed and echo a message for debugging
 if command -v zsh &>/dev/null; then
@@ -66,7 +65,6 @@ if command -v zsh &>/dev/null; then
             echo "Updating $zshrc with new aliases."
             {
                 echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'"
-                echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'"
             } >>"$zshrc"
             echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
         else
@@ -104,7 +102,6 @@ done
 
 default_menu_screen
 cyanprint "Type 'pcsmenu' to launch PCSMENU"
-cyanprint "Type 'pcsupdate' to update"
 
 # Cleanup the initial PCSInstall
 rm -f /opt/PCSInstall.sh

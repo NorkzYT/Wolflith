@@ -28,7 +28,7 @@ function default_menu_screen() {
 ### Main Menu Cover ###
 function menu_cover() {
     # Fetch the latest version from GitHub releases
-    latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    latest_version=$(cat /opt/Wolflith/PCSMenu/version)
     printf "$BCyan"
     echo "
   _____   _____  _____  _____ ____  _____  _____  ™
@@ -39,32 +39,6 @@ function menu_cover() {
  |_|     \_____|_____/ \_____\____/|_|  \_\_|      Version: $latest_version
 "
     printf "${Color_Off}"
-}
-
-# check if pcsmenu is up-to-date
-check_update() {
-    local last_checked_file="/opt/Wolflith/Temp/last_checked.txt"
-    local current_date
-    current_date=$(date +%Y-%m-%d)
-
-    # Check if the last_checked_file exists, create it if not
-    if [ ! -f "$last_checked_file" ]; then
-        echo "Creating $last_checked_file and setting last checked date to $current_date"
-        mkdir -p "$(dirname "$last_checked_file")" # Ensure the directory exists
-        echo "$current_date" >"$last_checked_file"
-    fi
-
-    local last_checked
-    last_checked=$(cat "$last_checked_file" 2>/dev/null)
-
-    if [[ "$last_checked" != "$current_date" ]]; then
-        echo "$current_date" >"$last_checked_file"
-        current_version=$(grep 'Version:' "/opt/Wolflith/PCSMenu/src/PCSFunc.sh" | sed -E 's/.*Version: (.*)$/\1/')
-        latest_version=$(curl -s "https://api.github.com/repos/NorkzYT/Wolflith/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-        if [ "$current_version" != "$latest_version" ]; then
-            blueprint "Your PCSMenu is not up-to-date. Use 'pcsupdate' to update."
-        fi
-    fi
 }
 
 function os_release() {

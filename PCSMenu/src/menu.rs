@@ -8,16 +8,16 @@ use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 static BASE_DIR: &str = "/opt/Wolflith/PCSMenu/src/Functions";
 
+/// Main function to display the menu and handle navigation.
 pub fn main() {
     let mut current_dir = PathBuf::from(BASE_DIR);
     loop {
         utils::default_menu_screen();
         match check_and_run_single_script(&current_dir) {
             Ok(Some(script_path)) => {
-                // Now that we have a script path, call run_script with current_dir mutable reference
                 run_script(&script_path, &mut current_dir);
             }
-            Ok(None) => {} // No single script to run, proceed as normal
+            Ok(None) => {}
             Err(e) => eprintln!("Error checking for single script: {}", e),
         }
         let entry_count = match display_menu(&current_dir) {
@@ -27,12 +27,10 @@ pub fn main() {
                 break;
             }
         };
-        // Use `print!` instead of `println!` and add two spaces for the prompt
         print!(
             "\nEnter 1-{}, B for going back up a level or X for Exit: ",
             entry_count
         );
-        // Flush stdout to ensure the prompt is displayed before reading input
         io::stdout().flush().unwrap();
 
         let mut selection = String::new();
@@ -41,11 +39,14 @@ pub fn main() {
             continue;
         }
         if !navigate(&mut current_dir, selection.trim()) {
-            break; // Exit loop if navigate returns false
+            break;
         }
     }
 }
 
+/// Displays the menu based on the contents of the current directory.
+///
+/// Returns the number of entries in the menu.
 fn display_menu(current_dir: &Path) -> io::Result<usize> {
     let mut entries = fs::read_dir(current_dir)?
         .filter_map(|e| e.ok())
@@ -55,7 +56,6 @@ fn display_menu(current_dir: &Path) -> io::Result<usize> {
         })
         .collect::<Vec<_>>();
 
-    // Sort entries alphabetically by file name
     entries.sort_by_key(|entry| entry.file_name());
 
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
@@ -84,65 +84,37 @@ fn display_menu(current_dir: &Path) -> io::Result<usize> {
     write!(stdout, " X) Exit").unwrap();
 
     stdout.reset().unwrap();
-    println!(); // Move to the next line after the menu options
+    println!();
 
-    Ok(entries.len()) // Return the count of entries
+    Ok(entries.len())
 }
 
+/// Navigates through the directory structure or executes a script based on the user's selection.
+///
+/// Returns false if the user chooses to exit the application.
 fn navigate(current_dir: &mut PathBuf, selection: &str) -> bool {
     match selection.to_uppercase().as_str() {
         "B" => {
-            if current_dir.as_path() != Path::new(BASE_DIR) {
-                if let Some(parent) = current_dir.parent() {
-                    *current_dir = parent.to_path_buf();
-                }
-            }
+            navigate_back(current_dir);
+            true
         }
         "X" => {
-            utils::clear_screen(); // Clear the screen when exiting
-            return false;
+            utils::clear_screen();
+            false
         }
-        _ => {
-            if let Ok(index) = selection.parse::<usize>() {
-                let entries_result = fs::read_dir(&*current_dir); // Use &* to borrow current_dir
-                if let Ok(entries) = entries_result {
-                    let mut entries_vec = entries
-                        .filter_map(Result::ok)
-                        .filter(|e| {
-                            e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
-                                || e.path().is_file()
-                                    && e.path().extension().map_or(false, |ext| ext == "sh")
-                        })
-                        .collect::<Vec<_>>();
-
-                    // Sort entries alphabetically by file name
-                    entries_vec.sort_by_key(|entry| entry.file_name());
-
-                    if index <= entries_vec.len() {
-                        let new_path = entries_vec[index - 1].path();
-                        if new_path.is_dir() {
-                            *current_dir = new_path;
-                        } else {
-                            // Temporarily clone current_dir to avoid move
-                            let _current_dir_clone = current_dir.clone();
-                            // Execute the script directly if it is a file
-                            run_script(&new_path, current_dir);
-                        }
-                    }
-                }
-            }
-        }
+        _ => select_entry(current_dir, selection),
     }
-    true
 }
 
+/// Checks the current directory for a single script and runs it if found.
+///
+/// Returns a path to the script if one is found and run successfully, or None otherwise.
 fn check_and_run_single_script(current_dir: &Path) -> io::Result<Option<PathBuf>> {
     let entries = fs::read_dir(current_dir)?
         .filter_map(Result::ok)
         .filter(|e| e.path().is_file() && e.path().extension().map_or(false, |ext| ext == "sh"))
         .collect::<Vec<_>>();
 
-    // If there's exactly one script, return its path
     if entries.len() == 1 {
         Ok(Some(entries[0].path()))
     } else {
@@ -150,6 +122,9 @@ fn check_and_run_single_script(current_dir: &Path) -> io::Result<Option<PathBuf>
     }
 }
 
+/// Executes the script at the specified path.
+///
+/// Logs the outcome of the script execution.
 fn run_script(script_path: &Path, current_dir: &mut PathBuf) {
     let status = Command::new("bash").arg(script_path).status();
     match status {
@@ -161,4 +136,44 @@ fn run_script(script_path: &Path, current_dir: &mut PathBuf) {
         Ok(status) => eprintln!("Script exited with status: {}", status),
         Err(e) => eprintln!("Failed to execute script: {}", e),
     }
+}
+
+/// Helper function to navigate back to the parent directory.
+///
+/// Adjusts `current_dir` if not already at the base directory.
+fn navigate_back(current_dir: &mut PathBuf) {
+    if current_dir.as_path() != Path::new(BASE_DIR) {
+        if let Some(parent) = current_dir.parent() {
+            *current_dir = parent.to_path_buf();
+        }
+    }
+}
+
+/// Helper function to handle menu selection.
+///
+/// Returns false if an invalid selection is made, true otherwise.
+fn select_entry(current_dir: &mut PathBuf, selection: &str) -> bool {
+    if let Ok(index) = selection.parse::<usize>() {
+        if let Some(entries) = fs::read_dir(&*current_dir).ok() {
+            // Handle Option directly
+            let entries_vec = entries
+                .filter_map(Result::ok)
+                .filter(|e| {
+                    e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
+                        || e.path().is_file()
+                            && e.path().extension().map_or(false, |ext| ext == "sh")
+                })
+                .collect::<Vec<_>>();
+
+            if index <= entries_vec.len() {
+                let new_path = entries_vec[index - 1].path();
+                if new_path.is_dir() {
+                    *current_dir = new_path;
+                } else {
+                    run_script(&new_path, current_dir);
+                }
+            }
+        }
+    }
+    true
 }
