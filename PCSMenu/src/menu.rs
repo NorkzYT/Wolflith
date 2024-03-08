@@ -151,7 +151,6 @@ fn check_and_run_single_script(current_dir: &Path) -> io::Result<Option<PathBuf>
 }
 
 fn run_script(script_path: &Path, current_dir: &mut PathBuf) {
-    println!("Running script: {}", script_path.display());
     let status = Command::new("bash").arg(script_path).status();
     match status {
         Ok(status) if status.success() => println!("Script executed successfully."),

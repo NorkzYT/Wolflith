@@ -5,6 +5,8 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
+source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
+
 # Create folder
 ifolder="/opt/Wolflith"
 
@@ -78,10 +80,6 @@ fi
 
 # Make sure the new alias script is executable
 sudo chmod +x $alias_file
-
-# Source PCSFunc if available
-[[ -f /opt/Wolflith/PCSMenu/src/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
-[[ -f /opt/Wolflith/PCSMenu/src/PCSFunc.sh ]] && default_menu_screen
 
 # Go to directory
 cd $ifolder || exit
