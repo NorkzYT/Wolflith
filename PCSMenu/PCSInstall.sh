@@ -63,7 +63,7 @@ if command -v zsh &>/dev/null; then
         if [ -f "$zshrc" ]; then
             echo "Updating $zshrc with new aliases."
             {
-                echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'"
+                echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'"
                 echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'"
             } >>"$zshrc"
             echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
@@ -80,8 +80,8 @@ fi
 sudo chmod +x $alias_file
 
 # Source PCSFunc if available
-[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/PCSFunc.sh
-[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
+[[ -f /opt/Wolflith/PCSMenu/src/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
+[[ -f /opt/Wolflith/PCSMenu/src/PCSFunc.sh ]] && default_menu_screen
 
 # Go to directory
 cd $ifolder || exit
