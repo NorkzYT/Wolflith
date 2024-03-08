@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   appflowy_client:
-    image: appflowyio/appflowy_client:0.5.0
+    image: appflowyio/appflowy_client:0.5.1
     container_name: appflowy_client
     environment:
       - DISPLAY=${APPFLOWY_CLIENT_DISPLAY}
