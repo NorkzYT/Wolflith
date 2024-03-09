@@ -191,7 +191,7 @@ install_package_dependencies() {
 }
 
 install_ubuntu_dependencies() {
-    sudo apt-get install sshpass libssl-dev pkg-config
+    sudo apt-get install sshpass libssl-dev pkg-config -y
 }
 
 # Main execution flow
