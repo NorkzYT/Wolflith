@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the color functions
-source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/src/Color.sh
 
 # Base Wolflith directory
 wolflith_dir="/opt/Wolflith"

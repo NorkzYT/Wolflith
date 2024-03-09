@@ -5,6 +5,7 @@
 	"timezone": "America/New_York",
 	"schedule": ["after 10pm and before 5am every weekday", "every weekend"],
 	"labels": ["dependencies", "renovate"],
+	"baseBranches": ["staging"],
 	"kubernetes": {
 		"fileMatch": ["k8s/.+\\.yaml$"]
 	},

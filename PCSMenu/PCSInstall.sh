@@ -5,6 +5,8 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
+source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
+
 # Create folder
 ifolder="/opt/Wolflith"
 
@@ -53,8 +55,7 @@ find $ifolder -type f -iname "*.sh" -exec chmod +x {} \;
 
 # Create aliases for both bash and zsh shells
 alias_file="/etc/profile.d/PCSMenu_aliases.sh"
-echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee $alias_file >/dev/null
-echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee -a $alias_file >/dev/null
+echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'" | sudo tee $alias_file >/dev/null
 
 # Check if zsh is installed and echo a message for debugging
 if command -v zsh &>/dev/null; then
@@ -63,8 +64,7 @@ if command -v zsh &>/dev/null; then
         if [ -f "$zshrc" ]; then
             echo "Updating $zshrc with new aliases."
             {
-                echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'"
-                echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'"
+                echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'"
             } >>"$zshrc"
             echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
         else
@@ -78,10 +78,6 @@ fi
 
 # Make sure the new alias script is executable
 sudo chmod +x $alias_file
-
-# Source PCSFunc if available
-[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/PCSFunc.sh
-[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
 
 # Go to directory
 cd $ifolder || exit
@@ -106,7 +102,6 @@ done
 
 default_menu_screen
 cyanprint "Type 'pcsmenu' to launch PCSMENU"
-cyanprint "Type 'pcsupdate' to update"
 
 # Cleanup the initial PCSInstall
 rm -f /opt/PCSInstall.sh

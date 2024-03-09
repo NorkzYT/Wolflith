@@ -3,6 +3,7 @@
 		"esbenp.prettier-vscode", // Prettier - Code formatter
 		"foxundermoon.shell-format", // shell-format - Code formatter
 		"ms-python.black-formatter", // Black Formatter - Code formatter
+		"rust-lang.rust-analyzer", // Rust Analyzer - Language Support
 		"golang.go", // Go - Code formatter
 		"timonwong.shellcheck", // ShellCheck - Shell Linter
 		"ms-azuretools.vscode-docker", // Docker

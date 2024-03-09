@@ -96,6 +96,88 @@
         create: yes
       delegate_to: localhost
 
+- name: Check for CIFS Share Setup Requirements
+  hosts: all
+  become: yes
+  vars_files:
+    - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
+  tasks:
+    - name: Set fact for CIFS setup based on cifs_share_details presence
+      set_fact:
+        cifs_setup_required: "{{ 'cifs_share_details' in lookup('file', '/opt/Wolflith/Temp/lxc_provisioning_vars.yml') | from_yaml }}"
+      ignore_errors: yes
+
+- name: CIFS Share Setup for LXC Container
+  hosts: all
+  become: yes
+  vars_files:
+    - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
+  tasks:
+    - name: Configure LXC and PVE for CIFS share
+      block:
+        - name: Start LXC Container
+          community.general.proxmox:
+            api_user: '{{ api_user }}'
+            api_password: '{{ api_password }}'
+            api_host: '{{ api_host }}'
+            node: '{{ node }}'
+            vmid: '{{ vmid }}'
+            unprivileged: true
+            state: started
+
+        - name: Creating group 'lxc_shares' with GID=110000 in LXC
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- groupadd -g 110000 lxc_shares
+          ignore_errors: yes
+
+        - name: Adding user to group 'lxc_shares' in LXC
+          ansible.builtin.shell: |
+            pct exec {{ vmid }} -- usermod -aG lxc_shares {{ cifs_share_details.lxc_username }}
+
+        - name: Ensure CIFS utilities are installed on the Proxmox host
+          ansible.builtin.package:
+            name: cifs-utils
+            state: present
+
+        - name: Create mount point on PVE host
+          ansible.builtin.file:
+            path: '/mnt/lxc_shares/{{ cifs_share_details.folder_name }}'
+            state: directory
+
+        - name: Add CIFS share to /etc/fstab with nobrl option
+          ansible.builtin.lineinfile:
+            path: /etc/fstab
+            line: '//{{ cifs_share_details.cifs_host }}/{{ cifs_share_details.share_name }} /mnt/lxc_shares/{{ cifs_share_details.folder_name }} cifs _netdev,x-systemd.automount,noatime,nobrl,uid=100000,gid=110000,dir_mode=0770,file_mode=0770,credentials=/etc/cifs-{{ cifs_share_details.folder_name }}.cred 0 0'
+            create: yes
+        - name: Create CIFS credentials file
+          ansible.builtin.copy:
+            content: |
+              username={{ cifs_share_details.smb_username }}
+              password={{ cifs_share_details.smb_password }}
+            dest: '/etc/cifs-{{ cifs_share_details.folder_name }}.cred'
+            mode: '0600'
+
+        - name: Reload systemd daemon to apply fstab changes
+          ansible.builtin.command: systemctl daemon-reload
+
+        - name: Ensure the mount point is not already in use
+          ansible.builtin.shell: umount -l "/mnt/lxc_shares/{{ cifs_share_details.folder_name }}" || true
+
+        - name: Mount the CIFS share
+          ansible.builtin.mount:
+            path: '/mnt/lxc_shares/{{ cifs_share_details.folder_name }}'
+            src: '//{{ cifs_share_details.cifs_host }}/{{ cifs_share_details.share_name }}'
+            fstype: cifs
+            opts: 'credentials=/etc/cifs-{{ cifs_share_details.folder_name }}.cred,uid=100000,gid=100000,iocharset=utf8'
+            state: mounted
+
+        - name: Add a bind mount of the share to the LXC config
+          ansible.builtin.lineinfile:
+            path: '/etc/pve/lxc/{{ vmid }}.conf'
+            line: 'mp0: /mnt/lxc_shares/{{ cifs_share_details.folder_name }},mp=/mnt/{{ cifs_share_details.folder_name }},shared=1'
+            create: yes
+      when: cifs_setup_required
+
 - name: Docker Setup in Provisioned LXC Container
   hosts: all
   become: yes
@@ -201,7 +283,7 @@
             mode: '0755'
           loop:
             - {
-                src: '/opt/Wolflith/PCSMenu/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
+                src: '/opt/Wolflith/PCSMenu/src/Functions/Docker/Scripts/updateDockerComposeEnv.sh',
                 dest: '/tmp/updateDockerComposeEnv.sh',
               }
             - {
@@ -259,7 +341,7 @@
               ansible.builtin.shell: |
                 pct exec {{ vmid }} -- chmod +x /tmp/updateDockerComposeEnv.sh
 
-            - name: Execute Script Inside LXC to Generate .env File
+            - name: Execute Script Inside LXC to update Docker Compose file
               ansible.builtin.shell: |
                 pct exec {{ vmid }} -- bash -c "cd /tmp && ./updateDockerComposeEnv.sh {{ selected_service }}"
 
