@@ -4,7 +4,7 @@ version: '3.9'
 services:
   krusader:
     container_name: krusader
-    image: binhex/arch-krusader:2.7.2-4-01
+    image: binhex/arch-krusader:2.8.0-4-01
     privileged: true
     ports:
       - 5900:5900
