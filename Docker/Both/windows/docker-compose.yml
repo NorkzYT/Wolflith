@@ -1,0 +1,31 @@
+# Installation: https://hub.docker.com/r/dockurr/windows
+
+version: '3.9'
+services:
+  windows:
+    image: dockurr/windows:2.04
+    container_name: windows
+    devices:
+      - /dev/kvm
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+      - 3389:3389/tcp
+      - 3389:3389/udp
+    environment:
+      - VERSION=${WINDOWS_VERSION}
+      - RAM_SIZE=${WINDOWS_RAM_SIZE}
+      - CPU_CORES=${WINDOWS_PU_CORES}
+      - DISK_SIZE=${WINDOWS_DISK_SIZE}
+    volumes:
+      - /opt/appdata/windows:/storage
+    stop_grace_period: 2m
+    restart: on-failure
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
