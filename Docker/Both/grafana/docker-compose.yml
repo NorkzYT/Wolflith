@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   grafana:
-    image: grafana/grafana:10.3.3
+    image: grafana/grafana:10.4.0
     container_name: grafana
     ports:
       - 1001:3000
