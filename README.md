@@ -52,6 +52,7 @@ Created by NorkzYT with 💛
     - [feature_request.yml](./.github/ISSUE_TEMPLATE/feature_request.yml)
   - [**PULL_REQUEST_TEMPLATE**](./.github/PULL_REQUEST_TEMPLATE)
     - [pull_request.yml](./.github/PULL_REQUEST_TEMPLATE/pull_request.yml)
+  - [PULL_REQUEST_TEMPLATE.md](./.github/PULL_REQUEST_TEMPLATE.md)
   - [**workflows**](./.github/workflows)
     - [changelog.yml](./.github/workflows/changelog.yml)
     - [gitlab-sync.yml](./.github/workflows/gitlab-sync.yml)
