@@ -50,8 +50,6 @@ Created by NorkzYT with 💛
   - [**ISSUE_TEMPLATE**](./.github/ISSUE_TEMPLATE)
     - [bug_report.yml](./.github/ISSUE_TEMPLATE/bug_report.yml)
     - [feature_request.yml](./.github/ISSUE_TEMPLATE/feature_request.yml)
-  - [**PULL_REQUEST_TEMPLATE**](./.github/PULL_REQUEST_TEMPLATE)
-    - [pull_request.yml](./.github/PULL_REQUEST_TEMPLATE/pull_request.yml)
   - [PULL_REQUEST_TEMPLATE.md](./.github/PULL_REQUEST_TEMPLATE.md)
   - [**workflows**](./.github/workflows)
     - [changelog.yml](./.github/workflows/changelog.yml)

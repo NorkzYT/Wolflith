@@ -5,8 +5,6 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
-source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
-
 # Create folder
 ifolder="/opt/Wolflith"
 
@@ -20,15 +18,24 @@ apt install -y nodejs
 if ! command -v npm &>/dev/null; then
     echo "npm could not be found, installing..."
     apt install npm -y
+else
+    echo "npm is already installed, skipping installation."
 fi
 
-# Install bun globally
-npm install -g bun
+# Check if bun is installed, if not install it
+if ! command -v bun &>/dev/null; then
+    echo "bun could not be found, installing..."
+    npm install -g bun
+else
+    echo "bun is already installed, skipping installation."
+fi
 
 # Check if git is installed
 if ! command -v git &>/dev/null; then
     echo "git could not be found, installing..."
     apt install git -y
+else
+    echo "git is already installed, skipping installation."
 fi
 
 # Check network connectivity to GitHub
@@ -55,29 +62,38 @@ find $ifolder -type f -iname "*.sh" -exec chmod +x {} \;
 
 # Create aliases for both bash and zsh shells
 alias_file="/etc/profile.d/PCSMenu_aliases.sh"
-echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'" | sudo tee $alias_file >/dev/null
+alias_command="alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'"
+if grep -q "alias pcsmenu=" "$alias_file"; then
+    sudo sed -i "/alias pcsmenu=/c\\$alias_command" "$alias_file"
+else
+    echo "$alias_command" | sudo tee -a $alias_file >/dev/null
+fi
 
 # Check if zsh is installed and echo a message for debugging
 if command -v zsh &>/dev/null; then
     echo "Zsh is installed, proceeding with updates to .zshrc files."
     for zshrc in /home/*/.zshrc; do
         if [ -f "$zshrc" ]; then
-            echo "Updating $zshrc with new aliases."
-            {
-                echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'"
-            } >>"$zshrc"
-            echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
+            if grep -q "alias pcsmenu=" "$zshrc"; then
+                sed -i "/alias pcsmenu=/c\\$alias_command" "$zshrc"
+            else
+                echo "$alias_command" >>"$zshrc"
+                echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
+            fi
         else
             echo "$zshrc does not exist."
         fi
     done
 else
-    echo "Zsh is not installed, updating bash for compatibility."
-    echo "Please run 'source ~/.profile' or start a new shell session to use the new aliases."
+    echo "Zsh is not installed, no need to update .zshrc files."
 fi
 
 # Make sure the new alias script is executable
 sudo chmod +x $alias_file
+
+# Source PCSFunc if available
+[[ -f /opt/Wolflith/PCSMenu/src/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
+[[ -f /opt/Wolflith/PCSMenu/src/PCSFunc.sh ]] && default_menu_screen
 
 # Go to directory
 cd $ifolder || exit
