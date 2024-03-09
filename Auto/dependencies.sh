@@ -1,35 +1,19 @@
 #!/bin/bash
 
 # Source the PersonalizationFunctions for color support
-source /opt/Wolflith/PCSMenu/PersonalizationFunc.sh
+source /opt/Wolflith/PCSMenu/src/Color.sh
 
 # Function to install Ansible
 install_ansible() {
-    # Attempt to verify Ansible operation rather than just command existence
     if ansible --version &>/dev/null; then
         echo "Ansible is already installed and operational."
     else
-        echo "Ansible is not operational. Installing or fixing Ansible..."
-
-        # Install or attempt to fix Ansible using pip
-        python3 -m pip install --user ansible
-
-        # Re-evaluate if Ansible is operational after installation/fix
+        echo "Ansible is not operational. Installing Ansible..."
+        sudo apt-get update && sudo apt-get install -y ansible
         if ansible --version &>/dev/null; then
-            echo "Ansible installed/fixed successfully."
-
-            # Add ~/.local/bin to PATH for the current session
-            PATH="$HOME/.local/bin:$PATH"
-            export PATH
-
-            # Add ~/.local/bin to PATH for all future sessions
-            if ! grep -q 'PATH="$HOME/.local/bin:$PATH"' ~/.bashrc; then
-                echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.bashrc
-                echo "Added /root/.local/bin to PATH in ~/.bashrc for future sessions."
-            fi
-
+            echo "Ansible installed successfully."
         else
-            echo "Failed to install/fix Ansible. Please check your package manager settings or Python environment."
+            echo "Failed to install Ansible. Please check your package manager settings."
             exit 1
         fi
     fi
@@ -63,15 +47,24 @@ install_python() {
     fi
 }
 
-# Function to install Python dependencies from requirements.txt
-install_python_dependencies() {
-    echo "Installing Python dependencies..."
-    pip3 install -r ./Auto/requirements.txt
-    if [ $? -ne 0 ]; then
-        echo "Failed to install Python dependencies. Please check your Python environment."
-        exit 1
+# Function to install pip3 for Python3
+install_pip3() {
+    if ! command -v pip3 &>/dev/null; then
+        echo "pip3 is not installed. Installing pip3..."
+        sudo apt update && sudo apt install -y python3-pip
+        if [ $? -ne 0 ]; then
+            echo "Failed to install pip3. Please check your package manager settings."
+            exit 1
+        fi
+    else
+        echo "pip3 is already installed."
     fi
+}
 
+# Function to install Python dependencies directly using pip3
+install_python_dependencies_directly() {
+    echo "Installing Python dependencies directly using apt..."
+    sudo apt-get install -y python3-requests python3-proxmoxer python3-bs4
     echo "Python dependencies installed successfully."
 }
 
@@ -85,19 +78,25 @@ install_go() {
     fi
 
     echo "Go is not installed. Proceeding with the installation."
-    # Define valid architectures
-    valid_archs=("armv6l" "arm64" "amd64")
-    echo "Select the Go architecture to install: "
-    select arch in "${valid_archs[@]}"; do
-        case $arch in
-        armv6l | arm64 | amd64)
-            break
-            ;;
-        *)
-            echo "Invalid selection. Please try again."
-            ;;
-        esac
-    done
+
+    # Automatically determine the architecture
+    case $(uname -m) in
+    x86_64)
+        arch="amd64"
+        ;;
+    armv6l)
+        arch="armv6l"
+        ;;
+    aarch64)
+        arch="arm64"
+        ;;
+    *)
+        echo "Unsupported architecture."
+        exit 1
+        ;;
+    esac
+
+    echo "Detected architecture: $arch"
 
     # Function to fetch the latest Go archive URL for the specified architecture
     get_latest_url() {
@@ -105,7 +104,8 @@ install_go() {
         local url="https://go.dev/dl/"
 
         # Use Python to scrape the webpage and extract the latest URL for the specified architecture
-        local latest_url=$(
+        local latest_url
+        latest_url=$(
             python3 - <<END
 import requests
 from bs4 import BeautifulSoup
@@ -150,10 +150,10 @@ END
 
         # Determine the shell and append the PATH update to the appropriate configuration file
         if [ "$SHELL" = "/bin/zsh" ]; then
-            echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.zshrc
+            echo "export PATH=$PATH:/usr/local/go/bin" >>~/.zshrc
             echo "Please run 'source ~/.zshrc' or restart your terminal to apply changes."
         else
-            echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.profile
+            echo "export PATH=$PATH:/usr/local/go/bin" >>~/.profile
             echo "Please run 'source ~/.profile' or restart your terminal to apply changes."
         fi
 
@@ -165,22 +165,43 @@ END
     fi
 }
 
+# Function to install Rust programming language and dependencies using rustup
+install_rust() {
+    if command -v rustc &>/dev/null; then
+        echo "Rust is already installed."
+    else
+        echo "Rust is not installed. Installing Rust using rustup..."
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+        source "$HOME/.cargo/env"
+
+        if command -v rustc &>/dev/null; then
+            echo "Rust installed successfully."
+        else
+            echo "Failed to install Rust. Please check the installation logs and try again."
+            exit 1
+        fi
+    fi
+}
+
 # Function to install package dependencies
 install_package_dependencies() {
-    cd /opt/Wolflith
+    cd /opt/Wolflith || exit
     bun install
 }
 
 install_ubuntu_dependencies() {
-    sudo apt-get install sshpass
+    sudo apt-get install sshpass libssl-dev pkg-config
 }
 
 # Main execution flow
 install_python
-install_python_dependencies
+install_pip3
+install_python_dependencies_directly
 install_ansible
 export_ansible_config
 install_ansible_required_collections
 install_go
+install_rust
 install_package_dependencies
 install_ubuntu_dependencies

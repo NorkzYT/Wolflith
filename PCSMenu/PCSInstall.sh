@@ -5,11 +5,22 @@
 # License : General Public License GPL-3.0-or-later
 ######################################################################
 
+source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
+
 # Create folder
 ifolder="/opt/Wolflith"
 
 # Update and install necessary packages
-apt update && apt install -y sudo curl git make nodejs npm
+apt update && apt install -y sudo curl git make
+
+# Install nodejs which includes npm in recent versions
+apt install -y nodejs
+
+# Check if npm is installed, if not install it
+if ! command -v npm &>/dev/null; then
+    echo "npm could not be found, installing..."
+    apt install npm -y
+fi
 
 # Install bun globally
 npm install -g bun
@@ -42,16 +53,31 @@ fi
 
 find $ifolder -type f -iname "*.sh" -exec chmod +x {} \;
 
-# Create aliases in a new script within /etc/profile.d/
-echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/PCSMenu.sh'" | sudo tee /etc/profile.d/PCSMenu.sh >/dev/null
-echo "alias pcsupdate='sudo /opt/Wolflith/PCSMenu/PCSUpdate.sh'" | sudo tee /etc/profile.d/PCSUpdate.sh >/dev/null
+# Create aliases for both bash and zsh shells
+alias_file="/etc/profile.d/PCSMenu_aliases.sh"
+echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'" | sudo tee $alias_file >/dev/null
 
-# Make sure the new alias scripts are executable
-sudo chmod +x /etc/profile.d/PCSMenu.sh /etc/profile.d/PCSUpdate.sh
+# Check if zsh is installed and echo a message for debugging
+if command -v zsh &>/dev/null; then
+    echo "Zsh is installed, proceeding with updates to .zshrc files."
+    for zshrc in /home/*/.zshrc; do
+        if [ -f "$zshrc" ]; then
+            echo "Updating $zshrc with new aliases."
+            {
+                echo "alias pcsmenu='sudo /opt/Wolflith/PCSMenu/target/release/pcsmenu'"
+            } >>"$zshrc"
+            echo "Please run 'source ~/.zshrc' or start a new shell session to use the new aliases."
+        else
+            echo "$zshrc does not exist."
+        fi
+    done
+else
+    echo "Zsh is not installed, updating bash for compatibility."
+    echo "Please run 'source ~/.profile' or start a new shell session to use the new aliases."
+fi
 
-# Source PCSFunc if available
-[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/PCSFunc.sh
-[[ -f /opt/Wolflith/PCSMenu/PCSFunc.sh ]] && default_menu_screen
+# Make sure the new alias script is executable
+sudo chmod +x $alias_file
 
 # Go to directory
 cd $ifolder || exit
@@ -76,7 +102,6 @@ done
 
 default_menu_screen
 cyanprint "Type 'pcsmenu' to launch PCSMENU"
-cyanprint "Type 'pcsupdate' to update"
 
 # Cleanup the initial PCSInstall
 rm -f /opt/PCSInstall.sh

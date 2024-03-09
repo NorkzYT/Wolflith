@@ -11,16 +11,16 @@
 
 </div>
 
-At its core, Wolflith harnesses the power of Ansible and Bash to offer an unparalleled level of control and flexibility, making it the backbone for deploying and managing your technological services. This Ansible-Bash-based toolkit simplifies complex tasks, ensuring that even those new to homelabs can achieve professional-grade setups. With Wolflith, you're not just building a server; you're crafting a fully customized, scalable digital environment tailored to your needs. It's the perfect blend of simplicity and sophistication for the modern tech enthusiast.
+At its core, Wolflith harnesses the power of Ansible, Rust and Bash to offer an unparalleled level of control and flexibility, making it the backbone for deploying and managing your technological services. This Ansible-Rust-Bash-based toolkit simplifies complex tasks, ensuring that even those new to homelabs can achieve professional-grade setups. With Wolflith, you're not just building a server; you're crafting a fully customized, scalable digital environment tailored to your needs. It's the perfect blend of simplicity and sophistication for the modern tech enthusiast.
 
 Note: This repository is in BETA and still a work in progress, I welcome contributions to expand its capabilities and usability.
 
 ## How to Install
 
 ```bash
-mkdir -p /opt/Wolflith
-wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolflith/main/PCSMenu/PCSInstall.sh
-chmod +x /opt/PCSInstall.sh
+sudo mkdir -p /opt/Wolflith
+sudo wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolflith/main/PCSMenu/PCSInstall.sh
+sudo chmod +x /opt/PCSInstall.sh
 sudo /opt/PCSInstall.sh --branch="main"
 ```
 
@@ -52,6 +52,7 @@ Created by NorkzYT with 💛
     - [feature_request.yml](./.github/ISSUE_TEMPLATE/feature_request.yml)
   - [**PULL_REQUEST_TEMPLATE**](./.github/PULL_REQUEST_TEMPLATE)
     - [pull_request.yml](./.github/PULL_REQUEST_TEMPLATE/pull_request.yml)
+  - [PULL_REQUEST_TEMPLATE.md](./.github/PULL_REQUEST_TEMPLATE.md)
   - [**workflows**](./.github/workflows)
     - [changelog.yml](./.github/workflows/changelog.yml)
     - [gitlab-sync.yml](./.github/workflows/gitlab-sync.yml)
@@ -99,13 +100,14 @@ Created by NorkzYT with 💛
     - [user-creation.yml](./Ansible/playbooks/user-creation.yml)
     - [zsh.yml](./Ansible/playbooks/zsh.yml)
     - [zsh_powerlevel10k.yml](./Ansible/playbooks/zsh_powerlevel10k.yml)
+  - [**static**](./Ansible/static)
+    - [.p10k.zsh](./Ansible/static/.p10k.zsh)
   - [**templates**](./Ansible/templates)
     - [timesyncd.conf](./Ansible/templates/timesyncd.conf)
 - [**Auto**](./Auto)
   - [dependencies.sh](./Auto/dependencies.sh)
   - [environmentSetup.sh](./Auto/environmentSetup.sh)
   - [modifyComposeFiles.sh](./Auto/modifyComposeFiles.sh)
-  - [requirements.txt](./Auto/requirements.txt)
   - [setup.sh](./Auto/setup.sh)
 - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
 - [DEVELOPERS.md](./DEVELOPERS.md)
@@ -370,6 +372,9 @@ Created by NorkzYT with 💛
     - [**wikijs**](./Docker/Both/wikijs)
       - [.env.example](./Docker/Both/wikijs/.env.example)
       - [docker-compose.yml](./Docker/Both/wikijs/docker-compose.yml)
+    - [**windows**](./Docker/Both/windows)
+      - [.env.example](./Docker/Both/windows/.env.example)
+      - [docker-compose.yml](./Docker/Both/windows/docker-compose.yml)
     - [**wireguard**](./Docker/Both/wireguard)
       - [.env.example](./Docker/Both/wireguard/.env.example)
       - [docker-compose.yml](./Docker/Both/wireguard/docker-compose.yml)
@@ -448,40 +453,44 @@ Created by NorkzYT with 💛
 - [LICENSE](./LICENSE)
 - [Makefile](./Makefile)
 - [**PCSMenu**](./PCSMenu)
-  - [**Functions**](./PCSMenu/Functions)
-    - [**Ansible**](./PCSMenu/Functions/Ansible)
-      - [**Setup Linux Machine**](./PCSMenu/Functions/Ansible/Setup%20Linux%20Machine)
-        - [setupLinuxMachine.sh](./PCSMenu/Functions/Ansible/Setup%20Linux%20Machine/setupLinuxMachine.sh)
-      - [**Update Hosts**](./PCSMenu/Functions/Ansible/Update%20Hosts)
-        - [updateHosts.sh](./PCSMenu/Functions/Ansible/Update%20Hosts/updateHosts.sh)
-    - [**Docker**](./PCSMenu/Functions/Docker)
-      - [**Docker Install**](./PCSMenu/Functions/Docker/Docker%20Install)
-        - [dockerInstall.sh](./PCSMenu/Functions/Docker/Docker%20Install/dockerInstall.sh)
-      - [**Docker Update**](./PCSMenu/Functions/Docker/Docker%20Update)
-        - [dockerUpdate.sh](./PCSMenu/Functions/Docker/Docker%20Update/dockerUpdate.sh)
-      - [**Provision Docker Service**](./PCSMenu/Functions/Docker/Provision%20Docker%20Service)
-        - [provisionDockerService.sh](./PCSMenu/Functions/Docker/Provision%20Docker%20Service/provisionDockerService.sh)
-      - [**Scripts**](./PCSMenu/Functions/Docker/Scripts)
-        - [provisionDockerService.sh](./PCSMenu/Functions/Docker/Scripts/provisionDockerService.sh)
-        - [selectService.sh](./PCSMenu/Functions/Docker/Scripts/selectService.sh)
-        - [setupService.sh](./PCSMenu/Functions/Docker/Scripts/setupService.sh)
-        - [updateDockerComposeEnv.sh](./PCSMenu/Functions/Docker/Scripts/updateDockerComposeEnv.sh)
-    - [**Proxmox**](./PCSMenu/Functions/Proxmox)
-      - [**Provision LXC with Docker Service**](./PCSMenu/Functions/Proxmox/Provision%20LXC%20with%20Docker%20Service)
-        - [provisionLxcDockerService.sh](./PCSMenu/Functions/Proxmox/Provision%20LXC%20with%20Docker%20Service/provisionLxcDockerService.sh)
-      - [**Scripts**](./PCSMenu/Functions/Proxmox/Scripts)
-        - [checkProxmox.sh](./PCSMenu/Functions/Proxmox/Scripts/checkProxmox.sh)
-        - [provisionLxc.sh](./PCSMenu/Functions/Proxmox/Scripts/provisionLxc.sh)
-    - [**Scripts**](./PCSMenu/Functions/Scripts)
-      - [checkLinux.sh](./PCSMenu/Functions/Scripts/checkLinux.sh)
-    - [**Tools**](./PCSMenu/Functions/Tools)
-      - [**Run Script-Return Output**](./PCSMenu/Functions/Tools/Run%20Script-Return%20Output)
-        - [executeCommand.sh](./PCSMenu/Functions/Tools/Run%20Script-Return%20Output/executeCommand.sh)
-  - [PCSFunc.sh](./PCSMenu/PCSFunc.sh)
+  - [Cargo.toml](./PCSMenu/Cargo.toml)
   - [PCSInstall.sh](./PCSMenu/PCSInstall.sh)
-  - [PCSMenu.sh](./PCSMenu/PCSMenu.sh)
   - [PCSUpdate.sh](./PCSMenu/PCSUpdate.sh)
-  - [PersonalizationFunc.sh](./PCSMenu/PersonalizationFunc.sh)
+  - [**src**](./PCSMenu/src)
+    - [Color.sh](./PCSMenu/src/Color.sh)
+    - [**Functions**](./PCSMenu/src/Functions)
+      - [**Ansible**](./PCSMenu/src/Functions/Ansible)
+        - [**Setup Linux Machine**](./PCSMenu/src/Functions/Ansible/Setup%20Linux%20Machine)
+          - [setupLinuxMachine.sh](./PCSMenu/src/Functions/Ansible/Setup%20Linux%20Machine/setupLinuxMachine.sh)
+        - [**Update Hosts**](./PCSMenu/src/Functions/Ansible/Update%20Hosts)
+          - [updateHosts.sh](./PCSMenu/src/Functions/Ansible/Update%20Hosts/updateHosts.sh)
+      - [**Docker**](./PCSMenu/src/Functions/Docker)
+        - [**Docker Install**](./PCSMenu/src/Functions/Docker/Docker%20Install)
+          - [dockerInstall.sh](./PCSMenu/src/Functions/Docker/Docker%20Install/dockerInstall.sh)
+        - [**Docker Update**](./PCSMenu/src/Functions/Docker/Docker%20Update)
+          - [dockerUpdate.sh](./PCSMenu/src/Functions/Docker/Docker%20Update/dockerUpdate.sh)
+        - [**Provision Docker Service**](./PCSMenu/src/Functions/Docker/Provision%20Docker%20Service)
+          - [provisionDockerService.sh](./PCSMenu/src/Functions/Docker/Provision%20Docker%20Service/provisionDockerService.sh)
+        - [**Scripts**](./PCSMenu/src/Functions/Docker/Scripts)
+          - [provisionDockerService.sh](./PCSMenu/src/Functions/Docker/Scripts/provisionDockerService.sh)
+          - [selectService.sh](./PCSMenu/src/Functions/Docker/Scripts/selectService.sh)
+          - [updateDockerComposeEnv.sh](./PCSMenu/src/Functions/Docker/Scripts/updateDockerComposeEnv.sh)
+      - [**Proxmox**](./PCSMenu/src/Functions/Proxmox)
+        - [**Provision LXC with Docker Service**](./PCSMenu/src/Functions/Proxmox/Provision%20LXC%20with%20Docker%20Service)
+          - [provisionLxcDockerService.sh](./PCSMenu/src/Functions/Proxmox/Provision%20LXC%20with%20Docker%20Service/provisionLxcDockerService.sh)
+        - [**Scripts**](./PCSMenu/src/Functions/Proxmox/Scripts)
+          - [checkProxmox.sh](./PCSMenu/src/Functions/Proxmox/Scripts/checkProxmox.sh)
+          - [provisionLxc.sh](./PCSMenu/src/Functions/Proxmox/Scripts/provisionLxc.sh)
+          - [proxmoxLxcCifsShare.sh](./PCSMenu/src/Functions/Proxmox/Scripts/proxmoxLxcCifsShare.sh)
+      - [**Scripts**](./PCSMenu/src/Functions/Scripts)
+        - [checkLinux.sh](./PCSMenu/src/Functions/Scripts/checkLinux.sh)
+      - [**Tools**](./PCSMenu/src/Functions/Tools)
+        - [**Run Script-Return Output**](./PCSMenu/src/Functions/Tools/Run%20Script-Return%20Output)
+          - [executeCommand.sh](./PCSMenu/src/Functions/Tools/Run%20Script-Return%20Output/executeCommand.sh)
+    - [PCSFunc.sh](./PCSMenu/src/PCSFunc.sh)
+    - [main.rs](./PCSMenu/src/main.rs)
+    - [menu.rs](./PCSMenu/src/menu.rs)
+    - [utils.rs](./PCSMenu/src/utils.rs)
 - [README.md](./README.md)
 - [**Scripts**](./Scripts)
   - [**Vault**](./Scripts/Vault)
@@ -500,6 +509,3 @@ Created by NorkzYT with 💛
 - [package.json](./package.json)
 - [renovate.json](./renovate.json)
 - [repoTree.py](./repoTree.py)
-<!-- tree generated by repoTree.py ends here -->
-
-</details>

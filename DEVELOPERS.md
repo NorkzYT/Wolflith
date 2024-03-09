@@ -18,14 +18,7 @@ We encourage you to explore the existing [issues](https://github.com/NorkzYT/Wol
 
 ### Install dependencies
 
-You will need to install and configure the following dependencies on your linux machine:
-
-- [Git](http://git-scm.com/)
-- [Node.js v18.x (LTS)](http://nodejs.org) (`AUTO-INSTALLED`)
-- [npm](https://www.npmjs.com/) latest (`AUTO-INSTALLED`)
-- [Bun](https://bun.sh/) latest (`AUTO-INSTALLED`)
-- [GNU Make](https://www.gnu.org/software/make/) latest (`AUTO-INSTALLED`).
-- [OpenCommit](https://github.com/di-sukharev/opencommit) latest (`AUTO-INSTALLED`).
+Dependencies are all auto installed.
 
 ## Local development
 
@@ -38,10 +31,10 @@ To contribute code, you must fork the [Wolflith repo](https://github.com/NorkzYT
 1. Clone your GitHub forked repo:
 
    ```bash
-   mkdir -p /opt/Wolflith
-   wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/Wolflith/main/PCSMenu/PCSInstall.sh
-   chmod +x /opt/PCSInstall.sh
-   sudo /opt/PCSInstall.sh --branch="main"
+   sudo mkdir -p /opt/Wolflith
+   sudo wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/Wolflith/main/PCSMenu/PCSInstall.sh
+   sudo chmod +x /opt/PCSInstall.sh
+   sudo /opt/PCSInstall.sh --branch="staging"
    ```
 
 2. Go to the Wolflith directory:
