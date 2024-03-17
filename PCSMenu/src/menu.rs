@@ -51,12 +51,17 @@ fn display_menu(current_dir: &Path) -> io::Result<usize> {
     let mut entries = fs::read_dir(current_dir)?
         .filter_map(|e| e.ok())
         .filter(|e| {
-            e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
-                || e.path().is_file() && e.path().extension().map_or(false, |ext| ext == "sh")
+            (e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts")
+                || (e.path().is_file() && e.path().extension().map_or(false, |ext| ext == "sh"))
         })
         .collect::<Vec<_>>();
 
-    entries.sort_by_key(|entry| entry.file_name());
+    entries.sort_by(|a, b| {
+        a.file_name()
+            .to_string_lossy()
+            .to_lowercase()
+            .cmp(&b.file_name().to_string_lossy().to_lowercase())
+    });
 
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
 
@@ -154,26 +159,54 @@ fn navigate_back(current_dir: &mut PathBuf) {
 /// Returns false if an invalid selection is made, true otherwise.
 fn select_entry(current_dir: &mut PathBuf, selection: &str) -> bool {
     if let Ok(index) = selection.parse::<usize>() {
-        if let Some(entries) = fs::read_dir(&*current_dir).ok() {
-            // Handle Option directly
-            let entries_vec = entries
-                .filter_map(Result::ok)
-                .filter(|e| {
-                    e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts"
-                        || e.path().is_file()
-                            && e.path().extension().map_or(false, |ext| ext == "sh")
-                })
-                .collect::<Vec<_>>();
+        let current_dir_clone = current_dir.clone();
+        let mut entries = fs::read_dir(&current_dir_clone)
+            .unwrap()
+            .filter_map(Result::ok)
+            .filter(|e| {
+                (e.path().is_dir() && e.file_name().to_string_lossy() != "Scripts")
+                    || (e.path().is_file() && e.path().extension().map_or(false, |ext| ext == "sh"))
+            })
+            .collect::<Vec<_>>();
 
-            if index <= entries_vec.len() {
-                let new_path = entries_vec[index - 1].path();
-                if new_path.is_dir() {
-                    *current_dir = new_path;
-                } else {
-                    run_script(&new_path, current_dir);
+        entries.sort_by(|a, b| {
+            a.file_name()
+                .to_string_lossy()
+                .to_lowercase()
+                .cmp(&b.file_name().to_string_lossy().to_lowercase())
+        });
+
+        if index > 0 && index <= entries.len() {
+            let selected_entry = &entries[index - 1];
+            let selected_path = selected_entry.path();
+
+            let action = if selected_path.is_dir() {
+                Some(Action::Navigate(selected_path.clone()))
+            } else if selected_path.is_file() {
+                Some(Action::RunScript(selected_path.clone()))
+            } else {
+                None
+            };
+
+            if let Some(action) = action {
+                match action {
+                    Action::Navigate(path) => *current_dir = path,
+                    Action::RunScript(path) => {
+                        let mut current_dir_clone = current_dir.clone();
+                        run_script(&path, &mut current_dir_clone)
+                    }
                 }
             }
+            true
+        } else {
+            false
         }
+    } else {
+        false
     }
-    true
+}
+
+enum Action {
+    Navigate(PathBuf),
+    RunScript(PathBuf),
 }

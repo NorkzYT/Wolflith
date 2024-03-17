@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
     - name: Verify if target system is Proxmox VE
-      ansible.builtin.script: '../../PCSMenu/Functions/Proxmox/Scripts/checkProxmox.sh'
+      ansible.builtin.script: '../../PCSMenu/src/Functions/Proxmox/Scripts/checkProxmox.sh'
       register: proxmox_check
       ignore_errors: yes
 

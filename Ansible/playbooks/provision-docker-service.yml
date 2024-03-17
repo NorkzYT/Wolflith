@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
     - name: Verify if target system is a Linux System
-      ansible.builtin.script: '../../PCSMenu/Functions/Scripts/checkLinux.sh'
+      ansible.builtin.script: '../../PCSMenu/src/Functions/Scripts/checkLinux.sh'
       register: proxmox_check
       ignore_errors: yes
 
