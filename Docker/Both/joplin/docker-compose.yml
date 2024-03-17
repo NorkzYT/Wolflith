@@ -32,7 +32,7 @@ services:
     image: postgres:16.2
     container_name: joplin-postgres
     volumes:
-      - /opt/appdata/joplin/postgres:/var/lib/postgresql/data
+      - joplin-postgresql-volume:/var/lib/postgresql/data
     ports:
       - 5255:5432
     restart: unless-stopped
@@ -42,6 +42,10 @@ services:
       - POSTGRES_DB=${JOPLIN_POSTGRES_DATABASE}
     networks:
       - proxy
+
+volumes:
+  joplin-postgresql-volume:
+    external: true
 
 networks:
   proxy:

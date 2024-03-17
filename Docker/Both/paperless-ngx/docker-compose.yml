@@ -18,7 +18,16 @@ services:
       - /opt/appdata/paperless-ngx/main/export:/usr/src/paperless/export
       - /opt/appdata/paperless-ngx/main/consume:/usr/src/paperless/consume
     healthcheck:
-      test: ['CMD', 'curl', '-fs', '-S', '--max-time', '2', 'http://localhost:8000']
+      test:
+        [
+          'CMD',
+          'curl',
+          '-fs',
+          '-S',
+          '--max-time',
+          '2',
+          'http://localhost:8000'
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -42,13 +51,17 @@ services:
     container_name: paperless-ngx-db
     restart: unless-stopped
     volumes:
-      - /opt/appdata/paperless-ngx/pgdata:/var/lib/postgresql/data
+      - paperless-ngx-postgresql-volume:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB='paperless'
       - POSTGRES_USER='paperless'
       - POSTGRES_PASSWORD='paperless'
     networks:
       - proxy
+
+volumes:
+  paperless-ngx-postgresql-volume:
+    external: true
 
 networks:
   proxy:

@@ -65,7 +65,11 @@ services:
     container_name: postgresql-authentik
     restart: unless-stopped
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}'
+        ]
       start_period: 20s
       interval: 30s
       retries: 5
@@ -75,7 +79,7 @@ services:
       - POSTGRES_DB=${AUTHENTIK_POSTGRESQL__NAME}
       - POSTGRES_PASSWORD=${AUTHENTIK_POSTGRESQL__PASSWORD:?database password required}
     volumes:
-      - /opt/appdata/authentik/postgresql:/var/lib/postgresql/data
+      - authentik-postgresql-volume:/var/lib/postgresql/data
     ports:
       - 5432:8080
     networks:
@@ -86,17 +90,23 @@ services:
     container_name: postgresql-authentik
     restart: unless-stopped
     healthcheck:
-      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
+      test: [ 'CMD-SHELL', 'redis-cli ping | grep PONG' ]
       start_period: 20s
       interval: 30s
       retries: 5
       timeout: 3s
     volumes:
-      - /opt/appdata/authentik/redis:/data
+      - authentik-redis-volume:/data
     ports:
       - 6379:6379
     networks:
       - proxy
+
+volumes:
+  authentik-postgresql-volume:
+    external: true
+  authentik-redis-volume:
+    external: true
 
 networks:
   proxy:

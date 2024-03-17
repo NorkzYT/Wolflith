@@ -27,11 +27,15 @@ services:
       - POSTGRES_DB=${WIKI_DB_POSTGRES_DB}
       - POSTGRES_PASSWORD=${WIKI_DB_POSTGRES_PASSWORD}
       - POSTGRES_USER=${WIKI_DB_POSTGRES_USER}
+    volumes:
+      - wiki-db-volume:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - proxy
-    volumes:
-      - /opt/appdata/wiki-db:/var/lib/postgresql/data
+
+volumes:
+  wiki-db-volume:
+    external: true
 
 networks:
   proxy:
