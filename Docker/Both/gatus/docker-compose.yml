@@ -34,8 +34,7 @@ services:
       - proxy
 
 volumes:
-  gatus-postgresql-volume:
-    external: true
+  gatus-postgresql-volume: {}
 
 networks:
   proxy:

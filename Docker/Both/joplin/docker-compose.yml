@@ -44,8 +44,7 @@ services:
       - proxy
 
 volumes:
-  joplin-postgresql-volume:
-    external: true
+  joplin-postgresql-volume: {}
 
 networks:
   proxy:

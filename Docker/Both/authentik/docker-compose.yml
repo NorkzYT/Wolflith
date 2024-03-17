@@ -65,11 +65,7 @@ services:
     container_name: postgresql-authentik
     restart: unless-stopped
     healthcheck:
-      test:
-        [
-          'CMD-SHELL',
-          'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}'
-        ]
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
       start_period: 20s
       interval: 30s
       retries: 5
@@ -90,7 +86,7 @@ services:
     container_name: postgresql-authentik
     restart: unless-stopped
     healthcheck:
-      test: [ 'CMD-SHELL', 'redis-cli ping | grep PONG' ]
+      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
       start_period: 20s
       interval: 30s
       retries: 5
@@ -103,10 +99,8 @@ services:
       - proxy
 
 volumes:
-  authentik-postgresql-volume:
-    external: true
-  authentik-redis-volume:
-    external: true
+  authentik-postgresql-volume: {}
+  authentik-redis-volume: {}
 
 networks:
   proxy:

@@ -99,6 +99,7 @@ Created by NorkzYT with 💛
     - [zsh_powerlevel10k.yml](./Ansible/playbooks/zsh_powerlevel10k.yml)
   - [**static**](./Ansible/static)
     - [.p10k.zsh](./Ansible/static/.p10k.zsh)
+    - [addCifsShare.sh](./Ansible/static/addCifsShare.sh)
   - [**templates**](./Ansible/templates)
     - [timesyncd.conf](./Ansible/templates/timesyncd.conf)
 - [**Auto**](./Auto)

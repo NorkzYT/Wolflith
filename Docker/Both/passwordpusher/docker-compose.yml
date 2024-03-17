@@ -32,8 +32,7 @@ services:
       - proxy
 
 volumes:
-  pwpush-postgresql-volume:
-    external: true
+  pwpush-postgresql-volume: {}
 
 networks:
   proxy:

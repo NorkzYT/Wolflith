@@ -18,16 +18,7 @@ services:
       - /opt/appdata/paperless-ngx/main/export:/usr/src/paperless/export
       - /opt/appdata/paperless-ngx/main/consume:/usr/src/paperless/consume
     healthcheck:
-      test:
-        [
-          'CMD',
-          'curl',
-          '-fs',
-          '-S',
-          '--max-time',
-          '2',
-          'http://localhost:8000'
-        ]
+      test: ['CMD', 'curl', '-fs', '-S', '--max-time', '2', 'http://localhost:8000']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -60,8 +51,7 @@ services:
       - proxy
 
 volumes:
-  paperless-ngx-postgresql-volume:
-    external: true
+  paperless-ngx-postgresql-volume: {}
 
 networks:
   proxy:

@@ -19,8 +19,7 @@ services:
       - proxy
 
 volumes:
-  postgresql-volume:
-    external: true
+  postgresql-volume: {}
 
 networks:
   proxy:

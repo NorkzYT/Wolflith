@@ -32,11 +32,7 @@ services:
       - POSTGRES_PASSWORD=${N8N_DB_POSTGRESDB_PASSWORD}
       - POSTGRES_DB=${N8N_DB_POSTGRESDB_DATABASE}
     healthcheck:
-      test:
-        [
-          'CMD-SHELL',
-          'pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}'
-        ]
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -49,8 +45,7 @@ services:
       - proxy
 
 volumes:
-  n8n-postgresql-volume:
-    external: true
+  n8n-postgresql-volume: {}
 
 networks:
   proxy:

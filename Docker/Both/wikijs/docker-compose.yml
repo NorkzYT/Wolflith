@@ -34,8 +34,7 @@ services:
       - proxy
 
 volumes:
-  wiki-db-volume:
-    external: true
+  wiki-db-volume: {}
 
 networks:
   proxy:

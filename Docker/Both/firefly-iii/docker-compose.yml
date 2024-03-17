@@ -36,22 +36,20 @@ services:
   fireflyiii-postgres:
     image: postgres:16.2-bullseye
     container_name: fireflyiii-postgres
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_USER=${FIREFLYIII_DB_USERNAME}
       - POSTGRES_PASSWORD=${FIREFLYIII_DB_PASSWORD}
       - POSTGRES_DB=${FIREFLYIII_DB_DATABASE}
     volumes:
       - firefly-postgresql-volume:/var/lib/postgresql/data
-      - /etc/passwd:/etc/passwd:ro
-    ports:
-      - 5432:5432
     restart: unless-stopped
     networks:
       - proxy
 
 volumes:
-  firefly-postgresql-volume:
-    external: true
+  firefly-postgresql-volume: {}
 
 networks:
   proxy:
