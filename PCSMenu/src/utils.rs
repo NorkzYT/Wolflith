@@ -241,14 +241,12 @@ fn get_cpu_info() -> usize {
 
 /// Retrieves the current free memory of the system.
 ///
-/// Returns a string representing the amount of free RAM in GB.
+/// Returns a string representing the amount of free RAM in MB.
 fn get_ram_info() -> String {
     let mut system = System::new_all();
     system.refresh_memory();
-    let total_memory_gb = system.total_memory() as f64 / 1024.0 / 1024.0;
-    let used_memory_gb = system.used_memory() as f64 / 1024.0 / 1024.0;
-    let free_memory_gb = total_memory_gb - used_memory_gb;
-    format!("{:.4} GB", free_memory_gb)
+    let free_memory_mb = system.available_memory() as f64 / 1024.0;
+    format!("{:.2} MB", free_memory_mb)
 }
 
 /// Fetches the operating system's release information.
@@ -302,19 +300,19 @@ pub fn menu_bar() {
     );
 }
 
-/// Prints the specified text in the given color to the terminal.
-///
-/// Parameters:
-/// - `text`: The text to be printed.
-/// - `color`: The `Color` in which the text should be printed.
-pub fn print_color(text: &str, color: Color) {
-    let mut stdout = StandardStream::stdout(ColorChoice::Always);
-    stdout
-        .set_color(ColorSpec::new().set_fg(Some(color)))
-        .unwrap();
-    writeln!(&mut stdout, "{}", text).unwrap();
-    stdout.reset().unwrap();
-}
+// /// Prints the specified text in the given color to the terminal.
+// ///
+// /// Parameters:
+// /// - `text`: The text to be printed.
+// /// - `color`: The `Color` in which the text should be printed.
+// pub fn print_color(text: &str, color: Color) {
+//     let mut stdout = StandardStream::stdout(ColorChoice::Always);
+//     stdout
+//         .set_color(ColorSpec::new().set_fg(Some(color)))
+//         .unwrap();
+//     writeln!(&mut stdout, "{}", text).unwrap();
+//     stdout.reset().unwrap();
+// }
 
 /// Prints text in bold with the specified color to the terminal.
 ///
