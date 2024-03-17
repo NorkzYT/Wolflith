@@ -38,7 +38,7 @@ pub fn main() {
             eprintln!("Error reading input.");
             continue;
         }
-        if !navigate(&mut current_dir, selection.trim()) {
+        if !navigate(&mut current_dir, selection.trim(), entry_count) {
             break;
         }
     }
@@ -97,7 +97,8 @@ fn display_menu(current_dir: &Path) -> io::Result<usize> {
 /// Navigates through the directory structure or executes a script based on the user's selection.
 ///
 /// Returns false if the user chooses to exit the application.
-fn navigate(current_dir: &mut PathBuf, selection: &str) -> bool {
+/// Returns true in all other cases to keep the application running.
+fn navigate(current_dir: &mut PathBuf, selection: &str, entry_count: usize) -> bool {
     match selection.to_uppercase().as_str() {
         "B" => {
             navigate_back(current_dir);
@@ -107,7 +108,13 @@ fn navigate(current_dir: &mut PathBuf, selection: &str) -> bool {
             utils::clear_screen();
             false
         }
-        _ => select_entry(current_dir, selection),
+        selection => match selection.parse::<usize>() {
+            Ok(num) if num >= 1 && num <= entry_count => select_entry(current_dir, selection),
+            _ => {
+                println!("Invalid selection. Please try again.");
+                true
+            }
+        },
     }
 }
 
