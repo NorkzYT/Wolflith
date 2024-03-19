@@ -1,5 +1,8 @@
 # How to get more FreeForever Oracle Cloud Accounts
 
+## Disclaimer
+This is for educational purposes only and you have a high chance to be banned.
+
 ## Introduction
 
 To create an Oracle Cloud Account, you need to provide a unique email address, password, home address, phone number, and credit or debit card. The credit or debit card will be used for verification purposes, and the information provided will not be retained after the account is created. To ensure the account is unique, Oracle checks for unique IP addresses, phone numbers, and home addresses. It is also possible to create an Oracle Cloud Account using a phone connected to a service provider such as At&t, Cricket, or Verizon.
