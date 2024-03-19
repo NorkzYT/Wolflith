@@ -1,6 +1,7 @@
 # How to get more FreeForever Oracle Cloud Accounts
 
 ## Disclaimer
+
 This is for educational purposes only and you have a high chance to be banned.
 
 ## Introduction
