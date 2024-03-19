@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   grocy:
-    image: linuxserver/grocy:4.1.0
+    image: linuxserver/grocy:4.2.0
     container_name: grocy
     environment:
       - PUID=${GROCY_PUID}
