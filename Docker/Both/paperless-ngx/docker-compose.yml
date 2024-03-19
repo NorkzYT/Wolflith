@@ -42,13 +42,16 @@ services:
     container_name: paperless-ngx-db
     restart: unless-stopped
     volumes:
-      - /opt/appdata/paperless-ngx/pgdata:/var/lib/postgresql/data
+      - paperless-ngx-postgresql-volume:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB='paperless'
       - POSTGRES_USER='paperless'
       - POSTGRES_PASSWORD='paperless'
     networks:
       - proxy
+
+volumes:
+  paperless-ngx-postgresql-volume: {}
 
 networks:
   proxy:

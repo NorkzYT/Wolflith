@@ -31,7 +31,6 @@ To contribute code, you must fork the [Wolflith repo](https://github.com/NorkzYT
 1. Clone your GitHub forked repo:
 
    ```bash
-   sudo mkdir -p /opt/Wolflith
    sudo wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/<github_username>/Wolflith/main/PCSMenu/PCSInstall.sh
    sudo chmod +x /opt/PCSInstall.sh
    sudo /opt/PCSInstall.sh --branch="staging"

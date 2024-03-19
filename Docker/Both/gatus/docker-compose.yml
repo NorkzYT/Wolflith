@@ -23,7 +23,7 @@ services:
     image: postgres:16-alpine3.19
     container_name: gatus-postgres
     volumes:
-      - /opt/appdata/gatus-postgres/data/db:/var/lib/postgresql/data
+      - gatus-postgresql-volume:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     environment:
@@ -32,6 +32,9 @@ services:
       - POSTGRES_PASSWORD=${GATUS_POSTGRES_PASSWORD}
     networks:
       - proxy
+
+volumes:
+  gatus-postgresql-volume: {}
 
 networks:
   proxy:

@@ -3,17 +3,17 @@
 version: '3.9'
 services:
   kasm:
-    image: linuxserver/kasm:1.120.20221218
+    image: linuxserver/kasm:1.15.0
     container_name: kasm
     privileged: true
     environment:
-      - KASM_PORT='443'
+      - KASM_PORT=443
     volumes:
       - /opt/appdata/kasm/data:/opt
-      - /opt/appdata/kasm/profiles:/profiles # Optionally specify a path for persistent profile storage.
+      - /opt/appdata/kasm/profiles:/profiles
     ports:
-      - 3000:3000
-      - 443:443
+      - 3006:3000
+      - 3007:443
     restart: unless-stopped
     networks:
       - proxy

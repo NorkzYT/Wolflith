@@ -16,7 +16,7 @@ services:
     environment:
       - VERSION=${WINDOWS_VERSION}
       - RAM_SIZE=${WINDOWS_RAM_SIZE}
-      - CPU_CORES=${WINDOWS_PU_CORES}
+      - CPU_CORES=${WINDOWS_CPU_CORES}
       - DISK_SIZE=${WINDOWS_DISK_SIZE}
     volumes:
       - /opt/appdata/windows:/storage

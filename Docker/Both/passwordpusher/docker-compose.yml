@@ -20,16 +20,19 @@ services:
   pwpush-postgres:
     image: postgres:16
     container_name: pwpush-postgres
-    volumes:
-      - /opt/appdata/passwordpusher/postgresql/data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_USER=${PWPUSH_POSTGRES_USER}
       - POSTGRES_PASSWORD=${PWPUSH_POSTGRES_PASSWORD}
       - POSTGRES_DB=${PWPUSH_POSTGRES_DB}
+    volumes:
+      - pwpush-postgresql-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     networks:
       - proxy
+
+volumes:
+  pwpush-postgresql-volume: {}
 
 networks:
   proxy:

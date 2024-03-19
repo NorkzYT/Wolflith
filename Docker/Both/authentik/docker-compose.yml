@@ -75,7 +75,7 @@ services:
       - POSTGRES_DB=${AUTHENTIK_POSTGRESQL__NAME}
       - POSTGRES_PASSWORD=${AUTHENTIK_POSTGRESQL__PASSWORD:?database password required}
     volumes:
-      - /opt/appdata/authentik/postgresql:/var/lib/postgresql/data
+      - authentik-postgresql-volume:/var/lib/postgresql/data
     ports:
       - 5432:8080
     networks:
@@ -92,11 +92,15 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - /opt/appdata/authentik/redis:/data
+      - authentik-redis-volume:/data
     ports:
       - 6379:6379
     networks:
       - proxy
+
+volumes:
+  authentik-postgresql-volume: {}
+  authentik-redis-volume: {}
 
 networks:
   proxy:

@@ -18,7 +18,6 @@ Note: This repository is in BETA and still a work in progress, I welcome contrib
 ## How to Install
 
 ```bash
-sudo mkdir -p /opt/Wolflith
 sudo wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolflith/main/PCSMenu/PCSInstall.sh
 sudo chmod +x /opt/PCSInstall.sh
 sudo /opt/PCSInstall.sh --branch="main"
@@ -100,6 +99,7 @@ Created by NorkzYT with 💛
     - [zsh_powerlevel10k.yml](./Ansible/playbooks/zsh_powerlevel10k.yml)
   - [**static**](./Ansible/static)
     - [.p10k.zsh](./Ansible/static/.p10k.zsh)
+    - [addCifsShare.sh](./Ansible/static/addCifsShare.sh)
   - [**templates**](./Ansible/templates)
     - [timesyncd.conf](./Ansible/templates/timesyncd.conf)
 - [**Auto**](./Auto)

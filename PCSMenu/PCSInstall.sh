@@ -50,6 +50,11 @@ if [[ "$1" == "--branch="* ]]; then
     branch="${1#*=}" # Extract branch name after "="
 fi
 
+# Make Wolflith folder
+if [ ! -d "/opt/Wolflith" ]; then
+    mkdir -p /opt/Wolflith
+fi
+
 echo "Cloning Wolflith from branch $branch..."
 if git clone --branch "$branch" https://github.com/NorkzYT/Wolflith.git $ifolder; then
     echo "Successfully cloned Wolflith from branch $branch."
@@ -90,6 +95,7 @@ fi
 
 # Make sure the new alias script is executable
 sudo chmod +x $alias_file
+source $alias_file
 
 # Source PCSFunc if available
 [[ -f /opt/Wolflith/PCSMenu/src/PCSFunc.sh ]] && source /opt/Wolflith/PCSMenu/src/PCSFunc.sh

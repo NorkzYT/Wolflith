@@ -45,6 +45,8 @@ function setup_hosts_add_machines() {
 
             break
         elif [[ "$proceed" =~ ^[Nn][Oo]?$ ]]; then
+            magentaprint "Operation canceled. Returning to the main menu..."
+            sleep 1
             exit 2
             return
         else

@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
     - name: Verify if target system is Proxmox VE
-      ansible.builtin.script: '../../PCSMenu/Functions/Proxmox/Scripts/checkProxmox.sh'
+      ansible.builtin.script: '../../PCSMenu/src/Functions/Proxmox/Scripts/checkProxmox.sh'
       register: proxmox_check
       ignore_errors: yes
 
@@ -144,38 +144,39 @@
             path: '/mnt/lxc_shares/{{ cifs_share_details.folder_name }}'
             state: directory
 
-        - name: Add CIFS share to /etc/fstab with nobrl option
-          ansible.builtin.lineinfile:
-            path: /etc/fstab
-            line: '//{{ cifs_share_details.cifs_host }}/{{ cifs_share_details.share_name }} /mnt/lxc_shares/{{ cifs_share_details.folder_name }} cifs _netdev,x-systemd.automount,noatime,nobrl,uid=100000,gid=110000,dir_mode=0770,file_mode=0770,credentials=/etc/cifs-{{ cifs_share_details.folder_name }}.cred 0 0'
-            create: yes
-        - name: Create CIFS credentials file
+        - name: Transfer the addCifsShare script to the target host
           ansible.builtin.copy:
-            content: |
-              username={{ cifs_share_details.smb_username }}
-              password={{ cifs_share_details.smb_password }}
-            dest: '/etc/cifs-{{ cifs_share_details.folder_name }}.cred'
-            mode: '0600'
+            src: '../static/addCifsShare.sh'
+            dest: '/tmp/addCifsShare.sh'
+            mode: '0755'
 
-        - name: Reload systemd daemon to apply fstab changes
-          ansible.builtin.command: systemctl daemon-reload
+        - name: Execute the addCifsShare script
+          ansible.builtin.shell:
+            cmd: >
+              /tmp/addCifsShare.sh "{{ cifs_share_details.folder_name }}"
+              "{{ cifs_share_details.cifs_host }}"
+              "{{ cifs_share_details.share_name }}"
+              "{{ cifs_share_details.smb_username }}"
+              "{{ cifs_share_details.smb_password }}"
 
-        - name: Ensure the mount point is not already in use
-          ansible.builtin.shell: umount -l "/mnt/lxc_shares/{{ cifs_share_details.folder_name }}" || true
+        - name: Remove the temporary addCifsShare script
+          ansible.builtin.file:
+            path: '/tmp/addCifsShare.sh'
+            state: absent
 
-        - name: Mount the CIFS share
-          ansible.builtin.mount:
-            path: '/mnt/lxc_shares/{{ cifs_share_details.folder_name }}'
-            src: '//{{ cifs_share_details.cifs_host }}/{{ cifs_share_details.share_name }}'
-            fstype: cifs
-            opts: 'credentials=/etc/cifs-{{ cifs_share_details.folder_name }}.cred,uid=100000,gid=100000,iocharset=utf8'
-            state: mounted
+        - name: Check if CIFS share line exists in LXC config
+          ansible.builtin.shell:
+            cmd: "grep -q 'mp0: /mnt/lxc_shares/{{ cifs_share_details.folder_name }}' /etc/pve/lxc/{{ vmid }}.conf"
+          register: grep_lxc_config
+          ignore_errors: true
+          changed_when: false
 
-        - name: Add a bind mount of the share to the LXC config
+        - name: Add a bind mount of the share to the LXC config if not already present
           ansible.builtin.lineinfile:
             path: '/etc/pve/lxc/{{ vmid }}.conf'
             line: 'mp0: /mnt/lxc_shares/{{ cifs_share_details.folder_name }},mp=/mnt/{{ cifs_share_details.folder_name }},shared=1'
             create: yes
+          when: grep_lxc_config.rc != 0
       when: cifs_setup_required
 
 - name: Docker Setup in Provisioned LXC Container
