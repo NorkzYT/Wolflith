@@ -3,7 +3,7 @@ replace github.com/NorkzYT/Wolflith/Scripts/Vault/vaultCommon => ./vaultCommon
 go 1.20
 
 require (
-	github.com/hashicorp/vault/api v1.12.0
+	github.com/hashicorp/vault/api v1.12.1
 	github.com/joho/godotenv v1.5.1
 )
 
