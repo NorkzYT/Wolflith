@@ -7,7 +7,7 @@
 <div align="center">
   
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-Prettier-00BCD4.svg?style=flat)](https://github.com/prettier/prettier)
-[![Languages: Bash & Ansible](https://img.shields.io/badge/languages-Bash%20|%20Ansible-007BFF.svg?style=flat)]()
+[![Languages: Bash & Ansible](https://img.shields.io/badge/languages-Ansible%20|%20Rust%20|%20Bash-007BFF.svg?style=flat)]()
 
 </div>
 
