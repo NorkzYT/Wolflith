@@ -2,16 +2,34 @@
     <img src="Docs/content/assets/img/wolflith-cover-rl.png" width="490">
 </p>
 
-<p align="center">Streamline Your Tech Stack Deployment with One Command</p>
+<p align="center">Streamline Your Docker Deployments with One Command</p>
 
-<div align="center">
-  
-[![Code Style: Prettier](https://img.shields.io/badge/code_style-Prettier-00BCD4.svg?style=flat)](https://github.com/prettier/prettier)
-[![Languages: Bash & Ansible](https://img.shields.io/badge/languages-Ansible%20|%20Rust%20|%20Bash-007BFF.svg?style=flat)]()
-
+<div style="text-align: center;">
+  <!-- Contributions Welcome Badge -->
+  <a href="CODE_OF_CONDUCT.md" target="_blank">
+    <img src="https://img.shields.io/badge/contributions-welcome-brightgreen?logo=github" alt="Contributions Welcome">
+  </a>
+  <!-- Commits per Month -->
+  <a href="https://github.com/NorkzYT/Wolflith/pulse">
+    <img src="https://img.shields.io/github/commit-activity/m/NorkzYT/Wolflith" alt="Commits-per-month">
+  </a>
+  <!-- License Badge -->
+  <a href="https://github.com/NorkzYT/Wolflith/blob/main/LICENSE" target="_blank">
+    <img src="https://img.shields.io/badge/license-GNUv3-purple" alt="License">
+  </a>
+  <!-- Contributor Covenant Badge -->
+  <a href="https://contributor-covenant.org/version/2/1/code_of_conduct/" target="_blank">
+    <img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-purple" alt="Contributor Covenant 2.1">
+  </a>
+  <!-- Github Stars Badge -->
+  <a href="https://github.com/NorkzYT/Wolflith/stargazers" target="_blank">
+    <img src="https://img.shields.io/github/stars/NorkzYT/Wolflith" alt="Github Stars">
+  </a>
 </div>
 
-At its core, Wolflith harnesses the power of Ansible, Rust and Bash to offer an unparalleled level of control and flexibility, making it the backbone for deploying and managing your technological services. This Ansible-Rust-Bash-based toolkit simplifies complex tasks, ensuring that even those new to homelabs can achieve professional-grade setups. With Wolflith, you're not just building a server; you're crafting a fully customized, scalable digital environment tailored to your needs. It's the perfect blend of simplicity and sophistication for the modern tech enthusiast.
+## About
+
+Wolflith is a revolutionary toolkit crafted to redefine the deployment of Docker containers, enabling both novices and experts to manage docker services efficiently across Linux environments. With a robust foundation in Ansible for seamless orchestration, it offers a remarkably simple yet powerful one-command solution to deploy a diverse array of docker services or even your customized ones, across any number of machines. Designed for the tech enthusiast seeking efficiency without the hassle, Wolflith promises a significant reduction in deployment time and complexity, making it the go-to solution for those dedicated to streamlining their tech stacks in Docker-centric platforms. Experience the ease of managing your digital projects with Wolflith, where simplicity meets functionality.
 
 Note: This repository is in BETA and still a work in progress, I welcome contributions to expand its capabilities and usability.
 
@@ -25,7 +43,7 @@ sudo /opt/PCSInstall.sh --branch="main"
 
 ## Contributing
 
-To see how to Setup and Contribute, visit [Getting Started](./DEVELOPERS.md)
+Please see the [contributing guide](./CONTRIBUTING.md)
 
 ## Credits
 
