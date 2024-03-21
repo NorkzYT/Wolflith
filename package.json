@@ -1,10 +1,10 @@
 {
-	"name": "Wolflith",
+	"name": "wolflith",
 	"description": "Streamline Your Tech Stack Deployment with One Command.",
 	"version": "1.0.0",
 	"author": "NorkzYT",
 	"private": false,
-	"main": "Auto/setup.sh",
+	"main": "PCSMenu/PCSInstall.sh",
 	"scripts": {
 		"clean:install": "rm -rf node_modules/ && rm -rf bun.lockb && bun i",
 		"prettier:check": "prettier --check .",

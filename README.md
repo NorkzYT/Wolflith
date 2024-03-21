@@ -2,16 +2,33 @@
     <img src="Docs/content/assets/img/wolflith-cover-rl.png" width="490">
 </p>
 
-<p align="center">Streamline Your Tech Stack Deployment with One Command</p>
-
+<p align="center">Streamline Your Docker Deployments with One Command</p>
 <div align="center">
-  
-[![Code Style: Prettier](https://img.shields.io/badge/code_style-Prettier-00BCD4.svg?style=flat)](https://github.com/prettier/prettier)
-[![Languages: Bash & Ansible](https://img.shields.io/badge/languages-Bash%20|%20Ansible-007BFF.svg?style=flat)]()
-
+  <!-- Contributions Welcome Badge -->
+  <a href="CODE_OF_CONDUCT.md" target="_blank">
+    <img src="https://img.shields.io/badge/contributions-welcome-brightgreen?logo=github" alt="Contributions Welcome">
+  </a>
+  <!-- Commits per Month -->
+  <a href="https://github.com/NorkzYT/Wolflith/pulse">
+    <img src="https://img.shields.io/github/commit-activity/m/NorkzYT/Wolflith" alt="Commits-per-month">
+  </a>
+  <!-- License Badge -->
+  <a href="https://github.com/NorkzYT/Wolflith/blob/main/LICENSE" target="_blank">
+    <img src="https://img.shields.io/badge/license-GNUv3-purple" alt="License">
+  </a>
+  <!-- Contributor Covenant Badge -->
+  <a href="https://contributor-covenant.org/version/2/1/code_of_conduct/" target="_blank">
+    <img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-purple" alt="Contributor Covenant 2.1">
+  </a>
+  <!-- Github Stars Badge -->
+  <a href="https://github.com/NorkzYT/Wolflith/stargazers" target="_blank">
+    <img src="https://img.shields.io/github/stars/NorkzYT/Wolflith" alt="Github Stars">
+  </a>
 </div>
 
-At its core, Wolflith harnesses the power of Ansible, Rust and Bash to offer an unparalleled level of control and flexibility, making it the backbone for deploying and managing your technological services. This Ansible-Rust-Bash-based toolkit simplifies complex tasks, ensuring that even those new to homelabs can achieve professional-grade setups. With Wolflith, you're not just building a server; you're crafting a fully customized, scalable digital environment tailored to your needs. It's the perfect blend of simplicity and sophistication for the modern tech enthusiast.
+## About
+
+Wolflith is a revolutionary toolkit crafted to redefine the deployment of Docker containers, enabling both novices and experts to manage docker services efficiently across Linux environments. With a robust foundation in Ansible for seamless orchestration, it offers a remarkably simple yet powerful one-command solution to deploy a diverse array of docker services or even your customized ones, across any number of machines. Designed for the tech enthusiast seeking efficiency without the hassle, Wolflith promises a significant reduction in deployment time and complexity, making it the go-to solution for those dedicated to streamlining their tech stacks in Docker-centric platforms. Experience the ease of managing your digital projects with Wolflith, where simplicity meets functionality.
 
 Note: This repository is in BETA and still a work in progress, I welcome contributions to expand its capabilities and usability.
 
@@ -25,7 +42,7 @@ sudo /opt/PCSInstall.sh --branch="main"
 
 ## Contributing
 
-To see how to Setup and Contribute, visit [Getting Started](./DEVELOPERS.md)
+Please see the [contributing guide](./CONTRIBUTING.md)
 
 ## Credits
 
@@ -71,8 +88,6 @@ Created by NorkzYT with 💛
   - [**inventory**](./Ansible/inventory)
     - [ansible.cfg](./Ansible/inventory/ansible.cfg)
     - [hosts.example.yaml](./Ansible/inventory/hosts.example.yaml)
-  - [**k3s**](./Ansible/k3s)
-    - [README.md](./Ansible/k3s/README.md)
   - [**playbooks**](./Ansible/playbooks)
     - [1password.yml](./Ansible/playbooks/1password.yml)
     - [ansible-upgrade.yml](./Ansible/playbooks/ansible-upgrade.yml)
@@ -108,7 +123,7 @@ Created by NorkzYT with 💛
   - [modifyComposeFiles.sh](./Auto/modifyComposeFiles.sh)
   - [setup.sh](./Auto/setup.sh)
 - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
-- [DEVELOPERS.md](./DEVELOPERS.md)
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
 - [**Docker**](./Docker)
   - [**AMD64**](./Docker/AMD64)
     - [**appflowy**](./Docker/AMD64/appflowy)
@@ -383,71 +398,6 @@ Created by NorkzYT with 💛
       - [**img**](./Docs/content/assets/img)
         - [wolflith-cover-rl.png](./Docs/content/assets/img/wolflith-cover-rl.png)
     - [wolflith-cover.psd](./Docs/content/wolflith-cover.psd)
-- [**K8s**](./K8s)
-  - [**cloudflare**](./K8s/cloudflare)
-    - [deployment.yaml](./K8s/cloudflare/deployment.yaml)
-  - [**gitlab-runner**](./K8s/gitlab-runner)
-    - [secret.yml](./K8s/gitlab-runner/secret.yml)
-    - [values.yml](./K8s/gitlab-runner/values.yml)
-  - [**kube-prometheus-stack**](./K8s/kube-prometheus-stack)
-    - [ingress.yaml](./K8s/kube-prometheus-stack/ingress.yaml)
-    - [values.yml](./K8s/kube-prometheus-stack/values.yml)
-  - [**nextcloud**](./K8s/nextcloud)
-    - [claim.yml](./K8s/nextcloud/claim.yml)
-    - [deployment.yaml](./K8s/nextcloud/deployment.yaml)
-    - [ingress.yml](./K8s/nextcloud/ingress.yml)
-    - [service.yml](./K8s/nextcloud/service.yml)
-  - [**pterodactyl**](./K8s/pterodactyl)
-    - [**panel**](./K8s/pterodactyl/panel)
-      - [claim.yml](./K8s/pterodactyl/panel/claim.yml)
-      - [deployment.yaml](./K8s/pterodactyl/panel/deployment.yaml)
-      - [ingress.yml](./K8s/pterodactyl/panel/ingress.yml)
-      - [**node**](./K8s/pterodactyl/panel/node)
-        - [endpoint.yml](./K8s/pterodactyl/panel/node/endpoint.yml)
-        - [ingress.yml](./K8s/pterodactyl/panel/node/ingress.yml)
-        - [service.yml](./K8s/pterodactyl/panel/node/service.yml)
-      - [secret.yml](./K8s/pterodactyl/panel/secret.yml)
-      - [service.yml](./K8s/pterodactyl/panel/service.yml)
-  - [**traefik-cert-manager**](./K8s/traefik-cert-manager)
-    - [**cert-manager**](./K8s/traefik-cert-manager/cert-manager)
-      - [**certificates**](./K8s/traefik-cert-manager/cert-manager/certificates)
-        - [**production**](./K8s/traefik-cert-manager/cert-manager/certificates/production)
-          - [local-example-com.yaml](./K8s/traefik-cert-manager/cert-manager/certificates/production/local-example-com.yaml)
-        - [**staging**](./K8s/traefik-cert-manager/cert-manager/certificates/staging)
-          - [local-example-com.yaml](./K8s/traefik-cert-manager/cert-manager/certificates/staging/local-example-com.yaml)
-      - [**issuers**](./K8s/traefik-cert-manager/cert-manager/issuers)
-        - [letsencrypt-production.yaml](./K8s/traefik-cert-manager/cert-manager/issuers/letsencrypt-production.yaml)
-        - [letsencrypt-staging.yaml](./K8s/traefik-cert-manager/cert-manager/issuers/letsencrypt-staging.yaml)
-        - [secret-cf-token.yaml](./K8s/traefik-cert-manager/cert-manager/issuers/secret-cf-token.yaml)
-      - [values.yaml](./K8s/traefik-cert-manager/cert-manager/values.yaml)
-    - [**nginx**](./K8s/traefik-cert-manager/nginx)
-      - [deployment.yaml](./K8s/traefik-cert-manager/nginx/deployment.yaml)
-      - [ingress.yaml](./K8s/traefik-cert-manager/nginx/ingress.yaml)
-      - [service.yaml](./K8s/traefik-cert-manager/nginx/service.yaml)
-    - [**traefik**](./K8s/traefik-cert-manager/traefik)
-      - [**dashboard**](./K8s/traefik-cert-manager/traefik/dashboard)
-        - [ingress.yaml](./K8s/traefik-cert-manager/traefik/dashboard/ingress.yaml)
-        - [middleware.yaml](./K8s/traefik-cert-manager/traefik/dashboard/middleware.yaml)
-        - [secret-dashboard.yaml](./K8s/traefik-cert-manager/traefik/dashboard/secret-dashboard.yaml)
-      - [default-headers.yaml](./K8s/traefik-cert-manager/traefik/default-headers.yaml)
-      - [values.yaml](./K8s/traefik-cert-manager/traefik/values.yaml)
-  - [**traefik2-k3s-rancher**](./K8s/traefik2-k3s-rancher)
-    - [**config**](./K8s/traefik2-k3s-rancher/config)
-      - [traefik-chart-values.yml](./K8s/traefik2-k3s-rancher/config/traefik-chart-values.yml)
-      - [traefik-config.yml](./K8s/traefik2-k3s-rancher/config/traefik-config.yml)
-      - [traefik-dashboard-ingressroute.yml](./K8s/traefik2-k3s-rancher/config/traefik-dashboard-ingressroute.yml)
-      - [traefik-dashboard-secret.yml](./K8s/traefik2-k3s-rancher/config/traefik-dashboard-secret.yml)
-    - [**config-ingress-route**](./K8s/traefik2-k3s-rancher/config-ingress-route)
-      - [**kubernetes**](./K8s/traefik2-k3s-rancher/config-ingress-route/kubernetes)
-        - [deployment.yml](./K8s/traefik2-k3s-rancher/config-ingress-route/kubernetes/deployment.yml)
-        - [ingress.yml](./K8s/traefik2-k3s-rancher/config-ingress-route/kubernetes/ingress.yml)
-        - [service.yml](./K8s/traefik2-k3s-rancher/config-ingress-route/kubernetes/service.yml)
-      - [traefik-chart-values.yml](./K8s/traefik2-k3s-rancher/config-ingress-route/traefik-chart-values.yml)
-  - [**uptime-kuma**](./K8s/uptime-kuma)
-    - [claim.yml](./K8s/uptime-kuma/claim.yml)
-    - [deployment.yaml](./K8s/uptime-kuma/deployment.yaml)
-    - [ingress.yml](./K8s/uptime-kuma/ingress.yml)
-    - [service.yml](./K8s/uptime-kuma/service.yml)
 - [LICENSE](./LICENSE)
 - [Makefile](./Makefile)
 - [**PCSMenu**](./PCSMenu)
