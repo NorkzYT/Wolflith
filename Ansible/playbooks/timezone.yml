@@ -6,6 +6,10 @@
     - name: 'timezone'
       prompt: 'Enter your timezone (e.g. America/New_York)'
       private: no
+    - name: 'ntp_server'
+      prompt: 'Enter your NTP server IP (e.g. 192.168.0.100)'
+      private: no
+
   tasks:
     - name: set timezone
       shell: timedatectl set-timezone {{ timezone }}
@@ -16,7 +20,11 @@
         state: stopped
 
     - name: Copy over the timesyncd config
-      template: src=../templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf
+      template:
+        src: ../templates/timesyncd.conf
+        dest: /etc/systemd/timesyncd.conf
+      vars:
+        ntp_server: '{{ ntp_server }}'
 
     - name: Make sure timesyncd is started
       systemd:

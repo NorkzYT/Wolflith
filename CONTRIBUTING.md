@@ -1,14 +1,6 @@
-# Developing Wolflith
+# Contributing to Wolflith
 
-- [Developing Wolflith](#developing-Wolflith)
-  - [Getting started](#getting-started)
-    - [Install dependencies](#install-dependencies)
-  - [Local development](#local-development)
-    - [Fork the repo](#auto-setup)
-    - [Auto Setup](#clone-the-repo)
-    - [Install dependencies](#install-dependencies)
-  - [Create a pull request](#create-a-pull-request)
-  - [Issue assignment](#issue-assignment)
+Contributions are what make the open source community such a fantastic place to learn, inspire, and innovate. Any contributions you make are **very much appreciated**.
 
 ## Getting started
 
