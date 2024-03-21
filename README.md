@@ -3,8 +3,7 @@
 </p>
 
 <p align="center">Streamline Your Docker Deployments with One Command</p>
-
-<div style="text-align: center;">
+<div align="center">
   <!-- Contributions Welcome Badge -->
   <a href="CODE_OF_CONDUCT.md" target="_blank">
     <img src="https://img.shields.io/badge/contributions-welcome-brightgreen?logo=github" alt="Contributions Welcome">
