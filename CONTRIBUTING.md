@@ -2,7 +2,6 @@
 
 Contributions are what make the open source community such a fantastic place to learn, inspire, and innovate. Any contributions you make are **very much appreciated**.
 
-
 ## Getting started
 
 Thank you for your interest in Wolflith and your willingness to contribute!

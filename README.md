@@ -124,7 +124,7 @@ Created by NorkzYT with 💛
   - [modifyComposeFiles.sh](./Auto/modifyComposeFiles.sh)
   - [setup.sh](./Auto/setup.sh)
 - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
-- [DEVELOPERS.md](./DEVELOPERS.md)
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
 - [**Docker**](./Docker)
   - [**AMD64**](./Docker/AMD64)
     - [**appflowy**](./Docker/AMD64/appflowy)
