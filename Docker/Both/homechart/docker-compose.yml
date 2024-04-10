@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   homechart:
-    image: ghcr.io/candiddev/homechart:v2024.03.14
+    image: ghcr.io/candiddev/homechart:v2024.04.10
     container_name: homechart
     environment:
       - HOMECHART_POSTGRESQL_HOSTNAME=${HOMECHART_POSTGRESQL_HOSTNAME}
