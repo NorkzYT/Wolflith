@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   adminer:
-    image: f0rc3/gokapi:v1.8.0
+    image: f0rc3/gokapi:v1.8.1
     container_name: gokapi
     restart: unless-stopped
     ports:
