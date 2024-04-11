@@ -1,8 +1,8 @@
 name: ansible-lint
 
-on:
-  pull_request:
-    branches: ['staging']
+#on:
+#  pull_request:
+#    branches: ['staging']
 
 jobs:
   build:
