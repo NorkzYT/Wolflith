@@ -83,7 +83,7 @@ services:
 
   redis-authentik:
     image: redis:alpine3.19
-    container_name: postgresql-authentik
+    container_name: redis-authentik
     restart: unless-stopped
     healthcheck:
       test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
