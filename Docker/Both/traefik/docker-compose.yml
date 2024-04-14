@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   traefik:
-    image: traefik:v2.11.1
+    image: traefik:2.11.2
     container_name: traefik
     ports:
       - 8001:80
