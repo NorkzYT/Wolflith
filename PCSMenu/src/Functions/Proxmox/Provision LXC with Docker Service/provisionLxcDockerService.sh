@@ -60,6 +60,7 @@ function provision_docker_services_on_lxc() {
             # Check appdata_location and run revised proxmox-lxc-cifs-share.sh script
             appdata_location=$(grep "appdata_location" /opt/Wolflith/Temp/provisioning_docker_service_vars.yml | cut -d '"' -f 2)
             if [[ "$appdata_location" == /mnt* ]]; then
+                cyanprint "Starting LXC CIFS share setup..."
                 bash "/opt/Wolflith/PCSMenu/src/Functions/Proxmox/Scripts/proxmoxLxcCifsShare.sh"
             fi
 

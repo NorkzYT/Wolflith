@@ -111,6 +111,7 @@
   hosts: all
   become: yes
   vars_files:
+    - /opt/Wolflith/Temp/provisioning_docker_service_vars.yml
     - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
   tasks:
     - name: Configure LXC and PVE for CIFS share
@@ -124,6 +125,20 @@
             vmid: '{{ vmid }}'
             unprivileged: true
             state: started
+
+        - name: Install sudo and add a new user with sudo privileges in the LXC Container
+          block:
+            - name: Ensure sudo is installed in the LXC Container
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- apt-get update &&
+                pct exec {{ vmid }} -- apt-get install -y sudo
+
+            - name: Create a new user with specified username and add to the sudo group
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- useradd -m {{ selected_service }} -s /bin/bash &&
+                pct exec {{ vmid }} -- bash -c "echo '{{ selected_service }}:{{ lxc_user_password }}' | chpasswd" &&
+                pct exec {{ vmid }} -- usermod -aG sudo {{ selected_service }}
+          ignore_errors: yes
 
         - name: Creating group 'lxc_shares' with GID=110000 in LXC
           ansible.builtin.shell: |
@@ -239,20 +254,6 @@
         - name: Create Docker Network in the LXC Container
           ansible.builtin.shell: |
             pct exec {{ vmid }} -- docker network create {{ network_name }}
-          ignore_errors: yes
-
-        - name: Install sudo and add a new user with sudo privileges in the LXC Container
-          block:
-            - name: Ensure sudo is installed in the LXC Container
-              ansible.builtin.shell: |
-                pct exec {{ vmid }} -- apt-get update &&
-                pct exec {{ vmid }} -- apt-get install -y sudo
-
-            - name: Create a new user with specified username and add to the sudo group
-              ansible.builtin.shell: |
-                pct exec {{ vmid }} -- useradd -m {{ selected_service }} -s /bin/bash &&
-                pct exec {{ vmid }} -- bash -c "echo '{{ selected_service }}:{{ lxc_user_password }}' | chpasswd" &&
-                pct exec {{ vmid }} -- usermod -aG sudo {{ selected_service }}
           ignore_errors: yes
 
         - name: Ensure Host Destination Directory Exists

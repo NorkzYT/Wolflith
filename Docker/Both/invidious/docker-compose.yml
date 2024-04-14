@@ -1,0 +1,79 @@
+# Installation: https://docs.invidious.io/installation/#docker-compose-method-production
+
+services:
+
+  invidious:
+    image: quay.io/invidious/invidious:latest
+    # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
+    container_name: invidious
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Please read the following file for a comprehensive list of all available
+      # configuration options and their associated syntax:
+      # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
+      INVIDIOUS_CONFIG: |
+        db:
+          dbname: "${INVIDIOUS_POSTGRESQL_DB_NAME:?required}"
+          user: "${INVIDIOUS_POSTGRESQL_USER:?required}"
+          password: "${INVIDIOUS_POSTGRESQL_PASSWORD:?required}"
+          host: "${INVIDIOUS_POSTGRESQL_HOST:?required}"
+          port: 5432
+        check_tables: true
+        external_port: 443 # see https://docs.invidious.io/installation/#post-install-configuration
+        domain: "${INVIDIOUS_DOMAIN:?required}" # see https://docs.invidious.io/installation/#post-install-configuration
+        hmac_key: "${INVIDIOUS_HMAC_KEY:?required}"
+        https_only: true # see https://docs.invidious.io/installation/#post-install-configuration
+        player_style: youtube
+        save_player_pos: true
+        admins: ["user"] # set your user name
+        registration_enabled: true
+        popular_enabled: false
+        captcha_enabled: false
+        feed_menu: ["Subscriptions", "Playlists"]
+        default_home: <none>
+        related_videos: false
+    healthcheck:
+      test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/trending || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 2
+    logging:
+      options:
+        max-size: "1G"
+        max-file: "4"
+    depends_on:
+      - invidious-db
+    networks:
+      - proxy
+
+  invidious-db:
+    image: postgres:15
+    container_name: invidious-db
+    hostname: invidious-db
+    restart: unless-stopped
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+      - ./config/sql:/config/sql
+      - ./config/docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
+    environment:
+      - POSTGRES_DB=${INVIDIOUS_POSTGRESQL_DB_NAME:?required}
+      - POSTGRES_USER=${INVIDIOUS_POSTGRESQL_USER:?required}
+      - POSTGRES_PASSWORD=${INVIDIOUS_POSTGRESQL_PASSWORD:?required}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"
+        ]
+    networks:
+      - proxy
+
+volumes:
+  postgresdata: {}
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
