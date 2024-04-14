@@ -1,14 +1,13 @@
 # Installation: https://docs.invidious.io/installation/#docker-compose-method-production
 
 services:
-
   invidious:
     image: quay.io/invidious/invidious:latest
     # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
     container_name: invidious
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       # Please read the following file for a comprehensive list of all available
       # configuration options and their associated syntax:
@@ -41,8 +40,8 @@ services:
       retries: 2
     logging:
       options:
-        max-size: "1G"
-        max-file: "4"
+        max-size: '1G'
+        max-file: '4'
     depends_on:
       - invidious-db
     networks:
@@ -62,11 +61,7 @@ services:
       - POSTGRES_USER=${INVIDIOUS_POSTGRESQL_USER:?required}
       - POSTGRES_PASSWORD=${INVIDIOUS_POSTGRESQL_PASSWORD:?required}
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"
-        ]
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
     networks:
       - proxy
 
