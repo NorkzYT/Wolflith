@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   windows:
-    image: dockurr/windows:2.16
+    image: dockurr/windows:2.17
     container_name: windows
     devices:
       - /dev/kvm
