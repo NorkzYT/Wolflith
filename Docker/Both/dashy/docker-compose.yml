@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   dashy:
-    image: lissy93/dashy:3.0.1
+    image: lissy93/dashy:3.1.0
     container_name: Dashy
     # Pass in your config file below, by specifying the path on your host machine
     volumes:
