@@ -1,0 +1,36 @@
+# Installation: https://github.com/linkwarden/linkwarden/blob/main/docker-compose.yml | https://docs.linkwarden.app/self-hosting/installation
+
+services:
+  linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:latest
+    container_name: linkwarden
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - /opt/appdata/linkwarden/data:/data/data
+    depends_on:
+      - postgres
+    networks:
+      - proxy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    networks:
+      - proxy
+
+volumes:
+  postgres-volume: {}
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
