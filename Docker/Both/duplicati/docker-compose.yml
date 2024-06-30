@@ -4,7 +4,7 @@ version: '3.9'
 services:
   duplicati:
     container_name: duplicati
-    image: linuxserver/duplicati:2.0.7
+    image: linuxserver/duplicati:2.0.8
     hostname: duplicati
     environment:
       - PUID=${DUPLICATI_PUID}

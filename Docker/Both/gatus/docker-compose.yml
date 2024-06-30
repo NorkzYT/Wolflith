@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   gatus:
-    image: twinproduction/gatus:v5.8.0
+    image: twinproduction/gatus:v5.10.0
     container_name: gatus
     ports:
       - '8080:8080'
