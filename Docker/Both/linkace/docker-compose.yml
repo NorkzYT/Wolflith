@@ -25,7 +25,7 @@ services:
       - proxy
 
   linkace-mariadb:
-    image: mariadb:11.3
+    image: mariadb:11.4
     container_name: linkace-mariadb
     restart: unless-stopped
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
