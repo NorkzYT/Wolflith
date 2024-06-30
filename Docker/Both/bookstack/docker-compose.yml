@@ -31,7 +31,7 @@ services:
       - proxy
 
   bookstack_db:
-    image: linuxserver/mariadb:10.11.6
+    image: linuxserver/mariadb:10.11.8
     container_name: bookstack_db
     environment:
       - PUID=${BOOKSTACK_PUID}
