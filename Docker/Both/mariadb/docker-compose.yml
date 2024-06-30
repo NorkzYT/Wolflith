@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   mariadb:
-    image: linuxserver/mariadb:10.11.6
+    image: linuxserver/mariadb:10.11.8
     container_name: mariadb
     environment:
       - PUID=${MARIADB_PUID}
