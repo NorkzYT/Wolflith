@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   memcached:
-    image: bitnami/memcached:1.6.27
+    image: bitnami/memcached:1.6.28
     container_name: memcached
     environment:
       - MEMCACHED_CACHE_SIZE=${MEMCACHED_CACHE_SIZE}
