@@ -48,7 +48,7 @@ services:
       - proxy
 
   pterodactyl-redis:
-    image: redis:7.2.4
+    image: redis:7.2.5
     container_name: pterodactyl-redis
     ports:
       - 6379:6379
