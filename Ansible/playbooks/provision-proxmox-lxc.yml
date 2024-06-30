@@ -111,6 +111,7 @@
   hosts: all
   become: yes
   vars_files:
+    - /opt/Wolflith/Temp/provisioning_docker_service_vars.yml
     - /opt/Wolflith/Temp/lxc_provisioning_vars.yml
   tasks:
     - name: Configure LXC and PVE for CIFS share
@@ -124,6 +125,20 @@
             vmid: '{{ vmid }}'
             unprivileged: true
             state: started
+
+        - name: Install sudo and add a new user with sudo privileges in the LXC Container
+          block:
+            - name: Ensure sudo is installed in the LXC Container
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- apt-get update &&
+                pct exec {{ vmid }} -- apt-get install -y sudo
+
+            - name: Create a new user with specified username and add to the sudo group
+              ansible.builtin.shell: |
+                pct exec {{ vmid }} -- useradd -m {{ selected_service }} -s /bin/bash &&
+                pct exec {{ vmid }} -- bash -c "echo '{{ selected_service }}:{{ lxc_user_password }}' | chpasswd" &&
+                pct exec {{ vmid }} -- usermod -aG sudo {{ selected_service }}
+          ignore_errors: yes
 
         - name: Creating group 'lxc_shares' with GID=110000 in LXC
           ansible.builtin.shell: |
@@ -158,6 +173,7 @@
               "{{ cifs_share_details.share_name }}"
               "{{ cifs_share_details.smb_username }}"
               "{{ cifs_share_details.smb_password }}"
+          ignore_errors: true
 
         - name: Remove the temporary addCifsShare script
           ansible.builtin.file:
@@ -241,20 +257,6 @@
             pct exec {{ vmid }} -- docker network create {{ network_name }}
           ignore_errors: yes
 
-        - name: Install sudo and add a new user with sudo privileges in the LXC Container
-          block:
-            - name: Ensure sudo is installed in the LXC Container
-              ansible.builtin.shell: |
-                pct exec {{ vmid }} -- apt-get update &&
-                pct exec {{ vmid }} -- apt-get install -y sudo
-
-            - name: Create a new user with specified username and add to the sudo group
-              ansible.builtin.shell: |
-                pct exec {{ vmid }} -- useradd -m {{ selected_service }} -s /bin/bash &&
-                pct exec {{ vmid }} -- bash -c "echo '{{ selected_service }}:{{ lxc_user_password }}' | chpasswd" &&
-                pct exec {{ vmid }} -- usermod -aG sudo {{ selected_service }}
-          ignore_errors: yes
-
         - name: Ensure Host Destination Directory Exists
           ansible.builtin.file:
             path: '/tmp/docker/{{ selected_service }}'
@@ -305,11 +307,12 @@
 
         - name: Transfer Config Folder to Proxmox Host
           ansible.builtin.copy:
-            src: '{{ selected_service_path }}/config'
-            dest: '/tmp/docker/{{ selected_service }}/config'
+            src: '{{ selected_service_path }}/config/'
+            dest: '/tmp/docker/{{ selected_service }}/config/'
+            remote_src: yes
             mode: '0755'
-          when: >-
-            lookup('ansible.builtin.fileglob', selected_service_path + '/config/*', wantlist=True)|length > 0
+            recursive: yes
+          ignore_errors: yes
 
         - name: Push Files into the LXC Container
           ansible.builtin.shell: |
@@ -330,11 +333,26 @@
             cmd: "pct push {{ vmid }} '/tmp/docker/{{ selected_service }}/.env' '/home/docker/{{ selected_service }}/.env'"
           when: env_file_exists
 
-        - name: Push Config Folder into the LXC Container
+        - name: Find config files and directories to push
+          ansible.builtin.find:
+            paths: '/tmp/docker/{{ selected_service }}/config'
+            recurse: yes
+          register: config_files_and_dirs
+          ignore_errors: yes
+
+        - name: Ensure corresponding directories exist in the LXC Container
           ansible.builtin.shell: |
-            pct push {{ vmid }} '/tmp/docker/{{ selected_service }}/config' '/home/docker/{{ selected_service }}/config'
-          when: >-
-            lookup('ansible.builtin.fileglob', selected_service_path + '/config/*', wantlist=True)|length > 0
+            pct exec {{ vmid }} -- mkdir -p /home/docker/{{ selected_service }}/config/{{ item.path | regex_replace('^/tmp/docker/{{ selected_service }}/config/','') | dirname }}
+          loop: '{{ config_files_and_dirs.files }}'
+          when: item.isdir
+          ignore_errors: yes
+
+        - name: Push Config files into the LXC Container
+          ansible.builtin.shell: |
+            pct push {{ vmid }} '{{ item.path }}' '/home/docker/{{ selected_service }}/config/{{ item.path | regex_replace('^/tmp/docker/{{ selected_service }}/config/','') }}'
+          loop: '{{ config_files_and_dirs.files }}'
+          when: item.isdir == false
+          ignore_errors: yes
 
         - name: Script Execution and Docker Service Deployment
           block:

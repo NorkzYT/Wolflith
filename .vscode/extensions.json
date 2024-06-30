@@ -7,7 +7,6 @@
 		"golang.go", // Go - Code formatter
 		"timonwong.shellcheck", // ShellCheck - Shell Linter
 		"ms-azuretools.vscode-docker", // Docker
-		"eamodio.gitlens", // GitLens — Git supercharged
 		"aaron-bond.better-comments", // Better Comments
 		"oderwat.indent-rainbow", // Indent Rainbow
 		"wayou.vscode-todo-highlight", // TODO Highlight

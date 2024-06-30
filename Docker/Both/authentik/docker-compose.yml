@@ -7,6 +7,7 @@ services:
     container_name: authentik
     restart: unless-stopped
     command: server
+    user: root
     environment:
       - AUTHENTIK_REDIS__HOST=${AUTHENTIK_REDIS__HOST}
       - AUTHENTIK_POSTGRESQL__HOST=${AUTHENTIK_POSTGRESQL__HOST}
@@ -18,8 +19,6 @@ services:
     volumes:
       - /opt/appdata/authentik/media:/media
       - /opt/appdata/authentik/custom-templates:/templates
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/appdata/authentik/geoip:/geoip # Optional
     ports:
       - 9815:9000
       - 9816:9443
@@ -83,7 +82,7 @@ services:
 
   redis-authentik:
     image: redis:alpine3.19
-    container_name: postgresql-authentik
+    container_name: redis-authentik
     restart: unless-stopped
     healthcheck:
       test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
