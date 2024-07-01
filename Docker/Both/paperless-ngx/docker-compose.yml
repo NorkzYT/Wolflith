@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   paperless-ngx:
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.9.0
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.10.2
     container_name: paperless-ngx
     restart: unless-stopped
     ports:
@@ -29,7 +29,7 @@ services:
       - proxy
 
   paperless-ngx-redis:
-    image: redis:7.2.4
+    image: redis:7.2.5
     container_name: paperless-ngx-redis
     restart: unless-stopped
     volumes:
