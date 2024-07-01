@@ -1,21 +1,18 @@
 # Installation: https://hub.docker.com/r/tailscale/tailscale
 # TS_AUTHKEY = https://tailscale.com/kb/1085/auth-keys
 
-version: '3.9'
 services:
   tailscale:
     image: tailscale/tailscale:v1.68.1
     container_name: tailscale
     hostname: ${TAILSCALE_HOSTNAME} # This will become the tailscale device name
-    privileged: true
     network_mode: host
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
     volumes:
-      - /opt/appdata/tailscale/var_lib:/var/lib
+      - /var/lib:/var/lib
       - /dev/net/tun:/dev/net/tun
     cap_add:
-      - net_admin
-      - sys_module
-    command: tailscaled
+      - NET_ADMIN
+      - NET_RAW
     restart: unless-stopped
