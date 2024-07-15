@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   influxdb:
-    image: influxdb:2.7.6
+    image: influxdb:2.7.7
     container_name: influxdb
     ports:
       - 8086:8086
