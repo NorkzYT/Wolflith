@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   nutweb:
-    image: ghcr.io/superioone/nut_webgui:0.2.1
+    image: ghcr.io/superioone/nut_webgui:0.3.0
     container_name: nutweb
     ports:
       - 80:1234
