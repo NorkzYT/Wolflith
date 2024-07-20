@@ -8,6 +8,11 @@ services:
     ports:
       - 11434:11434
     restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
     networks:
       - proxy
 # INFO:

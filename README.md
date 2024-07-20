@@ -319,6 +319,8 @@ Created by NorkzYT with 💛
     - [**nut-webgui**](./Docker/Both/nut-webgui)
       - [.env.example](./Docker/Both/nut-webgui/.env.example)
       - [docker-compose.yml](./Docker/Both/nut-webgui/docker-compose.yml)
+    - [**ollama**](./Docker/Both/ollama)
+      - [docker-compose.yml](./Docker/Both/ollama/docker-compose.yml)
     - [**organizrv2**](./Docker/Both/organizrv2)
       - [.env.example](./Docker/Both/organizrv2/.env.example)
       - [docker-compose.yml](./Docker/Both/organizrv2/docker-compose.yml)
