@@ -4,7 +4,7 @@ version: '3.9'
 services:
   dozzle:
     container_name: dozzle
-    image: amir20/dozzle:v8.0.5
+    image: amir20/dozzle:v8.0.6
     environment:
       - DOZZLE_HOSTNAME=${DOZZLE_HOSTNAME}
     volumes:
