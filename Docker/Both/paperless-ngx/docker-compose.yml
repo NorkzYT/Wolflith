@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   paperless-ngx:
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.11.2
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.11.3
     container_name: paperless-ngx
     restart: unless-stopped
     ports:
