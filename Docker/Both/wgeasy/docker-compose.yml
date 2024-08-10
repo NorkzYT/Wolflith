@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   wg-easy:
-    image: ghcr.io/wg-easy/wg-easy:13
+    image: ghcr.io/wg-easy/wg-easy:14
     container_name: wg-easy
     environment:
       - WG_HOST=${WG_HOST}
