@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   postgres:
-    image: postgres:16.3-bullseye
+    image: postgres:16.4-bullseye
     container_name: postgres
     hostname: postgres
     environment:
