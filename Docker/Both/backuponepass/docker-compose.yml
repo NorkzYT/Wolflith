@@ -1,0 +1,30 @@
+services:
+  backuponepass:
+    image: norkz/backuponepass:1.0.0
+    container_name: backuponepass
+    hostname: backuponepass
+    environment:
+      - USER=${BACKUP_ONE_PASS_USER:?error}
+      - PASSWORD=${BACKUP_ONE_PASS_PASSWORD:?error}
+      - GID=${BACKUP_ONE_PASS_GID:?error}
+      - UID=${BACKUP_ONE_PASS_UID:?error}
+      - TZ=${BACKUP_ONE_PASS_TZ:?error}
+      - ONEPASSWORD_EMAIL=${BACKUP_ONE_PASS_ONEPASSWORD_EMAIL:?error}
+      - ONEPASSWORD_SECRET_KEY=${BACKUP_ONE_PASS_ONEPASSWORD_SECRET_KEY:?error}
+      - ONEPASSWORD_PASSWORD=${BACKUP_ONE_PASS_ONEPASSWORD_PASSWORD:?error}
+      - ONEPASSWORD_TOTP_SECRET=${BACKUP_ONE_PASS_ONEPASSWORD_TOTP_SECRET:?error}
+    # ports:
+    #   - "14000:4000" # NoMachine Remote desktop access (Only for development)
+    volumes:
+      - /dev/shm:/dev/shm # Shared memory
+      - /opt/appdata/backuponepass/data:/backuponepass/data # 1Password Data Output
+    cap_add:
+      - SYS_PTRACE
+    restart: on-failure
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

@@ -1,10 +1,9 @@
 # Installation: https://docs.firefly-iii.org/how-to/firefly-iii/installation/docker/
 
-version: '3.9'
 services:
   fireflyiii:
     container_name: fireflyiii
-    image: fireflyiii/core:version-6.1.9
+    image: fireflyiii/core:version-6.1.19
     environment:
       - DB_CONNECTION=${FIREFLYIII_DB_CONNECTION}
       - DB_DATABASE=${FIREFLYIII_DB_DATABASE}

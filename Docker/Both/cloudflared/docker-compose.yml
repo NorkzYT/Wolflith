@@ -18,7 +18,6 @@ services:
     command: tunnel --config /etc/cloudflared/config.yml run ${CLOUDFLARED_TUNNEL_UUID}
     volumes:
       - /opt/appdata/cloudflared:/etc/cloudflared/
-
 #    extra_hosts:
 #      - "vps.domain.com:127.0.0.1"
 
