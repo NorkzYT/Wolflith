@@ -1,16 +1,14 @@
 # Installation: https://github.com/paperless-ngx/paperless-ngx/blob/main/docker/compose/docker-compose.postgres.yml
 
 services:
-  paperless-ngx-redis:
+  broker:
     image: redis:7
     container_name: paperless-ngx-redis
     restart: unless-stopped
     volumes:
       - redisdata:/data
-    networks:
-      - proxy
 
-  paperless-ngx-db:
+  db:
     image: postgres:16
     container_name: paperless-ngx-db
     restart: unless-stopped
@@ -20,17 +18,15 @@ services:
       - POSTGRES_DB=paperless
       - POSTGRES_USER=paperless
       - POSTGRES_PASSWORD=paperless
-    networks:
-      - proxy
 
   paperless-ngx:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     restart: unless-stopped
     depends_on:
-      - paperless-ngx-db
-      - paperless-ngx-redis
+      - db
+      - broker
     ports:
-      - "8000:8000"
+      - '8000:8000'
     volumes:
       - /opt/appdata/paperless-ngx/data:/usr/src/paperless/data
       - /opt/appdata/paperless-ngx/media:/usr/src/paperless/media
@@ -38,16 +34,9 @@ services:
       - /opt/appdata/paperless-ngx/consume:/usr/src/paperless/consume
     env_file: .env
     environment:
-      - PAPERLESS_REDIS='redis://paperless-ngx-redis:6379'
-      - PAPERLESS_DBHOST='db'
-    networks:
-      - proxy
+      - PAPERLESS_REDIS=redis://paperless-ngx-redis:6379
+      - PAPERLESS_DBHOST=db
 
 volumes:
   pgdata: {}
   redisdata: {}
-
-networks:
-  proxy:
-    driver: bridge
-    external: true
