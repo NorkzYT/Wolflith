@@ -5,6 +5,8 @@ credentials-file: /home/nonroot/.cloudflared/tunnel_id.json
 
 #forward all traffic to Reverse Proxy w/ SSL
 ingress:
+  - hostname: ssh.domain.com
+    service: ssh://IPv4:22
   - service: https://IPv4:44301
     originRequest:
       originServerName: traefik.domain.com

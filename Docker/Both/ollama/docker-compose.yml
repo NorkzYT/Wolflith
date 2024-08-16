@@ -1,0 +1,25 @@
+services:
+  ollama:
+    image: ollama/ollama:0.1.48
+    container_name: ollama
+    hostname: ollama
+    volumes:
+      - ./data:/root/.ollama
+    ports:
+      - 11434:11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    networks:
+      - proxy
+# INFO:
+# To be ran after ollama container starts:
+# docker exec -it ollama ollama run llama3
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

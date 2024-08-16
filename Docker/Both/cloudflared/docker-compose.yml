@@ -1,23 +1,25 @@
 # Installation: https://hub.docker.com/r/cloudflare/cloudflared
 
-version: '3.9'
+# First run:
+# docker run -it --rm -u root -v /mnt/appdata/main-proxmox/cloudflared:/root/.cloudflared/ cloudflare/cloudflared:latest tunnel login
+
+# Second:
+# docker run -it --rm -u root -v /mnt/appdata/main-proxmox/cloudflared:/root/.cloudflared/ cloudflare/cloudflared:latest tunnel create NAME
+
+# Then run the docker compose file below:
+
 services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     restart: unless-stopped
     network_mode: host
-    command: tunnel run --config /etc/cloudflared/config.yml --token ${CLOUDFLARED_TUNNEL_TOKEN}
+    user: root
+    command: tunnel --config /etc/cloudflared/config.yml run ${CLOUDFLARED_TUNNEL_UUID}
     volumes:
-      - ./config/:/etc/cloudflared/
-    networks:
-      - proxy
+      - /opt/appdata/cloudflared:/etc/cloudflared/
 #    extra_hosts:
 #      - "vps.domain.com:127.0.0.1"
 
 # ^ Only necessary on some VPS machines if Cloudflared does not connect properly.
 # (domain/sub domain that contains the same tunnelID)
-networks:
-  proxy:
-    driver: bridge
-    external: true
