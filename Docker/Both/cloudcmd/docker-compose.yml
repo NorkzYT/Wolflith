@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   cloudcmd:
-    image: coderaiser/cloudcmd:17.4.1
+    image: coderaiser/cloudcmd:17.4.2
     container_name: cloudcmd
     ports:
       - 2861:8000
