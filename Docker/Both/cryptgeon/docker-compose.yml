@@ -1,6 +1,5 @@
 # Installation: https://github.com/cupcakearmy/cryptgeon
 
-version: '3.9'
 services:
   cryptgeon:
     image: cupcakearmy/cryptgeon:2

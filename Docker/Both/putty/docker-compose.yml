@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/jlesage/putty
 
-version: '3.9'
 services:
   putty:
     image: jlesage/putty:v24.07.1

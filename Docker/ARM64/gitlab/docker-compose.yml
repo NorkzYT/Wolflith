@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/yrzr/gitlab-ce-arm64v8
 
-version: '3.9'
 services:
   gitlab:
     image: yrzr/gitlab-ce-arm64v8:17.2.1-ce.0

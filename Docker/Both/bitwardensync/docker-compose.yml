@@ -3,6 +3,7 @@ services:
     image: norkz/bitwardensync:1.0.0
     container_name: bitwardensync
     hostname: bitwardensync
+    user: root
     environment:
       - BITWARDEN_SYNC_HOST=${BITWARDEN_SYNC_HOST:?error}
       - BITWARDEN_SYNC_BW_EMAIL_ADDRESS=${BITWARDEN_SYNC_BW_EMAIL_ADDRESS:?error}

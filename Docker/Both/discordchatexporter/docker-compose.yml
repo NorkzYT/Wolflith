@@ -1,6 +1,5 @@
 # Installation: https://github.com/Tyrrrz/DiscordChatExporter/blob/master/.docs/Docker.md
 
-version: '3.9'
 services:
   discordchatexporter:
     image: tyrrrz/discordchatexporter:2.43.3

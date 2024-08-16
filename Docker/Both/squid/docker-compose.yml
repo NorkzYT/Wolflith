@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/ubuntu/squid
 
-version: '3.9'
 services:
   squid:
     image: ubuntu/squid:5.7-23.04_edge

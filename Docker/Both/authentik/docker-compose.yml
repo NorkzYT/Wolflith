@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/beryju/authentik
 
-version: '3.9'
 services:
   server:
     image: beryju/authentik:2024.6
@@ -64,7 +63,11 @@ services:
     container_name: postgresql-authentik
     restart: unless-stopped
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}'
+        ]
       start_period: 20s
       interval: 30s
       retries: 5
@@ -85,7 +88,7 @@ services:
     container_name: redis-authentik
     restart: unless-stopped
     healthcheck:
-      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
+      test: [ 'CMD-SHELL', 'redis-cli ping | grep PONG' ]
       start_period: 20s
       interval: 30s
       retries: 5

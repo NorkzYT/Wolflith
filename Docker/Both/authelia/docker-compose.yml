@@ -1,7 +1,6 @@
 # Installation: https://hub.docker.com/r/authelia/authelia
 # https://github.com/authelia/authelia/blob/master/examples/compose/local/docker-compose.yml
 
-version: '3.9'
 services:
   authelia:
     image: authelia/authelia:4.38

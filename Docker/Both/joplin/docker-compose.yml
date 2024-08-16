@@ -1,6 +1,5 @@
 # Installation: https://github.com/laurent22/joplin/blob/dev/packages/server/README.md
 
-version: '3.9'
 services:
   joplin:
     container_name: joplin

@@ -1,6 +1,5 @@
 # Installation: https://github.com/candiddev/homechart
 
-version: '3.9'
 services:
   homechart:
     image: ghcr.io/candiddev/homechart:v2024.04.10

@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/_/traefik
 
-version: '3.9'
 services:
   traefik:
     image: traefik:v3.1.2

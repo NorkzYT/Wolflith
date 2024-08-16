@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/linuxserver/webtop
 
-version: '3.9'
 services:
   webtop:
     image: linuxserver/webtop:ubuntu-mate-875ca4dd-ls145 #choose your flavor

@@ -1,6 +1,5 @@
 # Installation: https://github.com/pterodactyl/wings
 
-version: '3.9'
 services:
   wings:
     image: ccarney16/pterodactyl-daemon:v1.11.13

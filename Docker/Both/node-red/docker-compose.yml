@@ -1,6 +1,5 @@
 # Installation: https://nodered.org/docs/getting-started/docker
 
-version: '3.9'
 services:
   node-red:
     image: nodered/node-red:2.2.3-12

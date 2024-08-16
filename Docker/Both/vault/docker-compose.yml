@@ -7,7 +7,6 @@
 # https://www.misterpki.com/vault-docker/
 # https://www.bogotobogo.com/DevOps/Docker/Docker-Vault-Consul-B.php
 
-version: '3.9'
 services:
   hashicorp-vault-server:
     image: hashicorp/vault:1.17
