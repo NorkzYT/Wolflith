@@ -29,7 +29,7 @@ services:
       - /opt/appdata/nginx-proxy-manager/data:/data
       - /opt/appdata/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
     healthcheck:
-      test: [ CMD, /bin/check-health ]
+      test: [CMD, /bin/check-health]
       interval: 10s
       timeout: 3s
     depends_on:
