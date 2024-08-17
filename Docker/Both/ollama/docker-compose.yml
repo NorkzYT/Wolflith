@@ -1,6 +1,6 @@
 services:
   ollama:
-    image: ollama/ollama:0.1.48
+    image: ollama/ollama:0.3.6
     container_name: ollama
     hostname: ollama
     volumes:
