@@ -39,7 +39,7 @@ services:
       - proxy
 
   mrss-mongodb:
-    image: mongo:7.0.12
+    image: mongo:7.0.14
     container_name: mrss-mongodb
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
