@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/_/redis
 
-version: '3.9'
 services:
   redis:
     image: redis:7.4.0

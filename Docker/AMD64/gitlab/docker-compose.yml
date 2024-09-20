@@ -1,6 +1,5 @@
 # Installation: https://docs.gitlab.com/ee/install/docker.html
 
-version: '3.9'
 services:
   gitlab:
     image: gitlab/gitlab-ce:17.4.0-ce.0

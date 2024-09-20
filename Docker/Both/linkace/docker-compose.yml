@@ -1,6 +1,5 @@
 # Installation: https://www.linkace.org/docs/v1/setup/setup-with-docker/advanced/
 
-version: '3.9'
 services:
   linkace:
     image: linkace/linkace:v1.15.2

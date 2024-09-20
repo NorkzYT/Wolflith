@@ -3,6 +3,7 @@ services:
     image: norkz/backuponepass:1.0.0
     container_name: backuponepass
     hostname: backuponepass
+    user: root
     environment:
       - USER=${BACKUP_ONE_PASS_USER:?error}
       - PASSWORD=${BACKUP_ONE_PASS_PASSWORD:?error}

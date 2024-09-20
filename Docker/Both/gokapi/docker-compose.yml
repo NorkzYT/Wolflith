@@ -1,6 +1,5 @@
 # Installation: https://github.com/Forceu/Gokapi
 
-version: '3.9'
 services:
   adminer:
     image: f0rc3/gokapi:v1.9.1

@@ -2,7 +2,6 @@
 # Info:
 # chmod -R 600 /opt/appdata/pterodactyl-panel/game.data/config.yml -- IF Panel changes configuration and breaks the node.
 
-version: '3.9'
 services:
   pterodactyl-panel:
     image: ccarney16/pterodactyl-panel:v1.11.7

@@ -1,6 +1,5 @@
 # Installation: https://github.com/wg-easy/wg-easy
 
-version: '3.9'
 services:
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy:14
@@ -27,6 +26,7 @@ services:
       - proxy
 
 networks:
-  proxy: # rename this to your custom docker network.
+  proxy:
+    # rename this to your custom docker network.
     driver: bridge
     external: true

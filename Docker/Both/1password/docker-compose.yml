@@ -2,7 +2,6 @@
 # https://hub.docker.com/r/1password/connect-api
 # https://hub.docker.com/r/1password/connect-sync
 
-version: '3.9'
 services:
   op-connect-api:
     image: 1password/connect-api:1.7

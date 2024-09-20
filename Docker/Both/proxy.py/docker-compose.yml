@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/abhinavsingh/proxy.py
 
-version: '3.9'
 services:
   proxy.py:
     image: abhinavsingh/proxy.py:v2.4.4rc5.dev4.g3899f7d

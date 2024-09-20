@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/cturra/ntp
 
-version: '3.9'
 services:
   ntp:
     image: cturra/ntp:latest

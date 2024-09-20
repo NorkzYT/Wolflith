@@ -1,6 +1,5 @@
 # Installation: https://www.browserless.io/docs/docker-quickstart
 
-version: '3.9'
 services:
   browserless:
     image: browserless/chrome:1-puppeteer-1.20.0

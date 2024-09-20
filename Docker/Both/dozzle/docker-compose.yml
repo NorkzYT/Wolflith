@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/amir20/dozzle
 
-version: '3.9'
 services:
   dozzle:
     container_name: dozzle

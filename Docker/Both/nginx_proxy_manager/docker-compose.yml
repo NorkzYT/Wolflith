@@ -1,6 +1,5 @@
 # Installation: https://nginxproxymanager.com/setup/
 
-version: '3.9'
 services:
   nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:v3

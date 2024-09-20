@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/linuxserver/doublecommander
 
-version: '3.9'
 services:
   doublecommander:
     image: linuxserver/doublecommander:17e51aac-ls191

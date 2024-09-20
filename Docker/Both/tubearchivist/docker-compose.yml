@@ -1,6 +1,5 @@
 # Installation: https://github.com/tubearchivist/tubearchivist
 
-version: '3.9'
 services:
   tubearchivist:
     image: bbilly1/tubearchivist:v0.4.10

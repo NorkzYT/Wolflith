@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/inrix/floatplane-downloader
 
-version: '3.9'
 services:
   floatplane-downloader:
     image: inrix/floatplane-downloader:latest

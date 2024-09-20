@@ -1,6 +1,5 @@
 # Installation: https://github.com/TwiN/gatus#docker
 
-version: '3.9'
 services:
   gatus:
     image: twinproduction/gatus:v5.12.1

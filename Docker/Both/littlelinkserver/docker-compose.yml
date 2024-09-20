@@ -1,6 +1,5 @@
 # Installation: https://github.com/techno-tim/littlelink-server
 
-version: '3.9'
 services:
   littlelink-server:
     image: timothystewart6/littlelink-server:latest

@@ -1,9 +1,8 @@
 # Installation: https://hub.docker.com/r/n8nio/n8n
 
-version: '3.9'
 services:
   n8n:
-    image: n8nio/n8n:1.60.1
+    image: n8nio/n8n:1.59.4
     container_name: n8n
     environment:
       - DB_TYPE=${N8N_DB_TYPE}
@@ -32,7 +31,7 @@ services:
       - POSTGRES_PASSWORD=${N8N_DB_POSTGRESDB_PASSWORD}
       - POSTGRES_DB=${N8N_DB_POSTGRESDB_DATABASE}
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U ${N8N_DB_POSTGRESDB_USER} -d ${N8N_DB_POSTGRESDB_DATABASE}']
       interval: 5s
       timeout: 5s
       retries: 10

@@ -1,6 +1,5 @@
 # Installation: https://docs.appflowy.io/docs/appflowy/install-appflowy/installation-methods/installing-with-docker
 
-version: '3.9'
 services:
   appflowy_client:
     image: appflowyio/appflowy_client:0.6.9

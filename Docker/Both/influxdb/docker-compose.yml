@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/_/influxdb
 
-version: '3.9'
 services:
   influxdb:
     image: influxdb:2.7.10
@@ -23,8 +22,8 @@ services:
       #- DOCKER_INFLUXDB_INIT_RETENTION='1w'
       # (optional) Admin Token
       #- DOCKER_INFLUXDB_INIT_ADMIN_TOKEN='my-super-secret-auth-token'
-    # (optional) If you're using self-signed certs
-    #command: influxd --tls-cert=/etc/ssl/cert.pem --tls-key=/etc/ssl/cert-key.pem
+      # (optional) If you're using self-signed certs
+      #command: influxd --tls-cert=/etc/ssl/cert.pem --tls-key=/etc/ssl/cert-key.pem
     restart: unless-stopped
     networks:
       - proxy

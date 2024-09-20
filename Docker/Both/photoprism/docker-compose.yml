@@ -24,7 +24,6 @@
 # All commands may have to be prefixed with "sudo" when not running as root.
 # This will point the home directory shortcut ~ to /root in volume mounts.
 
-version: '3.9'
 services:
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
@@ -95,7 +94,8 @@ services:
     ## https://docs.photoprism.app/getting-started/troubleshooting/#fatal-server-errors
     restart: unless-stopped
     stop_grace_period: 5s
-    security_opt: # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239
+    security_opt:
+      # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239
       - seccomp:unconfined
       - apparmor:unconfined
     command: --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120

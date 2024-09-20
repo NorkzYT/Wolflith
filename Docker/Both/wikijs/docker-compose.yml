@@ -1,6 +1,5 @@
 # Installation: https://hub.docker.com/r/requarks/wiki
 
-version: '3.9'
 services:
   wiki:
     image: requarks/wiki:2.5
