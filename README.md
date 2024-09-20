@@ -207,7 +207,6 @@ Created by NorkzYT with 💛
       - [docker-compose.yml](./Docker/Both/cloudflared/docker-compose.yml)
     - [**codeserver**](./Docker/Both/codeserver)
       - [.env.example](./Docker/Both/codeserver/.env.example)
-      - [**Wolflith.code-workspace**](./Docker/Both/codeserver/Wolflith.code-workspace)
       - [docker-compose.yml](./Docker/Both/codeserver/docker-compose.yml)
       - [dockerfile](./Docker/Both/codeserver/dockerfile)
       - [wolflith.code-workspace](./Docker/Both/codeserver/wolflith.code-workspace)

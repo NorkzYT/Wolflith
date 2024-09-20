@@ -7,36 +7,48 @@
 
 source /opt/Wolflith/PCSMenu/src/PCSFunc.sh
 
-function provision_docker_compose_service() {
+function provision_docker_service() {
     default_menu_screen
-    printf "This option will ask you which Linux command you want to run that returns an output."
+    cyanprint "This option will guide you through selecting and provisioning Docker services to your machines."
     echo ""
+
     while true; do
-        read -rp "Do you still want to run this command? (yes/no) " run_command
+        cyanprint "Do you still want to run this command? (yes/no) "
+        read -rp "" run_command
         echo ""
 
         if [[ "$run_command" =~ ^[Yy][Ee]?[Ss]?$ ]]; then
-            echo "Do you want to run the playbook for all machines listed in hosts.yaml? (y/n)"
-            read -r run_for_all
+            cyanprint "Enter the name of the machine you want to run the playbooks for:"
+            read -r ansible_playbook_targets
+            greenprint "Proceeding with the machine: $ansible_playbook_targets"
 
-            if [[ "$run_for_all" =~ ^[Yy]$ ]]; then
-                ansible_playbook_targets="all"
-            else
-                echo "Enter the name of the machine you want to run the playbooks for:"
-                read -r ansible_playbook_targets
+            export ANSIBLE_PLAYBOOK_TARGET="$ansible_playbook_targets"
+
+            # Select the Docker service
+            cyanprint "Selecting Docker service..."
+            bash "/opt/Wolflith/PCSMenu/src/Functions/Docker/Scripts/selectService.sh"
+
+            cyanprint "Configuring Docker service..."
+            bash "/opt/Wolflith/PCSMenu/src/Functions/Docker/Scripts/provisionDockerService.sh"
+
+            # Check if the .env is configured
+            cyanprint "Have you configured the .env before trying to set up the service? [y/N]: "
+            read -rp "" confirm_env
+            if [[ "$confirm_env" =~ ^[Nn][Oo]?$ ]]; then
+                magentaprint "Operation canceled. Please configure the .env file before proceeding."
+                exit 2
+                return
             fi
 
+            # Execute the Ansible playbook
             export ANSIBLE_CONFIG=/opt/Wolflith/Ansible/inventory/ansible.cfg
 
-            # Execute the Ansible playbook for the specified target(s), capturing output
-            if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/run-custom-command.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" --extra-vars "command_to_run='sudo lshw -c display'" 2>&1); then
+            cyanprint "Executing Docker provisioning playbook for $ansible_playbook_targets..."
+            if ! output=$(ansible-playbook /opt/Wolflith/Ansible/playbooks/provision-docker-service.yml -i "/opt/Wolflith/Ansible/inventory/hosts.yaml" -l "$ansible_playbook_targets" 2>&1); then
                 redprint "An error occurred during playbook execution:"
-                echo "$output" # Display the captured error output
-
-                yellowprint "Error occurred, press 'x' to exit."
+                echo "$output"
+                yellowprint "Press 'x' to exit."
                 read -n 1 -r key
-                echo
-
                 if [[ $key =~ ^[Xx]$ ]]; then
                     clear
                     exit 2
@@ -46,34 +58,28 @@ function provision_docker_compose_service() {
                 greenprint "Playbook executed successfully."
             fi
 
-            # Prompt at the end
+            # Prompt to continue
             echo "Press 'c' to continue..."
             while read -r -n 1 key; do
                 if [[ $key == c ]]; then
-                    echo "Key 'c' pressed. Continuing..."
+                    echo "Continuing..."
                     break
                 else
                     echo "Press 'c' to continue..."
                 fi
             done
 
-            # Return to main menu
             exit 2
-
-            break
         elif [[ "$run_command" =~ ^[Nn][Oo]?$ ]]; then
             magentaprint "Operation canceled. Returning to the main menu..."
-            sleep 1
             exit 2
             return
         else
-            # The user entered an invalid answer
             invalid_answer
             clear
-            menu_cover
-            provision_docker_compose_service
+            provision_docker_service
         fi
     done
 }
 
-provision_docker_compose_service
+provision_docker_service
