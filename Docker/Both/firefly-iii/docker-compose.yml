@@ -24,9 +24,12 @@ services:
       - MAIL_PASSWORD=${FIREFLYIII_MAIL_PASSWORD}
       - MAIL_ENCRYPTION=${FIREFLYIII_MAIL_ENCRYPTION}
       - SEND_ERROR_MESSAGE=${FIREFLYIII_SEND_ERROR_MESSAGE}
+      - STATIC_CRON_TOKEN=${STATIC_CRON_TOKEN}
     ports:
       - 6353:8080
     restart: unless-stopped
+    depends_on:
+      - fireflyiii-postgres
     volumes:
       - /opt/appdata/firefly-iii/upload:/var/www/html/storage/upload
     networks:
@@ -44,6 +47,22 @@ services:
     volumes:
       - firefly-postgresql-volume:/var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - proxy
+
+  fireflyiii-cron:
+    #
+    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
+    # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
+    #
+    image: alpine
+    container_name: fireflyiii-cron
+    restart: always
+    environment:
+      - STATIC_CRON_TOKEN=${STATIC_CRON_TOKEN}
+    command: sh -c "echo \"0 * * * * wget -qO- http://fireflyiii:8080/api/v1/cron/${STATIC_CRON_TOKEN}\" | crontab - && crond -f -L /dev/stdout"
+    depends_on:
+      - fireflyiii
     networks:
       - proxy
 
