@@ -149,6 +149,8 @@ Created by NorkzYT with 💛
     - [**krusader**](./Docker/AMD64/krusader)
       - [.env.example](./Docker/AMD64/krusader/.env.example)
       - [docker-compose.yml](./Docker/AMD64/krusader/docker-compose.yml)
+    - [**langflow**](./Docker/AMD64/langflow)
+      - [docker-compose.yml](./Docker/AMD64/langflow/docker-compose.yml)
     - [**meshcentral**](./Docker/AMD64/meshcentral)
       - [.env.example](./Docker/AMD64/meshcentral/.env.example)
       - [docker-compose.yml](./Docker/AMD64/meshcentral/docker-compose.yml)
