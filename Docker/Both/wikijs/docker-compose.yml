@@ -20,7 +20,7 @@ services:
       - proxy
 
   wiki-db:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     container_name: wiki-db
     environment:
       - POSTGRES_DB=${WIKI_DB_POSTGRES_DB}

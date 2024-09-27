@@ -24,7 +24,7 @@ services:
       - proxy
 
   n8n-postgres:
-    image: postgres:16
+    image: postgres:17
     container_name: n8n-postgres
     environment:
       - POSTGRES_USER=${N8N_DB_POSTGRESDB_USER}
