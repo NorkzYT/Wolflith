@@ -59,7 +59,7 @@ services:
       - proxy
 
   postgresql-authentik:
-    image: postgres:16-alpine3.19
+    image: postgres:17-alpine3.19
     container_name: postgresql-authentik
     restart: unless-stopped
     healthcheck:
