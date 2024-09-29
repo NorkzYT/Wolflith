@@ -3,7 +3,7 @@
 services:
   tdarr:
     container_name: tdarr
-    image: haveagitgat/tdarr:2.25.01
+    image: haveagitgat/tdarr:2.26.01
     restart: unless-stopped
     ports:
       - 8265:8265 # webUI port
