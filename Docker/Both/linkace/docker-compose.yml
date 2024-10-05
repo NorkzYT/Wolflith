@@ -39,7 +39,7 @@ services:
       - proxy
 
   linkace-redis:
-    image: bitnami/redis:7.4.0
+    image: bitnami/redis:7.4.1
     container_name: linkace-redis
     restart: unless-stopped
     environment:
