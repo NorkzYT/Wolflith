@@ -2,7 +2,7 @@
 
 services:
   syncthing:
-    image: linuxserver/syncthing:1.27.12
+    image: linuxserver/syncthing:1.28.0
     container_name: syncthing
     environment:
       - PUID=${SYNCTHING_PUID}
