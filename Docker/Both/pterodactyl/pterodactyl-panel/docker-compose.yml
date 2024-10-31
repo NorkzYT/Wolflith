@@ -4,7 +4,7 @@
 
 services:
   pterodactyl-panel:
-    image: ccarney16/pterodactyl-panel:v1.11.7
+    image: ccarney16/pterodactyl-panel:v1.11.9
     container_name: pterodactyl-panel
     ports:
       - 8025:80
