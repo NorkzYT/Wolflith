@@ -2,7 +2,7 @@
 
 services:
   bookstack:
-    image: linuxserver/bookstack:24.10.20241021
+    image: linuxserver/bookstack:24.10.20241028
     container_name: bookstack
     environment:
       - PUID=${BOOKSTACK_PUID}
