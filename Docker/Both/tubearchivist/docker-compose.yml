@@ -2,7 +2,7 @@
 
 services:
   tubearchivist:
-    image: bbilly1/tubearchivist:v0.4.10
+    image: bbilly1/tubearchivist:v0.4.11
     container_name: tubearchivist
     restart: unless-stopped
     ports:
