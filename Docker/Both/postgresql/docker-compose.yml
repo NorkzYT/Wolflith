@@ -2,7 +2,7 @@
 
 services:
   postgres:
-    image: postgres:17.1-bullseye
+    image: postgres:17.2-bullseye
     container_name: postgres
     hostname: postgres
     environment:
