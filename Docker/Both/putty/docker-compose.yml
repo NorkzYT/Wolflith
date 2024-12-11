@@ -2,7 +2,7 @@
 
 services:
   putty:
-    image: jlesage/putty:v24.11.2
+    image: jlesage/putty:v24.12.1
     container_name: putty
     environment:
       - TZ=${PUTTY_TZ}
