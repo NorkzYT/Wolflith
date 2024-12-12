@@ -2,7 +2,7 @@
 
 services:
   adminer:
-    image: f0rc3/gokapi:v1.9.4
+    image: f0rc3/gokapi:v1.9.5
     container_name: gokapi
     restart: unless-stopped
     ports:
