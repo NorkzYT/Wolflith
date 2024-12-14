@@ -2,7 +2,7 @@
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.32.5
+    image: vaultwarden/server:1.32.6
     container_name: vaultwarden
     ports:
       # Port for WebSocket notifications
