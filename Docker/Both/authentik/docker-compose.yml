@@ -2,7 +2,7 @@
 
 services:
   server:
-    image: beryju/authentik:2024.10
+    image: beryju/authentik:2024.12
     container_name: authentik
     restart: unless-stopped
     command: server
@@ -28,7 +28,7 @@ services:
       - proxy
 
   worker:
-    image: beryju/authentik:2024.10
+    image: beryju/authentik:2024.12
     container_name: authentik_worker
     restart: unless-stopped
     command: worker
