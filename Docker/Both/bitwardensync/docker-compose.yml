@@ -1,6 +1,6 @@
 services:
   bitwardensync:
-    image: norkz/bitwardensync:1.0.0
+    image: norkz/bitwardensync:1.0.1
     container_name: bitwardensync
     hostname: bitwardensync
     user: root
