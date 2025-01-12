@@ -62,7 +62,7 @@ services:
       - proxy
 
   pterodactyl-mariadb:
-    image: linuxserver/mariadb:10.11.10
+    image: linuxserver/mariadb:11.4.4
     container_name: pterodactyl-mariadb
     environment:
       - PUID=${PTERODACTYL_MARIADB_PUID}
