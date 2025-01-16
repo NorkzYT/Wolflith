@@ -3,7 +3,7 @@
 services:
   meshcentral:
     container_name: meshcentral
-    image: typhonragewind/meshcentral:1.1.36
+    image: typhonragewind/meshcentral:1.1.38
     ports:
       - 8089:443
     environment:
