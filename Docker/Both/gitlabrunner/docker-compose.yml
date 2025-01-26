@@ -2,7 +2,7 @@
 
 services:
   gitlab-runner:
-    image: gitlab/gitlab-runner:v17.8.1
+    image: gitlab/gitlab-runner:v17.8.2
     container_name: gitlab-runner
     environment:
       - TZ=${GITLAB_RUNNER_TZ}
