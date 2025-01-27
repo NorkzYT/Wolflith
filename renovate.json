@@ -1,5 +1,4 @@
 {
-	"assignees": ["NorkzYT"],
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": ["config:base", ":dependencyDashboard", ":rebaseStalePrs"],
 	"timezone": "America/New_York",
