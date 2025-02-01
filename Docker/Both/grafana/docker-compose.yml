@@ -2,7 +2,7 @@
 
 services:
   grafana:
-    image: grafana/grafana:11.4.0
+    image: grafana/grafana:11.5.0
     container_name: grafana
     ports:
       - 1001:3000
