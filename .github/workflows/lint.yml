@@ -21,4 +21,4 @@ jobs:
       - name: Install required ansible roles
         run: ansible-galaxy role install gantsign.oh-my-zsh
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v24
+        uses: ansible/ansible-lint@v25
