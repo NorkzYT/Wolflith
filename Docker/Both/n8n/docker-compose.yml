@@ -2,7 +2,7 @@
 
 services:
   n8n:
-    image: n8nio/n8n:1.59.4
+    image: n8nio/n8n:1.77.1
     container_name: n8n
     environment:
       - DB_TYPE=${N8N_DB_TYPE}
@@ -24,7 +24,7 @@ services:
       - proxy
 
   n8n-postgres:
-    image: postgres:16
+    image: postgres:17
     container_name: n8n-postgres
     environment:
       - POSTGRES_USER=${N8N_DB_POSTGRESDB_USER}

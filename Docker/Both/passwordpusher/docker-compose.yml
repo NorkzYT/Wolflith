@@ -17,7 +17,7 @@ services:
       - proxy
 
   pwpush-postgres:
-    image: postgres:16
+    image: postgres:17
     container_name: pwpush-postgres
     environment:
       - POSTGRES_USER=${PWPUSH_POSTGRES_USER}

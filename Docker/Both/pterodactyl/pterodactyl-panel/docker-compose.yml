@@ -4,7 +4,7 @@
 
 services:
   pterodactyl-panel:
-    image: ccarney16/pterodactyl-panel:v1.11.7
+    image: ccarney16/pterodactyl-panel:v1.11.10
     container_name: pterodactyl-panel
     ports:
       - 8025:80
@@ -47,7 +47,7 @@ services:
       - proxy
 
   pterodactyl-redis:
-    image: redis:7.4.0
+    image: redis:7.4.2
     container_name: pterodactyl-redis
     ports:
       - 6379:6379
@@ -62,7 +62,7 @@ services:
       - proxy
 
   pterodactyl-mariadb:
-    image: linuxserver/mariadb:10.11.8
+    image: linuxserver/mariadb:11.4.4
     container_name: pterodactyl-mariadb
     environment:
       - PUID=${PTERODACTYL_MARIADB_PUID}

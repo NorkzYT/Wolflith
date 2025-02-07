@@ -2,7 +2,7 @@
 
 services:
   server:
-    image: beryju/authentik:2024.8
+    image: beryju/authentik:2024.12
     container_name: authentik
     restart: unless-stopped
     command: server
@@ -28,7 +28,7 @@ services:
       - proxy
 
   worker:
-    image: beryju/authentik:2024.8
+    image: beryju/authentik:2024.12
     container_name: authentik_worker
     restart: unless-stopped
     command: worker
@@ -59,7 +59,7 @@ services:
       - proxy
 
   postgresql-authentik:
-    image: postgres:16-alpine3.19
+    image: postgres:17-alpine3.19
     container_name: postgresql-authentik
     restart: unless-stopped
     healthcheck:

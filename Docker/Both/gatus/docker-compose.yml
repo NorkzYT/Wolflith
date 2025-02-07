@@ -2,7 +2,7 @@
 
 services:
   gatus:
-    image: twinproduction/gatus:v5.12.1
+    image: twinproduction/gatus:v5.15.0
     container_name: gatus
     ports:
       - '8080:8080'
@@ -19,7 +19,7 @@ services:
       - proxy
 
   gatus-postgres:
-    image: postgres:16-alpine3.19
+    image: postgres:17-alpine3.19
     container_name: gatus-postgres
     volumes:
       - gatus-postgresql-volume:/var/lib/postgresql/data

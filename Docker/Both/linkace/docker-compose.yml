@@ -2,7 +2,7 @@
 
 services:
   linkace:
-    image: linkace/linkace:v1.15.2
+    image: linkace/linkace:v2.0.0
     container_name: linkace
     restart: unless-stopped
     environment:
@@ -24,7 +24,7 @@ services:
       - proxy
 
   linkace-mariadb:
-    image: mariadb:11.5
+    image: mariadb:11.6
     container_name: linkace-mariadb
     restart: unless-stopped
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
@@ -39,7 +39,7 @@ services:
       - proxy
 
   linkace-redis:
-    image: bitnami/redis:7.4.0
+    image: bitnami/redis:7.4.2
     container_name: linkace-redis
     restart: unless-stopped
     environment:

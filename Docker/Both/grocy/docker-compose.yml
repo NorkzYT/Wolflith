@@ -2,7 +2,7 @@
 
 services:
   grocy:
-    image: linuxserver/grocy:4.2.0
+    image: linuxserver/grocy:4.4.1
     container_name: grocy
     environment:
       - PUID=${GROCY_PUID}
