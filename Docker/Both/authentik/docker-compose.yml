@@ -4,7 +4,7 @@ services:
     image: docker.io/library/postgres:17-alpine
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
       start_period: 20s
       interval: 30s
       retries: 5
@@ -25,7 +25,7 @@ services:
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
       start_period: 20s
       interval: 30s
       retries: 5
@@ -51,8 +51,8 @@ services:
     env_file:
       - .env
     ports:
-      - "${COMPOSE_PORT_HTTP:-9001}:9000"
-      - "${COMPOSE_PORT_HTTPS:-9443}:9443"
+      - '${COMPOSE_PORT_HTTP:-9001}:9000'
+      - '${COMPOSE_PORT_HTTPS:-9443}:9443'
     depends_on:
       postgresql:
         condition: service_healthy

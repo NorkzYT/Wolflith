@@ -11,12 +11,12 @@ services:
     ports:
       - 6379:6379
     restart: unless-stopped
-    volumes: 
+    volumes:
       - /opt/appdata/redis:/data
     networks:
       - proxy
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
       timeout: 5s
       retries: 3
