@@ -2,7 +2,7 @@
 
 services:
   mariadb:
-    image: linuxserver/mariadb:11.4.4
+    image: linuxserver/mariadb:11.4.5
     container_name: mariadb
     environment:
       - PUID=${MARIADB_PUID}
