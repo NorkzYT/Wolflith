@@ -3,7 +3,7 @@
 services:
   redis:
     container_name: redis
-    image: redis:7.2.5
+    image: redis:7.4.2
     command: /bin/sh -c 'redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"'
     environment:
       REDIS_USERNAME: ${REDIS_USERNAME:?error}
