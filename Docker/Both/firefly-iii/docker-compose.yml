@@ -36,7 +36,7 @@ services:
       - proxy
 
   fireflyiii-postgres:
-    image: postgres:17.3-bullseye
+    image: postgres:17.4-bullseye
     container_name: fireflyiii-postgres
     ports:
       - 5432:5432
