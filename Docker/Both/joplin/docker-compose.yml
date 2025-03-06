@@ -28,7 +28,7 @@ services:
       - proxy
 
   joplin-postgres:
-    image: postgres:17.3
+    image: postgres:17.4
     container_name: joplin-postgres
     volumes:
       - joplin-postgresql-volume:/var/lib/postgresql/data
