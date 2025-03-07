@@ -3,7 +3,7 @@
 services:
   joplin:
     container_name: joplin
-    image: etechonomy/joplin-server:3.3.3
+    image: etechonomy/joplin-server:3.3.4
     environment:
       - APP_PORT=${JOPLIN_APP_PORT}
       - APP_BASE_URL=${JOPLIN_APP_BASE_URL}
