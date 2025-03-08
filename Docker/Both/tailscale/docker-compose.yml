@@ -3,7 +3,7 @@
 
 services:
   tailscale:
-    image: tailscale/tailscale:v1.80.0
+    image: tailscale/tailscale:v1.80.3
     container_name: tailscale
     hostname: ${TAILSCALE_HOSTNAME} # This will become the tailscale device name
     network_mode: host
