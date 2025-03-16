@@ -2,7 +2,7 @@
 
 services:
   discordchatexporter:
-    image: tyrrrz/discordchatexporter:2.43.3
+    image: tyrrrz/discordchatexporter:2.44.1
     container_name: discordchatexporter
     restart: unless-stopped
     volumes:
