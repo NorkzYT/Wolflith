@@ -2,7 +2,7 @@
 
 services:
   appflowy_client:
-    image: appflowyio/appflowy_client:0.8.6
+    image: appflowyio/appflowy_client:0.8.7
     container_name: appflowy_client
     environment:
       - DISPLAY=${APPFLOWY_CLIENT_DISPLAY}
