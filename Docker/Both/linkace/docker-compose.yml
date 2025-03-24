@@ -2,7 +2,7 @@
 
 services:
   linkace:
-    image: linkace/linkace:v2.1.4
+    image: linkace/linkace:v2.1.5
     container_name: linkace
     restart: unless-stopped
     environment:
