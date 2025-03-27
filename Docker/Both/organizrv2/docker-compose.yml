@@ -4,6 +4,7 @@ services:
   organizr:
     image: organizr/organizr:latest
     container_name: organizr
+    pull_policy: always # set to 'always' when using 'latest' image
     environment:
       - PUID=${ORGANIZR_PUID}
       - PGID=${ORGANIZR_PGID}

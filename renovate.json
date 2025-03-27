@@ -2,11 +2,7 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": ["config:recommended", ":dependencyDashboard", ":rebaseStalePrs"],
 	"timezone": "America/New_York",
-	"schedule": [
-		"after 10pm every weekday",
-		"every weekend",
-		"before 5am every weekday"
-	],
+	"schedule": ["after 10pm every weekday", "every weekend", "before 5am every weekday"],
 	"labels": ["dependencies", "renovate"],
 	"baseBranches": ["staging"],
 	"kubernetes": {

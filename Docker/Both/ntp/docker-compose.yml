@@ -4,6 +4,7 @@ services:
   ntp:
     image: cturra/ntp:latest
     container_name: ntp
+    pull_policy: always # set to 'always' when using 'latest' image
     environment:
       - NTP_SERVERS=${NTP_SERVERS}
       - ENABLE_NTS='true'

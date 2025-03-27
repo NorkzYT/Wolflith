@@ -4,6 +4,7 @@ services:
   binfmt:
     image: tonistiigi/binfmt:latest
     container_name: binfmt
+    pull_policy: always # set to 'always' when using 'latest' image
     command: --install all
     privileged: true
     volumes:

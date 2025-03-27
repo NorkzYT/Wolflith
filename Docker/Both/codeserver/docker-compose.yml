@@ -7,6 +7,7 @@ services:
       context: .
       dockerfile: dockerfile
     container_name: codeserver
+    pull_policy: always # set to 'always' when using 'latest' image
     hostname: codeserver
     environment:
       - PUID=${CODE_SERVER_PUID}

@@ -4,6 +4,7 @@ services:
   minio-shinpuru:
     image: minio/minio:latest
     container_name: minio-shinpuru
+    pull_policy: always # set to 'always' when using 'latest' image
     expose:
       - '9000'
     volumes:

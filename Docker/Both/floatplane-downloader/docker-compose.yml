@@ -4,6 +4,7 @@ services:
   floatplane-downloader:
     image: inrix/floatplane-downloader:latest
     container_name: floatplane-downloader
+    pull_policy: always # set to 'always' when using 'latest' image
     volumes:
       - /opt/appdata/floatplanedownloader/db:/fp/db
       - /opt/appdata/media:/fp/videos
