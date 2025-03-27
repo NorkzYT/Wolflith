@@ -2,19 +2,24 @@
 
 services:
   redis:
-    image: redis:7.4.2
     container_name: redis
+    image: redis:7.4.2
+    command: /bin/sh -c 'redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"'
+    environment:
+      REDIS_USERNAME: ${REDIS_USERNAME:?error}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?error}
     ports:
       - 6379:6379
-    healthcheck:
-      test: [CMD-SHELL, redis-cli ping | grep PONG]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 3s
     restart: unless-stopped
+    volumes:
+      - /opt/appdata/redis:/data
     networks:
       - proxy
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 networks:
   proxy:

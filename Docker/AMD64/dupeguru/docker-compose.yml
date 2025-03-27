@@ -3,7 +3,7 @@
 services:
   dupeguru:
     container_name: dupeguru
-    image: jlesage/dupeguru:v24.12.1
+    image: jlesage/dupeguru:v25.02.1
     environment:
       - TZ=${DUPEGURU_TZ}
       - DISPLAY_WIDTH=${DUPEGURU_DISPLAY_WIDTH}

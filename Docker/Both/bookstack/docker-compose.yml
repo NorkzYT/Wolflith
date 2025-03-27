@@ -2,7 +2,7 @@
 
 services:
   bookstack:
-    image: linuxserver/bookstack:24.12.20241223
+    image: linuxserver/bookstack:25.02.20250309
     container_name: bookstack
     environment:
       - PUID=${BOOKSTACK_PUID}
@@ -30,7 +30,7 @@ services:
       - proxy
 
   bookstack_db:
-    image: linuxserver/mariadb:11.4.4
+    image: linuxserver/mariadb:11.4.5
     container_name: bookstack_db
     environment:
       - PUID=${BOOKSTACK_PUID}

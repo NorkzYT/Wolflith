@@ -15,7 +15,7 @@ services:
       - proxy
 
   langflow_postgres:
-    image: postgres:16
+    image: postgres:17
     environment:
       POSTGRES_USER: langflow
       POSTGRES_PASSWORD: langflow

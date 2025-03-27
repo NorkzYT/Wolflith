@@ -12,19 +12,23 @@
 		{
 			"matchDatasources": ["docker"],
 			"automerge": true,
-			"autoApprove": true
+			"autoApprove": true,
+			"automergeType": "branch"
 		},
 		{
 			"matchDepTypes": ["devDependencies"],
+			"matchPackagePatterns": ["lint", "prettier"],
 			"automerge": true,
-			"matchPackageNames": ["/lint/", "/prettier/"]
+			"automergeType": "branch"
 		},
 		{
 			"matchUpdateTypes": ["minor", "patch"],
 			"matchCurrentVersion": "!/^0/",
 			"labels": ["minor", "dependencies", "renovate"],
 			"internalChecksFilter": "strict",
-			"minimumReleaseAge": "3 days"
+			"minimumReleaseAge": "3 days",
+			"automerge": true,
+			"automergeType": "branch"
 		}
 	]
 }

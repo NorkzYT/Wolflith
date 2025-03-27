@@ -9,7 +9,7 @@
 
 services:
   hashicorp-vault-server:
-    image: hashicorp/vault:1.18
+    image: hashicorp/vault:1.19
     container_name: hashicorp-vault-server
     ports:
       - 1031:8200
