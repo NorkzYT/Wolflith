@@ -12,6 +12,7 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
+    pull_policy: always # set to 'always' when using 'latest' image
     restart: unless-stopped
     network_mode: host
     user: root
