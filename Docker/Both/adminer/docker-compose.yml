@@ -2,7 +2,7 @@
 
 services:
   adminer:
-    image: adminer:5.0.6
+    image: adminer:5.1.0
     container_name: adminer
     restart: unless-stopped
     ports:
