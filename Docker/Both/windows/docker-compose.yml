@@ -2,7 +2,7 @@
 
 services:
   windows:
-    image: dockurr/windows:4.28
+    image: dockurr/windows:4.29
     container_name: windows
     devices:
       - /dev/kvm
