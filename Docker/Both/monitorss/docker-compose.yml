@@ -52,7 +52,7 @@ services:
       - proxy
 
   mrss-redis:
-    image: redis:7.4.3
+    image: redis:8.0.0
     container_name: mrss-redis
     ports:
       - 6379:6379
