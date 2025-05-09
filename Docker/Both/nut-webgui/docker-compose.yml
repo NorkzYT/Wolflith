@@ -3,7 +3,7 @@
 
 services:
   nutweb:
-    image: ghcr.io/superioone/nut_webgui:0.4.1
+    image: ghcr.io/superioone/nut_webgui:0.4.2
     hostname: nutweb
     container_name: nutweb
     ports:
