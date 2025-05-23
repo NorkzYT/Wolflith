@@ -2,7 +2,7 @@
 
 services:
   portainer:
-    image: portainer/portainer-ce:2.30.0-alpine
+    image: portainer/portainer-ce:2.30.1-alpine
     container_name: portainer
     volumes:
       - /etc/localtime:/etc/localtime:ro
