@@ -2,7 +2,7 @@
 
 services:
   influxdb:
-    image: influxdb:2.7.11
+    image: influxdb:2.7.12
     container_name: influxdb
     ports:
       - 8086:8086
