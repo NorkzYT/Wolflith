@@ -39,6 +39,9 @@ sudo wget -qO /opt/PCSInstall.sh https://raw.githubusercontent.com/NorkzYT/Wolfl
 sudo chmod +x /opt/PCSInstall.sh
 sudo /opt/PCSInstall.sh --branch="main"
 ```
+## Contributors
+
+We're happy to welcome [@Breadfishman](https://github.com/Breadfishman)'s contributions to our work this project. They collaborated closely on the project under our shared account.
 
 ## Contributing
 
