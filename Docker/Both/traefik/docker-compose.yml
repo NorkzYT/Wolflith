@@ -2,7 +2,7 @@
 
 services:
   traefik:
-    image: traefik:v3.4.1
+    image: traefik:v3.7.12
     container_name: traefik
     ports:
       - 8001:80
